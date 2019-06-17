@@ -1,0 +1,46 @@
+﻿
+<path id="@DomId" class="@CssClass" d="@PathInstructions" style="display:@(Enabled ? "default" : "none")"/>
+    @*<div id="@DomId" class="@CssClass" style="left:@(StartPoint.x)px; top:@(StartPoint.y)px; width:@(Length)px; transform:rotate(@(Angle)deg);" />*@
+
+
+@functions{
+    public const string normalClass = "noodle";
+    public const string invalidClass = "noodle noodle-invalid";
+
+    [Parameter]
+    protected Vector2L StartPoint { get; set; }
+    [Parameter]
+    protected Vector2L EndPoint { get; set; }
+    [Parameter]
+    protected string DomId { get; set; } = "";
+
+    public bool Valid { get; set; } = true;
+    public bool Enabled { get; set; } = true;
+    public string CssClass => Valid ? normalClass : invalidClass;
+    protected string PathInstructions {
+        get
+        {
+            long startX = StartPoint.x, startY = StartPoint.y;
+            long endX = EndPoint.x, endY = EndPoint.y;
+            long ctrlLength = (long)(5 + 0.4*Math.Abs(endX-startX) + 0.2*Math.Abs(endY-startY));
+            return $"M {startX} {startY} C {startX + ctrlLength} {startY} {endX - ctrlLength} {endY} {endX} {endY}";
+        }
+    }
+
+    public void SetStartPoint(Vector2L pos)
+    {
+        StartPoint = pos;
+        StateHasChanged();
+    }
+
+    public void SetEndPoint(Vector2L pos)
+    {
+        EndPoint = pos;
+        StateHasChanged();
+    }
+
+    public void Refresh()
+    {
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,38 @@
+﻿
+@inject  RegexReplaceHandler RegexReplaceHandler
+@inject  INodeHandler NodeHandler
+
+<div class="bottom-panels">
+    <div class="viewport replace-field">
+        <div class="viewport-title-bar">
+            <h1>Replacement Regex</h1>
+        </div>
+        <input type="text" value="" style="width:-webkit-fill-available; margin:4px; background-color:rgba(256,256,256,0.03);" bind-value-oninput="@RegexReplaceHandler.ReplacementRegex" />
+    </div>
+    <div class="viewport search-text">
+        <div class="viewport-title-bar">
+            <h1>Search Text</h1>
+        </div>
+        <textarea bind-value-oninput="@RegexReplaceHandler.SearchText" style="width:100%; flex:1; background-color:transparent; resize:none;" />
+    </div>
+    <div class="viewport replace-result">
+        <div class="viewport-title-bar">
+            <h1>Replace Result</h1>
+        </div>
+        <p style="margin:3px;">@RegexReplaceHandler.GetReplaceResult()</p>
+    </div>
+</div>
+
+@functions{
+    protected override void OnInit()
+    {
+        base.OnInit();
+        NodeHandler.OnOutputHasChanged += SetOutput;
+    }
+
+    void SetOutput()
+    {
+        //Output = str;
+        StateHasChanged();
+    }
+}

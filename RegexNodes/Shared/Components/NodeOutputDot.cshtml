@@ -1,0 +1,21 @@
+﻿
+@inject INodeDragService NodeDragService
+
+
+<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" ondragstart="@(e=>NodeDragService.OnStartNoodleDrag(Data, e))" class="node-output-dot">
+    <span class="outputtooltip">
+        Output:<br />
+        @{string output = Data.CachedValue;}
+        <nobr>@(String.IsNullOrEmpty(output) ? "None" : output)</nobr>
+    </span>
+</div>
+
+@functions{
+    [Parameter] protected INode Data { get; set; }
+    //ondrag="noodle.dragNoodle()"
+    void OnDrag(UIDragEventArgs e)
+    {
+        Console.WriteLine("drag_c");
+        //await Task.Delay(200);
+    }
+}

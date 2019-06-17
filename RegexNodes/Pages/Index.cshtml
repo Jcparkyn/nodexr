@@ -1,0 +1,26 @@
+﻿@page "/"
+@using RegexNodes.Shared;
+@using RegexNodes.Shared.NodeTypes;
+@using RegexNodes.Shared.Components;
+@inject INodeDragService NodeDragService
+@inject INodeHandler  NodeHandler
+
+@{Console.WriteLine("Updating Index"); }
+<div style="display:flex; flex-direction:row;">
+    <NodeBin />
+    <OutputDisplay />
+</div>
+
+<div style="display:flex; flex-direction:row; resize:vertical; overflow:hidden; height:70%;">
+    <NodeList />
+    <NodeGraph />
+</div>
+
+<BottomPanels />
+
+@functions{
+    protected void Refresh()
+    {
+        StateHasChanged();
+    }
+}

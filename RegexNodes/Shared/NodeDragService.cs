@@ -1,0 +1,122 @@
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using RegexNodes.Shared.Components;
+using System;
+using System.Threading.Tasks;
+
+namespace RegexNodes.Shared
+{
+    public interface INodeDragService
+    {
+        INode NodeToDrag { get; set; }
+        NodeDragService.DragType CurDragType { get; set; }
+        //TempNoodleEnd NoodleEnd { get; set; }
+        NoodleSvg TempNoodle { get; set; }
+        void OnStartNodeDrag(INode nodeToDrag, UIDragEventArgs e);
+        void OnStartNoodleDrag(INode nodeToDrag, UIDragEventArgs e);
+        void OnDrag(UIDragEventArgs e);
+        void OnDrop(UIDragEventArgs e);
+        void OnDropNoodle(InputProcedural nodeInput);
+        void OnDeleteNode();
+    }
+
+    public class NodeDragService : INodeDragService
+    {
+        readonly INodeHandler nodeHandler;
+        readonly IJSRuntime jsRuntime;
+        public NodeDragService(INodeHandler nodeHandler, IJSRuntime jsRuntime)
+        {
+            this.nodeHandler = nodeHandler;
+            this.jsRuntime = jsRuntime;
+        }
+
+        public enum DragType : int
+        {
+            None,
+            Node,
+            Noodle,
+        }
+
+        public INode NodeToDrag { get; set; }
+        public DragType CurDragType { get; set; } = DragType.None;
+
+        //public TempNoodleEnd NoodleEnd { get; set; } = new TempNoodleEnd();
+        public NoodleSvg TempNoodle { get; set; }
+        Vector2L cursorStartPos;
+
+
+        public void OnStartNodeDrag(INode nodeToDrag, UIDragEventArgs e)
+        {
+            NodeToDrag = nodeToDrag;
+            CurDragType = DragType.Node;
+            cursorStartPos = e.GetClientPos();
+        }
+
+        public void OnStartNoodleDrag(INode nodeToDrag, UIDragEventArgs e)
+        {
+            CurDragType = DragType.Noodle;
+            NodeToDrag = nodeToDrag;
+            //NoodleEnd.Pos = NodeToDrag.Pos + new Vector2L(150, 17);
+            TempNoodle.SetStartPoint(nodeToDrag.OutputPos);
+            TempNoodle.SetEndPoint(nodeToDrag.OutputPos);
+
+            
+            TempNoodle.Enabled = true;
+
+            cursorStartPos = e.GetClientPos();
+            Console.WriteLine("Start Noodle Drag");
+            jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag");
+            //TempNoodle.Refresh();
+        }
+
+        public void OnDrag(UIDragEventArgs e)
+        {
+
+            if (CurDragType == DragType.Noodle)
+            {
+                //NoodleEnd.Pos = NodeToDrag.Pos + new Vector2L(150, 17) + (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
+                //TempNoodle.Refresh();
+                Vector2L endPoint = NodeToDrag.OutputPos + (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
+                TempNoodle.SetEndPoint(endPoint);
+            }
+        }
+
+        public void OnDrop(UIDragEventArgs e)
+        {
+            if (CurDragType == DragType.Node)
+            {
+                NodeToDrag?.MoveBy((e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom);
+            }
+            else if (CurDragType == DragType.Noodle)
+            {
+                //TempNoodle.Refresh();
+            }
+            TempNoodle.Enabled = false;
+            TempNoodle.Valid = false;
+            NodeToDrag = null;
+            CurDragType = DragType.None;
+        }
+
+        public void OnDropNoodle(InputProcedural nodeInput)
+        {
+            Console.WriteLine("OnDropNoodle");
+            if (CurDragType == DragType.Node || NodeToDrag.NodeInputs.Contains(nodeInput))
+            {
+                Console.WriteLine("Can't drop here!");
+                NodeToDrag = null;
+                return;
+            }
+            nodeInput.InputNode = NodeToDrag;
+            NodeToDrag = null;
+            //NoodleEnd = null;
+        }
+
+        public void OnDeleteNode()
+        {
+            if (CurDragType == DragType.Node)
+            {
+                nodeHandler.DeleteNode(NodeToDrag);
+            }
+        }
+    }
+}

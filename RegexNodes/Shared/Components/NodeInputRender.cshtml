@@ -1,0 +1,63 @@
+﻿@inject INodeDragService NodeDragService
+
+
+@{ Data.OnValueChanged = OnValueChanged; }
+
+@switch (Data)
+{
+    case InputString input:
+        @if (!String.IsNullOrEmpty(input.Title))
+        {
+            <div class="node-input-heading">@input.Title</div>
+        }
+        <div class="node-input">
+            <input type="text" class="input-field" bind-value-oninput="@input.InputContents" />
+        </div>
+        break;
+    case InputNumber input:
+        @if (!String.IsNullOrEmpty(input.Title))
+        {
+            <div class="node-input-heading">@input.Title</div>
+        }
+        <div class="node-input">
+            <input type="number" class="input-field" min="@("" + input.Min)" max="@("" + input.Max)" bind-value-oninput="@input.InputContents" />
+        </div>
+        break;
+    case InputProcedural input:
+        <div class="node-input procedural" style="font-size:15px; font-style:italic">
+            <div class="node-input-dot" ondrop="@(() => NodeDragService.OnDropNoodle(input))" ondragenter="tempNoodle.setValid()" ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault()">
+                @if (input.InputNode != null)
+                {
+                    //var endPointOffset = new Vector2L(7, 7);
+                    //<Noodle StartPoint="@(endPointOffset)" EndPoint="@(input.Pos - input.InputNode.OutputPos + endPointOffset)" />
+                }
+            </div>
+            @input.Title
+        </div>
+        break;
+    case RegexNodes.Shared.InputCheckbox input:
+        <input type="checkbox" bind="@input.IsChecked" style="margin-left:5px; margin-top:8px;"/>
+        @input.Title
+        break;
+    case InputDropdown input:
+        <div class="node-input-heading">@input.Title</div>
+        <div class="node-input">
+            <select bind="@input.DropdownValue" class="input-field">
+                @foreach (string str in input.Options)
+                {
+                    <option value="@str">@str</option>
+                }
+            </select>
+        </div>
+        break;
+    case RegexNodes.Shared.InputCollection input:
+        <InputCollectionRender Data="@input" OnInputsChanged="@OnInputsChanged"/>
+        break;
+}
+
+
+@functions{
+    [Parameter] protected INodeInput Data { get; set; }
+    [Parameter] protected Action OnValueChanged { get; set; }
+    [Parameter] protected Action OnInputsChanged { get; set; }
+}

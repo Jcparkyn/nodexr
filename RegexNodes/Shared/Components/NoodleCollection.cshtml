@@ -1,0 +1,39 @@
+﻿@inject  INodeHandler NodeHandler
+
+@foreach (var node in Nodes)
+{
+    foreach (var input in node.NodeInputs)
+    {
+        switch (input)
+        {
+            case InputProcedural inputProc when inputProc.InputNode != null:
+                <NoodleSvg StartPoint="inputProc.InputNode.OutputPos" EndPoint="inputProc.Pos" />
+                break;
+            case InputCollection inputCollection:
+                foreach (INodeInput input2 in inputCollection.Inputs)
+                {
+                    if (input2 is InputProcedural inputProc && inputProc.InputNode != null)
+                    {
+                        <NoodleSvg StartPoint="inputProc.InputNode.OutputPos" EndPoint="inputProc.Pos" />
+                    }
+                }
+                break;
+        }
+    }
+}
+
+@functions {
+    protected override void OnInit()
+    {
+        base.OnInit();
+        NodeHandler.OnRequireNoodleRefresh += Refresh;
+    }
+
+    void Refresh()
+    {
+        StateHasChanged();
+        Console.WriteLine("REFRESHING NOODLES");
+    }
+
+    [Parameter] protected IEnumerable<INode> Nodes { get; set; }
+}

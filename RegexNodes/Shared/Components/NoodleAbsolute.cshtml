@@ -1,0 +1,59 @@
+﻿@if (Enabled && StartNode != null && EndNode != null)
+{
+    <div style="padding:0px; margin:0px; height:@(thickness)px; background-color:@(Color); z-index:10; line-height:1000px; position:absolute;
+     left:@(startX)px; top:@(startY)px; width:@(Length)px; transform:rotate(@(Angle)deg); transform-origin: 0% 50%;" />
+}
+
+@functions{
+    public const string normalCol = "var(--col-noodle)";
+    public const string invalidCol = "#AA0000";
+
+    [Parameter]
+    protected IPositionable StartNode { get; set; }
+    IPositionable endNode;
+    [Parameter]
+    protected IPositionable EndNode
+    {
+        get
+        {
+            return endNode;
+        }
+        set
+        {
+            endNode = value;
+        }
+    }
+    public bool Enabled { get; set; } = true;
+    int thickness = 2;
+    public string Color { get; set; } = normalCol;
+
+    int Length
+    {
+        get
+        {
+            long dX = endX - startX;
+            long dY = endY - startY;
+            return (int)Math.Sqrt(dX * dX + dY * dY) + 1;
+        }
+    }
+
+    long startX => StartNode.Pos.x + 150;
+    long startY => StartNode.Pos.y + 14;
+    long endX => EndNode.Pos.x;
+    long endY => EndNode.Pos.y;
+
+    double Angle
+    {
+        get
+        {
+            long dX = endX - startX;
+            long dY = endY - startY;
+            return (Math.Atan2((dY), (dX)) * (180 / Math.PI));
+        }
+    }
+
+    public void Refresh()
+    {
+        StateHasChanged();
+    }
+}

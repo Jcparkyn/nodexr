@@ -1,0 +1,19 @@
+﻿
+Bugs:
+	
+
+//Node collapsing
+Automatically bring last touched node to top
+
+Flags
+Whitespace - toggle options
+Word Boundary - toggle options
+Character Range?
+Character Set (class) - validation, invert
+//Group - custom
+If - expression (?(exp)yes|no)
+Quantifier - check if already grouped
+Output - built in concat
+
+Panning/zooming - zoom to centre
+Options panel

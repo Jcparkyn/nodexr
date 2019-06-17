@@ -1,0 +1,19 @@
+﻿@inject INodeHandler NodeHandler
+
+
+<h3 style="margin:7px;">Output: @NodeHandler.CachedOutput</h3>
+
+@functions{
+    //[Parameter] protected string Output { get; set; }
+
+    protected override void OnInit()
+    {
+        base.OnInit();
+        NodeHandler.OnOutputHasChanged += SetOutput;
+    }
+
+    public void SetOutput()
+    {
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,57 @@
+﻿@using RegexNodes.Shared;
+@using RegexNodes.Shared.NodeTypes;
+@using RegexNodes.Shared.Components;
+@inject INodeDragService NodeDragService
+@inject INodeHandler  NodeHandler
+
+@{Console.WriteLine("Updating Node Graph"); }
+<div class="viewport nodegraph" onwheel="panzoom.zoom(event)" onmousedown="panzoom.startPan(event)"
+    ondragover="event.preventDefault()" ondrop="@((e) => NodeDragService.OnDrop(e))">
+    <div id="nodegraph" style="position:relative; transform-origin:0% 0%; width:0px; height:0px;">
+        @for (int i = 0; i < NodeHandler.Nodes.Count; i++)
+        {
+            INode node = NodeHandler.Nodes[i];
+            <NodeRender Data="node" NodeId="i" />
+        }
+        <svg style="overflow:visible;">
+            <NoodleCollection Nodes="@NodeHandler.Nodes"/>
+            <NoodleSvg ref="NodeDragService.TempNoodle" StartPoint="@(new Vector2L(-100, -100))" EndPoint="@(new Vector2L(-100, -100))" DomId="tempNoodle" />
+        </svg>
+    </div>
+</div>
+
+
+@functions{
+
+    protected int XOffset { get; set; } = 0;
+    //OutputDisplay outputDisplay;
+
+    protected override void OnInit()
+    {
+        base.OnInit();
+        var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
+        var defaultNode = new ExactString("ps") { Pos = new Vector2L(300, 200) };
+        (defaultOutput.NodeInputs[0] as InputCollection).Inputs[0].InputNode = defaultNode;
+        NodeHandler.Nodes.Add(defaultNode);
+        NodeHandler.Nodes.Add(defaultOutput);
+        NodeHandler.RecalculateOutput();
+        NodeHandler.OnNodeCountChanged += StateHasChanged;
+    }
+
+    protected void Refresh()
+    {
+        StateHasChanged();
+    }
+
+    void AddNode<T>() where T : Node, new()
+    {
+        Node newNode = new T();
+        newNode.CalculateInputsPos();
+        NodeHandler.Nodes.Add(newNode);
+    }
+
+    void RecomputeOutput()
+    {
+        throw new NotImplementedException();
+    }
+}
