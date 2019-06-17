@@ -2,7 +2,7 @@
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class GroupNode : Node, INode
+    public class GroupNode : Node
     {
         public override string Title => "Group";
 
