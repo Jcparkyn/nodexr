@@ -1,0 +1,16 @@
+﻿<button onclick="@Toggle">@ButtonState</button>
+
+@functions{
+    [Parameter] protected int ButtonState { get; set; }
+    [Parameter] protected EventCallback<int> ButtonStateChanged { get; set; }
+
+
+    void Toggle()
+    {
+        ButtonState += 1;
+        if (ButtonState > 1)
+        {
+            ButtonState = -1;
+        }
+    }
+}
