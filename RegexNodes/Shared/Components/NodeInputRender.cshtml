@@ -1,7 +1,9 @@
 ﻿@inject INodeDragService NodeDragService
 
 
-@{ Data.OnValueChanged = OnValueChanged; }
+@{ 
+    //Data.OnValueChanged = OnValueChanged;
+}
 
 @switch (Data)
 {
@@ -37,7 +39,7 @@
         break;
     case RegexNodes.Shared.InputCheckbox input:
         <div style="position:relative; float:left; font-size:0.9rem;">
-            <input type="checkbox" bind="@input.IsChecked" />
+            <input type="checkbox" bind="@input.IsChecked"/>
             @input.Title
         </div>
         break;
@@ -62,4 +64,10 @@
     [Parameter] protected INodeInput Data { get; set; }
     [Parameter] protected Action OnValueChanged { get; set; }
     [Parameter] protected Action OnInputsChanged { get; set; }
+
+    protected override void OnInit()
+    {
+        base.OnInit();
+        Data.OnValueChanged = OnValueChanged;
+    }
 }

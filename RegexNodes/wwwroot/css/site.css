@@ -18,6 +18,7 @@
     --col-node-quantifier: #67edc3;
     --col-node-backreference: #77a1f8;
     --col-node-characterset: #dbf877;
+    --col-node-flags: #bde1d7;
 
     --col-field: hsl(218, 0%, 28%);
     --col-field-editable: hsl(218, 10%, 28%);

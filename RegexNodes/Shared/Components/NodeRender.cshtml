@@ -16,14 +16,17 @@
             <b> @Data.Title</b>
         </div>
         <div class="node-content">
-            @for (int i = 0; i < Data.NodeInputs.Count; i++)
-            {
-                INodeInput nodeInput = Data.NodeInputs[i];
-                if (nodeInput.IsEnabled())
+            @*<ol>*@
+                @for (int i = 0; i < Data.NodeInputs.Count; i++)
                 {
-                    <NodeInputRender Data="nodeInput" OnValueChanged="OnValueChanged" OnInputsChanged="@Data.CalculateInputsPos"/>
+                    INodeInput nodeInput = Data.NodeInputs[i];
+                    if (nodeInput.IsEnabled())
+                    {
+                        <NodeInputRender Data="nodeInput" OnValueChanged="OnValueChanged" OnInputsChanged="@Data.CalculateInputsPos" />
+                    }
                 }
-            }
+            @*</ol>*@
+            
             @*Output dot*@
             @if (!(Data is OutputNode))
             {
