@@ -36,9 +36,10 @@
         </div>
         break;
     case RegexNodes.Shared.InputCheckbox input:
-        @*<input type="checkbox" bind="@input.IsChecked" style="margin-left:5px; margin-top:8px;"/>*@
-        <ThreeStateToggle bind-ButtonState="input.IsChecked"/>
-        @input.Title
+        <div style="position:relative; float:left; font-size:0.9rem;">
+            <input type="checkbox" bind="@input.IsChecked" />
+            @input.Title
+        </div>
         break;
     case InputDropdown input:
         <div class="node-input-heading">@input.Title</div>
