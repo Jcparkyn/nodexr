@@ -30,6 +30,16 @@
             padding: 0px 2px;
         }
 
+    .node .icon-button {
+        position: relative;
+        background: none;
+        border: none;
+        color: var(--col-text-medium);
+        font-size: 0.9rem;
+        padding: 01px 0 0 0;
+        outline: 0 !important;
+    }
+
     .node .node-content {
         padding: 0px 4px 4px 4px;
     }
@@ -50,6 +60,15 @@
         .node .node-input.checkbox {
             width:auto;
         }
+
+        .node .input-checkbox input {
+            margin: 3px 0px 0px 0px;
+        }
+
+    .node .input-checkbox {
+        position: relative;
+        font-size: 0.9rem;
+    }
 
     .node .input-field {
         width: 100%;
@@ -77,11 +96,11 @@
     .node .node-drag-region {
         position: absolute;
         height: 100%;
-        width: 90%;
+        width: 100%;
         cursor: move;
         top: 0px;
         left: -6px;
-        padding: 0px 22px 0px 6px;
+        padding: 0px 6px 0px 6px;
         box-sizing: content-box;
     }
 

@@ -10,15 +10,19 @@ window.tempNoodle = {
         if (!noodleElement) {
             noodleElement = document.getElementById("tempNoodle");
         }
-        //img = new Image();
-        //img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Dog_morphological_variation.png/300px-Dog_morphological_variation.png';
-
+        
         tempNoodle.setInvalid();
+    },
+
+    testDragStart: function (event) {
+        console.log("DHSFFGSDG");
+        console.log("DHSFFGSDG, " + event.target.name);
+        event.dataTransfer.setDragImage(img, 0, 0);
     },
 
     dragNoodle: function (event) {
         if (event.offsetX != prevX || event.offsetY != prevY) {
-            event.dataTransfer.setDragImage(img, 0, 0);
+            //event.dataTransfer.setDragImage(img, 0, 0);
             prevX = event.offsetX;
             prevY = event.offsetY;
             //console.log("drag");

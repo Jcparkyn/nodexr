@@ -49,7 +49,7 @@ namespace RegexNodes.Shared
         public string GetValueAndUpdateCache()
         {
             string value = GetValue();
-            Console.WriteLine("Updating cache value to " + value);
+            //Console.WriteLine("Updating cache value to " + value);
             CachedValue = value;
             return value;
         }

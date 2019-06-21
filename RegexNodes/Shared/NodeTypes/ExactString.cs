@@ -16,7 +16,7 @@ namespace RegexNodes.Shared.NodeTypes
             }
         }
 
-        public InputString Input { get; set; } = new InputString("");
+        public InputString Input { get; set; } = new InputString("") { Title = "Text:"};
 
         public ExactString() { }
         public ExactString(string contents)

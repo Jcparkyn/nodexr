@@ -1,7 +1,7 @@
 ﻿@inject INodeDragService NodeDragService
 
 
-@{ 
+@{
     //Data.OnValueChanged = OnValueChanged;
 }
 
@@ -38,8 +38,14 @@
         </div>
         break;
     case RegexNodes.Shared.InputCheckbox input:
-        <div style="position:relative; float:left; font-size:0.9rem;">
-            <input type="checkbox" bind="@input.IsChecked"/>
+        <div class="input-checkbox">
+            <input type="checkbox" bind="@input.IsChecked" />
+            @input.Title
+        </div>
+        break;
+    case RegexNodes.Shared.InputCheckboxNullable input:
+        <div class="input-checkbox">
+            <ThreeStateToggle bind-ButtonState="@input.CheckedState"/>
             @input.Title
         </div>
         break;
@@ -55,7 +61,7 @@
         </div>
         break;
     case RegexNodes.Shared.InputCollection input:
-        <InputCollectionRender Data="@input" OnInputsChanged="@OnInputsChanged"/>
+        <InputCollectionRender Data="@input" OnInputsChanged="@OnInputsChanged" />
         break;
 }
 
