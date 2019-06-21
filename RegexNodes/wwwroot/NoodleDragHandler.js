@@ -1,8 +1,8 @@
 ﻿var prevX = 0;
 var prevY = 0;
 var noodleElement = null;
-var img = new Image();
-img.src = "http://placehold.it/150/000000/ffffff?text=GHOST";
+//var img = new Image();
+//img.src = "http://placehold.it/150/000000/ffffff?text=GHOST";
 
 window.tempNoodle = {
 
@@ -14,11 +14,11 @@ window.tempNoodle = {
         tempNoodle.setInvalid();
     },
 
-    testDragStart: function (event) {
-        console.log("DHSFFGSDG");
-        console.log("DHSFFGSDG, " + event.target.name);
-        event.dataTransfer.setDragImage(img, 0, 0);
-    },
+    //testDragStart: function (event) {
+    //    console.log("DHSFFGSDG");
+    //    console.log("DHSFFGSDG, " + event.target.name);
+    //    event.dataTransfer.setDragImage(img, 0, 0);
+    //},
 
     dragNoodle: function (event) {
         if (event.offsetX != prevX || event.offsetY != prevY) {
