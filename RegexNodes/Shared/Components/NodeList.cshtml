@@ -15,19 +15,6 @@
                 </b>
             </button>
         }
-
-        @*<ul class="nav flex-column" style="margin-top:5px;">
-            @foreach (Type type in nodeTypes)
-            {
-                <li style="height:30px; margin:3px 10px;">
-                    <button class="button-add-node" draggable="true" onclick="@((e)=>AddNode(type))">
-                        <b>
-                            @type.Name
-                        </b>
-                    </button>
-                </li>
-            }
-        </ul>*@
     </div>
 
 @functions{
@@ -51,6 +38,7 @@
             typeof(OutputNode),
             typeof(CharSet),
             typeof(FlagNode),
+            typeof(Lookaround),
         };
     }
 

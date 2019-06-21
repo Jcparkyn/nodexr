@@ -35,6 +35,10 @@ namespace RegexNodes.Shared
             {
                 return input;
             }
+            else if (input.StartsWith("[") && input.EndsWith("]"))
+            {
+                return input;
+            }
             else
             {
                 return $"(?:{input})";

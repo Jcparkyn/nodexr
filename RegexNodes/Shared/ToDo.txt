@@ -5,15 +5,32 @@ Bugs:
 //Node collapsing
 Automatically bring last touched node to top
 
-Flags
-Whitespace - toggle options
-Word Boundary - toggle options
-Character Range?
-Character Set (class) - validation, invert
-//Group - custom
-If - expression (?(exp)yes|no)
-Quantifier - check if already grouped
-Output - built in concat
+Nodes:
+	- //Flags
+	- Wildcard
+	- Whitespace
+		- toggle options
+	- Word Boundary
+		- toggle options
+		- start
+	- Character Range?
+	- //Character Set (class)
+		- //invert
+	- //Group - custom
+	- If - expression (?(exp)yes|no)
+	- //Quantifier - check if already grouped
+	- //Lookaround
+	- //Output - built in concat
 
+Info Tooltips
+Validation
+Highlight matches
 Panning/zooming - zoom to centre
 Options panel
+	- Flavour
+	- Start/end
+	- Regex options
+	- Autoevaluate?
+	- Parse regex?
+
+Use attributes to get list of node inputs

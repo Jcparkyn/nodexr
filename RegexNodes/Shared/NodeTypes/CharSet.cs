@@ -11,12 +11,13 @@ namespace RegexNodes.Shared.NodeTypes
         {
             get
             {
-                return new List<INodeInput> { InputCharacters, InputDoEscape };
+                return new List<INodeInput> { InputCharacters, InputDoInvert, InputDoEscape };
             }
         }
 
         protected InputString InputCharacters { get; set; } = new InputString("") { Title = "Characters:" };
-        protected InputCheckbox InputDoEscape { get; set; } = new InputCheckbox(true) { Title = "Escape?"};
+        protected InputCheckbox InputDoInvert { get; set; } = new InputCheckbox(false) { Title = "Invert"};
+        protected InputCheckbox InputDoEscape { get; set; } = new InputCheckbox(true) { Title = "Escape"};
 
 
         public CharSet() { }
@@ -33,13 +34,14 @@ namespace RegexNodes.Shared.NodeTypes
             string charSet = InputCharacters.GetValue();
             if (String.IsNullOrEmpty(charSet))
             {
-                return "";
+                UpdateCache("");
             }
             if (InputDoEscape.IsChecked)
             {
                 charSet = charSet.EscapeCharacters(charsToEscape);
             }
-            string result = "[" + charSet + "]";
+            string prefix = InputDoInvert.IsChecked ? "^" : "";
+            string result = "[" + prefix + charSet + "]";
 
             return UpdateCache(result);
         }

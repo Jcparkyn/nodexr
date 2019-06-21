@@ -14,42 +14,48 @@ namespace RegexNodes.Shared.NodeTypes
             get
             {
                 return new List<INodeInput> {
-                    InputContents, OptionDisable, OptionIgnoreCase, OptionMultiline, OptionSingleline, OptionExplicitCapture, OptionIgnoreWhitespace
+                    InputContents, OptionIgnoreCase, OptionMultiline, OptionSingleline, OptionExplicitCapture, OptionIgnoreWhitespace
                 };
             }
         }
 
         protected InputProcedural InputContents { get; set; } = new InputProcedural() { Title = "(Optional) Contents" };
 
-        protected InputDropdown OptionDisable { get; set; } = new InputDropdown("Enable", "Disable") { Title = "Disable Flags" };
-        protected InputCheckbox OptionIgnoreCase { get; set; } = new InputCheckbox(false) { Title = "Case Insensitive" };
-        protected InputCheckbox OptionMultiline { get; set; } = new InputCheckbox(false) { Title = "Multiline" };
-        protected InputCheckbox OptionSingleline { get; set; } = new InputCheckbox(false) { Title = "Singleline" };
-        protected InputCheckbox OptionExplicitCapture { get; set; } = new InputCheckbox(false) { Title = "Explicit Capture" };
-        protected InputCheckbox OptionIgnoreWhitespace { get; set; } = new InputCheckbox(false) { Title = "Ignore Whitespace" };
+        protected InputCheckboxNullable OptionIgnoreCase { get; set; } = new InputCheckboxNullable() { Title = "Case Insensitive" };
+        protected InputCheckboxNullable OptionMultiline { get; set; } = new InputCheckboxNullable() { Title = "Multiline" };
+        protected InputCheckboxNullable OptionSingleline { get; set; } = new InputCheckboxNullable() { Title = "Singleline" };
+        protected InputCheckboxNullable OptionExplicitCapture { get; set; } = new InputCheckboxNullable() { Title = "Explicit Capture" };
+        protected InputCheckboxNullable OptionIgnoreWhitespace { get; set; } = new InputCheckboxNullable() { Title = "Ignore Whitespace" };
 
         public override string GetValue()
         {
             string input = "" + InputContents.GetValue().RemoveNonCapturingGroup();
-            string prefix = "";
-            prefix += OptionDisable.DropdownValue == "Disable" ? "-" : "";
-            prefix += OptionIgnoreCase.IsChecked ? "i" : "";
-            prefix += OptionMultiline.IsChecked ? "m" : "";
-            prefix += OptionSingleline.IsChecked ? "s" : "";
-            prefix += OptionExplicitCapture.IsChecked ? "n" : "";
-            prefix += OptionIgnoreWhitespace.IsChecked ? "x" : "";
-
-            if (String.IsNullOrEmpty(InputContents.InputNode.GetValue()))
+            if (!String.IsNullOrEmpty(input))
             {
-                prefix += ":";
+                input = ":" + input;
             }
-            
-            //string prefix = (InputGroupType.Value == "Capturing") ? "(" : "(?:";
-            //if (input.StartsWith("(?:") && input.EndsWith(")"))
-            //{
-            //    return UpdateCache(prefix + input.Substring(3));
-            //}
-            return UpdateCache($"(?{prefix}{input})");
+
+            string flagsOn = "";
+            flagsOn += OptionIgnoreCase.CheckedState == 1 ? "i" : "";
+            flagsOn += OptionMultiline.CheckedState == 1 ? "m" : "";
+            flagsOn += OptionSingleline.CheckedState == 1 ? "s" : "";
+            flagsOn += OptionExplicitCapture.CheckedState == 1 ? "n" : "";
+            flagsOn += OptionIgnoreWhitespace.CheckedState == 1 ? "x" : "";
+
+            string flagsOff = "";
+            flagsOff += OptionIgnoreCase.CheckedState == -1 ? "i" : "";
+            flagsOff += OptionMultiline.CheckedState == -1 ? "m" : "";
+            flagsOff += OptionSingleline.CheckedState == -1 ? "s" : "";
+            flagsOff += OptionExplicitCapture.CheckedState == -1 ? "n" : "";
+            flagsOff += OptionIgnoreWhitespace.CheckedState == -1 ? "x" : "";
+            if (!String.IsNullOrEmpty(flagsOff))
+            {
+                flagsOff = "-" + flagsOff;
+            }
+
+            //string suffix = String.IsNullOrEmpty(InputContents.InputNode.GetValue()) ? "" : ":";
+
+            return UpdateCache($"(?{flagsOn}{flagsOff}{input})");
         }
     }
 }

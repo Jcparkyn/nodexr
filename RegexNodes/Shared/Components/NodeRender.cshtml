@@ -3,11 +3,15 @@
 @inject INodeHandler  NodeHandler
 @using RegexNodes.Shared.NodeTypes
 
+@{
+    //Console.WriteLine("Updating Node: " + Data.Title);
+    //TODO: optimise if/else to only necessary section
+}
+
 @if (!Data.IsCollapsed)
 {
     <div class="node" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px;"
          ondragover="event.preventDefault()" onmousedown="event.stopPropagation()">
-        @{Console.WriteLine("Updating Node: " + Data.Title); }
 
         <div draggable="true" ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" class="node-drag-region"></div>
         @*<div draggable="true" onmousedown="startNodeDrag(event)" class="node-drag-region"></div>*@
@@ -27,19 +31,18 @@
                 }
             @*</ol>*@
             
-            @*Output dot*@
-            @if (!(Data is OutputNode))
-            {
-                <NodeOutputDot Data="Data" />
-            }
         </div>
+        @*Output dot*@
+        @if (!(Data is OutputNode))
+        {
+            <NodeOutputDot Data="Data" />
+        }
     </div>
 }
 else
 {
     <div class="node" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px;"
          ondragover="event.preventDefault()" onmousedown="event.stopPropagation()">
-        @{Console.WriteLine("Updating Node: " + Data.Title); }
 
         <div draggable="true" ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" class="node-drag-region"></div>
         @*<div draggable="true" onmousedown="startNodeDrag(event)" class="node-drag-region"></div>*@

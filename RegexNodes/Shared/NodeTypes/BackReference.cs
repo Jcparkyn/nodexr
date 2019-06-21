@@ -4,7 +4,7 @@ namespace RegexNodes.Shared.NodeTypes
 {
     public class Backreference : Node, INode
     {
-        public override string Title => "Backreference";
+        public override string Title => "Reference";
 
         public override List<INodeInput> NodeInputs
         {

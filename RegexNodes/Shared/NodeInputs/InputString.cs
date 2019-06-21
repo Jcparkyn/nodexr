@@ -1,8 +1,10 @@
-﻿namespace RegexNodes.Shared
+﻿
+namespace RegexNodes.Shared
 {
     public class InputString : NodeInput
     {
         private string inputContents;
+
         public string InputContents
         {
             get => inputContents;

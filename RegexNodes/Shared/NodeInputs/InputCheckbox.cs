@@ -14,9 +14,9 @@
             }
         }
 
-        public InputCheckbox(bool contents)
+        public InputCheckbox(bool isChecked = false)
         {
-            IsChecked = contents;
+            this.isChecked = isChecked;
         }
     }
 }

@@ -20,10 +20,6 @@ namespace RegexNodes.Shared.NodeTypes
             "Capturing",
             "Non-capturing",
             "Named",
-            "Lookahead",
-            "Lookbehind",
-            "Negative Lookahead",
-            "Negative Lookbehind",
             "Custom")
         { Title = "Type of group:" };
 
@@ -45,10 +41,6 @@ namespace RegexNodes.Shared.NodeTypes
                 case "Capturing": prefix = "("; break;
                 case "Non-capturing": prefix = "(?:"; break;
                 case "Named": prefix = $"(?<{GroupName.GetValue()}>"; break;
-                case "Lookahead": prefix = "(?="; break;
-                case "Lookbehind": prefix = "(?<="; break;
-                case "Negative Lookahead": prefix = "(?!"; break;
-                case "Negative Lookbehind": prefix = "(?<!"; break;
                 case "Custom": prefix = "(" + CustomPrefix.GetValue(); break;
             };
             //string prefix = (InputGroupType.Value == "Capturing") ? "(" : "(?:";

@@ -4,7 +4,9 @@
 @inject INodeDragService NodeDragService
 @inject INodeHandler  NodeHandler
 
-@{Console.WriteLine("Updating Node Graph"); }
+@{
+    //Console.WriteLine("Updating Node Graph");
+}
 <div class="viewport nodegraph" onwheel="panzoom.zoom(event)" onmousedown="panzoom.startPan(event)"
     ondragover="event.preventDefault()" ondrop="@((e) => NodeDragService.OnDrop(e))">
     <div id="nodegraph" style="position:relative; transform-origin:0% 0%; width:0px; height:0px;">

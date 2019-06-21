@@ -1,16 +1,27 @@
-﻿<button onclick="@Toggle">@ButtonState</button>
+﻿@using System.Threading.Tasks;
+
+<button class="icon-button" onclick="@Toggle"><i class="@stateClasses[ButtonState]"></i></button>
 
 @functions{
     [Parameter] protected int ButtonState { get; set; }
+    //[Parameter] protected string ButtonState2 { get; set; }
     [Parameter] protected EventCallback<int> ButtonStateChanged { get; set; }
 
-
-    void Toggle()
+    Dictionary<int, string> stateClasses = new Dictionary<int, string>
     {
+        {-1, "fas fa-minus-square" },
+        {0, "far fa-square" },
+        {1, "fas fa-check-square" },
+    };
+
+    async void Toggle()
+    {
+        //ButtonState2 += "h";
         ButtonState += 1;
         if (ButtonState > 1)
         {
             ButtonState = -1;
         }
+        await ButtonStateChanged.InvokeAsync(ButtonState);
     }
 }
