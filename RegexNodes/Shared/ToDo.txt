@@ -7,7 +7,7 @@ Automatically bring last touched node to top
 
 Nodes:
 	- //Flags
-	- Wildcard
+	- //Wildcard
 	- Whitespace
 		- toggle options
 	- Word Boundary
@@ -16,6 +16,7 @@ Nodes:
 	- Character Range?
 	- //Character Set (class)
 		- //invert
+		- Fix escaping issues (.)
 	- //Group - custom
 	- If - expression (?(exp)yes|no)
 	- //Quantifier - check if already grouped
@@ -25,7 +26,10 @@ Nodes:
 Info Tooltips
 Validation
 Highlight matches
-Panning/zooming - zoom to centre
+Panning/zooming
+	- max/min zoom level
+	- zoom to centre
+	- Node drag incorporate zoom level
 Options panel
 	- Flavour
 	- Start/end

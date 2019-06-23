@@ -68,6 +68,12 @@
     .node .input-checkbox {
         position: relative;
         font-size: 0.9rem;
+        margin-top: 5px;
+        margin-left: 2px;
+    }
+
+    .input-checkbox + .input-checkbox {
+        margin-top: 0px;
     }
 
     .node .input-field {
@@ -154,3 +160,9 @@
         .node .node-output-dot:hover .outputtooltip {
             visibility: visible;
         }
+
+    .node .info-button {
+        float: right;
+        margin: 1px 5px 0 0;
+        color: var(--col-node-0)
+    }

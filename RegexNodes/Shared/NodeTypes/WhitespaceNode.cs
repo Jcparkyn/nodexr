@@ -3,9 +3,10 @@ using System.Linq;
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class WhitespaceNode : Node, INode
+    public class WhitespaceNode : Node
     {
         public override string Title => "Whitespace";
+        public override string NodeInfo => "Matches any of the specified types of whitespace character.";
 
         static readonly Dictionary<string, string> options = new Dictionary<string, string>
         {
@@ -23,7 +24,7 @@ namespace RegexNodes.Shared.NodeTypes
             }
         }
 
-        public InputDropdown Input { get; set; } = new InputDropdown(options.Keys.ToArray()) { Title = "Character:" };
+        protected InputDropdown Input { get; set; } = new InputDropdown(options.Keys.ToArray()) { Title = "Character:" };
 
         public override string GetValue()
         {

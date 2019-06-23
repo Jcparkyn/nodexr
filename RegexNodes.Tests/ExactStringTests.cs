@@ -26,7 +26,7 @@ namespace Regex_Nodes.Tests
         [TestCase(@"((][fg]lnd#$23\4)_")]
         public void VariousStrings(string contents)
         {
-            _node.Input = new InputString(contents);
+            //_node.Input = new InputString(contents);
 
             Assert.That("Test case: " + contents + " End.", Does.Match(_node.GetValue()));
         }

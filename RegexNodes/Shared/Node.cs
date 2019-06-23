@@ -8,6 +8,7 @@ namespace RegexNodes.Shared
     {
         string GetValue();
         string Title { get; }
+        string NodeInfo { get; }
         bool IsCollapsed { get; set; }
 
         string CachedValue { get; set; }
@@ -38,12 +39,14 @@ namespace RegexNodes.Shared
 
         public abstract List<INodeInput> NodeInputs { get; }
         public abstract string Title { get; }
+        public abstract string NodeInfo { get; }
 
         public string CachedValue { get; set; } = "";
 
         public Vector2L OutputPos => Pos + new Vector2L(150, 14);
 
         public bool IsCollapsed { get; set; }
+
 
         [Obsolete("Update cache in derived class instead")]
         public string GetValueAndUpdateCache()

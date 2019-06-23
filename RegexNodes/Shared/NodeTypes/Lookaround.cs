@@ -8,6 +8,7 @@ namespace RegexNodes.Shared.NodeTypes
     public class Lookaround : Node
     {
         public override string Title => "Lookaround";
+        public override string NodeInfo => "Converts the input node into a lookahead or lookbehind.";
 
         public override List<INodeInput> NodeInputs
         {
@@ -17,9 +18,9 @@ namespace RegexNodes.Shared.NodeTypes
             }
         }
 
-        public InputProcedural Input { get; set; } = new InputProcedural();
+        protected InputProcedural Input { get; set; } = new InputProcedural();
 
-        public InputDropdown InputGroupType { get; set; } = new InputDropdown(
+        protected InputDropdown InputGroupType { get; set; } = new InputDropdown(
             "Lookahead",
             "Lookbehind",
             "Negative Lookahead",

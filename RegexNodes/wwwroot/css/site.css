@@ -8,7 +8,7 @@
     --col-node-default: hsl(194, 0%, 50%);
     --col-node-output: #6bd7d7;
     --col-node-group: #c478cc;
-    --col-node-exactstring: #d1a6e2;
+    --col-node-text: #d1a6e2;
     --col-node-or: #8668ff;
     --col-node-rawregex: #eab048;
     --col-node-concatenate: #f26363;
@@ -20,6 +20,7 @@
     --col-node-characterset: #dbf877;
     --col-node-flags: #bde1d7;
     --col-node-lookaround: #abd4eb;
+    --col-node-wildcard: #ff6363;
 
     --col-field: hsl(218, 0%, 28%);
     --col-field-editable: hsl(218, 10%, 28%);
@@ -37,6 +38,7 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, sans-serif;
     color: var(--col-text-medium);
+    background-color: var(--col-bg-2);
 }
 
 app {
@@ -61,11 +63,19 @@ app {
         flex-direction: row;
         flex-grow: 1;
         width: 100%;
+        font-family: Consolas, monospace;
     }
+
+.blazored-modal {
+    /*color: #1b1b1b;*/
+    background-color:var(--col-bg-1) !important;
+    border:none !important;
+    width:40rem !important;
+}
 
 .viewport {
     position: relative;
-    overflow: scroll;
+    overflow: hidden;
     margin: var(--padding-main);
     min-height: 100px;
     min-width: 150px;

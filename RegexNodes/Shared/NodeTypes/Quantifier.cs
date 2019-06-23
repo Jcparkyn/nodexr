@@ -6,6 +6,7 @@ namespace RegexNodes.Shared.NodeTypes
     public class Quantifier : Node, INode
     {
         public override string Title => "Quantifier";
+        public override string NodeInfo => "Inserts a quantifier to set the minimum and maximum number of 'repeats' for the inputted node. Leave the 'max' option blank to allow unlimited repeats. 'Greedy' and 'Lazy' search type will attempt to match as many or as few times as possible respectively.";
 
         public override List<INodeInput> NodeInputs
         {
