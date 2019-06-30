@@ -8,7 +8,7 @@ namespace RegexNodes.Shared.NodeTypes
     public class WildcardNode : Node
     {
         public override string Title => "Wildcard";
-        public override string NodeInfo => "Matches any of the specified types of character. The 'Everything' option will only match newlines if the Regex is in singleline mode.";
+        public override string NodeInfo => "Matches any of the specified types of character. Note: the 'Everything' option will only match newlines if the Regex is in singleline mode.";
 
         public override List<INodeInput> NodeInputs
         {
@@ -70,7 +70,6 @@ namespace RegexNodes.Shared.NodeTypes
             }
             else
             {
-
                 //If "Other" is checked, use an inverted class
                 if (InputAllowOther.IsChecked)
                 {

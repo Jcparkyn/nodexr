@@ -12,10 +12,10 @@
         /*margin: -4px;*/
         padding: 2px 4px 0px 4px;
         /*margin-bottom: 0px;*/
-        border-radius: 6px 6px 0px 0px;
+        border-radius: 8px 8px 0px 0px;
     }
         .node .node-title.collapsed {
-            border-radius: 6px 6px 6px 6px
+            border-radius: 8px
         }
         
         .node .node-title b {
@@ -68,12 +68,12 @@
     .node .input-checkbox {
         position: relative;
         font-size: 0.9rem;
-        margin-top: 5px;
+        margin-top: 0px;
         margin-left: 2px;
     }
 
-    .input-checkbox + .input-checkbox {
-        margin-top: 0px;
+    .input-checkbox:first-of-type {
+        margin-top: 2px;
     }
 
     .node .input-field {
@@ -165,4 +165,17 @@
         float: right;
         margin: 1px 5px 0 0;
         color: var(--col-node-0)
+    }
+
+.node-preview {
+    position: relative;
+    margin: 7px 3px;
+    width: -webkit-fill-available;
+    cursor: grab;
+}
+
+    .node-preview .node-title {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 7px;
     }

@@ -1,4 +1,6 @@
-﻿namespace RegexNodes.Shared
+﻿using Microsoft.JSInterop;
+
+namespace RegexNodes.Shared
 {
     public class ZoomHandler
     {
@@ -9,6 +11,12 @@
         public static void ZoomBy(double factor)
         {
             Zoom *= factor;
+        }
+
+        [JSInvokable]
+        public static void SetZoom(float zoom)
+        {
+            Zoom = zoom;
         }
     }
 }

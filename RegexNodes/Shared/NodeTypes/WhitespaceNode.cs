@@ -8,28 +8,39 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Whitespace";
         public override string NodeInfo => "Matches any of the specified types of whitespace character.";
 
-        static readonly Dictionary<string, string> options = new Dictionary<string, string>
-        {
-            { @"Space", " " },
-            { @"Tab", @"\t" },
-            { @"Carriage Return", @"\r" },
-            { @"LF (\n)", @"\n" },
-        };
 
         public override List<INodeInput> NodeInputs
         {
             get
             {
-                return new List<INodeInput> { Input };
+                return new List<INodeInput> { InputSpace, InputTab, InputCR, InputLF };
             }
         }
 
-        protected InputDropdown Input { get; set; } = new InputDropdown(options.Keys.ToArray()) { Title = "Character:" };
+        protected InputCheckbox InputSpace { get; set; } = new InputCheckbox(true) { Title = "Space" };
+        protected InputCheckbox InputTab { get; set; } = new InputCheckbox(true) { Title = "Tab" };
+        protected InputCheckbox InputCR { get; set; } = new InputCheckbox(true) { Title = "Newline (\\r)" };
+        protected InputCheckbox InputLF { get; set; } = new InputCheckbox(true) { Title = "Newline (\\n)" };
+
 
         public override string GetValue()
         {
-            string prefix = options[Input.DropdownValue];
-            return UpdateCache(prefix);
+            List<string> charsToAllow = new List<string>();
+
+            if (InputSpace.IsChecked) charsToAllow.Add(" ");
+            if (InputTab.IsChecked) charsToAllow.Add("\\t");
+            if (InputCR.IsChecked) charsToAllow.Add("\\r");
+            if (InputLF.IsChecked) charsToAllow.Add("\\n");
+
+            string charsConverted = string.Join("", charsToAllow);
+            if (charsToAllow.Count > 1)
+            {
+                return UpdateCache("[" + charsConverted + "]");
+            }
+            else
+            {
+                return UpdateCache("" + charsConverted);
+            }
         }
     }
 }

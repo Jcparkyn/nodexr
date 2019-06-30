@@ -7,40 +7,64 @@
             <h1>Add Nodes:</h1>
         </div>
 
-        @foreach (Type type in nodeTypes)
+        @*@foreach (Type type in nodeTypes)
         {
-            <button class="button-add-node" draggable="true" onclick="@((e)=>AddNode(type))">
+            <button class="button-add-node" @onclick="@((e)=>AddNode(type))">
                 <b>
-                    @type.Name
+                    @type.Name;
                 </b>
             </button>
+        }*@
+        @foreach (var node in exampleNodes)
+        {
+            <NodeListPreview Data="node"/>
         }
     </div>
 
 @functions{
     protected Type[] nodeTypes { get; set; }
+    List<INode> exampleNodes { get; set; } = new List<INode>
+    {
+        new ExactString(),
+        new OrNode(),
+        new ConcatNode(),
+        new GroupNode(),
+        new CommentNode(),
+        new AnchorNode(),
+        new WhitespaceNode(),
+        new Quantifier(),
+        new Backreference(),
+        new CharSet(),
+        new FlagNode(),
+        new Lookaround(),
+        new WildcardNode(),
+        new OutputNode(),
+    };
 
     protected override void OnInit()
     {
         base.OnInit();
-        nodeTypes = new Type[]
-        {
-            typeof(ExactString),
-            typeof(OrNode),
-            typeof(RegexRaw),
-            typeof(ConcatNode),
-            typeof(GroupNode),
-            typeof(CommentNode),
-            typeof(AnchorNode),
-            typeof(WhitespaceNode),
-            typeof(Quantifier),
-            typeof(Backreference),
-            typeof(OutputNode),
-            typeof(CharSet),
-            typeof(FlagNode),
-            typeof(Lookaround),
-            typeof(WildcardNode),
-        };
+
+
+
+        //nodeTypes = new Type[]
+        //{
+        //    typeof(ExactString),
+        //    typeof(OrNode),
+        //    typeof(RegexRaw),
+        //    typeof(ConcatNode),
+        //    typeof(GroupNode),
+        //    typeof(CommentNode),
+        //    typeof(AnchorNode),
+        //    typeof(WhitespaceNode),
+        //    typeof(Quantifier),
+        //    typeof(Backreference),
+        //    typeof(OutputNode),
+        //    typeof(CharSet),
+        //    typeof(FlagNode),
+        //    typeof(Lookaround),
+        //    typeof(WildcardNode),
+        //};
     }
 
     void AddNode(Type type)

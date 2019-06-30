@@ -59,7 +59,7 @@
 
 @functions{
     [Parameter] protected INode Data { get; set; }
-    [Parameter] protected int NodeId { get; set; }
+    //[Parameter] protected int NodeId { get; set; }
 
     string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
 
@@ -72,7 +72,7 @@
 
     void ShowModal()
     {
-        Console.WriteLine("Showing Modal");
+        //Console.WriteLine("Showing Modal");
         var modalParameters = new ModalParameters();
         modalParameters.Add("InfoText", Data.NodeInfo);
         Modal.Show(Data.Title, typeof(NodeInfo), modalParameters);

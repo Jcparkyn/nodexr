@@ -7,7 +7,10 @@
         <div class="viewport-title-bar">
             <h1>Search Text</h1>
         </div>
-        <textarea @bind-value="@RegexReplaceHandler.SearchText" @bind-value:event="oninput" style="width:100%; flex:1; background-color:transparent; resize:none;" />
+        <div class="search-text-container">
+            <SearchTextHighlight Text="@RegexReplaceHandler.SearchText" Matches="@RegexReplaceHandler.GetAllMatches()"/>
+            <textarea @bind-value="@RegexReplaceHandler.SearchText" @bind-value:event="oninput" class="search-textarea" />
+        </div>
     </div>
     <div class="viewport replace-field">
         <div class="viewport-title-bar">
@@ -27,7 +30,7 @@
     protected override void OnInit()
     {
         base.OnInit();
-        NodeHandler.OnOutputHasChanged += SetOutput;
+        NodeHandler.OnOutputHasChanged += StateHasChanged;
     }
 
     void SetOutput()

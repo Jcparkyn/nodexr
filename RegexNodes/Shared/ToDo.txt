@@ -10,10 +10,14 @@ Nodes:
 	- //Wildcard
 	- Whitespace
 		- toggle options
-	- Word Boundary
+	- Word Boundary/anchor
+		- rename Anchor to boundary?
 		- toggle options
+			- Start/end of line/string (\A \Z)
+			- Word boundary
+			- 
 		- start
-	- Character Range?
+	- //Character Range?
 	- //Character Set (class)
 		- //invert
 		- Fix escaping issues (.)
@@ -23,13 +27,16 @@ Nodes:
 	- //Lookaround
 	- //Output - built in concat
 
-Info Tooltips
+//Info Tooltips
+Selection/Deletion
+Undo/Redo
 Validation
-Highlight matches
+//Highlight matches
+	- Highlight replacements
 Panning/zooming
-	- max/min zoom level
-	- zoom to centre
-	- Node drag incorporate zoom level
+	- //max/min zoom level
+	- //zoom to centre
+	- //Node drag incorporate zoom level
 Options panel
 	- Flavour
 	- Start/end
