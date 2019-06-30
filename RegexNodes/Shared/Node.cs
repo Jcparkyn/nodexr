@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -37,7 +39,8 @@ namespace RegexNodes.Shared
             }
         }
 
-        public abstract List<INodeInput> NodeInputs { get; }
+        private List<INodeInput> nodeInputs;
+        public virtual List<INodeInput> NodeInputs => nodeInputs;
         public abstract string Title { get; }
         public abstract string NodeInfo { get; }
 
@@ -47,6 +50,19 @@ namespace RegexNodes.Shared
 
         public bool IsCollapsed { get; set; }
 
+        //private Node() { }
+
+        public Node()
+        {
+            Console.WriteLine("Running node ctor");
+            var inputs = GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)))
+                    .Select(prop => prop.GetValue(this) as INodeInput)
+                    .ToList();
+            //Console.WriteLine("Properties: " + GetType().GetProperties(BindingFlags.NonPublic).Length);
+            //Console.WriteLine("Title: " + inputs[0].Title);
+            nodeInputs = inputs;
+        }
 
         [Obsolete("Update cache in derived class instead")]
         public string GetValueAndUpdateCache()

@@ -7,15 +7,8 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Comment";
         public override string NodeInfo => "Inserts a comment block, which will be ignored by the Regex engine.";
 
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { Input };
-            }
-        }
-
-        protected InputString Input { get; set; } = new InputString("");
+        [NodeInput]
+        protected InputString Input { get; } = new InputString("");
 
         public CommentNode() { }
         public CommentNode(string contents)

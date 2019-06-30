@@ -10,23 +10,18 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Flags";
         public override string NodeInfo => "Inserts flags that change the way the Regex is interpreted.\nEach flag can either be ignored (default), applied (✓), or removed (−).\nLeave the 'Contents' input empty to have the flags apply to everything that comes after them in the Regex, or connect a node to this input so that only that portion of the Regex has the flags applied.";
 
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> {
-                    InputContents, OptionIgnoreCase, OptionMultiline, OptionSingleline, OptionExplicitCapture, OptionIgnoreWhitespace
-                };
-            }
-        }
-
-        protected InputProcedural InputContents { get; set; } = new InputProcedural() { Title = "(Optional) Contents" };
-
-        protected InputCheckboxNullable OptionIgnoreCase { get; set; } = new InputCheckboxNullable() { Title = "Case Insensitive" };
-        protected InputCheckboxNullable OptionMultiline { get; set; } = new InputCheckboxNullable() { Title = "Multiline" };
-        protected InputCheckboxNullable OptionSingleline { get; set; } = new InputCheckboxNullable() { Title = "Singleline" };
-        protected InputCheckboxNullable OptionExplicitCapture { get; set; } = new InputCheckboxNullable() { Title = "Explicit Capture" };
-        protected InputCheckboxNullable OptionIgnoreWhitespace { get; set; } = new InputCheckboxNullable() { Title = "Ignore Whitespace" };
+        [NodeInput]
+        protected InputProcedural InputContents { get; } = new InputProcedural() { Title = "(Optional) Contents" };
+        [NodeInput]
+        protected InputCheckboxNullable OptionIgnoreCase { get; } = new InputCheckboxNullable() { Title = "Case Insensitive" };
+        [NodeInput]
+        protected InputCheckboxNullable OptionMultiline { get; } = new InputCheckboxNullable() { Title = "Multiline" };
+        [NodeInput]
+        protected InputCheckboxNullable OptionSingleline { get; } = new InputCheckboxNullable() { Title = "Singleline" };
+        [NodeInput]
+        protected InputCheckboxNullable OptionExplicitCapture { get; } = new InputCheckboxNullable() { Title = "Explicit Capture" };
+        [NodeInput]
+        protected InputCheckboxNullable OptionIgnoreWhitespace { get; } = new InputCheckboxNullable() { Title = "Ignore Whitespace" };
 
         public override string GetValue()
         {
@@ -53,8 +48,6 @@ namespace RegexNodes.Shared.NodeTypes
             {
                 flagsOff = "-" + flagsOff;
             }
-
-            //string suffix = String.IsNullOrEmpty(InputContents.InputNode.GetValue()) ? "" : ":";
 
             return UpdateCache($"(?{flagsOn}{flagsOff}{input})");
         }

@@ -9,18 +9,11 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Raw Regex";
         public override string NodeInfo => "[Obsolete: replaced by 'Text' node] Outputs characters exactly as you type them.";
 
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { Input };
-            }
-        }
+        
+        [NodeInput]
+        protected InputString Input { get; } = new InputString("");
 
-        protected InputString Input { get; set; } = new InputString("");
-
-        public RegexRaw() { }
-        public RegexRaw(string contents)
+        public RegexRaw(string contents = "")
         {
             Input.InputContents = contents;
         }
