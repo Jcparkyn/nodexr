@@ -9,15 +9,8 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Or";
         public override string NodeInfo => "Outputs a Regex that will accept any of the given inputs.";
 
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { Inputs };
-            }
-        }
-
-        protected InputCollection Inputs { get; set; } = new InputCollection() { Title = "Inputs" };
+        [NodeInput]
+        protected InputCollection Inputs { get; } = new InputCollection() { Title = "Inputs" };
 
         public override string GetValue()
         {

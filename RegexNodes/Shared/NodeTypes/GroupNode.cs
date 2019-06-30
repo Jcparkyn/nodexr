@@ -7,25 +7,19 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Group";
         public override string NodeInfo => "Wraps the input node in a group. A capturing or named group can be used later in a backrefence (with the 'Reference' node) or in the  Replacement Regex.";
 
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { Input, InputGroupType, GroupName, CustomPrefix };
-            }
-        }
-
-        protected InputProcedural Input { get; set; } = new InputProcedural();
-
-        protected InputDropdown InputGroupType { get; set; } = new InputDropdown(
+        [NodeInput]
+        protected InputProcedural Input { get; } = new InputProcedural();
+        [NodeInput]
+        protected InputDropdown InputGroupType { get; } = new InputDropdown(
             "Capturing",
             "Non-capturing",
             "Named",
             "Custom")
         { Title = "Type of group:" };
-
-        protected InputString GroupName { get; set; } = new InputString("") { Title = "Name:" };
-        protected InputString CustomPrefix { get; set; } = new InputString("") { Title = "Prefix:" };
+        [NodeInput]
+        protected InputString GroupName { get; } = new InputString("") { Title = "Name:" };
+        [NodeInput]
+        protected InputString CustomPrefix { get; } = new InputString("") { Title = "Prefix:" };
 
         public GroupNode()
         {

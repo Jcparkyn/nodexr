@@ -10,41 +10,18 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Wildcard";
         public override string NodeInfo => "Matches any of the specified types of character. Note: the 'Everything' option will only match newlines if the Regex is in singleline mode.";
 
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { InputAllowAll, InputAllowWhitespace, InputAllowLetters, InputAllowDigits, InputAllowUnderscore, InputAllowOther };
-            }
-        }
-
-        protected InputCheckbox InputAllowAll = new InputCheckbox(true) { Title = "Everything" };
-        protected InputCheckbox InputAllowWhitespace = new InputCheckbox() { Title = "Whitespace" };
-        protected InputCheckbox InputAllowLetters = new InputCheckbox() { Title = "Letters" };
-        protected InputCheckbox InputAllowDigits = new InputCheckbox() { Title = "Digits" };
-        protected InputCheckbox InputAllowUnderscore = new InputCheckbox() { Title = "Underscore" };
-        protected InputCheckbox InputAllowOther = new InputCheckbox() { Title = "Other" };
-
-        [Obsolete("Replaced by code")]
-        private Dictionary<int, string> OutputMapping =  new Dictionary<int, string>
-        {
-            { 0b0000, @"" },
-            { 0b0001, @"[^\w]" },
-            { 0b0010, @"[^\w]" },
-            { 0b0011, @"[^\w]" },
-            { 0b0100, @"[^\w]" },
-            { 0b0101, @"[^\w]" },
-            { 0b0110, @"[^\w]" },
-            { 0b0111, @"[^\w]" },
-            { 0b1000, @"[^\w]" },
-            { 0b1001, @"[^\w]" },
-            { 0b1010, @"[^\w]" },
-            { 0b1011, @"[^\w]" },
-            { 0b1100, @"[^\w]" },
-            { 0b1101, @"[^\w]" },
-            { 0b1110, @"[^\w]" },
-            { 0b1111, @"[^\w]" },
-        };
+        [NodeInput]
+        protected InputCheckbox InputAllowAll { get; } = new InputCheckbox(true) { Title = "Everything" };
+        [NodeInput]
+        protected InputCheckbox InputAllowWhitespace { get; } = new InputCheckbox() { Title = "Whitespace" };
+        [NodeInput]
+        protected InputCheckbox InputAllowLetters { get; } = new InputCheckbox() { Title = "Letters" };
+        [NodeInput]
+        protected InputCheckbox InputAllowDigits { get; } = new InputCheckbox() { Title = "Digits" };
+        [NodeInput]
+        protected InputCheckbox InputAllowUnderscore { get; } = new InputCheckbox() { Title = "Underscore" };
+        [NodeInput]
+        protected InputCheckbox InputAllowOther { get; } = new InputCheckbox() { Title = "Other" };
 
         public WildcardNode()
         {
@@ -58,7 +35,7 @@ namespace RegexNodes.Shared.NodeTypes
 
         public override string GetValue()
         {
-            string result = "";
+            string result;
             bool allowWhitespace = InputAllowWhitespace.IsChecked;
             bool allowUnderscore = InputAllowUnderscore.IsChecked;
             bool allowLetters = InputAllowLetters.IsChecked;
