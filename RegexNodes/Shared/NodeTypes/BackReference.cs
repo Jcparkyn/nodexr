@@ -5,6 +5,7 @@ namespace RegexNodes.Shared.NodeTypes
     public class Backreference : Node, INode
     {
         public override string Title => "Reference";
+        public override string NodeInfo => "Inserts a backreference (or forward-reference if the language supports it) to a captured group, either by name or index.";
 
         public override List<INodeInput> NodeInputs
         {

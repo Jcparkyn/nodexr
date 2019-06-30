@@ -13,7 +13,7 @@ namespace RegexNodes.Shared
         Action OnRequireNoodleRefresh { get; set; }
 
         event Action OnOutputHasChanged;
-        event Action OnNodeCountChanged;
+        Action OnNodeCountChanged { get; set; }
 
         void AddNode<T>(bool refreshIndex = true) where T : Node, new();
         void AddNode(INode node, bool refreshIndex = true);
@@ -29,7 +29,7 @@ namespace RegexNodes.Shared
         public List<INode> Nodes { get; set; } = new List<INode>();
 
         public event Action OnOutputHasChanged;
-        public event Action OnNodeCountChanged;
+        public Action OnNodeCountChanged { get; set; }
         public Action OnRequireNoodleRefresh { get; set; }
 
         public async Task RecalculateOutput()

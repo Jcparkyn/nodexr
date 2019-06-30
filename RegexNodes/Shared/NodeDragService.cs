@@ -18,6 +18,7 @@ namespace RegexNodes.Shared
         void OnDrop(UIDragEventArgs e);
         void OnDropNoodle(InputProcedural nodeInput);
         void OnDeleteNode();
+        Task OnStartCreateNodeDrag(INode nodeToDrag, UIDragEventArgs e);
     }
 
     public class NodeDragService : INodeDragService
@@ -28,6 +29,7 @@ namespace RegexNodes.Shared
         {
             this.nodeHandler = nodeHandler;
             this.jsRuntime = jsRuntime;
+            //jsRuntime.InvokeAsync<object>("initNodeDropHandler", DotNetObjectRef.Create(this));
         }
 
         public enum DragType : int
@@ -50,6 +52,18 @@ namespace RegexNodes.Shared
             NodeToDrag = nodeToDrag;
             CurDragType = DragType.Node;
             cursorStartPos = e.GetClientPos();
+        }
+
+        public async Task OnStartCreateNodeDrag(INode nodeToDrag, UIDragEventArgs e)
+        {
+            NodeToDrag = nodeToDrag;
+            CurDragType = DragType.Node;
+            cursorStartPos = e.GetClientPos();
+            var scaledPos = await jsRuntime.InvokeAsync<float[]>("panzoom.clientToGraphPos", e.ClientX, e.ClientY);
+            int x = (int)scaledPos[0];
+            int y = (int)scaledPos[1];
+            
+            NodeToDrag.Pos = new Vector2L(x-75, y-15);
         }
 
         public void OnStartNoodleDrag(INode nodeToDrag, UIDragEventArgs e)
@@ -96,6 +110,22 @@ namespace RegexNodes.Shared
             NodeToDrag = null;
             CurDragType = DragType.None;
         }
+
+        //[JSInvokable]
+        //public void DropNodeJS(long xPos, long yPos)
+        //{
+        //    if (CurDragType == DragType.Node)
+        //    {
+        //        //NodeToDrag?.MoveBy(xPos, yPos);
+        //        Console.WriteLine("Drop from JS: " + xPos + ", " + yPos);
+        //        NodeToDrag.Pos = new Vector2L(xPos, yPos);
+        //        nodeHandler.OnNodeCountChanged();
+        //    }
+        //    TempNoodle.Enabled = false;
+        //    TempNoodle.Valid = false;
+        //    NodeToDrag = null;
+        //    CurDragType = DragType.None;
+        //}
 
         public void OnDropNoodle(InputProcedural nodeInput)
         {

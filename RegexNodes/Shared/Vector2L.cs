@@ -4,8 +4,8 @@ namespace RegexNodes.Shared
 {
     public struct Vector2L
     {
-        public long x;
-        public long y;
+        public readonly long x;
+        public readonly long y;
 
         public Vector2L(long x, long y)
         {

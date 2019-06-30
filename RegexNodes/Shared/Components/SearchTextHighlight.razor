@@ -1,0 +1,40 @@
+@using System.Text.RegularExpressions;
+
+<div class="search-text-backdrop">
+    <div class="search-text-highlight">
+        @foreach ((string text, bool isMatch) str in Substrings)
+        {
+            if (str.isMatch)
+            {
+                <mark>@str.text</mark>
+            }
+            else
+            {
+                <span>@str.text</span>
+            }
+        }
+    </div>
+</div>
+@functions {
+    [Parameter] protected string Text { get; set; }
+    [Parameter] protected MatchCollection Matches { get; set; }
+
+
+    public IEnumerable<(string text, bool isMatch)> Substrings
+    {
+        get
+        {
+            int previousMatchEnd = 0;
+            if(Matches != null)
+            {
+                foreach(Match match in Matches)
+                {
+                    yield return (Text.Substring(previousMatchEnd, match.Index - previousMatchEnd), false);
+                    yield return (match.Value, match.Success);
+                    previousMatchEnd = match.Index + match.Length;
+                }
+                //yield return (Text.Substring(previousMatchEnd), false);
+            }
+        }
+    }
+}

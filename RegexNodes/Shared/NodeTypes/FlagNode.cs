@@ -8,6 +8,7 @@ namespace RegexNodes.Shared.NodeTypes
     public class FlagNode : Node
     {
         public override string Title => "Flags";
+        public override string NodeInfo => "Inserts flags that change the way the Regex is interpreted.\nEach flag can either be ignored (default), applied (✓), or removed (−).\nLeave the 'Contents' input empty to have the flags apply to everything that comes after them in the Regex, or connect a node to this input so that only that portion of the Regex has the flags applied.";
 
         public override List<INodeInput> NodeInputs
         {

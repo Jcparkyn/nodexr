@@ -7,6 +7,7 @@ namespace RegexNodes.Shared.NodeTypes
     public class OrNode : Node, INode
     {
         public override string Title => "Or";
+        public override string NodeInfo => "Outputs a Regex that will accept any of the given inputs.";
 
         public override List<INodeInput> NodeInputs
         {

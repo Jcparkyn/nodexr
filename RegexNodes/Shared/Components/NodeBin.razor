@@ -1,0 +1,15 @@
+﻿
+@inject INodeDragService NodeDragService
+
+
+
+<div style="margin:7px; float:right;" ondragover="event.preventDefault()" @ondrop="@(() => NodeDragService.OnDeleteNode())">
+    <i class="fas fa-trash" style="font-size:30px;"></i>
+</div>
+
+
+
+
+@functions{
+
+}

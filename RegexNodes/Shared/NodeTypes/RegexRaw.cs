@@ -7,6 +7,7 @@ namespace RegexNodes.Shared.NodeTypes
     public class RegexRaw : Node
     {
         public override string Title => "Raw Regex";
+        public override string NodeInfo => "[Obsolete: replaced by 'Text' node] Outputs characters exactly as you type them.";
 
         public override List<INodeInput> NodeInputs
         {
@@ -16,7 +17,7 @@ namespace RegexNodes.Shared.NodeTypes
             }
         }
 
-        public InputString Input { get; set; } = new InputString("");
+        protected InputString Input { get; set; } = new InputString("");
 
         public RegexRaw() { }
         public RegexRaw(string contents)

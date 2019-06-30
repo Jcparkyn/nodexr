@@ -1,0 +1,47 @@
+
+@inject INodeDragService NodeDragService
+@inject INodeHandler  NodeHandler
+@inject IModalService Modal
+@inject IJSRuntime JSRuntime
+
+<div class="node node-preview" draggable="true" @ondragstart="@StartNodeDrag">
+    <div class="node-title collapsed" style="background-color: @Color; height:100%;">
+        <b> @Data.Title</b>
+        <button class="icon-button info-button"
+                @onclick="@ShowModal">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </div>
+
+</div>
+
+
+@functions {
+    [Parameter] protected INode Data { get; set; }
+
+    string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
+
+    void ShowModal()
+    {
+        //Console.WriteLine("Showing Modal");
+        var modalParameters = new ModalParameters();
+        modalParameters.Add("InfoText", Data.NodeInfo);
+        Modal.Show(Data.Title, typeof(NodeInfo), modalParameters);
+    }
+
+    void StartNodeDrag(UIDragEventArgs e)
+    {
+        INode newNode = (INode)Activator.CreateInstance(Data.GetType());
+        NodeHandler.AddNode(newNode, refreshIndex: false);
+
+        
+        NodeDragService.OnStartCreateNodeDrag(newNode, e);
+    }
+
+    void AddNode(Type type)
+    {
+        INode node = (INode)Activator.CreateInstance(type);
+        NodeHandler.AddNode(node, refreshIndex: true);
+        //NodeDragService.OnStartNodeDrag(node, e);
+    }
+}

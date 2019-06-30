@@ -8,16 +8,16 @@
     //Console.WriteLine("Updating Node Graph");
 }
 <div class="viewport nodegraph" onwheel="panzoom.zoom(event)" onmousedown="panzoom.startPan(event)"
-    ondragover="event.preventDefault()" ondrop="@((e) => NodeDragService.OnDrop(e))">
+    ondragover="event.preventDefault()" @ondrop="@NodeDragService.OnDrop">
     <div id="nodegraph" style="position:relative; transform-origin:0% 0%; width:0px; height:0px;">
         @for (int i = 0; i < NodeHandler.Nodes.Count; i++)
         {
             INode node = NodeHandler.Nodes[i];
-            <NodeRender Data="node" NodeId="i" />
+            <NodeRender Data="node" />
         }
         <svg style="overflow:visible;">
             <NoodleCollection Nodes="@NodeHandler.Nodes"/>
-            <NoodleSvg ref="NodeDragService.TempNoodle" StartPoint="@(new Vector2L(-100, -100))" EndPoint="@(new Vector2L(-100, -100))" DomId="tempNoodle" />
+            <NoodleSvg @ref="NodeDragService.TempNoodle" StartPoint="@(new Vector2L(-10000, -10000))" EndPoint="@(new Vector2L(-10000, -10000))" DomId="tempNoodle" />
         </svg>
     </div>
 </div>
@@ -32,7 +32,7 @@
     {
         base.OnInit();
         var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
-        var defaultNode = new ExactString("ps") { Pos = new Vector2L(300, 200) };
+        var defaultNode = new ExactString("fox") { Pos = new Vector2L(300, 200) };
         (defaultOutput.NodeInputs[0] as InputCollection).Inputs[0].InputNode = defaultNode;
         NodeHandler.Nodes.Add(defaultNode);
         NodeHandler.Nodes.Add(defaultOutput);

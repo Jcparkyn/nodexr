@@ -13,7 +13,7 @@
             <div class="node-input-heading">@input.Title</div>
         }
         <div class="node-input">
-            <input type="text" class="input-field" bind-value-oninput="@input.InputContents" />
+            <input type="text" class="input-field" @bind-value="@input.InputContents" @bind-value:event="oninput" />
         </div>
         break;
     case InputNumber input:
@@ -22,12 +22,12 @@
             <div class="node-input-heading">@input.Title</div>
         }
         <div class="node-input">
-            <input type="number" class="input-field" min="@("" + input.Min)" max="@("" + input.Max)" bind-value-oninput="@input.InputContents" />
+            <input type="number" class="input-field" min="@("" + input.Min)" max="@("" + input.Max)" @bind-value="@input.InputContents" @bind-value:event="oninput"/>
         </div>
         break;
     case InputProcedural input:
         <div class="node-input procedural" style="font-size:15px; font-style:italic">
-            <div class="node-input-dot" ondrop="@(() => NodeDragService.OnDropNoodle(input))" ondragenter="tempNoodle.setValid()" ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault()">
+            <div class="node-input-dot" @ondrop="@(() => NodeDragService.OnDropNoodle(input))" ondragenter="tempNoodle.setValid()" ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault()">
                 @if (input.InputNode != null)
                 {
                     //var endPointOffset = new Vector2L(7, 7);
@@ -39,20 +39,20 @@
         break;
     case RegexNodes.Shared.InputCheckbox input:
         <div class="input-checkbox">
-            <input type="checkbox" bind="@input.IsChecked" />
+            <input type="checkbox" @bind="@input.IsChecked" />
             @input.Title
         </div>
         break;
     case RegexNodes.Shared.InputCheckboxNullable input:
         <div class="input-checkbox">
-            <ThreeStateToggle bind-ButtonState="@input.CheckedState"/>
+            <ThreeStateToggle @bind-ButtonState="@input.CheckedState"/>
             @input.Title
         </div>
         break;
     case InputDropdown input:
         <div class="node-input-heading">@input.Title</div>
         <div class="node-input">
-            <select bind="@input.DropdownValue" class="input-field">
+            <select @bind="@input.DropdownValue" class="input-field">
                 @foreach (string str in input.Options)
                 {
                     <option value="@str">@str</option>

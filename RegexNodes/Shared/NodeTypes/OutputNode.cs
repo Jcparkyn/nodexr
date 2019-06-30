@@ -5,6 +5,7 @@ namespace RegexNodes.Shared.NodeTypes
     public class OutputNode : Node
     {
         public override string Title => "Output";
+        public override string NodeInfo => "The final output of your Regex. Use the 'Add Item' button to join together the outputs of multiple nodes, similar to the 'Concatenate' node.";
 
         public override List<INodeInput> NodeInputs
         {

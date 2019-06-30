@@ -1,0 +1,94 @@
+﻿
+@inject INodeDragService NodeDragService
+@inject INodeHandler  NodeHandler
+@inject IModalService Modal
+
+
+@{
+    //Console.WriteLine("Updating Node: " + Data.Title);
+    //TODO: optimise if/else to only necessary section
+}
+
+
+<div class="node" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px;"
+        ondragover="event.preventDefault()" onmousedown="event.stopPropagation()">
+
+    <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" class="node-drag-region"></div>
+    @if (!Data.IsCollapsed)
+    {
+        <div class="node-title" style="background-color: @Color">
+            <button @onclick="@ToggleCollapsed" class="collapse-button"><i class="fas fa-chevron-down"></i></button>
+            <b> @Data.Title</b>
+            <button class="icon-button info-button"
+                    @onclick="@ShowModal">
+                <i class="fas fa-info-circle"></i>
+            </button>
+        </div>
+        <div class="node-content">
+            @*<ol>*@
+            @for (int i = 0; i < Data.NodeInputs.Count; i++)
+            {
+                INodeInput nodeInput = Data.NodeInputs[i];
+                if (nodeInput.IsEnabled())
+                {
+                    <NodeInputRender Data="nodeInput" OnValueChanged="OnValueChanged" OnInputsChanged="@Data.CalculateInputsPos" />
+                }
+            }
+            @*</ol>*@
+        </div>
+    }
+    else
+    {
+        <div class="node-title collapsed" style="background-color: @Color; height:100%;">
+            <button @onclick="@ToggleCollapsed" class="collapse-button" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
+            <b> @Data.Title</b>
+            <button class="icon-button info-button"
+                    @onclick="@ShowModal">
+                <i class="fas fa-info-circle"></i>
+            </button>
+        </div>
+    }
+
+    @*Output dot*@
+    @if (!(Data is OutputNode))
+    {
+        <NodeOutputDot Data="Data" />
+    }
+</div>
+
+
+@functions{
+    [Parameter] protected INode Data { get; set; }
+    //[Parameter] protected int NodeId { get; set; }
+
+    string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
+
+    void ToggleCollapsed()
+    {
+        Data.IsCollapsed = !Data.IsCollapsed;
+        Data.CalculateInputsPos();
+        NodeHandler.OnRequireNoodleRefresh?.Invoke();
+    }
+
+    void ShowModal()
+    {
+        //Console.WriteLine("Showing Modal");
+        var modalParameters = new ModalParameters();
+        modalParameters.Add("InfoText", Data.NodeInfo);
+        Modal.Show(Data.Title, typeof(NodeInfo), modalParameters);
+    }
+
+    void OnValueChanged()
+    {
+        Task.Run(OnValueChangedAsync);
+    }
+    async Task OnValueChangedAsync()
+    {
+        var getValueTask = Task.Run(Data.GetValueAndUpdateCache);
+        var getOutputTask = Task.Run(NodeHandler.RecalculateOutput);
+        await getValueTask;
+
+        StateHasChanged();
+        await getOutputTask;
+    }
+}

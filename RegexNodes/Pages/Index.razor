@@ -6,12 +6,12 @@
 @inject INodeHandler  NodeHandler
 
 @{Console.WriteLine("Updating Index"); }
-<div style="display:flex; flex-direction:row;">
-    <NodeBin />
+<div>
     <OutputDisplay />
+    <NodeBin />
 </div>
 
-<div style="display:flex; flex-direction:row; resize:vertical; overflow:hidden; height:70%;">
+<div style="display:flex; flex-direction:row; resize:vertical; overflow:hidden; height:80%;">
     <NodeList />
     <NodeGraph />
 </div>

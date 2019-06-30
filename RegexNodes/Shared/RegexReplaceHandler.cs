@@ -14,8 +14,20 @@ namespace RegexNodes.Shared
             this.nodeHandler = NodeHandler;
         }
 
-        public string ReplacementRegex { get; set; } = "";
-        public string SearchText { get; set; } = "Lorem Ipsum";
+        public string ReplacementRegex { get; set; } = "cow";
+        public string SearchText { get; set; } = "The quick brown fox jumped over the lazy dog.";
+
+        public MatchCollection GetAllMatches()
+        {
+            try
+            {
+                return Regex.Matches(SearchText, nodeHandler.CachedOutput);
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         public string GetReplaceResult()
         {

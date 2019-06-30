@@ -3,7 +3,7 @@
 @inject IJSRuntime  JSRuntime;
 
 
-<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" ondragstart="@OnDragStart" class="node-output-dot">
+<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" @ondragstart="@OnDragStart" class="node-output-dot">
     <span class="outputtooltip">
         Output:<br />
         @{string output = Data.CachedValue;}
