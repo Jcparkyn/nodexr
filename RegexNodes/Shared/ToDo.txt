@@ -15,8 +15,6 @@ Nodes:
 		- toggle options
 			- Start/end of line/string (\A \Z)
 			- Word boundary
-			- 
-		- start
 	- //Character Range?
 	- //Character Set (class)
 		- //invert
@@ -44,4 +42,4 @@ Options panel
 	- Autoevaluate?
 	- Parse regex?
 
-Use attributes to get list of node inputs
+//Use attributes to get list of node inputs

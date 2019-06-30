@@ -169,7 +169,7 @@
 
 .node-preview {
     position: relative;
-    margin: 7px 3px;
+    margin: 5px 3px;
     width: -webkit-fill-available;
     cursor: grab;
 }

@@ -26,18 +26,18 @@
     List<INode> exampleNodes { get; set; } = new List<INode>
     {
         new ExactString(),
+        new WildcardNode(),
+        new CharSet(),
+        new AnchorNode(),
+        new WhitespaceNode(),
+        new CommentNode(),
         new OrNode(),
         new ConcatNode(),
         new GroupNode(),
-        new CommentNode(),
-        new AnchorNode(),
-        new WhitespaceNode(),
         new Quantifier(),
         new Backreference(),
-        new CharSet(),
-        new FlagNode(),
         new Lookaround(),
-        new WildcardNode(),
+        new FlagNode(),
         new OutputNode(),
     };
 

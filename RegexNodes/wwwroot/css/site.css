@@ -5,7 +5,7 @@
     --col-bg-1: hsl(218, 10%, 10%);
 
     --col-node-0: hsl(218, 0%, 20%);
-    --col-node-default: hsl(194, 0%, 50%);
+    /*--col-node-default: hsl(194, 0%, 50%);
     --col-node-output: #6bd7d7;
     --col-node-group: #c478cc;
     --col-node-text: #d1a6e2;
@@ -20,7 +20,25 @@
     --col-node-characterset: #6afb5f;
     --col-node-flags: #bde1d7;
     --col-node-lookaround: #abd4eb;
-    --col-node-wildcard: #e24a35;
+    --col-node-wildcard: #e24a35;*/
+
+    --col-node-default: hsl(194, 0%, 50%);
+    --col-node-rawregex: hsl(68, 85%, 75%);
+
+    --col-node-text: hsl(0,80%, 75%);
+    --col-node-wildcard: hsl(24,80%, 75%);
+    --col-node-characterset: hsl(48,80%, 75%);
+    --col-node-anchor: hsl(72,80%, 75%);
+    --col-node-whitespace: hsl(96,80%, 75%);
+    --col-node-comment: hsl(120,80%, 75%);
+    --col-node-or: hsl(144,80%, 75%);
+    --col-node-concatenate: hsl(168,80%, 75%);
+    --col-node-group:  hsl(192,80%, 75%);
+    --col-node-quantifier: hsl(216,80%, 75%);
+    --col-node-reference: hsl(240,80%, 75%);
+    --col-node-lookaround: hsl(264,80%, 75%);
+    --col-node-flags: hsl(288,80%, 75%);
+    --col-node-output: hsl(312,80%, 75%);
 
     --col-field: hsl(218, 0%, 28%);
     --col-field-editable: hsl(218, 10%, 28%);
@@ -29,14 +47,15 @@
 
     --col-text-strong1: #ffffff;
     --col-text-strong2: #eaeaea;
-    --col-text-medium: #c7c7c7;
+    --col-text-medium: #d0d0d0;
     --col-text-subtle: #acacac;
 
     --padding-main: 0.4vh;
 }
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
+    /*font-family: Consolas, Helvetica, monospace;*/
     color: var(--col-text-medium);
     background-color: var(--col-bg-2);
 }
@@ -230,7 +249,7 @@ app {
 
 input {
     background-color: var(--col-field);
-    color: var(--col-text-strong1);
+    color: var(--col-text-medium);
     border: none;
 }
 
@@ -247,8 +266,8 @@ textarea {
 
 .search-text-highlight, .search-textarea {
     padding: 7px;
-    font: 20px/28px Consolas, monospace;
     /*letter-spacing: 1px;*/
+    line-height: 26px;
     width: 100%;
     background-color: transparent;
     resize: none;
@@ -263,7 +282,7 @@ textarea {
     display: block;
     position: absolute;
     height: 100%;
-    color: #444;
+    /*color: #444;*/
     resize: none;
     border: none;
     white-space: pre-wrap;
@@ -279,8 +298,8 @@ textarea {
 
     .search-text-highlight span, .search-text-highlight mark {
         white-space: pre-wrap;
-        font-size: 20px;
-        line-height: 28px;
+        font-size: 1rem;
+        line-height: 26px;
     }
 
 .search-text-container {
@@ -300,8 +319,8 @@ textarea {
 
 mark {
     border-radius: 3px;
-    background-color: #a3c5d4;
-    color: inherit;
+    background-color: #065e61;
+    color: transparent;
     padding: 0;
 }
 
