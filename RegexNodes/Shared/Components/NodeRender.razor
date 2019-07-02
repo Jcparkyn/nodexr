@@ -26,9 +26,8 @@
         </div>
         <div class="node-content">
             @*<ol>*@
-            @for (int i = 0; i < Data.NodeInputs.Count; i++)
+            @foreach(INodeInput nodeInput in Data.NodeInputs)
             {
-                INodeInput nodeInput = Data.NodeInputs[i];
                 if (nodeInput.IsEnabled())
                 {
                     <NodeInputRender Data="nodeInput" OnValueChanged="OnValueChanged" OnInputsChanged="@Data.CalculateInputsPos" />

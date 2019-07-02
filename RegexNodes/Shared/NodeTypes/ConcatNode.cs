@@ -7,15 +7,8 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Concatenate";
         public override string NodeInfo => "Concatenates (strings together) the outputs of multiple nodes, so that they come one after another. This could also be thought of as an 'And' or 'Then' node. The resulting regex will be order-sensitive, so order your inputs from top to bottom.";
 
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { Inputs };
-            }
-        }
-
-        protected InputCollection Inputs { get; set; } = new InputCollection() { Title = "Inputs" };
+        [NodeInput]
+        protected InputCollection Inputs { get; } = new InputCollection() { Title = "Inputs" };
 
         public override string GetValue()
         {

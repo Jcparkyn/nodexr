@@ -7,20 +7,15 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Reference";
         public override string NodeInfo => "Inserts a backreference (or forward-reference if the language supports it) to a captured group, either by name or index.";
 
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { InputType, InputIndex, InputName };
-            }
-        }
-
-        protected InputDropdown InputType { get; set; } = new InputDropdown(
+        [NodeInput]
+        protected InputDropdown InputType { get; } = new InputDropdown(
             "Index",
             "Name")
         { Title = "Type:" };
-        protected InputNumber InputIndex { get; set; } = new InputNumber(1, min: 1) { Title = "Index:" };
-        protected InputString InputName { get; set; } = new InputString("") { Title = "Name:" };
+        [NodeInput]
+        protected InputNumber InputIndex { get; } = new InputNumber(1, min: 1) { Title = "Index:" };
+        [NodeInput]
+        protected InputString InputName { get; } = new InputString("") { Title = "Name:" };
 
         public Backreference()
         {

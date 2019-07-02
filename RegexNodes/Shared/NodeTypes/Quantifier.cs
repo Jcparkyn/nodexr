@@ -8,18 +8,14 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Quantifier";
         public override string NodeInfo => "Inserts a quantifier to set the minimum and maximum number of 'repeats' for the inputted node. Leave the 'max' option blank to allow unlimited repeats. 'Greedy' and 'Lazy' search type will attempt to match as many or as few times as possible respectively.";
 
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { InputNode, InputMin, InputMax, InputSearchType };
-            }
-        }
-
-        protected InputProcedural InputNode { get; set; } = new InputProcedural() { Title = "Input" };
-        protected InputNumber InputMin { get; set; } = new InputNumber(0, min: 0) { Title = "minimum:" };
-        protected InputNumber InputMax { get; set; } = new InputNumber(1, min: 0) { Title = "maximum:" };
-        protected InputDropdown InputSearchType { get; set; } = new InputDropdown("Greedy", "Lazy") { Title = "search type:" };
+        [NodeInput]
+        protected InputProcedural InputNode { get; } = new InputProcedural() { Title = "Input" };
+        [NodeInput]
+        protected InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "minimum:" };
+        [NodeInput]
+        protected InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "maximum:" };
+        [NodeInput]
+        protected InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy") { Title = "search type:" };
 
         public override string GetValue()
         {

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Reflection;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RegexNodes.Shared.NodeTypes
@@ -8,19 +10,14 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Whitespace";
         public override string NodeInfo => "Matches any of the specified types of whitespace character.";
 
-
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { InputSpace, InputTab, InputCR, InputLF };
-            }
-        }
-
-        protected InputCheckbox InputSpace { get; set; } = new InputCheckbox(true) { Title = "Space" };
-        protected InputCheckbox InputTab { get; set; } = new InputCheckbox(true) { Title = "Tab" };
-        protected InputCheckbox InputCR { get; set; } = new InputCheckbox(true) { Title = "Newline (\\r)" };
-        protected InputCheckbox InputLF { get; set; } = new InputCheckbox(true) { Title = "Newline (\\n)" };
+        [NodeInput]
+        protected InputCheckbox InputSpace { get; } = new InputCheckbox(true) { Title = "Space" };
+        [NodeInput]
+        protected InputCheckbox InputTab { get; } = new InputCheckbox(true) { Title = "Tab" };
+        [NodeInput]
+        protected InputCheckbox InputCR { get; } = new InputCheckbox(true) { Title = "Newline (\\r)" };
+        [NodeInput]
+        protected InputCheckbox InputLF { get; } = new InputCheckbox(true) { Title = "Newline (\\n)" };
 
 
         public override string GetValue()

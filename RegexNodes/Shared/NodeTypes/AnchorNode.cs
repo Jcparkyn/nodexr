@@ -9,26 +9,12 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Anchor";
         public override string NodeInfo => "Inserts a start-of-line or end-of-line character. Useful for ensuring that your regex only matches if it's at a specific position in a line.";
 
-        static readonly Dictionary<string, string> options = new Dictionary<string, string>
-        {
-            { "Start of line", "^" },
-            { "End of line", "$" },
-            { @"Carriage Return", @"\r" },
-            { @"LF (\n)", @"\n" },
-        };
-
-        public override List<INodeInput> NodeInputs
-        {
-            get
-            {
-                return new List<INodeInput> { InputLineStart, InputLineEnd, InputWordBoundary };
-            }
-        }
-
-        protected InputCheckbox InputLineStart { get; set; } = new InputCheckbox(true) { Title = "Start of line" };
-        protected InputCheckbox InputLineEnd { get; set; } = new InputCheckbox() { Title = "End of line" };
-        protected InputCheckbox InputWordBoundary { get; set; } = new InputCheckbox() { Title = "Word boundary"};
-
+        [NodeInput]
+        protected InputCheckbox InputLineStart { get; } = new InputCheckbox(true) { Title = "Start of line" };
+        [NodeInput]
+        protected InputCheckbox InputLineEnd { get; } = new InputCheckbox() { Title = "End of line" };
+        [NodeInput]
+        protected InputCheckbox InputWordBoundary { get; } = new InputCheckbox() { Title = "Word boundary"};
 
         public override string GetValue()
         {
