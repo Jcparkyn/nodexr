@@ -54,7 +54,7 @@ namespace RegexNodes.Shared
         {
             Node newNode = new T();
             newNode.CalculateInputsPos();
-            AddNode(newNode);
+            AddNode(newNode, refreshIndex);
         }
 
         public void AddNode(INode node, bool refreshIndex = true)

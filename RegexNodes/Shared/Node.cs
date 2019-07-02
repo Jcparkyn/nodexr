@@ -85,7 +85,7 @@ namespace RegexNodes.Shared
             }
             else
             {
-                int startHeight = 47;
+                int startHeight = 48;
                 int inputHeight = 35;
                 foreach (var input in NodeInputs)
                 {

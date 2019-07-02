@@ -3,7 +3,7 @@
     width: 155px;
     /*padding: 4px;*/
     border-radius: 8px;
-    box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.4);
+    box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 0.16);
     background-color: var(--col-node-0);
 }
 
@@ -19,7 +19,7 @@
         }
         
         .node .node-title b {
-            color: hsl(0,0%,20%);
+            color: hsl(0,0%,15%);
         }
 
         .node .node-title .collapse-button {
@@ -172,6 +172,7 @@
     margin: 5px 3px;
     width: -webkit-fill-available;
     cursor: grab;
+    opacity: 0.9;
 }
 
     .node-preview .node-title {

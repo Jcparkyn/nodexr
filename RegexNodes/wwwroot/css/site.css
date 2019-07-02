@@ -37,6 +37,7 @@
     --col-node-quantifier: hsl(216,80%, 75%);
     --col-node-reference: hsl(240,80%, 75%);
     --col-node-lookaround: hsl(264,80%, 75%);
+    --col-node-if-else: hsl(288,80%, 75%);
     --col-node-flags: hsl(288,80%, 75%);
     --col-node-output: hsl(312,80%, 75%);
 
@@ -50,7 +51,7 @@
     --col-text-medium: #d0d0d0;
     --col-text-subtle: #acacac;
 
-    --padding-main: 0.4vh;
+    --padding-main: 0vh;
 }
 
 html, body {
@@ -122,12 +123,10 @@ app {
     }
 
     .viewport.replace-field {
-        resize: horizontal;
         width: 30%;
     }
 
     .viewport.search-text {
-        resize: horizontal;
         width: 40%;
         display: flex;
         flex-direction: column;

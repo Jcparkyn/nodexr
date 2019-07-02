@@ -6,15 +6,7 @@
         <div class="viewport-title-bar">
             <h1>Add Nodes:</h1>
         </div>
-
-        @*@foreach (Type type in nodeTypes)
-        {
-            <button class="button-add-node" @onclick="@((e)=>AddNode(type))">
-                <b>
-                    @type.Name;
-                </b>
-            </button>
-        }*@
+        
         @foreach (var node in exampleNodes)
         {
             <NodeListPreview Data="node"/>
@@ -37,6 +29,7 @@
         new Quantifier(),
         new Backreference(),
         new Lookaround(),
+        new IfElseNode(),
         new FlagNode(),
         new OutputNode(),
     };
