@@ -8,7 +8,8 @@
     //Console.WriteLine("Updating Node Graph");
 }
 <div class="viewport nodegraph" onwheel="panzoom.zoom(event)" onmousedown="panzoom.startPan(event)"
-    ondragover="event.preventDefault()" @ondrop="@NodeDragService.OnDrop">
+    ondragover="event.preventDefault()" @ondrop="@NodeDragService.OnDrop" @onkeydown="@DeleteSelectedNode" tabindex="-1">
+    <div style="width:100%; height:100%; position:absolute;" @onclick="@DeselectNode"></div>
     <div id="nodegraph" style="position:relative; transform-origin:0% 0%; width:0px; height:0px;">
         @for (int i = 0; i < NodeHandler.Nodes.Count; i++)
         {
@@ -38,6 +39,7 @@
         NodeHandler.Nodes.Add(defaultOutput);
         NodeHandler.RecalculateOutput();
         NodeHandler.OnNodeCountChanged += StateHasChanged;
+        NodeHandler.OnRequireNodeGraphRefresh = StateHasChanged;
     }
 
     protected void Refresh()
@@ -50,6 +52,20 @@
         Node newNode = new T();
         newNode.CalculateInputsPos();
         NodeHandler.Nodes.Add(newNode);
+    }
+
+    void DeleteSelectedNode(UIKeyboardEventArgs e)
+    {
+        if (e.Key == "Delete")
+        {
+            NodeHandler.DeleteSelectedNode();
+        }
+    }
+
+    void DeselectNode()
+    {
+        NodeHandler.SelectedNode = null;
+        StateHasChanged();
     }
 
     void RecomputeOutput()

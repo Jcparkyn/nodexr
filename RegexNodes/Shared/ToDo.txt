@@ -2,9 +2,6 @@
 Bugs:
 	
 
-//Node collapsing
-Automatically bring last touched node to top
-
 Nodes:
 	- //Flags
 	- //Wildcard
@@ -21,12 +18,15 @@ Nodes:
 		- Fix escaping issues (.)
 	- //Group - custom
 	- If - expression (?(exp)yes|no)
+		- Add support for procedural expressions
 	- //Quantifier - check if already grouped
 	- //Lookaround
 	- //Output - built in concat
 
+//Node collapsing
+Automatically bring last touched node to top
 //Info Tooltips
-Selection/Deletion
+//Selection/Deletion
 Undo/Redo
 Validation
 //Highlight matches

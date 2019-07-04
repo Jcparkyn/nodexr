@@ -39,7 +39,7 @@ namespace RegexNodes.Shared
             }
         }
 
-        private List<INodeInput> nodeInputs;
+        private readonly List<INodeInput> nodeInputs;
         public virtual List<INodeInput> NodeInputs => nodeInputs;
         public abstract string Title { get; }
         public abstract string NodeInfo { get; }
@@ -54,7 +54,7 @@ namespace RegexNodes.Shared
 
         public Node()
         {
-            Console.WriteLine("Running node ctor");
+            //Console.WriteLine("Running node ctor");
             var inputs = GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance)
                     .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)))
                     .Select(prop => prop.GetValue(this) as INodeInput)
@@ -103,6 +103,7 @@ namespace RegexNodes.Shared
             {
                 int startHeight = 48;
                 int inputHeight = 35;
+                //TODO: Support disabled inputs
                 foreach (var input in NodeInputs)
                 {
                     switch (input)
@@ -119,6 +120,9 @@ namespace RegexNodes.Shared
                                 input2.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
                                 startHeight += inputHeight;
                             }
+                            break;
+                        default:
+                            startHeight += 59;
                             break;
                     }
                 }
@@ -139,6 +143,8 @@ namespace RegexNodes.Shared
             CalculateInputsPos();
         }
         public void MoveBy(Vector2L delta) => MoveBy(delta.x, delta.y);
+
+        
 
         public abstract string GetValue();
     }

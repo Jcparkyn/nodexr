@@ -36,9 +36,9 @@
     --col-node-group:  hsl(192,80%, 75%);
     --col-node-quantifier: hsl(216,80%, 75%);
     --col-node-reference: hsl(240,80%, 75%);
-    --col-node-lookaround: hsl(264,80%, 75%);
-    --col-node-if-else: hsl(288,80%, 75%);
-    --col-node-flags: hsl(288,80%, 75%);
+    --col-node-lookaround: hsl(264,80%, 70%);
+    --col-node-if-else: hsl(275,80%, 70%);
+    --col-node-flags: hsl(288,80%, 70%);
     --col-node-output: hsl(312,80%, 75%);
 
     --col-field: hsl(218, 0%, 28%);
@@ -59,6 +59,10 @@ html, body {
     /*font-family: Consolas, Helvetica, monospace;*/
     color: var(--col-text-medium);
     background-color: var(--col-bg-2);
+}
+
+h1 {
+    font-family: Roboto, sans-serif;
 }
 
 app {
@@ -317,7 +321,7 @@ textarea {
 }
 
 mark {
-    border-radius: 3px;
+    border-radius: 4px;
     background-color: #065e61;
     color: transparent;
     padding: 0;

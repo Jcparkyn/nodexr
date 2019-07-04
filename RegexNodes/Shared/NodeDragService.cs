@@ -17,7 +17,7 @@ namespace RegexNodes.Shared
         void OnDrag(UIDragEventArgs e);
         void OnDrop(UIDragEventArgs e);
         void OnDropNoodle(InputProcedural nodeInput);
-        void OnDeleteNode();
+        //void OnDeleteNode();
         Task OnStartCreateNodeDrag(INode nodeToDrag, UIDragEventArgs e);
     }
 
@@ -141,12 +141,12 @@ namespace RegexNodes.Shared
             //NoodleEnd = null;
         }
 
-        public void OnDeleteNode()
-        {
-            if (CurDragType == DragType.Node)
-            {
-                nodeHandler.DeleteNode(NodeToDrag);
-            }
-        }
+        //public void OnDeleteNode()
+        //{
+        //    if (CurDragType == DragType.Node)
+        //    {
+        //        nodeHandler.DeleteNode(NodeToDrag);
+        //    }
+        //}
     }
 }

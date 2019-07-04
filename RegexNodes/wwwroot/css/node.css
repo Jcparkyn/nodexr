@@ -7,6 +7,10 @@
     background-color: var(--col-node-0);
 }
 
+    .node.selected {
+        box-shadow: 0 0 0px 1px #ffffffd1;
+    }
+
     .node .node-title {
         background-color: var(--col-node-default);
         /*margin: -4px;*/

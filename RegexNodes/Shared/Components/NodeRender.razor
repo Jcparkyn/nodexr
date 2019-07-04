@@ -10,10 +10,10 @@
 }
 
 
-<div class="node" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px;"
-        ondragover="event.preventDefault()" onmousedown="event.stopPropagation()">
+<div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px;"
+        ondragover="event.preventDefault()" onmousedown="event.stopPropagation()" @onfocusin="@Deselect">
 
-    <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" class="node-drag-region"></div>
+    <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" @onclick="@Select" class="node-drag-region"></div>
     @if (!Data.IsCollapsed)
     {
         <div class="node-title" style="background-color: @Color">
@@ -61,6 +61,7 @@
     //[Parameter] protected int NodeId { get; set; }
 
     string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
+    string CssClass => "node" + (NodeHandler.SelectedNode == Data ? " selected" : "");
 
     void ToggleCollapsed()
     {
@@ -77,10 +78,22 @@
         Modal.Show(Data.Title, typeof(NodeInfo), modalParameters);
     }
 
+    void Select()
+    {
+        NodeHandler.SelectedNode = Data;
+        NodeHandler.OnRequireNodeGraphRefresh.Invoke();
+    }
+
+    void Deselect()
+    {
+        NodeHandler.SelectedNode = null;
+    }
+
     void OnValueChanged()
     {
         Task.Run(OnValueChangedAsync);
     }
+
     async Task OnValueChangedAsync()
     {
         var getValueTask = Task.Run(Data.GetValueAndUpdateCache);
