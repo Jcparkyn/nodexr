@@ -1,10 +1,10 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 :root {
-    --col-bg-2: hsl(218, 15%, 7%);
-    --col-bg-1: hsl(218, 10%, 10%);
+    --col-bg-2: hsl(218, 25%, 10%);
+    --col-bg-1: hsl(218, 10%, 5%);
 
-    --col-node-0: hsl(218, 0%, 20%);
+    --col-node-0: hsl(218, 13%, 18%);
     /*--col-node-default: hsl(194, 0%, 50%);
     --col-node-output: #6bd7d7;
     --col-node-group: #c478cc;
@@ -41,7 +41,7 @@
     --col-node-flags: hsl(288,80%, 70%);
     --col-node-output: hsl(312,80%, 75%);
 
-    --col-field: hsl(218, 0%, 28%);
+    --col-field: hsl(218, 12%, 28%);
     --col-field-editable: hsl(218, 10%, 28%);
 
     --col-noodle: hsl(194, 0%, 50%);
@@ -101,6 +101,10 @@ app {
     padding-bottom: 0.5rem !important;
 }
 
+.panel {
+    padding: 7px;
+}
+
 .viewport {
     position: relative;
     overflow: hidden;
@@ -112,11 +116,11 @@ app {
 }
     .viewport h1 {
         font-size: 1.5rem;
-        padding: 5px;
+        /*padding: 5px;*/
     }
 
     .viewport .viewport-title-bar{
-        background-color: rgba(0,0,0,0.2);
+        /*background-color: rgba(0,0,0,0.2);*/
         height: 2.4rem;
     }
 
@@ -128,6 +132,8 @@ app {
 
     .viewport.replace-field {
         width: 30%;
+        display: flex;
+        flex-direction: column;
     }
 
     .viewport.search-text {
@@ -173,12 +179,17 @@ app {
 }
 
 .sidebar {
-    background-color: var(--col-bg-2);
+    background-color: hsl(218, 27%, 13%);
     width: 7%;
-    margin: var(--padding-main);
+    /*margin: var(--padding-main);*/
     overflow: auto;
-    padding-right: 5px;
-    background-clip: content-box;
+    /*padding: 5px;*/
+    /*background-clip: content-box;*/
+    z-index: 9;
+    box-shadow: 3px 0 17px #00000077;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
     .sidebar .top-row {
@@ -194,6 +205,13 @@ app {
         font-size: 1.1rem;
         vertical-align: text-top;
         top: -2px;
+    }
+
+    .sidebar .separator {
+        width: 96%;
+        /*margin: 6px auto 11px auto;*/
+        height: 2px;
+        background-color: hsl(213, 11%, 19%);
     }
 
 .nav-item {
@@ -258,9 +276,14 @@ input {
     border: none;
 }
 
-textarea {
-    background-color: var(--col-field);
+.textarea {
+    /*background-color: var(--col-field);*/
     color: var(--col-text-medium);
+    width: -webkit-fill-available;
+    background-color: hsla(0, 0%, 0%, 0.09);
+    border: 2px solid #0000002e;
+    resize: none;
+    flex: 1;
 }
 
 /*.search-text-container, .search-text-backdrop, search-textarea {
@@ -270,7 +293,7 @@ textarea {
 
 
 .search-text-highlight, .search-textarea {
-    padding: 7px;
+    padding: 0px;
     /*letter-spacing: 1px;*/
     line-height: 26px;
     width: 100%;
@@ -287,7 +310,7 @@ textarea {
     display: block;
     position: absolute;
     height: 100%;
-    /*color: #444;*/
+    color: var(--col-text-medium);
     resize: none;
     border: none;
     white-space: pre-wrap;
@@ -314,6 +337,7 @@ textarea {
     -webkit-text-size-adjust: none;
     width: 100%;
     overflow: auto;
+    position: relative;
 }
 
 .search-text-backdrop {

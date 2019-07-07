@@ -3,7 +3,6 @@
 @inject INodeHandler  NodeHandler
 @inject IModalService Modal
 @inject IJSRuntime JSRuntime
-
 <div class="node node-preview" draggable="true" @ondragstart="@StartNodeDrag">
     <div class="node-title collapsed" style="background-color: @Color; height:100%;">
         <b> @Data.Title</b>
@@ -12,8 +11,8 @@
             <i class="fas fa-info-circle"></i>
         </button>
     </div>
-
 </div>
+<div class="separator"/>
 
 
 @functions {

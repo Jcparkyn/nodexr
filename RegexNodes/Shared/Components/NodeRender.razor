@@ -9,13 +9,13 @@
 }
 
 
-<div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px;"
+<div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Color;"
         ondragover="event.preventDefault()" onmousedown="event.stopPropagation()" @onfocusin="@Deselect">
 
     <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" @onclick="@Select" class="node-drag-region"></div>
     @if (!Data.IsCollapsed)
     {
-        <div class="node-title" style="background-color: @Color">
+        <div class="node-title" style="background-color: var(--col-node-accent)">
             <button @onclick="@ToggleCollapsed" class="collapse-button"><i class="fas fa-chevron-down"></i></button>
             <b>@Data.Title</b>
             <button class="icon-button info-button"
