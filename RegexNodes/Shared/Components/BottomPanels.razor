@@ -2,27 +2,27 @@
 @inject  RegexReplaceHandler RegexReplaceHandler
 @inject  INodeHandler NodeHandler
 
-<div class="bottom-panels">
-    <div class="viewport search-text">
+<div class="bottom-panels" id="bottompanels">
+    <div class="viewport search-text panel" id="viewport-searchtext">
         <div class="viewport-title-bar">
             <h1>Search Text</h1>
         </div>
-        <div class="search-text-container">
+        <div class="search-text-container textarea">
             <SearchTextHighlight Text="@RegexReplaceHandler.SearchText" Matches="@RegexReplaceHandler.GetAllMatches()"/>
             <textarea @bind-value="@RegexReplaceHandler.SearchText" @bind-value:event="oninput" class="search-textarea" />
         </div>
     </div>
-    <div class="viewport replace-field">
+    <div class="viewport replace-field panel" id="viewport-replacetext">
         <div class="viewport-title-bar">
             <h1>Replacement Regex</h1>
         </div>
-        <input type="text" style="width:-webkit-fill-available; margin:4px; background-color:rgba(256,256,256,0.03);" @bind-value="@RegexReplaceHandler.ReplacementRegex" @bind-value:event="oninput"/>
+        <textarea class="textarea" @bind-value="@RegexReplaceHandler.ReplacementRegex" @bind-value:event="oninput"/>
     </div>
-    <div class="viewport replace-result">
+    <div class="viewport replace-result panel" id="viewport-replaceresult">
         <div class="viewport-title-bar">
             <h1>Replace Result</h1>
         </div>
-        <p style="margin:3px;">@RegexReplaceHandler.GetReplaceResult()</p>
+        <p>@RegexReplaceHandler.GetReplaceResult()</p>
     </div>
 </div>
 

@@ -1,50 +1,57 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 :root {
-    --col-bg-2: hsl(218, 15%, 7%);
-    --col-bg-1: hsl(218, 10%, 10%);
+    --col-bg-2: hsl(218, 25%, 9%);
+    --col-bg-1: hsl(218, 10%, 5%);
 
-    --col-node-0: hsl(218, 0%, 20%);
+    --col-node-0: hsl(218, 13%, 18%);
+
     --col-node-default: hsl(194, 0%, 50%);
-    --col-node-output: #6bd7d7;
-    --col-node-group: #c478cc;
-    --col-node-text: #d1a6e2;
-    --col-node-or: #8668ff;
-    --col-node-rawregex: #eab048;
-    --col-node-concatenate: #f26382;
-    --col-node-comment: #e4f177;
-    --col-node-anchor: #92f35f;
-    --col-node-whitespace: #d5d0e8;
-    --col-node-quantifier: #eab048;
-    --col-node-reference: #77a1f8;
-    --col-node-characterset: #6afb5f;
-    --col-node-flags: #bde1d7;
-    --col-node-lookaround: #abd4eb;
-    --col-node-wildcard: #e24a35;
 
-    --col-field: hsl(218, 0%, 28%);
+    --col-node-text: hsl(0,100%, 70%);
+    --col-node-wildcard: hsl(24,90%, 68%);
+    --col-node-characterset: hsl(48,80%, 70%);
+    --col-node-anchor: hsl(72,80%, 74%);
+    --col-node-whitespace: hsl(96,80%, 75%);
+    --col-node-comment: hsl(124,80%, 75%);
+    --col-node-or: hsl(147,86%, 73%);
+    --col-node-concatenate: hsl(168,80%, 61%);
+    --col-node-group: hsl(192,80%, 64%);
+    --col-node-quantifier: hsl(216,79%, 70%);
+    --col-node-reference: hsl(240,80%, 75%);
+    --col-node-lookaround: hsl(264,80%, 70%);
+    --col-node-if-else: hsl(275,80%, 70%);
+    --col-node-flags: hsl(288,80%, 70%);
+    --col-node-output: hsl(312,80%, 75%);
+
+    --col-field: hsl(218, 12%, 28%);
     --col-field-editable: hsl(218, 10%, 28%);
 
     --col-noodle: hsl(194, 0%, 50%);
 
     --col-text-strong1: #ffffff;
     --col-text-strong2: #eaeaea;
-    --col-text-medium: #c7c7c7;
+    --col-text-medium: #d0d0d0;
     --col-text-subtle: #acacac;
 
-    --padding-main: 0.4vh;
+    --padding-main: 0vh;
 }
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
+    /*font-family: Consolas, Helvetica, monospace;*/
     color: var(--col-text-medium);
     background-color: var(--col-bg-2);
 }
 
+h1 {
+    font-family: Roboto, sans-serif;
+}
+
 app {
     position: relative;
-    display: flex;
-    flex-direction: column;
+    /*display: flex;
+    flex-direction: column;*/
 }
 
 .main {
@@ -77,6 +84,10 @@ app {
     padding-bottom: 0.5rem !important;
 }
 
+.panel {
+    padding: 7px;
+}
+
 .viewport {
     position: relative;
     overflow: hidden;
@@ -88,11 +99,11 @@ app {
 }
     .viewport h1 {
         font-size: 1.5rem;
-        padding: 5px;
+        /*padding: 5px;*/
     }
 
     .viewport .viewport-title-bar{
-        background-color: rgba(0,0,0,0.2);
+        /*background-color: rgba(0,0,0,0.2);*/
         height: 2.4rem;
     }
 
@@ -103,12 +114,12 @@ app {
     }
 
     .viewport.replace-field {
-        resize: horizontal;
         width: 30%;
+        display: flex;
+        flex-direction: column;
     }
 
     .viewport.search-text {
-        resize: horizontal;
         width: 40%;
         display: flex;
         flex-direction: column;
@@ -135,7 +146,7 @@ app {
     background-color: var(--col-node-default);
     /*border-radius: 6px;*/
     border: none;
-    width: -webkit-fill-available;
+    width: 100%;
     white-space: nowrap;
     margin: 3px;
 }
@@ -151,10 +162,17 @@ app {
 }
 
 .sidebar {
-    background-color: var(--col-bg-2);
+    background-color: hsl(218, 27%, 13%);
     width: 7%;
-    margin: var(--padding-main);
+    /*margin: var(--padding-main);*/
     overflow: auto;
+    /*padding: 5px;*/
+    /*background-clip: content-box;*/
+    z-index: 9;
+    box-shadow: 3px 0 17px #00000055;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
     .sidebar .top-row {
@@ -170,6 +188,13 @@ app {
         font-size: 1.1rem;
         vertical-align: text-top;
         top: -2px;
+    }
+
+    .sidebar .separator {
+        width: 96%;
+        /*margin: 6px auto 11px auto;*/
+        height: 2px;
+        background-color: hsl(213, 11%, 19%);
     }
 
 .nav-item {
@@ -230,13 +255,18 @@ app {
 
 input {
     background-color: var(--col-field);
-    color: var(--col-text-strong1);
+    color: var(--col-text-medium);
     border: none;
 }
 
-textarea {
-    background-color: var(--col-field);
+.textarea {
+    /*background-color: var(--col-field);*/
     color: var(--col-text-medium);
+    width: 100%;
+    background-color: hsla(0, 0%, 0%, 0.09);
+    border: 2px solid #00000030;
+    resize: none;
+    flex: 1;
 }
 
 /*.search-text-container, .search-text-backdrop, search-textarea {
@@ -246,9 +276,9 @@ textarea {
 
 
 .search-text-highlight, .search-textarea {
-    padding: 7px;
-    font: 20px/28px Consolas, monospace;
+    padding: 0px;
     /*letter-spacing: 1px;*/
+    line-height: 26px;
     width: 100%;
     background-color: transparent;
     resize: none;
@@ -263,7 +293,7 @@ textarea {
     display: block;
     position: absolute;
     height: 100%;
-    color: #444;
+    color: var(--col-text-medium);
     resize: none;
     border: none;
     white-space: pre-wrap;
@@ -279,8 +309,8 @@ textarea {
 
     .search-text-highlight span, .search-text-highlight mark {
         white-space: pre-wrap;
-        font-size: 20px;
-        line-height: 28px;
+        font-size: 1rem;
+        line-height: 26px;
     }
 
 .search-text-container {
@@ -290,6 +320,7 @@ textarea {
     -webkit-text-size-adjust: none;
     width: 100%;
     overflow: auto;
+    position: relative;
 }
 
 .search-text-backdrop {
@@ -299,9 +330,9 @@ textarea {
 }
 
 mark {
-    border-radius: 3px;
-    background-color: #a3c5d4;
-    color: inherit;
+    border-radius: 4px;
+    background-color: #065e61;
+    color: transparent;
     padding: 0;
 }
 

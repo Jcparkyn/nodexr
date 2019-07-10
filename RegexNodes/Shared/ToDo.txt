@@ -2,9 +2,6 @@
 Bugs:
 	
 
-//Node collapsing
-Automatically bring last touched node to top
-
 Nodes:
 	- //Flags
 	- //Wildcard
@@ -15,20 +12,21 @@ Nodes:
 		- toggle options
 			- Start/end of line/string (\A \Z)
 			- Word boundary
-			- 
-		- start
 	- //Character Range?
 	- //Character Set (class)
 		- //invert
 		- Fix escaping issues (.)
 	- //Group - custom
 	- If - expression (?(exp)yes|no)
+		- Add support for procedural expressions
 	- //Quantifier - check if already grouped
 	- //Lookaround
 	- //Output - built in concat
 
+//Node collapsing
+Automatically bring last touched node to top
 //Info Tooltips
-Selection/Deletion
+//Selection/Deletion
 Undo/Redo
 Validation
 //Highlight matches
@@ -44,4 +42,4 @@ Options panel
 	- Autoevaluate?
 	- Parse regex?
 
-Use attributes to get list of node inputs
+//Use attributes to get list of node inputs

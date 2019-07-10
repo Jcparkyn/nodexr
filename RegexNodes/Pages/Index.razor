@@ -4,21 +4,34 @@
 @using RegexNodes.Shared.Components;
 @inject INodeDragService NodeDragService
 @inject INodeHandler  NodeHandler
+@inject IJSRuntime JSRuntime
 
 @{Console.WriteLine("Updating Index"); }
-<div>
+
+<div style="background-color: hsl(218, 18%, 18%);
+    box-shadow: 0px 4px 7px #00000033;
+    z-index: 10;">
     <OutputDisplay />
-    <NodeBin />
+    @*<NodeBin />*@
 </div>
 
-<div style="display:flex; flex-direction:row; resize:vertical; overflow:hidden; height:80%;">
+<div id="mainpanels" style="display:flex; flex-direction:row;">
     <NodeList />
+    @*<div style="width:6px; height:100%;"></div>*@
     <NodeGraph />
 </div>
 
 <BottomPanels />
 
 @functions{
+
+    protected override void OnAfterRender()
+    {
+        base.OnAfterRender();
+        JSRuntime.InvokeAsync<object>(
+            "jsFunctions.blazorHasRendered");
+    }
+
     protected void Refresh()
     {
         StateHasChanged();

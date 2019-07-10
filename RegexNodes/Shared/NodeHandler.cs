@@ -14,12 +14,15 @@ namespace RegexNodes.Shared
 
         event Action OnOutputHasChanged;
         Action OnNodeCountChanged { get; set; }
+        INode SelectedNode { get; set; }
+        Action OnRequireNodeGraphRefresh { get; set; }
 
         void AddNode<T>(bool refreshIndex = true) where T : Node, new();
         void AddNode(INode node, bool refreshIndex = true);
         void DeleteNode(INode node, bool refreshIndex = true);
         OutputNode GetOutputNode();
         Task RecalculateOutput();
+        void DeleteSelectedNode();
     }
 
     public class NodeHandler : INodeHandler
@@ -27,16 +30,25 @@ namespace RegexNodes.Shared
         public string CachedOutput { get; private set; } = "";
 
         public List<INode> Nodes { get; set; } = new List<INode>();
+        public INode SelectedNode { get; set; }
 
         public event Action OnOutputHasChanged;
         public Action OnNodeCountChanged { get; set; }
         public Action OnRequireNoodleRefresh { get; set; }
+        public Action OnRequireNodeGraphRefresh { get; set; }
 
         public async Task RecalculateOutput()
         {
-            Console.WriteLine("Recalculating");
-
-            string output = await Task.Run(GetOutputNode().GetValue);
+            string output;
+            OutputNode outputNode = GetOutputNode();
+            if (outputNode != null)
+            {
+                output = await Task.Run(outputNode.GetValue); 
+            }
+            else
+            {
+                output = "";
+            }
 
             if (output != CachedOutput)
             {
@@ -47,14 +59,14 @@ namespace RegexNodes.Shared
 
         public OutputNode GetOutputNode()
         {
-            return (OutputNode)(Nodes.First(x => x is OutputNode));
+            return (OutputNode)(Nodes.FirstOrDefault(x => x is OutputNode));
         }
 
         public void AddNode<T>(bool refreshIndex = true) where T : Node, new()
         {
             Node newNode = new T();
             newNode.CalculateInputsPos();
-            AddNode(newNode);
+            AddNode(newNode, refreshIndex);
         }
 
         public void AddNode(INode node, bool refreshIndex = true)
@@ -74,6 +86,14 @@ namespace RegexNodes.Shared
             if (refreshIndex)
             {
                 OnNodeCountChanged?.Invoke();
+            }
+        }
+
+        public void DeleteSelectedNode()
+        {
+            if (SelectedNode != null)
+            {
+                DeleteNode(SelectedNode, false); 
             }
         }
 

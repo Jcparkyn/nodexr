@@ -10,9 +10,9 @@ window.panzoom = {
         event.preventDefault();
         var element = event.target;
         var mousePosRelative = this.clientToGraphPos(event.clientX, event.clientY);
-        console.log("Client: " + event.clientX + ", " + event.clientY);
-        console.log("Offset: " + event.offsetX + ", " + event.offsetY);
-        console.log("Local: " + mousePosRelative[0] + ", " + mousePosRelative[1]);
+        //console.log("Client: " + event.clientX + ", " + event.clientY);
+        //console.log("Offset: " + event.offsetX + ", " + event.offsetY);
+        //console.log("Local: " + mousePosRelative[0] + ", " + mousePosRelative[1]);
 
         this.zoomAt(window.innerWidth * 0.45, window.innerHeight*0.35, 1 - event.deltaY * 0.0007);
         //this.zoomAt(event.offsetX, event.offsetY, 1 - event.deltaY * 0.001);
