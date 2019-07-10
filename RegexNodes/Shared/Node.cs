@@ -113,7 +113,7 @@ namespace RegexNodes.Shared
                             startHeight += inputHeight;
                             break;
                         case InputCollection input1:
-                            startHeight += 30;
+                            startHeight += 28;
                             input1.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
                             foreach (var input2 in input1.Inputs)
                             {
