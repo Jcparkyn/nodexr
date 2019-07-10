@@ -13,5 +13,7 @@ The output expression will be empty unless one or more nodes are connected to th
 ## Nodes
 Information about each node can be found by clicking the **(i)** button next to its title.
 
+To use any Regex functionality that cannot be implemented with the provided nodes, create a *Text* node with 'escape' disabled to input parts of the expression manually.
+
 ## Replacement
 Use the bottom 3 panels to test a string for searching and/or replacement. Any valid Regex replacement string can be used here, including named and/or numbered group references. The bottom right panel shows the result after replacement.
