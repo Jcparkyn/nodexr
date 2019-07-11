@@ -25,7 +25,7 @@ namespace RegexNodes.Shared.NodeTypes
 
         public WildcardNode()
         {
-            Func<bool> isAllowAllUnchecked = () => !InputAllowAll.IsChecked;
+            bool isAllowAllUnchecked() => !InputAllowAll.IsChecked;
             InputAllowWhitespace.IsEnabled = isAllowAllUnchecked;
             InputAllowUnderscore.IsEnabled = isAllowAllUnchecked;
             InputAllowLetters.IsEnabled = isAllowAllUnchecked;
@@ -88,32 +88,40 @@ namespace RegexNodes.Shared.NodeTypes
                 //If "Other" is unchecked, use a normal class
                 else
                 {
-                    string charsToInclude = "";
+                    var charsToInclude = new List<string>();
 
                     if (allowWhitespace)
                     {
-                        charsToInclude += @"\s";
+                        charsToInclude.Add(@"\s");
                     }
 
                     if(allowLetters && allowDigits && allowUnderscore){
-                        charsToInclude += @"\w";
+                        charsToInclude.Add(@"\w");
                     }
                     else
                     {
                         if (allowUnderscore)
                         {
-                            charsToInclude += @"_";
+                            charsToInclude.Add(@"_");
                         }
                         if (allowLetters)
                         {
-                            charsToInclude += @"a-zA-Z";
+                            charsToInclude.Add(@"a-zA-Z");
                         }
                         if (allowDigits)
                         {
-                            charsToInclude += @"\d";
+                            charsToInclude.Add(@"\d");
                         }
                     }
-                    result = "[" + charsToInclude + "]";
+
+                    if (charsToInclude.Count > 1)
+                    {
+                        result = "[" + string.Join("", charsToInclude) + "]";
+                    }
+                    else
+                    {
+                        result = charsToInclude.FirstOrDefault();
+                    }
                 }
             }
             return UpdateCache(result);

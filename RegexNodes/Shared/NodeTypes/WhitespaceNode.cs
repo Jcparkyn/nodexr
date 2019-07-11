@@ -29,6 +29,11 @@ namespace RegexNodes.Shared.NodeTypes
             if (InputCR.IsChecked) charsToAllow.Add("\\r");
             if (InputLF.IsChecked) charsToAllow.Add("\\n");
 
+            if (charsToAllow.Count == 4)
+            {
+                return UpdateCache("\\s");
+            }
+
             string charsConverted = string.Join("", charsToAllow);
             if (charsToAllow.Count > 1)
             {

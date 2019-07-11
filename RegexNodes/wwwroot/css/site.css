@@ -168,7 +168,7 @@ app {
     overflow: auto;
     /*padding: 5px;*/
     /*background-clip: content-box;*/
-    z-index: 9;
+    z-index: 1;
     box-shadow: 3px 0 17px #00000055;
     display: flex;
     flex-direction: column;
