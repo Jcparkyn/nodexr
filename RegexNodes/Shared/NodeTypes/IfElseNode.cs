@@ -5,8 +5,8 @@ namespace RegexNodes.Shared.NodeTypes
     public class IfElseNode : Node
     {
         public override string Title => "If-Else";
-        public override string NodeInfo => "Matches either of two expressions, depending on whether the 'if' expression has matched. " +
-            "\nIf the name or number of a captured group is used as the 'if' expression, it will be considered to have matched if the group it references was matched.";
+        public override string NodeInfo => "Matches either of two expressions, depending on whether the 'Condition' expression has matched. " +
+            "\nIf the name or number of a captured group is used as the 'Condition' expression, it will be considered to have matched if the group it references was matched.";
 
 
         //[NodeInput]
