@@ -11,47 +11,54 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputProcedural InputNode { get; } = new InputProcedural() { Title = "Input" };
         [NodeInput]
-        protected InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "minimum:" };
+        protected InputDropdown InputCount { get; } = new InputDropdown(
+            "Zero or more",
+            "One or more",
+            "Zero or one",
+            "Number",
+            "Range") { Title = "search type:" };
         [NodeInput]
-        protected InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "maximum:" };
+        protected InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
         [NodeInput]
-        protected InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy") { Title = "search type:" };
+        protected InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
+        [NodeInput]
+        protected InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+        [NodeInput]
+        protected InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy") { Title = "Search type:" };
+
+        public Quantifier()
+        {
+            InputNumber.IsEnabled = () => InputCount.DropdownValue == "Number";
+            InputMin.IsEnabled = () => InputCount.DropdownValue == "Range";
+            InputMax.IsEnabled = () => InputCount.DropdownValue == "Range";
+        }
 
         public override string GetValue()
         {
-            string suffix;
-            int min = InputMin.GetValue() ?? 0;
-            int? max = InputMax.GetValue();
+            string suffix = "";
+            //int min = InputMin.GetValue() ?? 0;
+            //int? max = InputMax.GetValue();
 
-            if (min == 0 && max == 1)
+            switch (InputCount.DropdownValue)
             {
-                suffix = "?";
-            }
-            else if (min == 0 && max == null)
-            {
-                suffix = "*";
-            }
-            else if (min == 1 && max == null)
-            {
-                suffix = "+";
-            }
-            else if (min == max)
-            {
-                suffix = "{" + min + "}";
-            }
-            //else if (max == 0)
-            else
-            {
-                suffix = $"{{{min},{max}}}";
+                case "Zero or more": suffix = "*"; break;
+                case "One or more": suffix = "+"; break;
+                case "Zero or one": suffix = "?"; break;
+                case "Number": suffix = $"{{{InputNumber.InputContents}}}"; break;
+                case "Range":
+                    int min = InputMin.GetValue() ?? 0;
+                    int? max = InputMax.GetValue();
+                    suffix = $"{{{min},{max}}}";
+                    break;
             }
 
-            if (InputSearchType.DropdownValue == "Lazy" && min != max)
+            if (InputSearchType.DropdownValue == "Lazy")
             {
                 suffix += "?";
             }
 
             string contents = InputNode.GetValue();
-            if (contents.Length > 2 || (contents.Length == 2 && !contents.StartsWith("\\")))
+            if (!contents.IsSingleRegexChar())
             {
                 contents = contents.EnforceGrouped();
             }
