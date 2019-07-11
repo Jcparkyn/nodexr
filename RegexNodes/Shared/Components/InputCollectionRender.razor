@@ -1,46 +1,15 @@
 ﻿@inject INodeHandler NodeHandler
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-
-<style>
-    .add-button{
-        position:relative;
-        margin: 5px 0px 0px 0px;
-        background-color:rgba(200,200,256,0.09);
-        border: none;
-        border-radius: 6px;
-        color: var(--col-text-medium);
-        font-size: 0.9rem;
-    }
-
-    .add-button:hover{
-        background-color:rgba(0,0,0,0.1);
-    }
-    
-    .item-button{
-        position:relative;
-        width: 20px;
-        margin: 5px 0px 0px 0px;
-        background: none;
-        border: none;
-        border-radius: 6px;
-    }
-
-    .item-button:hover{
-        background-color:rgba(0,0,0,0.1);
-    }
-</style>
-
-<button class="add-button" onclick="@AddItem">Add Item</button>
+<button class="add-button" @onclick="@AddItem">Add Item</button>
 @for (int i = 0; i < Data.Inputs.Count; i++)
 {
     var input = Data.Inputs[i];
     int _i = i;
-    <div style="display:flex; height:35px;">
+    <div style="display:flex;">
         <NodeInputRender Data="@input" OnValueChanged="@Data.OnValueChanged"/>
-        <button onclick="@(() => MoveUp(input))" class="item-button"><i class="fas fa-chevron-up"></i></button>
-        <button onclick="@(() => MoveDown(input))" class="item-button"><i class="fas fa-chevron-down"></i></button>
-        <button onclick="@(() => RemoveItem(input))" class="item-button"><i class="fas fa-times"></i></button>
+        <button @onclick="@(() => MoveUp(input))" class="item-button"><i class="fas fa-chevron-up"></i></button>
+        <button @onclick="@(() => MoveDown(input))" class="item-button"><i class="fas fa-chevron-down"></i></button>
+        <button @onclick="@(() => RemoveItem(input))" class="item-button"><i class="fas fa-times"></i></button>
     </div>
 }
 

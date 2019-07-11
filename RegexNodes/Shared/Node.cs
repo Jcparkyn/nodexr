@@ -101,8 +101,8 @@ namespace RegexNodes.Shared
             }
             else
             {
-                int startHeight = 48;
-                int inputHeight = 35;
+                int startHeight = 44;
+                int inputHeight = 32;
                 //TODO: Support disabled inputs
                 foreach (var input in NodeInputs)
                 {
@@ -122,7 +122,7 @@ namespace RegexNodes.Shared
                             }
                             break;
                         default:
-                            startHeight += 59;
+                            startHeight += 50;
                             break;
                     }
                 }
