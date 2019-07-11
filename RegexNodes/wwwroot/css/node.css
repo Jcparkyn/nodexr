@@ -51,10 +51,11 @@
     .node .node-input {
         width: 100%;
         background-color: var(--col-field);
-        padding: 4px;
+        padding: 1px 4px;
         margin-top: 5px;
         border-radius: 6px;
         position: relative;
+        height: 27px;
     }
 
         .node .node-input.procedural {
@@ -65,19 +66,20 @@
             width:auto;
         }
 
-        .node .input-checkbox input {
-            margin: 3px 0px 0px 0px;
-        }
-
     .node .input-checkbox {
         position: relative;
         font-size: 0.9rem;
-        margin-top: 0px;
+        margin-top: 2px;
         margin-left: 2px;
     }
 
-    .input-checkbox:first-of-type {
-        margin-top: 2px;
+    .node .input-checkbox input {
+        vertical-align: middle;
+        margin-bottom: 1px;
+    }
+
+    .input-checkbox ~ .input-checkbox {
+        margin-top: -2px;
     }
 
     .node .input-field {
@@ -85,6 +87,7 @@
         background-color: rgba(0, 0, 0, 0.00);
         border: none;
         color: azure;
+        padding-top: 0px;
     }
 
         .node .input-field select {
@@ -97,7 +100,7 @@
         }
 
     .node .node-input-heading {
-        margin: 5px 0px -5px 3px;
+        margin: 1px 0px -5px 2px;
         font-size: 15px;
         font-style: italic;
         color: var(--col-text-subtle);
@@ -120,7 +123,7 @@
         background-color: var(--col-noodle);
         border-radius: 50%;
         position: absolute;
-        top: 9px;
+        top: 6px;
         left: -9px;
         /*z-index: 11;*/
         box-sizing: content-box;
@@ -183,4 +186,34 @@
         padding-top: 2px;
         padding-bottom: 2px;
         padding-left: 7px;
+    }
+
+
+
+
+.add-button {
+    position: relative;
+    margin: 5px 0px 0px 0px;
+    background-color: rgba(200,200,256,0.09);
+    border: none;
+    border-radius: 6px;
+    color: var(--col-text-medium);
+    font-size: 0.9rem;
+}
+
+    .add-button:hover {
+        background-color: rgba(0,0,0,0.1);
+    }
+
+.item-button {
+    position: relative;
+    width: 20px;
+    margin: 5px 0px 0px 0px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+}
+
+    .item-button:hover {
+        background-color: rgba(0,0,0,0.1);
     }
