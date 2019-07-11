@@ -1,6 +1,7 @@
 ﻿
 Bugs:
-	
+	- Regular updating of node outputs
+	- Regex find/replace doesn't time out
 
 Nodes:
 	- //Flags

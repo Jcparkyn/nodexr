@@ -23,7 +23,6 @@
     </div>
 </div>
 
-
 @functions{
 
     protected int XOffset { get; set; } = 0;
@@ -34,7 +33,8 @@
         base.OnInit();
         var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
         var defaultNode = new ExactString("fox") { Pos = new Vector2L(300, 200) };
-        (defaultOutput.NodeInputs[0] as InputCollection).Inputs[0].InputNode = defaultNode;
+        defaultOutput.NodeInputs.OfType<InputCollection>().First()
+            .Inputs[0].InputNode = defaultNode;
         NodeHandler.Nodes.Add(defaultNode);
         NodeHandler.Nodes.Add(defaultOutput);
         NodeHandler.RecalculateOutput();

@@ -49,7 +49,14 @@ namespace RegexNodes.Shared.NodeTypes
             {
                 suffix += "?";
             }
-            string result = InputNode.GetValue().EnforceGrouped() + suffix;
+
+            string contents = InputNode.GetValue();
+            if (contents.Length > 2 || (contents.Length == 2 && !contents.StartsWith("\\")))
+            {
+                contents = contents.EnforceGrouped();
+            }
+
+            string result = contents + suffix;
             return UpdateCache(result);
         }
     }
