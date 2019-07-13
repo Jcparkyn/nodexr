@@ -1,0 +1,219 @@
+﻿.node {
+    position: absolute;
+    width: 155px;
+    /*padding: 4px;*/
+    border-radius: 8px;
+    box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 0.16);
+    background-color: var(--col-node-0);
+}
+
+    .node.selected {
+        box-shadow: 0 0 0px 1px #ffffffd1;
+    }
+
+    .node .node-title {
+        background-color: var(--col-node-default);
+        /*margin: -4px;*/
+        padding: 2px 4px 0px 4px;
+        /*margin-bottom: 0px;*/
+        border-radius: 8px 8px 0px 0px;
+    }
+        .node .node-title.collapsed {
+            border-radius: 8px
+        }
+        
+        .node .node-title b {
+            color: hsl(0,0%,15%);
+        }
+
+        .node .node-title .collapse-button {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            padding: 0px 2px;
+        }
+
+    .node .icon-button {
+        position: relative;
+        background: none;
+        border: none;
+        color: var(--col-text-medium);
+        font-size: 0.9rem;
+        padding: 01px 0 0 0;
+        outline: 0 !important;
+    }
+
+    .node .node-content {
+        padding: 0px 4px 4px 4px;
+    }
+
+    .node .node-input {
+        width: 100%;
+        background-color: var(--col-field);
+        padding: 1px 4px;
+        margin-top: 5px;
+        border-radius: 6px;
+        position: relative;
+        height: 27px;
+    }
+
+        .node .node-input.procedural {
+            padding-left: 10px;
+        }
+
+        .node .node-input.checkbox {
+            width:auto;
+        }
+
+    .node .input-checkbox {
+        position: relative;
+        font-size: 0.9rem;
+        margin-top: 2px;
+        margin-left: 2px;
+    }
+
+    .node .input-checkbox input {
+        vertical-align: middle;
+        margin-bottom: 1px;
+    }
+
+    .input-checkbox ~ .input-checkbox {
+        margin-top: -2px;
+    }
+
+    .node .input-field {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.00);
+        border: none;
+        color: azure;
+        padding-top: 0px;
+    }
+
+        .node .input-field select {
+            border: none;
+        }
+
+        .node .input-field option {
+            background-color: var(--col-field);
+            border: none;
+        }
+
+    .node .node-input-heading {
+        margin: 1px 0px -5px 2px;
+        font-size: 15px;
+        font-style: italic;
+        color: var(--col-text-subtle);
+    }
+
+    .node .node-drag-region {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        cursor: move;
+        top: 0px;
+        left: -6px;
+        padding: 0px 6px 0px 6px;
+        box-sizing: content-box;
+    }
+
+    .node .node-input-dot {
+        width: 14px;
+        height: 14px;
+        background-color: var(--col-noodle);
+        border-radius: 50%;
+        position: absolute;
+        top: 6px;
+        left: -9px;
+        /*z-index: 11;*/
+        box-sizing: content-box;
+    }
+
+    .node .node-output-dot {
+        width: 14px;
+        height: 14px;
+        background-color: var(--col-noodle);
+        border-radius: 50%;
+        position: absolute;
+        top: 4px;
+        right: -10px;
+        z-index: 1;
+        cursor: copy;
+        box-sizing: content-box;
+        margin: 3px;
+    }
+
+        .node .node-output-dot:hover {
+            margin: 0px;
+            border: 3px solid darkblue;
+        }
+
+        /* Tooltip text */
+        .node .node-output-dot .outputtooltip {
+            visibility: hidden;
+            position: absolute;
+            width: initial;
+            bottom: 90%;
+            background-color: black;
+            color: #fff;
+            text-align: left;
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 6px;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        .node .node-output-dot:hover .outputtooltip {
+            visibility: visible;
+        }
+
+    .node .info-button {
+        float: right;
+        margin: 1px 5px 0 0;
+        color: var(--col-node-0)
+    }
+
+.node-preview {
+    position: relative;
+    margin: 3px 0;
+    width: 100%;
+    cursor: grab;
+    opacity: 0.9;
+}
+
+    .node-preview .node-title {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 7px;
+    }
+
+
+
+
+.add-button {
+    position: relative;
+    margin: 5px 0px 0px 0px;
+    background-color: rgba(200,200,256,0.09);
+    border: none;
+    border-radius: 6px;
+    color: var(--col-text-medium);
+    font-size: 0.9rem;
+}
+
+    .add-button:hover {
+        background-color: rgba(0,0,0,0.1);
+    }
+
+.item-button {
+    position: relative;
+    width: 20px;
+    margin: 5px 0px 0px 0px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+}
+
+    .item-button:hover {
+        background-color: rgba(0,0,0,0.1);
+    }

@@ -1,0 +1,120 @@
+<div class="main">
+
+    <div class="content">
+        <div style="display:flex; flex-direction:row;">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+            <div style="margin:7px;" ondragover="event.preventDefault()">
+                    
+                <i class="fas fa-trash" style="font-size:30px;"></i>
+            </div>
+            <h3 style="margin:7px;">Output: </h3>
+        </div>
+
+        <div style="display:flex; flex-direction:row; resize:vertical; overflow:hidden; height:70%;">
+            <div class="viewport sidebar">
+                <div class="viewport-title-bar">
+                    <h1>Add Nodes:</h1>
+                </div>
+
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        ExactString
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        OrNode
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        RegexRaw
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        ConcatNode
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        GroupNode
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        CommentNode
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        AnchorNode
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        WhitespaceNode
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        Quantifier
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        Backreference
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        OutputNode
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        CharSet
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        FlagNode
+                    </b>
+                </button>
+                <button class="button-add-node" draggable="true">
+                    <b>
+                        Lookaround
+                    </b>
+                </button>
+            </div>
+            <div class="viewport nodegraph" onwheel="panzoom.zoom(event)" onmousedown="panzoom.startPan(event)" ondragover="event.preventDefault()">
+                <div id="nodegraph" style="position: relative; transform-origin: 0% 0%; width: 0px; height: 0px; transform: translate(0px, 0px) scale(1);">
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-panels">
+            <div class="viewport search-text">
+                <div class="viewport-title-bar">
+                    <h1>Search Text</h1>
+                </div>
+                <textarea style="width:100%; flex:1; background-color:transparent; resize:none;"></textarea>
+            </div>
+            <div class="viewport replace-field">
+                <div class="viewport-title-bar">
+                    <h1>Replacement Regex</h1>
+                </div>
+                <input type="text" style="width:-webkit-fill-available; margin:4px; background-color:rgba(256,256,256,0.03);">
+            </div>
+            <div class="viewport replace-result">
+                <div class="viewport-title-bar">
+                    <h1>Replace Result</h1>
+                </div>
+                <p style="margin:3px;">Lorem Ipsum</p>
+            </div>
+        </div>
+
+
+    </div>
+</div>
