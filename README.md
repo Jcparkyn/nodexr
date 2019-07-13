@@ -1,6 +1,6 @@
 # Nodexr
 Nodexr (previously RegexNodes) is a node-based Regular Expression editor, created in C# and Blazor.
-__A build of the app is available [here](https://jcparkyn.github.io/nodexr).__
+__Nodexr is published [here](https://jcparkyn.github.io/nodexr).__
 
 Currently it is based on the .NET Regex flavour, although there is potential to allow the user to easily switch between flavours while using the same nodes.
 
