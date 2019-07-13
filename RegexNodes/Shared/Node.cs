@@ -59,9 +59,9 @@ namespace RegexNodes.Shared
                     .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)))
                     .Select(prop => prop.GetValue(this) as INodeInput)
                     .ToList();
-            //Console.WriteLine("Properties: " + GetType().GetProperties(BindingFlags.NonPublic).Length);
-            //Console.WriteLine("Title: " + inputs[0].Title);
+            
             nodeInputs = inputs;
+            UpdateCache(GetValue());
         }
 
         [Obsolete("Update cache in derived class instead")]
