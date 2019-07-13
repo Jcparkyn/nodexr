@@ -18,6 +18,12 @@ namespace RegexNodes.Shared.NodeTypes
 
         public override string GetValue()
         {
+            //check whether nothing is connected to this node.
+            if (!Inputs.Inputs.Exists(input => input.InputNode != null))
+            {
+                return UpdateCache("Nothing connected to Output node");
+            }
+
             string result = "";
             if(InputStartsAt.DropdownValue == "Start of line")
             {
@@ -42,7 +48,7 @@ namespace RegexNodes.Shared.NodeTypes
                 result += "\\b";
             }
             CachedValue = result;
-            return result;
+            return UpdateCache(result);
         }
     }
 }

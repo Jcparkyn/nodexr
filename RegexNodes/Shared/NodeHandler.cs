@@ -21,7 +21,7 @@ namespace RegexNodes.Shared
         void AddNode(INode node, bool refreshIndex = true);
         void DeleteNode(INode node, bool refreshIndex = true);
         OutputNode GetOutputNode();
-        Task RecalculateOutput();
+        void RecalculateOutput();
         void DeleteSelectedNode();
     }
 
@@ -37,17 +37,17 @@ namespace RegexNodes.Shared
         public Action OnRequireNoodleRefresh { get; set; }
         public Action OnRequireNodeGraphRefresh { get; set; }
 
-        public async Task RecalculateOutput()
+        public void RecalculateOutput()
         {
             string output;
             OutputNode outputNode = GetOutputNode();
             if (outputNode != null)
             {
-                output = await Task.Run(outputNode.GetValue); 
+                output = outputNode.GetValue();
             }
             else
             {
-                output = "";
+                output = "Add an 'Output' node to get started";
             }
 
             if (output != CachedOutput)
@@ -72,6 +72,12 @@ namespace RegexNodes.Shared
         public void AddNode(INode node, bool refreshIndex = true)
         {
             Nodes.Add(node);
+
+            if(node is OutputNode)
+            {
+                //
+                RecalculateOutput();
+            }
             if (refreshIndex)
             {
                 OnNodeCountChanged?.Invoke();
@@ -83,6 +89,7 @@ namespace RegexNodes.Shared
         {
             DeleteOutputNoodles(nodeToRemove);
             Nodes.Remove(nodeToRemove);
+            Task.Run(RecalculateOutput);
             if (refreshIndex)
             {
                 OnNodeCountChanged?.Invoke();
