@@ -16,7 +16,7 @@ namespace RegexNodes.Shared.NodeTypes
             "One or more",
             "Zero or one",
             "Number",
-            "Range") { Title = "search type:" };
+            "Range") { Title = "Repetitions:" };
         [NodeInput]
         protected InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
         [NodeInput]
