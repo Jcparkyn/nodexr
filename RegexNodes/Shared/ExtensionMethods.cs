@@ -5,9 +5,9 @@ namespace RegexNodes.Shared
 {
     public static class ExtensionMethods
     {
-        public static Vector2L GetClientPos(this Microsoft.AspNetCore.Components.UIDragEventArgs e)
+        public static Vector2L GetClientPos(this Microsoft.AspNetCore.Components.Web.DragEventArgs e)
         {
-            return new Vector2L(e.ClientX, e.ClientY);
+            return new Vector2L((long)e.ClientX, (long)e.ClientY);
         }
 
         public static string RemoveNonCapturingGroup(this string input)

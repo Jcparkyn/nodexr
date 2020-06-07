@@ -67,13 +67,13 @@
 
 
 @functions{
-    [Parameter] protected INodeInput Data { get; set; }
-    [Parameter] protected Action OnValueChanged { get; set; }
-    [Parameter] protected Action OnInputsChanged { get; set; }
+    [Parameter] public INodeInput Data { get; set; }
+    [Parameter] public Action OnValueChanged { get; set; }
+    [Parameter] public Action OnInputsChanged { get; set; }
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
-        base.OnInit();
+        //base.OnInit();
         Data.OnValueChanged = OnValueChanged;
     }
 }

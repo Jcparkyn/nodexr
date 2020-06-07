@@ -12,9 +12,9 @@
 </div>
 
 @functions{
-    [Parameter] protected INode Data { get; set; }
+    [Parameter] public INode Data { get; set; }
     //ondrag="noodle.dragNoodle()"
-    void OnDragStart(UIDragEventArgs e)
+    void OnDragStart(DragEventArgs e)
     {
         //TODO: Set drag image
         //e.DataTransfer.EffectAllowed = "none";

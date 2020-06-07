@@ -8,11 +8,11 @@
     public const string invalidClass = "noodle noodle-invalid";
 
     [Parameter]
-    protected Vector2L StartPoint { get; set; }
+    public Vector2L StartPoint { get; set; }
     [Parameter]
-    protected Vector2L EndPoint { get; set; }
+    public Vector2L EndPoint { get; set; }
     [Parameter]
-    protected string DomId { get; set; } = "";
+    public string DomId { get; set; } = "";
 
     public bool Valid { get; set; } = true;
     public bool Enabled { get; set; } = true;

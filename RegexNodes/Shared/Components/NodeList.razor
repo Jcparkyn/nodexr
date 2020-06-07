@@ -34,32 +34,6 @@
         new OutputNode(),
     };
 
-    protected override void OnInit()
-    {
-        base.OnInit();
-
-
-
-        //nodeTypes = new Type[]
-        //{
-        //    typeof(ExactString),
-        //    typeof(OrNode),
-        //    typeof(RegexRaw),
-        //    typeof(ConcatNode),
-        //    typeof(GroupNode),
-        //    typeof(CommentNode),
-        //    typeof(AnchorNode),
-        //    typeof(WhitespaceNode),
-        //    typeof(Quantifier),
-        //    typeof(Backreference),
-        //    typeof(OutputNode),
-        //    typeof(CharSet),
-        //    typeof(FlagNode),
-        //    typeof(Lookaround),
-        //    typeof(WildcardNode),
-        //};
-    }
-
     void AddNode(Type type)
     {
         INode node = (INode)Activator.CreateInstance(type);

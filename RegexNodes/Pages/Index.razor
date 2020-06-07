@@ -25,9 +25,9 @@
 
 @functions{
 
-    protected override void OnAfterRender()
+    protected override void OnAfterRender(bool firstRender)
     {
-        base.OnAfterRender();
+        //base.OnAfterRender();
         JSRuntime.InvokeAsync<object>(
             "jsFunctions.blazorHasRendered");
     }

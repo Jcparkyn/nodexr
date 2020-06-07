@@ -14,8 +14,8 @@
 }
 
 @functions{
-    [Parameter] protected InputCollection Data { get; set; }
-    [Parameter] protected Action OnInputsChanged { get; set; }
+    [Parameter] public InputCollection Data { get; set; }
+    [Parameter] public Action OnInputsChanged { get; set; }
 
     void AddItem()
     {

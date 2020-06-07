@@ -16,7 +16,7 @@
 
 
 @functions {
-    [Parameter] protected INode Data { get; set; }
+    [Parameter] public INode Data { get; set; }
 
     string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
 
@@ -24,11 +24,11 @@
     {
         //Console.WriteLine("Showing Modal");
         var modalParameters = new ModalParameters();
-        modalParameters.Add("InfoText", Data.NodeInfo);
-        Modal.Show(Data.Title, typeof(NodeInfo), modalParameters);
+        modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
+        Modal.Show<NodeInfo>(Data.Title, modalParameters);
     }
 
-    void StartNodeDrag(UIDragEventArgs e)
+    void StartNodeDrag(DragEventArgs e)
     {
         INode newNode = (INode)Activator.CreateInstance(Data.GetType());
         NodeHandler.AddNode(newNode, refreshIndex: false);

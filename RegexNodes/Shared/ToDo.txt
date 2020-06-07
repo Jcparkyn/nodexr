@@ -36,6 +36,10 @@ Panning/zooming
 	- //max/min zoom level
 	- //zoom to centre
 	- //Node drag incorporate zoom level
+Previous node as input
+Regex parsing
+Modal colors
+Copy output
 Options panel
 	- Flavour
 	- Start/end
