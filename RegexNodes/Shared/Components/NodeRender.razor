@@ -56,8 +56,8 @@
 
 
 @functions{
-    [Parameter] protected INode Data { get; set; }
-    //[Parameter] protected int NodeId { get; set; }
+    [Parameter] public INode Data { get; set; }
+    //[Parameter] public int NodeId { get; set; }
 
     string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
     string CssClass => "node" + (NodeHandler.SelectedNode == Data ? " selected" : "");
@@ -73,8 +73,8 @@
     {
         //Console.WriteLine("Showing Modal");
         var modalParameters = new ModalParameters();
-        modalParameters.Add("InfoText", Data.NodeInfo);
-        Modal.Show(Data.Title, typeof(NodeInfo), modalParameters);
+        modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
+        Modal.Show(typeof(NodeInfo), Data.Title, modalParameters);
     }
 
     void Select()

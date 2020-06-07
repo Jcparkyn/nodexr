@@ -23,9 +23,9 @@
 }
 
 @functions {
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
-        base.OnInit();
+        //base.OnInit();
         NodeHandler.OnRequireNoodleRefresh += Refresh;
     }
 
@@ -34,5 +34,5 @@
         StateHasChanged();
     }
 
-    [Parameter] protected IEnumerable<INode> Nodes { get; set; }
+    [Parameter] public IEnumerable<INode> Nodes { get; set; }
 }
