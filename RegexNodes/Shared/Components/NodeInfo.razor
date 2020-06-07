@@ -1,12 +1,13 @@
 @inject IModalService ModalService
+
 <p style="white-space: pre-wrap;">@InfoText</p>
 
 @functions {
-    [CascadingParameter] ModalParameters Parameters { get; set; }
-    string InfoText { get; set; }
+    //[CascadingParameter] ModalParameters Parameters { get; set; }
+    [Parameter] public string InfoText { get; set; }
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
-        InfoText = Parameters.Get<string>("InfoText");
+        //InfoText = Parameters.Get<string>("InfoText");
     }
 }

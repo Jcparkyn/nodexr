@@ -28,9 +28,9 @@
     protected int XOffset { get; set; } = 0;
     //OutputDisplay outputDisplay;
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
-        base.OnInit();
+        //base.OnInit();
         var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
         var defaultNode = new ExactString("fox") { Pos = new Vector2L(300, 200) };
         defaultOutput.NodeInputs.OfType<InputCollection>().First()
@@ -54,7 +54,7 @@
         NodeHandler.Nodes.Add(newNode);
     }
 
-    void DeleteSelectedNode(UIKeyboardEventArgs e)
+    void DeleteSelectedNode(KeyboardEventArgs e)
     {
         if (e.Key == "Delete")
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using RegexNodes.Shared.Components;
 using System;
@@ -12,13 +13,13 @@ namespace RegexNodes.Shared
         NodeDragService.DragType CurDragType { get; set; }
         //TempNoodleEnd NoodleEnd { get; set; }
         NoodleSvg TempNoodle { get; set; }
-        void OnStartNodeDrag(INode nodeToDrag, UIDragEventArgs e);
-        void OnStartNoodleDrag(INode nodeToDrag, UIDragEventArgs e);
-        void OnDrag(UIDragEventArgs e);
-        void OnDrop(UIDragEventArgs e);
+        void OnStartNodeDrag(INode nodeToDrag, DragEventArgs e);
+        void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e);
+        void OnDrag(DragEventArgs e);
+        void OnDrop(DragEventArgs e);
         void OnDropNoodle(InputProcedural nodeInput);
         //void OnDeleteNode();
-        Task OnStartCreateNodeDrag(INode nodeToDrag, UIDragEventArgs e);
+        Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e);
     }
 
     public class NodeDragService : INodeDragService
@@ -47,14 +48,14 @@ namespace RegexNodes.Shared
         Vector2L cursorStartPos;
 
 
-        public void OnStartNodeDrag(INode nodeToDrag, UIDragEventArgs e)
+        public void OnStartNodeDrag(INode nodeToDrag, DragEventArgs e)
         {
             NodeToDrag = nodeToDrag;
             CurDragType = DragType.Node;
             cursorStartPos = e.GetClientPos();
         }
 
-        public async Task OnStartCreateNodeDrag(INode nodeToDrag, UIDragEventArgs e)
+        public async Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e)
         {
             NodeToDrag = nodeToDrag;
             CurDragType = DragType.Node;
@@ -66,7 +67,7 @@ namespace RegexNodes.Shared
             NodeToDrag.Pos = new Vector2L(x-75, y-15);
         }
 
-        public void OnStartNoodleDrag(INode nodeToDrag, UIDragEventArgs e)
+        public void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e)
         {
             CurDragType = DragType.Noodle;
             NodeToDrag = nodeToDrag;
@@ -83,7 +84,7 @@ namespace RegexNodes.Shared
             //TempNoodle.Refresh();
         }
 
-        public void OnDrag(UIDragEventArgs e)
+        public void OnDrag(DragEventArgs e)
         {
 
             if (CurDragType == DragType.Noodle)
@@ -95,7 +96,7 @@ namespace RegexNodes.Shared
             }
         }
 
-        public void OnDrop(UIDragEventArgs e)
+        public void OnDrop(DragEventArgs e)
         {
             if (CurDragType == DragType.Node)
             {

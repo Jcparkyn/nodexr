@@ -27,9 +27,9 @@
 </div>
 
 @functions{
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
-        base.OnInit();
+        //base.OnInit();
         NodeHandler.OnOutputHasChanged += StateHasChanged;
     }
 

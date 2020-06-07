@@ -17,8 +17,8 @@
     </div>
 </div>
 @functions {
-    [Parameter] protected string Text { get; set; }
-    [Parameter] protected MatchCollection Matches { get; set; }
+    [Parameter] public string Text { get; set; }
+    [Parameter] public MatchCollection Matches { get; set; }
 
 
     public List<(string text, bool isMatch)> Substrings
