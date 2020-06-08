@@ -74,10 +74,13 @@ app {
 }
 
 .blazored-modal {
-    /*color: #1b1b1b;*/
-    background-color:var(--col-bg-1) !important;
+    background-color:var(--col-bg-2) !important;
     border:none !important;
     width:40rem !important;
+}
+
+.blazored-modal-close {
+    color: var(--col-text-medium) !important;
 }
 
 .blazored-modal-header {
