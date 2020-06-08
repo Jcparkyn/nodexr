@@ -1,7 +1,11 @@
-﻿@inject  INodeHandler NodeHandler
+﻿@inject INodeHandler NodeHandler
 
 @foreach (var node in Nodes)
 {
+    if (node.PreviousNode.InputNode != null)
+    {
+        <NoodleSvg StartPoint="node.PreviousNode.InputNode.OutputPos" EndPoint="node.PreviousNode.Pos" />
+    }
     foreach (var input in node.NodeInputs)
     {
         switch (input)

@@ -27,7 +27,7 @@ namespace RegexNodes.Shared.NodeTypes
             CustomPrefix.IsEnabled = (() => InputGroupType.DropdownValue == "Custom");
         }
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             string input = Input.GetValue().RemoveNonCapturingGroup();
             string prefix = "";

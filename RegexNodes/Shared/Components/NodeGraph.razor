@@ -32,9 +32,8 @@
     {
         //base.OnInit();
         var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
-        var defaultNode = new ExactString("fox") { Pos = new Vector2L(300, 200) };
-        defaultOutput.NodeInputs.OfType<InputCollection>().First()
-            .Inputs[0].InputNode = defaultNode;
+        var defaultNode = new TextNode("fox") { Pos = new Vector2L(300, 200) };
+        defaultOutput.PreviousNode.InputNode = defaultNode;
         NodeHandler.Nodes.Add(defaultNode);
         NodeHandler.Nodes.Add(defaultOutput);
         NodeHandler.RecalculateOutput();

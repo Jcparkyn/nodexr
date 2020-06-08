@@ -12,7 +12,7 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputCollection Inputs { get; } = new InputCollection() { Title = "Inputs" };
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             //string result = $"(?:{Input1.GetValue()}|{Input2.GetValue()})";
             string result = @"(?:";

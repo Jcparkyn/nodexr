@@ -8,7 +8,8 @@ namespace RegexNodes.Shared
 {
     public interface INode : IPositionable
     {
-        string GetValue();
+        //protected string GetValue();
+        string GetOutput();
         string Title { get; }
         string NodeInfo { get; }
         bool IsCollapsed { get; set; }
@@ -19,6 +20,7 @@ namespace RegexNodes.Shared
         List<INodeInput> NodeInputs { get; }
 
         Vector2L OutputPos { get; }
+        InputProcedural PreviousNode { get; }
 
         void MoveBy(long x, long y);
         void MoveBy(Vector2L delta);
@@ -38,6 +40,7 @@ namespace RegexNodes.Shared
                 CalculateInputsPos();
             }
         }
+        public InputProcedural PreviousNode { get; } = new InputProcedural();
 
         private readonly List<INodeInput> nodeInputs;
         public virtual List<INodeInput> NodeInputs => nodeInputs;
@@ -54,13 +57,11 @@ namespace RegexNodes.Shared
 
         public Node()
         {
-            //Console.WriteLine("Running node ctor");
-            var inputs = GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance)
+            nodeInputs = GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance)
                     .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)))
                     .Select(prop => prop.GetValue(this) as INodeInput)
                     .ToList();
             
-            nodeInputs = inputs;
             UpdateCache(GetValue());
         }
 
@@ -79,6 +80,7 @@ namespace RegexNodes.Shared
         public void CalculateInputsPos()
         {
             //TODO: refactor using GetHeight() on each input
+            PreviousNode.Pos = new Vector2L(Pos.x + 2, Pos.y + 13);
             if (IsCollapsed)
             {
                 int startHeight = 13;
@@ -135,8 +137,6 @@ namespace RegexNodes.Shared
             return result;
         }
 
-        //public NodeOutput NodeOutput { get; set; } = new NodeOutput();
-
         public void MoveBy(long x, long y)
         {
             Pos = new Vector2L(Pos.x + x, Pos.y + y);
@@ -144,8 +144,12 @@ namespace RegexNodes.Shared
         }
         public void MoveBy(Vector2L delta) => MoveBy(delta.x, delta.y);
 
-        
+        public virtual string GetOutput()
+        {
+            //TODO: use cache
+            return PreviousNode.InputNode?.GetOutput() + GetValue();
+        }
 
-        public abstract string GetValue();
+        protected abstract string GetValue();
     }
 }

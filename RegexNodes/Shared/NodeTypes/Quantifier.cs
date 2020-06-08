@@ -33,7 +33,7 @@ namespace RegexNodes.Shared.NodeTypes
             InputMax.IsEnabled = () => InputCount.DropdownValue == "Range";
         }
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             string suffix = "";
             //int min = InputMin.GetValue() ?? 0;

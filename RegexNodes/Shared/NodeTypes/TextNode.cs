@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class ExactString : Node
+    public class TextNode : Node
     {
         public override string Title => "Text";
         public override string NodeInfo => "Inserts text into your Regex which will be interpreted literally, so all special characters are escaped with a backslash. E.g. $25.99? becomes \\$25\\.99\\?" +
@@ -15,15 +15,15 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputCheckbox InputDoEscape { get; } = new InputCheckbox(true) { Title = "Escape" };
 
-        public ExactString() { }
-        public ExactString(string contents = "")
+        public TextNode() { }
+        public TextNode(string contents = "")
         {
             Input.InputContents = contents;
         }
 
         static readonly HashSet<char> charsToEscape = new HashSet<char> { '\\', '/', '(', ')', '[', ']', '{', '}', '$', '^', '?', '^', '.', '+', '*', '|' };
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             string result = Input.GetValue();
 

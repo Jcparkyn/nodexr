@@ -15,7 +15,7 @@ namespace RegexNodes.Shared.NodeTypes
         protected InputCheckbox InputDoInvert { get; } = new InputCheckbox(false) { Title = "Invert"};
 
         
-        public override string GetValue()
+        protected override string GetValue()
         {
             string charSet = InputCharacters.GetValue();
             if (String.IsNullOrEmpty(charSet))

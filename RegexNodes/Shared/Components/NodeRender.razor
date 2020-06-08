@@ -4,11 +4,6 @@
 @inject IModalService Modal
 
 
-@{
-    //Console.WriteLine("Updating Node: " + Data.Title);
-}
-
-
 <div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Color;"
         ondragover="event.preventDefault()" onmousedown="event.stopPropagation()" @onfocusin="@Deselect">
 
@@ -46,6 +41,7 @@
             </button>
         </div>
     }
+    <NodeInputDot Input="Data.PreviousNode" IsPrevious="true"/>
 
     @*Output dot*@
     @if (!(Data is OutputNode))

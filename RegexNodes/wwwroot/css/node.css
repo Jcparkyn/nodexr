@@ -31,7 +31,7 @@
             background: none;
             border: none;
             font-size: 0.8rem;
-            padding: 0px 2px;
+            padding: 0 0 0 6px;
         }
 
     .node .icon-button {
@@ -118,34 +118,40 @@
     }
 
     .node .node-input-dot {
-        width: 14px;
-        height: 14px;
-        background-color: var(--col-noodle);
+        width: 17px;
+        height: 17px;
+        background-color: var(--col-node-accent);
         border-radius: 50%;
         position: absolute;
-        top: 6px;
+        top: 5px;
+        left: -12px;
+        /* z-index: 11; */
+        box-sizing: border-box;
+        border: 2px solid var(--col-bg-2);
+    }
+
+    .node .input-dot-previous {
         left: -9px;
-        /*z-index: 11;*/
-        box-sizing: content-box;
     }
 
     .node .node-output-dot {
-        width: 14px;
-        height: 14px;
-        background-color: var(--col-noodle);
+        width: 17px;
+        height: 17px;
+        background-color: var(--col-node-accent);
         border-radius: 50%;
         position: absolute;
-        top: 4px;
-        right: -10px;
+        top: 5px;
+        right: -9px;
         z-index: 1;
         cursor: copy;
-        box-sizing: content-box;
-        margin: 3px;
+        box-sizing: border-box;
+        border: 2px solid var(--col-bg-2);
+        /*margin: 3px;*/
     }
 
         .node .node-output-dot:hover {
             margin: 0px;
-            border: 3px solid darkblue;
+            border: 2px solid white;
         }
 
         /* Tooltip text */
@@ -170,7 +176,7 @@
 
     .node .info-button {
         float: right;
-        margin: 1px 5px 0 0;
+        margin: 1px 6px 0 0;
         color: var(--col-node-0)
     }
 
