@@ -8,7 +8,7 @@
 }
 
     .node.selected {
-        box-shadow: 0 0 0px 1px #ffffffd1;
+        box-shadow: 0 0 0px 2px #ffffffa3;
     }
 
     .node .node-title {
