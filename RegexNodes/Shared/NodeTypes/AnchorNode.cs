@@ -12,7 +12,7 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputDropdown InputAnchorType { get; } = new InputDropdown("Start of line", "End of line", "Word boundary") { Title = "Type of anchor:" };
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             string result;
             switch (InputAnchorType.DropdownValue.ToLower())
@@ -32,7 +32,7 @@ namespace RegexNodes.Shared.NodeTypes
         //[NodeInput]
         //protected InputCheckbox InputWordBoundary { get; } = new InputCheckbox() { Title = "Word boundary"};
 
-        //public override string GetValue()
+        //protected override string GetValue()
         //{
         //    List<string> charsToAllow = new List<string>();
 

@@ -23,7 +23,7 @@ namespace RegexNodes.Shared.NodeTypes
             InputName.IsEnabled = (() => InputType.DropdownValue == "Name");
         }
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             //string prefix = (InputGroupType.Value == "Capturing") ? "(" : "(?:";
             if (InputType.DropdownValue == "Index")

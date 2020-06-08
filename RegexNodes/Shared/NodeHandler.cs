@@ -43,7 +43,7 @@ namespace RegexNodes.Shared
             OutputNode outputNode = GetOutputNode();
             if (outputNode != null)
             {
-                output = outputNode.GetValue();
+                output = outputNode.GetOutput();
             }
             else
             {

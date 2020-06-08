@@ -34,7 +34,7 @@ namespace RegexNodes.Shared.NodeTypes
         //    ConditionType.OnValueChanged = CalculateInputsPos;
         //}
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             //string condition = ConditionType.DropdownValue == "Expression" ? InputCondition.GetValue() : InputGroupID.GetValue();
             string condition = InputGroupID.GetValue();

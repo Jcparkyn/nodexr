@@ -33,7 +33,7 @@ namespace RegexNodes.Shared.NodeTypes
             InputAllowOther.IsEnabled = isAllowAllUnchecked;
         }
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             string result;
             bool allowWhitespace = InputAllowWhitespace.IsChecked;

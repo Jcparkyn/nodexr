@@ -1,0 +1,14 @@
+﻿@inject INodeDragService NodeDragService
+
+<div class="@CssClass" @ondrop="@(() => NodeDragService.OnDropNoodle(Input))"
+     ondragenter="tempNoodle.setValid()" ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault()"
+     style="">
+    
+</div>
+
+@code {
+    [Parameter] public InputProcedural Input { get; set; }
+    [Parameter] public bool IsPrevious { get; set; } = false;
+
+    string CssClass => "node-input-dot" + (IsPrevious ? " input-dot-previous" : "");
+}
