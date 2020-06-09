@@ -71,7 +71,7 @@ namespace RegexNodes.Shared.NodeTypes
                 (false, true, true, true, true, false) => @"\w",
 
                 //Handle general case when "other' is ticked
-                _ when inputs.o => "[^" + GetClassContents(w: !inputs.w, L: !inputs.L, l: !inputs.l, d: !inputs.d, u: !inputs.u) + "]"
+                _ when inputs.o => "[^" + GetClassContents(w: !inputs.w, L: !inputs.L, l: !inputs.l, d: !inputs.d, u: !inputs.u) + "]",
                 //Handle general case when "other' is not ticked
                 _ => "[" + GetClassContents(w: inputs.w, L: inputs.L, l: inputs.l, d: inputs.d, u: inputs.u) + "]",
             };
