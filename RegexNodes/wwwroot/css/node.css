@@ -120,7 +120,7 @@
     .node .node-input-dot {
         width: 17px;
         height: 17px;
-        background-color: var(--col-node-accent);
+        background-color: var(--col-noodle);
         border-radius: 50%;
         position: absolute;
         top: 5px;
@@ -132,6 +132,7 @@
 
     .node .input-dot-previous {
         left: -9px;
+        background-color: var(--col-node-accent);
     }
 
     .node .node-output-dot {
@@ -146,11 +147,12 @@
         cursor: copy;
         box-sizing: border-box;
         border: 2px solid var(--col-bg-2);
-        /*margin: 3px;*/
     }
 
         .node .node-output-dot:hover {
-            margin: 0px;
+            border: 2px solid white;
+        }
+        .node .node-input-dot:hover {
             border: 2px solid white;
         }
 
@@ -177,7 +179,8 @@
     .node .info-button {
         float: right;
         margin: 1px 6px 0 0;
-        color: var(--col-node-0)
+        color: var(--col-node-0);
+        cursor: help;
     }
 
 .node-preview {

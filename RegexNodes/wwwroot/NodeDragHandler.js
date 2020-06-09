@@ -5,17 +5,6 @@
 var nodeToDrag = undefined;
 var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-function dragTest() {
-    var nodesToDrag = document.getElementsByClassName("node");
-
-    for (var i = 0; i < nodesToDrag.length; i++) {
-        //dragElement(nodesToDrag[i]);
-        var nodeElement = nodesToDrag[i];
-        //nodeElement.onmousedown = function (e) { startNodeDrag(e, nodeElement)};
-        nodeElement.onmousedown = startNodeDrag;
-    }
-}
-
 function initNodeDrag(element) {
     element.onmousedown = function (e) { startNodeDrag(e, element )};
 }

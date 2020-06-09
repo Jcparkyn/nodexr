@@ -1,9 +1,8 @@
 ﻿@inject INodeDragService NodeDragService
 
-<div class="@CssClass" @ondrop="@(() => NodeDragService.OnDropNoodle(Input))"
-     ondragenter="tempNoodle.setValid()" ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault()"
-     style="">
-    
+<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" @ondragstart="OnDragStart"
+     class="@CssClass" @ondrop="@(() => NodeDragService.OnDropNoodle(Input))"
+     ondragenter="tempNoodle.setValid()" ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault()">
 </div>
 
 @code {
@@ -11,4 +10,15 @@
     [Parameter] public bool IsPrevious { get; set; } = false;
 
     string CssClass => "node-input-dot" + (IsPrevious ? " input-dot-previous" : "");
+
+    protected override bool ShouldRender() => false;
+
+    void OnDragStart(DragEventArgs e)
+    {
+        if (Input.InputNode != null)
+        {
+            NodeDragService.OnStartNoodleDrag(Input.InputNode, e, Input.Pos);
+            Input.InputNode = null;
+        }
+    }
 }
