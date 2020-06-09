@@ -15,7 +15,9 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputCheckbox InputAllowWhitespace { get; } = new InputCheckbox() { Title = "Whitespace" };
         [NodeInput]
-        protected InputCheckbox InputAllowLetters { get; } = new InputCheckbox() { Title = "Letters" };
+        protected InputCheckbox InputAllowUppercase { get; } = new InputCheckbox() { Title = "Uppercase Letters" };
+        [NodeInput]
+        protected InputCheckbox InputAllowLowercase { get; } = new InputCheckbox() { Title = "Lowercase Letters" };
         [NodeInput]
         protected InputCheckbox InputAllowDigits { get; } = new InputCheckbox() { Title = "Digits" };
         [NodeInput]
@@ -28,7 +30,8 @@ namespace RegexNodes.Shared.NodeTypes
             bool isAllowAllUnchecked() => !InputAllowAll.IsChecked;
             InputAllowWhitespace.IsEnabled = isAllowAllUnchecked;
             InputAllowUnderscore.IsEnabled = isAllowAllUnchecked;
-            InputAllowLetters.IsEnabled = isAllowAllUnchecked;
+            InputAllowUppercase.IsEnabled = isAllowAllUnchecked;
+            InputAllowLowercase.IsEnabled = isAllowAllUnchecked;
             InputAllowDigits.IsEnabled = isAllowAllUnchecked;
             InputAllowOther.IsEnabled = isAllowAllUnchecked;
         }
@@ -36,95 +39,62 @@ namespace RegexNodes.Shared.NodeTypes
         protected override string GetValue()
         {
             string result;
-            bool allowWhitespace = InputAllowWhitespace.IsChecked;
-            bool allowUnderscore = InputAllowUnderscore.IsChecked;
-            bool allowLetters = InputAllowLetters.IsChecked;
-            bool allowDigits = InputAllowDigits.IsChecked;
 
             if (InputAllowAll.IsChecked)
             {
                 result = ".";
+                return UpdateCache(result);
+            }
+
+            var inputs = (
+                w: InputAllowWhitespace.IsChecked,
+                L: InputAllowUppercase.IsChecked,
+                l: InputAllowLowercase.IsChecked,
+                d: InputAllowDigits.IsChecked,
+                u: InputAllowUnderscore.IsChecked,
+                o: InputAllowOther.IsChecked
+                );
+
+            result = inputs switch
+            {
+                //Handle special cases where simplification is possible - when "other' is ticked
+                (true, true, true, true, true, true) => @".",
+                (true, true, true, false, true, true) => @"\D",
+                (false, true, true, true, true, true) => @"\S",
+                (true, false, false, false, false, true) => @"\W",
+
+                //Handle special cases where simplification is possible - when "other' is not ticked
+                (false, false, false, false, false, false) => "",
+                (false, false, false, false, true, false) => @"_",
+                (false, false, false, true, false, false) => @"\d",
+                (true, false, false, false, false, false) => @"\s",
+                (false, true, true, true, true, false) => @"\w",
+
+                //Handle general case when "other' is ticked
+                _ when inputs.o => "[^" + GetClassContents(w: !inputs.w, L: !inputs.L, l: !inputs.l, d: !inputs.d, u: !inputs.u) + "]"
+                //Handle general case when "other' is not ticked
+                _ => "[" + GetClassContents(w: inputs.w, L: inputs.L, l: inputs.l, d: inputs.d, u: inputs.u) + "]",
+            };
+
+            return UpdateCache(result);
+        }
+
+        private string GetClassContents(bool w, bool L, bool l, bool d, bool u)
+        {
+            string result = (w ? "\\s" : "");
+            if(L && l && d && u)
+            {
+                result += "\\w";
             }
             else
             {
-                //If "Other" is checked, use an inverted class
-                if (InputAllowOther.IsChecked)
-                {
-                    string charsToExcept = "";
-                    if (!allowWhitespace)
-                    {
-                        charsToExcept += @"\s";
-                    }
-                    if (!allowLetters && !allowDigits && !allowUnderscore)
-                    {
-                        charsToExcept += @"\w";
-                    }
-                    else
-                    {
-                        if (!allowUnderscore)
-                        {
-                            charsToExcept += @"_";
-                        }
-                        if (!allowLetters)
-                        {
-                            charsToExcept += @"a-zA-Z";
-                        }
-                        if (!allowDigits)
-                        {
-                            charsToExcept += @"\d";
-                        }
-                    }
-
-                    if (charsToExcept.Length > 0)
-                    {
-                        result = "[^" + charsToExcept + "]"; 
-                    }
-                    else
-                    {
-                        result = ".";
-                    }
-                }
-
-                //If "Other" is unchecked, use a normal class
-                else
-                {
-                    var charsToInclude = new List<string>();
-
-                    if (allowWhitespace)
-                    {
-                        charsToInclude.Add(@"\s");
-                    }
-
-                    if(allowLetters && allowDigits && allowUnderscore){
-                        charsToInclude.Add(@"\w");
-                    }
-                    else
-                    {
-                        if (allowUnderscore)
-                        {
-                            charsToInclude.Add(@"_");
-                        }
-                        if (allowLetters)
-                        {
-                            charsToInclude.Add(@"a-zA-Z");
-                        }
-                        if (allowDigits)
-                        {
-                            charsToInclude.Add(@"\d");
-                        }
-                    }
-
-                    if (charsToInclude.Count > 1)
-                    {
-                        result = "[" + string.Join("", charsToInclude) + "]";
-                    }
-                    else
-                    {
-                        result = charsToInclude.FirstOrDefault();
-                    }
-                }
+                result +=
+                    (L ? "A-Z" : "") +
+                    (l ? "a-z" : "") +
+                    (d ? "\\d" : "") +
+                    (u ? "_" : "");
             }
-            return UpdateCache(result);
+            return result;
         }
     }
 }
