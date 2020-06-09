@@ -218,6 +218,7 @@
     background: none;
     border: none;
     border-radius: 6px;
+    color: var(--col-text-subtle);
 }
 
     .item-button:hover {
