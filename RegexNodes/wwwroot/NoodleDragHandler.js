@@ -1,39 +1,31 @@
 ﻿var prevX = 0;
 var prevY = 0;
+var startX, startY, endX, endY = 0;
 var noodleElement = null;
 //var img = new Image();
 //img.src = "http://placehold.it/150/000000/ffffff?text=GHOST";
 
 window.tempNoodle = {
 
-    startNoodleDrag: function () {
+    startNoodleDrag: function (_startX, _startY, _endX, _endY) {
         if (!noodleElement) {
             noodleElement = document.getElementById("tempNoodle");
         }
-        
+        startX = _startX;
+        startY = _startY;
+        endX = _endX - 6;
+        endY = _endY - 6;
         tempNoodle.setInvalid();
     },
 
-    //testDragStart: function (event) {
-    //    console.log("DHSFFGSDG");
-    //    console.log("DHSFFGSDG, " + event.target.name);
-    //    event.dataTransfer.setDragImage(img, 0, 0);
-    //},
-
     dragNoodle: function (event) {
-        if (event.offsetX != prevX || event.offsetY != prevY) {
-            //event.dataTransfer.setDragImage(img, 0, 0);
-            prevX = event.offsetX;
-            prevY = event.offsetY;
-            //console.log("drag");
-            var pathPrev = noodleElement.getAttribute("d");
-            var pathPrevSplit = pathPrev.split(" ");
-            var startX = parseFloat(pathPrevSplit[1]);
-            var startY = parseFloat(pathPrevSplit[2]);
-            var endX = startX + event.offsetX - 6;
-            var endY = startY + event.offsetY - 6;
-            noodleElement.setAttribute("d", this.getNoodlePath(startX, startY, endX, endY));
+        if (noodleElement != null) {
+            this.setPath(this.getNoodlePath(startX, startY, endX + event.offsetX, endY + event.offsetY));
         }
+    },
+
+    setPath: function (path) {
+        noodleElement.setAttribute("d", path);
     },
 
     setValid: function () {

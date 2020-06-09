@@ -20,6 +20,7 @@ namespace RegexNodes.Shared
         void OnDropNoodle(InputProcedural nodeInput);
         //void OnDeleteNode();
         Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e);
+        void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e, Vector2L _cursorStartPos);
     }
 
     public class NodeDragService : INodeDragService
@@ -69,21 +70,27 @@ namespace RegexNodes.Shared
 
         public void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e)
         {
+            OnStartNoodleDrag(nodeToDrag, e, nodeToDrag.OutputPos);
+        }
+
+        public void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e, Vector2L noodleEndPos)
+        {
             CurDragType = DragType.Noodle;
             NodeToDrag = nodeToDrag;
-            //NoodleEnd.Pos = NodeToDrag.Pos + new Vector2L(150, 17);
             TempNoodle.SetStartPoint(nodeToDrag.OutputPos);
             TempNoodle.SetEndPoint(nodeToDrag.OutputPos);
 
-            
             TempNoodle.Enabled = true;
 
-            cursorStartPos = e.GetClientPos();
-            Console.WriteLine("Start Noodle Drag");
-            jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag");
+            //Console.WriteLine("Start Noodle Drag");
+            jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
+                nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y,
+                noodleEndPos.x, noodleEndPos.y);
+            
             //TempNoodle.Refresh();
         }
 
+        [Obsolete("OnDrag handled in javascript.")]
         public void OnDrag(DragEventArgs e)
         {
 

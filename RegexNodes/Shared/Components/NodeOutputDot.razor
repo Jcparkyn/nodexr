@@ -3,7 +3,7 @@
 @inject IJSRuntime  JSRuntime;
 
 
-<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" @ondragstart="@OnDragStart" class="node-output-dot">
+<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" @ondragstart="OnDragStart" class="node-output-dot">
     <span class="outputtooltip">
         Output:<br />
         @{string output = Data.CachedValue;}
@@ -13,12 +13,12 @@
 
 @functions{
     [Parameter] public INode Data { get; set; }
-    //ondrag="noodle.dragNoodle()"
+
+    protected override bool ShouldRender() => false;
+
     void OnDragStart(DragEventArgs e)
     {
         //TODO: Set drag image
-        //e.DataTransfer.EffectAllowed = "none";
         NodeDragService.OnStartNoodleDrag(Data, e);
-        //JSRuntime.InvokeAsync<object>("tempNoodle.testDragStart", e);
     }
 }

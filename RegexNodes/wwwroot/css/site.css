@@ -137,13 +137,18 @@ app {
     position: absolute;
     transform-origin: 0% 50%;
     stroke: var(--col-noodle);
-    stroke-width: 2.5px;
+    stroke-width: 3px;
+    pointer-events: none;
     fill: none;
 }
     .noodle.noodle-invalid {
         background-color: orangered;
         stroke: orangered;
     }
+
+#tempNoodle {
+    stroke-dasharray: 5;
+}
 
 .button-add-node {
     background-color: var(--col-node-default);
