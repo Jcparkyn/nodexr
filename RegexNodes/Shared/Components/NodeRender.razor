@@ -56,6 +56,11 @@
     string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
     string CssClass => "node" + (NodeHandler.SelectedNode == Data ? " selected" : "");
 
+    protected override void OnInitialized()
+    {
+        Data.PreviousNode.OnValueChanged = OnValueChanged;
+    }
+
     void ToggleCollapsed()
     {
         Data.IsCollapsed = !Data.IsCollapsed;
@@ -84,16 +89,8 @@
 
     void OnValueChanged()
     {
-        Task.Run(OnValueChangedAsync);
-    }
-
-    async Task OnValueChangedAsync()
-    {
-        var getValueTask = Task.Run(Data.GetValueAndUpdateCache);
-        var getOutputTask = Task.Run(NodeHandler.RecalculateOutput);
-        await getValueTask;
-
+        Data.GetValueAndUpdateCache();
+        NodeHandler.RecalculateOutput();
         StateHasChanged();
-        await getOutputTask;
     }
 }
