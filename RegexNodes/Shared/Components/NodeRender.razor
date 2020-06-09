@@ -5,38 +5,36 @@
 
 
 <div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Color;"
-        ondragover="event.preventDefault()" onmousedown="event.stopPropagation()" @onfocusin="@Deselect">
+        ondragover="event.preventDefault()" onmousedown="event.stopPropagation()" @onfocusin="Deselect">
 
-    <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" @onclick="@Select" class="node-drag-region"></div>
+    <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" @onclick="Select" class="node-drag-region"></div>
     @if (!Data.IsCollapsed)
     {
         <div class="node-title" style="background-color: var(--col-node-accent)">
-            <button @onclick="@ToggleCollapsed" class="collapse-button"><i class="fas fa-chevron-down"></i></button>
+            <button @onclick="ToggleCollapsed" class="collapse-button"><i class="fas fa-chevron-down"></i></button>
             <b>@Data.Title</b>
             <button class="icon-button info-button"
-                    @onclick="@ShowModal">
+                    @onclick="ShowModal">
                 <i class="fas fa-info-circle"></i>
             </button>
         </div>
         <div class="node-content">
-            @*<ol>*@
             @foreach(INodeInput nodeInput in Data.NodeInputs)
             {
                 if (nodeInput.IsEnabled())
                 {
-                    <NodeInputRender Data="nodeInput" OnValueChanged="@OnValueChanged" OnInputsChanged="@Data.CalculateInputsPos" />
+                    <NodeInputRender Data="nodeInput" OnValueChanged="OnValueChanged" OnInputsChanged="Data.CalculateInputsPos" />
                 }
             }
-            @*</ol>*@
         </div>
     }
     else
     {
         <div class="node-title collapsed" style="background-color: @Color; height:100%;">
-            <button @onclick="@ToggleCollapsed" class="collapse-button" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
+            <button @onclick="ToggleCollapsed" class="collapse-button" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
             <b> @Data.Title</b>
             <button class="icon-button info-button"
-                    @onclick="@ShowModal">
+                    @onclick="ShowModal">
                 <i class="fas fa-info-circle"></i>
             </button>
         </div>
