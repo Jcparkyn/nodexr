@@ -24,31 +24,5 @@ namespace RegexNodes.Shared.NodeTypes
             }
             return result;
         }
-
-        //[NodeInput]
-        //protected InputCheckbox InputLineStart { get; } = new InputCheckbox(true) { Title = "Start of line" };
-        //[NodeInput]
-        //protected InputCheckbox InputLineEnd { get; } = new InputCheckbox() { Title = "End of line" };
-        //[NodeInput]
-        //protected InputCheckbox InputWordBoundary { get; } = new InputCheckbox() { Title = "Word boundary"};
-
-        //protected override string GetValue()
-        //{
-        //    List<string> charsToAllow = new List<string>();
-
-        //    if (InputWordBoundary.IsChecked) charsToAllow.Add(@"\b");
-        //    if (InputLineEnd.IsChecked) charsToAllow.Add("$");
-        //    if (InputLineStart.IsChecked) charsToAllow.Add("^");
-
-        //    string charsConverted = string.Join("", charsToAllow);
-        //    if (charsToAllow.Count > 1)
-        //    {
-        //        return UpdateCache("[" + charsConverted + "]"); 
-        //    }
-        //    else
-        //    {
-        //        return UpdateCache("" + charsConverted);
-        //    }
-        //}
     }
 }

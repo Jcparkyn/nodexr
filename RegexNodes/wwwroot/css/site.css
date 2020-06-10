@@ -13,6 +13,7 @@
     --col-node-characterset: hsl(48,80%, 70%);
     --col-node-anchor: hsl(72,80%, 74%);
     --col-node-whitespace: hsl(96,80%, 75%);
+    --col-node-unicode: hsl(110,80%, 70%);
     --col-node-comment: hsl(124,80%, 75%);
     --col-node-or: hsl(147,86%, 73%);
     --col-node-concatenate: hsl(168,80%, 61%);
