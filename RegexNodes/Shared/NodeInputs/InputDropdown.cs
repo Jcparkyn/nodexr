@@ -17,7 +17,7 @@ namespace RegexNodes.Shared
             }
         }
 
-        public List<string> Options { get; set; }
+        public List<string> Options { get; private set; }
 
         public InputDropdown(params string[] options)
         {
