@@ -33,7 +33,7 @@
     public string GradientName(InputProcedural input, INode node)
     {
         return "gradient-"
-        + input.InputNode.Title.ToLowerInvariant()
+        + input.InputNode.CssName
         + "-"
         + node.Title.ToLowerInvariant();
     }

@@ -22,6 +22,7 @@ namespace RegexNodes.Shared
         Vector2L OutputPos { get; }
         InputProcedural PreviousNode { get; }
         string CssColor { get; }
+        string CssName { get; }
 
         void MoveBy(long x, long y);
         void MoveBy(Vector2L delta);
@@ -152,7 +153,8 @@ namespace RegexNodes.Shared
             }
         }
 
-        public string CssColor => $"var(--col-node-{Title.Replace(" ", "").ToLowerInvariant()})";
+        public string CssName => Title.Replace(" ", "").ToLowerInvariant();
+        public string CssColor => $"var(--col-node-{CssName})";
 
         public string UpdateCache(string result)
         {
