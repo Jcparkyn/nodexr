@@ -23,7 +23,7 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputCheckboxNullable OptionIgnoreWhitespace { get; } = new InputCheckboxNullable() { Title = "Ignore Whitespace" };
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             string input = "" + InputContents.GetValue().RemoveNonCapturingGroup();
             if (!String.IsNullOrEmpty(input))

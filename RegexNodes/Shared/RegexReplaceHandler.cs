@@ -19,22 +19,27 @@ namespace RegexNodes.Shared
 
         public MatchCollection GetAllMatches()
         {
-            return Regex.Matches("" + SearchText, nodeHandler.CachedOutput, RegexOptions.None, TimeSpan.FromSeconds(0.5));
-            //try
-            //{
-            //    return Regex.Matches("" + SearchText, nodeHandler.CachedOutput, RegexOptions.None, TimeSpan.FromSeconds(1));
-            //}
-            //catch (RegexMatchTimeoutException ex)
-            //{
-            //    return null;
-            //    Console.WriteLine(ex.Message);
-            //}
+            //return Regex.Matches("" + SearchText, nodeHandler.CachedOutput, RegexOptions.None, TimeSpan.FromSeconds(0.5));
+            try
+            {
+                return Regex.Matches("" + SearchText, nodeHandler.CachedOutput, RegexOptions.None, TimeSpan.FromSeconds(0.5));
+            }
+            catch (RegexMatchTimeoutException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public string GetReplaceResult()
         {
             //return Regex.Replace(SearchText, nodeHandler.CachedOutput, ReplacementRegex);
-            string result = "";
+            string result;
             try
             {
                 result = Regex.Replace(SearchText, nodeHandler.CachedOutput, ReplacementRegex, RegexOptions.None, TimeSpan.FromSeconds(0.5));
@@ -43,7 +48,7 @@ namespace RegexNodes.Shared
             {
                 result = "Regex replace timed out: " + ex.Message;
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
                 result = "Error: " + ex.Message;
             }

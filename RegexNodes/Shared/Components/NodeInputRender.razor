@@ -1,10 +1,4 @@
-﻿@inject INodeDragService NodeDragService
-
-
-@{
-    //Data.OnValueChanged = OnValueChanged;
-}
-
+﻿
 @switch (Data)
 {
     case InputString input:
@@ -27,13 +21,7 @@
         break;
     case InputProcedural input:
         <div class="node-input procedural" style="font-size:15px; font-style:italic">
-            <div class="node-input-dot" @ondrop="@(() => NodeDragService.OnDropNoodle(input))" ondragenter="tempNoodle.setValid()" ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault()">
-                @if (input.InputNode != null)
-                {
-                    //var endPointOffset = new Vector2L(7, 7);
-                    //<Noodle StartPoint="@(endPointOffset)" EndPoint="@(input.Pos - input.InputNode.OutputPos + endPointOffset)" />
-                }
-            </div>
+            <NodeInputDot Input="input"/>
             @input.Title
         </div>
         break;

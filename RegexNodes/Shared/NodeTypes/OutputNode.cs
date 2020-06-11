@@ -8,46 +8,50 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "The final output of your Regex. Use the 'Add Item' button to join together the outputs of multiple nodes, similar to the 'Concatenate' node.";
 
         [NodeInput]
-        protected InputCollection Inputs { get; } = new InputCollection(1);
+        protected InputDropdown InputStartsAt { get; } = new InputDropdown(Modes.anywhere, Modes.startLine, Modes.wordBound) { Title="Starts at:"};
 
         [NodeInput]
-        protected InputDropdown InputStartsAt { get; } = new InputDropdown("Anywhere", "Start of line", "Word boundary") { Title="Starts at:"};
+        protected InputDropdown InputEndsAt { get; } = new InputDropdown(Modes.anywhere, Modes.endLine, Modes.wordBound) { Title = "Ends at:" };
 
-        [NodeInput]
-        protected InputDropdown InputEndsAt { get; } = new InputDropdown("Anywhere", "End of line", "Word boundary") { Title = "Ends at:" };
+        private class Modes
+        {
+            public const string anywhere = "Anywhere";
+            public const string startLine = "Start of line";
+            public const string endLine = "End of line";
+            public const string wordBound= "Word boundary";
+        }
 
-        public override string GetValue()
+        public override string GetOutput()
+        {
+            return GetValue();
+        }
+
+        protected override string GetValue()
         {
             //check whether nothing is connected to this node.
-            if (!Inputs.Inputs.Exists(input => input.InputNode != null))
+            if (PreviousNode.InputNode is null)
             {
                 return UpdateCache("Nothing connected to Output node");
             }
 
-            string result = "";
-            if(InputStartsAt.DropdownValue == "Start of line")
+            //Prefix
+            string result = InputStartsAt.DropdownValue switch
             {
-                result += "^";
-            }
-            else if(InputStartsAt.DropdownValue == "Word boundary")
-            {
-                result += "\\b";
-            }
+                Modes.startLine => "^",
+                Modes.wordBound => "\\b",
+                _ => ""
+            };
 
-            foreach (var input in Inputs.Inputs)
-            {
-                result += input.GetValue();
-            }
+            result += PreviousNode.InputNode.GetOutput();
 
-            if (InputEndsAt.DropdownValue == "End of line")
+            //Suffix
+            result += InputEndsAt.DropdownValue switch
             {
-                result += "$";
-            }
-            else if (InputEndsAt.DropdownValue == "Word boundary")
-            {
-                result += "\\b";
-            }
-            CachedValue = result;
+                Modes.endLine => "$",
+                Modes.wordBound => "\\b",
+                _ => ""
+            };
+
             return UpdateCache(result);
         }
     }

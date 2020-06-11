@@ -12,11 +12,11 @@ namespace RegexNodes.Shared.NodeTypes
         protected InputProcedural InputNode { get; } = new InputProcedural() { Title = "Input" };
         [NodeInput]
         protected InputDropdown InputCount { get; } = new InputDropdown(
-            "Zero or more",
-            "One or more",
-            "Zero or one",
-            "Number",
-            "Range") { Title = "Repetitions:" };
+            Repetitions.zeroOrMore,
+            Repetitions.oneOrMore,
+            Repetitions.zeroOrOne,
+            Repetitions.number,
+            Repetitions.range) { Title = "Repetitions:" };
         [NodeInput]
         protected InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
         [NodeInput]
@@ -24,16 +24,25 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
         [NodeInput]
-        protected InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy") { Title = "Search type:" };
+        protected InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy", "Possessive") { Title = "Search type:" };
+
+        private class Repetitions
+        {
+            public const string zeroOrMore = "Zero or more";
+            public const string oneOrMore = "One or more";
+            public const string zeroOrOne = "Zero or one";
+            public const string number = "Number";
+            public const string range = "Range";
+        }
 
         public Quantifier()
         {
-            InputNumber.IsEnabled = () => InputCount.DropdownValue == "Number";
-            InputMin.IsEnabled = () => InputCount.DropdownValue == "Range";
-            InputMax.IsEnabled = () => InputCount.DropdownValue == "Range";
+            InputNumber.IsEnabled = () => InputCount.DropdownValue == Repetitions.number;
+            InputMin.IsEnabled = () => InputCount.DropdownValue == Repetitions.range;
+            InputMax.IsEnabled = () => InputCount.DropdownValue == Repetitions.range;
         }
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             string suffix = "";
             //int min = InputMin.GetValue() ?? 0;
@@ -41,11 +50,11 @@ namespace RegexNodes.Shared.NodeTypes
 
             switch (InputCount.DropdownValue)
             {
-                case "Zero or more": suffix = "*"; break;
-                case "One or more": suffix = "+"; break;
-                case "Zero or one": suffix = "?"; break;
-                case "Number": suffix = $"{{{InputNumber.InputContents}}}"; break;
-                case "Range":
+                case Repetitions.zeroOrMore: suffix = "*"; break;
+                case Repetitions.oneOrMore: suffix = "+"; break;
+                case Repetitions.zeroOrOne: suffix = "?"; break;
+                case Repetitions.number: suffix = $"{{{InputNumber.InputContents}}}"; break;
+                case Repetitions.range:
                     int min = InputMin.GetValue() ?? 0;
                     int? max = InputMax.GetValue();
                     suffix = $"{{{min},{max}}}";
@@ -55,6 +64,10 @@ namespace RegexNodes.Shared.NodeTypes
             if (InputSearchType.DropdownValue == "Lazy")
             {
                 suffix += "?";
+            }
+            else if (InputSearchType.DropdownValue == "Possessive")
+            {
+                suffix += "+";
             }
 
             string contents = InputNode.GetValue();

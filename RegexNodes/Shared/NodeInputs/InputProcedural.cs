@@ -17,7 +17,7 @@ namespace RegexNodes.Shared
 
         public string GetValue()
         {
-            return InputNode?.GetValue() ?? "";
+            return InputNode?.GetOutput() ?? "";
         }
     }
 }

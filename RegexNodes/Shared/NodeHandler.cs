@@ -43,7 +43,7 @@ namespace RegexNodes.Shared
             OutputNode outputNode = GetOutputNode();
             if (outputNode != null)
             {
-                output = outputNode.GetValue();
+                output = outputNode.GetOutput();
             }
             else
             {
@@ -108,6 +108,8 @@ namespace RegexNodes.Shared
         {
             foreach (var node in Nodes)
             {
+                DeleteNoodlesBetween(nodeToRemove, node.PreviousNode);
+
                 foreach (var input in node.NodeInputs)
                 {
                     DeleteNoodlesBetween(nodeToRemove, input);

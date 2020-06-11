@@ -8,7 +8,8 @@ namespace RegexNodes.Shared
 {
     public interface INode : IPositionable
     {
-        string GetValue();
+        //protected string GetValue();
+        string GetOutput();
         string Title { get; }
         string NodeInfo { get; }
         bool IsCollapsed { get; set; }
@@ -16,13 +17,17 @@ namespace RegexNodes.Shared
         string CachedValue { get; set; }
         string GetValueAndUpdateCache();
 
-        List<INodeInput> NodeInputs { get; }
+        List<NodeInput> NodeInputs { get; }
 
         Vector2L OutputPos { get; }
+        InputProcedural PreviousNode { get; }
+        string CssColor { get; }
+        string CssName { get; }
 
         void MoveBy(long x, long y);
         void MoveBy(Vector2L delta);
         void CalculateInputsPos();
+        IEnumerable<NodeInput> GetInputsRecursive();
     }
 
     public abstract class Node : INode
@@ -38,9 +43,10 @@ namespace RegexNodes.Shared
                 CalculateInputsPos();
             }
         }
+        public InputProcedural PreviousNode { get; } = new InputProcedural();
 
-        private readonly List<INodeInput> nodeInputs;
-        public virtual List<INodeInput> NodeInputs => nodeInputs;
+        private readonly List<NodeInput> nodeInputs;
+        public virtual List<NodeInput> NodeInputs => nodeInputs;
         public abstract string Title { get; }
         public abstract string NodeInfo { get; }
 
@@ -50,17 +56,13 @@ namespace RegexNodes.Shared
 
         public bool IsCollapsed { get; set; }
 
-        //private Node() { }
-
         public Node()
         {
-            //Console.WriteLine("Running node ctor");
-            var inputs = GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance)
+            nodeInputs = GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                     .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)))
-                    .Select(prop => prop.GetValue(this) as INodeInput)
+                    .Select(prop => prop.GetValue(this) as NodeInput)
                     .ToList();
             
-            nodeInputs = inputs;
             UpdateCache(GetValue());
         }
 
@@ -79,6 +81,7 @@ namespace RegexNodes.Shared
         public void CalculateInputsPos()
         {
             //TODO: refactor using GetHeight() on each input
+            PreviousNode.Pos = new Vector2L(Pos.x + 2, Pos.y + 13);
             if (IsCollapsed)
             {
                 int startHeight = 13;
@@ -129,13 +132,35 @@ namespace RegexNodes.Shared
             }
         }
 
+        /// <summary>
+        /// Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
+        /// InputCollections themselves are not returned.
+        /// </summary>
+        public IEnumerable<NodeInput> GetInputsRecursive()
+        {
+            yield return PreviousNode;
+            foreach(var input in nodeInputs)
+            {
+                if(input is InputCollection coll)
+                {
+                    foreach (var subInput in coll.Inputs)
+                        yield return subInput;
+                }
+                else
+                {
+                    yield return input;
+                }
+            }
+        }
+
+        public string CssName => Title.Replace(" ", "").ToLowerInvariant();
+        public string CssColor => $"var(--col-node-{CssName})";
+
         public string UpdateCache(string result)
         {
             CachedValue = result;
             return result;
         }
-
-        //public NodeOutput NodeOutput { get; set; } = new NodeOutput();
 
         public void MoveBy(long x, long y)
         {
@@ -144,8 +169,12 @@ namespace RegexNodes.Shared
         }
         public void MoveBy(Vector2L delta) => MoveBy(delta.x, delta.y);
 
-        
+        public virtual string GetOutput()
+        {
+            //TODO: use cache
+            return PreviousNode.InputNode?.GetOutput() + GetValue();
+        }
 
-        public abstract string GetValue();
+        protected abstract string GetValue();
     }
 }

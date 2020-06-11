@@ -4,6 +4,7 @@ using Microsoft.JSInterop;
 using RegexNodes.Shared.Components;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace RegexNodes.Shared
 {
@@ -20,6 +21,7 @@ namespace RegexNodes.Shared
         void OnDropNoodle(InputProcedural nodeInput);
         //void OnDeleteNode();
         Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e);
+        void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e, Vector2L _cursorStartPos);
     }
 
     public class NodeDragService : INodeDragService
@@ -30,7 +32,6 @@ namespace RegexNodes.Shared
         {
             this.nodeHandler = nodeHandler;
             this.jsRuntime = jsRuntime;
-            //jsRuntime.InvokeAsync<object>("initNodeDropHandler", DotNetObjectRef.Create(this));
         }
 
         public enum DragType : int
@@ -69,21 +70,27 @@ namespace RegexNodes.Shared
 
         public void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e)
         {
+            OnStartNoodleDrag(nodeToDrag, e, nodeToDrag.OutputPos);
+        }
+
+        public void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e, Vector2L noodleEndPos)
+        {
             CurDragType = DragType.Noodle;
             NodeToDrag = nodeToDrag;
-            //NoodleEnd.Pos = NodeToDrag.Pos + new Vector2L(150, 17);
             TempNoodle.SetStartPoint(nodeToDrag.OutputPos);
             TempNoodle.SetEndPoint(nodeToDrag.OutputPos);
 
-            
             TempNoodle.Enabled = true;
 
-            cursorStartPos = e.GetClientPos();
-            Console.WriteLine("Start Noodle Drag");
-            jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag");
+            //Console.WriteLine("Start Noodle Drag");
+            jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
+                nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y,
+                noodleEndPos.x, noodleEndPos.y);
+            
             //TempNoodle.Refresh();
         }
 
+        [Obsolete("OnDrag handled in javascript.")]
         public void OnDrag(DragEventArgs e)
         {
 
@@ -112,26 +119,11 @@ namespace RegexNodes.Shared
             CurDragType = DragType.None;
         }
 
-        //[JSInvokable]
-        //public void DropNodeJS(long xPos, long yPos)
-        //{
-        //    if (CurDragType == DragType.Node)
-        //    {
-        //        //NodeToDrag?.MoveBy(xPos, yPos);
-        //        Console.WriteLine("Drop from JS: " + xPos + ", " + yPos);
-        //        NodeToDrag.Pos = new Vector2L(xPos, yPos);
-        //        nodeHandler.OnNodeCountChanged();
-        //    }
-        //    TempNoodle.Enabled = false;
-        //    TempNoodle.Valid = false;
-        //    NodeToDrag = null;
-        //    CurDragType = DragType.None;
-        //}
-
         public void OnDropNoodle(InputProcedural nodeInput)
         {
             Console.WriteLine("OnDropNoodle");
-            if (CurDragType == DragType.Node || NodeToDrag.NodeInputs.Contains(nodeInput))
+            //TODO: Properly check for cyclic dependencies
+            if (CurDragType != DragType.Noodle || NodeToDrag.GetInputsRecursive().Contains(nodeInput))
             {
                 Console.WriteLine("Can't drop here!");
                 NodeToDrag = null;
@@ -141,13 +133,5 @@ namespace RegexNodes.Shared
             NodeToDrag = null;
             //NoodleEnd = null;
         }
-
-        //public void OnDeleteNode()
-        //{
-        //    if (CurDragType == DragType.Node)
-        //    {
-        //        nodeHandler.DeleteNode(NodeToDrag);
-        //    }
-        //}
     }
 }

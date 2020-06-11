@@ -8,13 +8,14 @@
 
     --col-node-default: hsl(194, 0%, 50%);
 
-    --col-node-text: hsl(0,100%, 70%);
+    --col-node-text: hsl(0,100%, 68%);
     --col-node-wildcard: hsl(24,90%, 68%);
     --col-node-characterset: hsl(48,80%, 70%);
     --col-node-anchor: hsl(72,80%, 74%);
-    --col-node-whitespace: hsl(96,80%, 75%);
-    --col-node-comment: hsl(124,80%, 75%);
-    --col-node-or: hsl(147,86%, 73%);
+    --col-node-whitespace: hsl(96,91%, 80%);
+    --col-node-unicode: hsl(110,80%, 70%);
+    --col-node-comment: hsl(112,92%, 67%);
+    --col-node-or: hsl(153,94%, 53%);
     --col-node-concatenate: hsl(168,80%, 61%);
     --col-node-group: hsl(192,80%, 64%);
     --col-node-quantifier: hsl(216,79%, 70%);
@@ -22,7 +23,7 @@
     --col-node-lookaround: hsl(264,80%, 70%);
     --col-node-if-else: hsl(275,80%, 70%);
     --col-node-flags: hsl(288,80%, 70%);
-    --col-node-output: hsl(312,80%, 75%);
+    --col-node-output: hsl(324, 87%, 66%);
 
     --col-field: hsl(218, 12%, 28%);
     --col-field-editable: hsl(218, 10%, 28%);
@@ -74,10 +75,13 @@ app {
 }
 
 .blazored-modal {
-    /*color: #1b1b1b;*/
-    background-color:var(--col-bg-1) !important;
+    background-color:var(--col-bg-2) !important;
     border:none !important;
     width:40rem !important;
+}
+
+.blazored-modal-close {
+    color: var(--col-text-medium) !important;
 }
 
 .blazored-modal-header {
@@ -134,13 +138,18 @@ app {
     position: absolute;
     transform-origin: 0% 50%;
     stroke: var(--col-noodle);
-    stroke-width: 2.5px;
+    stroke-width: 3px;
+    pointer-events: none;
     fill: none;
 }
     .noodle.noodle-invalid {
         background-color: orangered;
         stroke: orangered;
     }
+
+#tempNoodle {
+    stroke-dasharray: 5;
+}
 
 .button-add-node {
     background-color: var(--col-node-default);
@@ -163,11 +172,8 @@ app {
 
 .sidebar {
     background-color: hsl(218, 27%, 13%);
-    width: 7%;
-    /*margin: var(--padding-main);*/
+    width: 165px;
     overflow: auto;
-    /*padding: 5px;*/
-    /*background-clip: content-box;*/
     z-index: 1;
     box-shadow: 3px 0 17px #00000055;
     display: flex;
@@ -263,17 +269,51 @@ input {
     /*background-color: var(--col-field);*/
     color: var(--col-text-medium);
     width: 100%;
-    background-color: hsla(0, 0%, 0%, 0.09);
-    border: 2px solid #00000030;
     resize: none;
     flex: 1;
 }
 
-/*.search-text-container, .search-text-backdrop, search-textarea {
-    width: 460px;
-    height: 180px;
-}*/
+.textbox {
+    background-color: hsla(0, 0%, 0%, 0.09);
+    border: 2px solid #00000030;
+}
 
+.output-regex-container {
+    display: inline-flex;
+    margin: 5px;
+}
+
+    .output-regex-container :first-child {
+        border-radius: 5px 0 0 5px;
+    }
+
+    .output-regex-container :last-child {
+        border-radius: 0 5px 5px 0;
+    }
+
+.output-regex {
+    background-color: var(--col-field);
+    color: var(--col-text-medium);
+    border: none;
+    font-size: 30px;
+    font-family: Consolas, monospace;
+    line-height: 34px;
+    min-width: 250px;
+    padding: 0px 5px;
+    white-space: pre;
+    height: auto;
+}
+
+.output-regex-button {
+    width: 42px;
+    min-width: unset;
+    background-color: hsl(223, 13%, 44%);
+    font-size: 24px;
+}
+
+    .output-regex-button:hover {
+        background-color: hsl(222, 14%, 22%);
+    }
 
 .search-text-highlight, .search-textarea {
     padding: 0px;
@@ -341,34 +381,3 @@ mark {
         display: none;
     }
 }
-
-/*@media (min-width: 768px) {
-    app {
-        flex-direction: row;
-    }
-
-    .sidebar {
-        width: 170px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-    }
-
-    .main .top-row {
-        position: sticky;
-        top: 0;
-    }
-
-    .main > div {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
-
-    .navbar-toggler {
-        display: none;
-    }
-
-    .sidebar .collapse {
-        display: block;
-    }
-}*/

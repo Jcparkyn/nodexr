@@ -1,14 +1,14 @@
 ﻿.node {
     position: absolute;
     width: 155px;
-    /*padding: 4px;*/
+    z-index: 1;
     border-radius: 8px;
     box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 0.16);
     background-color: var(--col-node-0);
 }
 
     .node.selected {
-        box-shadow: 0 0 0px 1px #ffffffd1;
+        box-shadow: 0 0 0px 2px #ffffffa3;
     }
 
     .node .node-title {
@@ -31,7 +31,7 @@
             background: none;
             border: none;
             font-size: 0.8rem;
-            padding: 0px 2px;
+            padding: 0 0 0 6px;
         }
 
     .node .icon-button {
@@ -118,38 +118,46 @@
     }
 
     .node .node-input-dot {
-        width: 14px;
-        height: 14px;
+        width: 17px;
+        height: 17px;
         background-color: var(--col-noodle);
         border-radius: 50%;
         position: absolute;
-        top: 6px;
+        top: 5px;
+        left: -12px;
+        /* z-index: 11; */
+        box-sizing: border-box;
+        border: 2px solid var(--col-bg-2);
+    }
+
+    .node .input-dot-previous {
         left: -9px;
-        /*z-index: 11;*/
-        box-sizing: content-box;
+        background-color: var(--col-node-accent);
     }
 
     .node .node-output-dot {
-        width: 14px;
-        height: 14px;
-        background-color: var(--col-noodle);
+        width: 17px;
+        height: 17px;
+        background-color: var(--col-node-accent);
         border-radius: 50%;
         position: absolute;
-        top: 4px;
-        right: -10px;
+        top: 5px;
+        right: -9px;
         z-index: 1;
         cursor: copy;
-        box-sizing: content-box;
-        margin: 3px;
+        box-sizing: border-box;
+        border: 2px solid var(--col-bg-2);
     }
 
         .node .node-output-dot:hover {
-            margin: 0px;
-            border: 3px solid darkblue;
+            border: 2px solid white;
+        }
+        .node .node-input-dot:hover {
+            border: 2px solid white;
         }
 
         /* Tooltip text */
-        .node .node-output-dot .outputtooltip {
+        .node .outputtooltip {
             visibility: hidden;
             position: absolute;
             width: initial;
@@ -162,16 +170,19 @@
             border-radius: 6px;
             opacity: 0.5;
             z-index: 1;
+            pointer-events: none;
         }
 
-        .node .node-output-dot:hover .outputtooltip {
+        .node-input-dot:hover .outputtooltip,
+        .node-output-dot:hover .outputtooltip {
             visibility: visible;
         }
 
     .node .info-button {
         float: right;
-        margin: 1px 5px 0 0;
-        color: var(--col-node-0)
+        margin: 1px 6px 0 0;
+        color: var(--col-node-0);
+        cursor: help;
     }
 
 .node-preview {
@@ -212,6 +223,7 @@
     background: none;
     border: none;
     border-radius: 6px;
+    color: var(--col-text-subtle);
 }
 
     .item-button:hover {

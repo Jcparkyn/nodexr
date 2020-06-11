@@ -17,11 +17,12 @@
     protected Type[] nodeTypes { get; set; }
     List<INode> exampleNodes { get; set; } = new List<INode>
     {
-        new ExactString(),
+        new TextNode(),
         new WildcardNode(),
         new CharSet(),
         new AnchorNode(),
         new WhitespaceNode(),
+        new UnicodeNode(),
         new CommentNode(),
         new OrNode(),
         new ConcatNode(),

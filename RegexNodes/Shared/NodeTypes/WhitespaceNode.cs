@@ -20,7 +20,7 @@ namespace RegexNodes.Shared.NodeTypes
         protected InputCheckbox InputLF { get; } = new InputCheckbox(true) { Title = "Newline (\\n)" };
 
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             List<string> charsToAllow = new List<string>();
 

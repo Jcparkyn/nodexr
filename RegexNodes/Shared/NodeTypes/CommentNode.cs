@@ -16,7 +16,7 @@ namespace RegexNodes.Shared.NodeTypes
             Input.InputContents = contents;
         }
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             string result = "(?#" + Input.GetValue()
                 .Replace("(", "")

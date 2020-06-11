@@ -10,45 +10,26 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Inserts a start-of-line or end-of-line character. Useful for ensuring that your regex only matches if it's at a specific position in a line.";
 
         [NodeInput]
-        protected InputDropdown InputAnchorType { get; } = new InputDropdown("Start of line", "End of line", "Word boundary") { Title = "Type of anchor:" };
+        protected InputDropdown InputAnchorType { get; } = new InputDropdown(Modes.startLine, Modes.endLine, Modes.wordBoundary) { Title = "Type of anchor:" };
 
-        public override string GetValue()
+        private static class Modes
+        {
+            public const string startLine = "Start of line";
+            public const string endLine = "End of line";
+            public const string wordBoundary = "Word boundary";
+        }
+
+        protected override string GetValue()
         {
             string result;
-            switch (InputAnchorType.DropdownValue.ToLower())
+            switch (InputAnchorType.DropdownValue)
             {
-                case "start of line": result = "^"; break;
-                case "end of line": result = "$"; break;
-                case "word boundary": result = "\\b"; break;
+                case Modes.startLine: result = "^"; break;
+                case Modes.endLine: result = "$"; break;
+                case Modes.wordBoundary: result = "\\b"; break;
                 default: result = ""; break;
             }
             return result;
         }
-
-        //[NodeInput]
-        //protected InputCheckbox InputLineStart { get; } = new InputCheckbox(true) { Title = "Start of line" };
-        //[NodeInput]
-        //protected InputCheckbox InputLineEnd { get; } = new InputCheckbox() { Title = "End of line" };
-        //[NodeInput]
-        //protected InputCheckbox InputWordBoundary { get; } = new InputCheckbox() { Title = "Word boundary"};
-
-        //public override string GetValue()
-        //{
-        //    List<string> charsToAllow = new List<string>();
-
-        //    if (InputWordBoundary.IsChecked) charsToAllow.Add(@"\b");
-        //    if (InputLineEnd.IsChecked) charsToAllow.Add("$");
-        //    if (InputLineStart.IsChecked) charsToAllow.Add("^");
-
-        //    string charsConverted = string.Join("", charsToAllow);
-        //    if (charsToAllow.Count > 1)
-        //    {
-        //        return UpdateCache("[" + charsConverted + "]"); 
-        //    }
-        //    else
-        //    {
-        //        return UpdateCache("" + charsConverted);
-        //    }
-        //}
     }
 }

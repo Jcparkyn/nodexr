@@ -29,6 +29,10 @@
 
             //substrings are returned as a List instead of IEnumerable to allow for Error catching in MoveNext().
             var matchesSafe = new List<(string, bool)>();
+            if (Matches is null)
+            {
+                return matchesSafe;
+            }
             try
             {
                 foreach (Match match in Matches)

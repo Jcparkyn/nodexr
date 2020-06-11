@@ -20,7 +20,7 @@ namespace RegexNodes.Shared.NodeTypes
             "Negative Lookbehind")
         { Title = "Type:" };
 
-        public override string GetValue()
+        protected override string GetValue()
         {
             string input = Input.GetValue().RemoveNonCapturingGroup();
             string prefix = "";

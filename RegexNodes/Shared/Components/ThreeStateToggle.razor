@@ -1,6 +1,6 @@
 ﻿@using System.Threading.Tasks;
 
-<button class="icon-button" onclick="Toggle"><i class="@stateClasses[ButtonState]"></i></button>
+<button class="icon-button" @onclick="Toggle"><i class="@stateClasses[ButtonState]"></i></button>
 
 @functions{
     [Parameter] public int ButtonState { get; set; }

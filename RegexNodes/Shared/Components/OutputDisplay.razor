@@ -1,19 +1,28 @@
 ﻿@inject INodeHandler NodeHandler
+@inject IJSRuntime JSRuntime
 
+<h3 style="margin:6px 10px 7px 7px; display:inline-block;">Output:</h3>
+@*<div class="textbox" style="
+    display: inline;
+    font-size: 30px;
+    font-family: Consolas, monospace;">
+    @NodeHandler.CachedOutput
+</div>*@
+<div class="output-regex-container">
+    <span class="output-regex">@NodeHandler.CachedOutput</span>
+    <button class="output-regex output-regex-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>
+</div>
 
-<h3 style="margin:7px; display:inline-block;">Output: <span style="font-family:Consolas, monospace;">@NodeHandler.CachedOutput</span></h3>
 
 @functions{
-    //[Parameter] public string Output { get; set; }
 
     protected override void OnInitialized()
     {
-        //base.OnInitialized();
-        NodeHandler.OnOutputHasChanged += SetOutput;
+        NodeHandler.OnOutputHasChanged += StateHasChanged;
     }
 
-    public void SetOutput()
+    private async Task CopyTextToClipboard()
     {
-        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", NodeHandler.CachedOutput);
     }
 }
