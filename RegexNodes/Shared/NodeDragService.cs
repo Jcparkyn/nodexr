@@ -32,7 +32,6 @@ namespace RegexNodes.Shared
         {
             this.nodeHandler = nodeHandler;
             this.jsRuntime = jsRuntime;
-            //jsRuntime.InvokeAsync<object>("initNodeDropHandler", DotNetObjectRef.Create(this));
         }
 
         public enum DragType : int

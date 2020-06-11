@@ -2,8 +2,6 @@
 var prevY = 0;
 var startX, startY, endX, endY = 0;
 var noodleElement = null;
-//var img = new Image();
-//img.src = "http://placehold.it/150/000000/ffffff?text=GHOST";
 
 window.tempNoodle = {
 
