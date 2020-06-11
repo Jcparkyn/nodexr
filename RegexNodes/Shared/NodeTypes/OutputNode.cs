@@ -8,10 +8,18 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "The final output of your Regex. Use the 'Add Item' button to join together the outputs of multiple nodes, similar to the 'Concatenate' node.";
 
         [NodeInput]
-        protected InputDropdown InputStartsAt { get; } = new InputDropdown("Anywhere", "Start of line", "Word boundary") { Title="Starts at:"};
+        protected InputDropdown InputStartsAt { get; } = new InputDropdown(Modes.anywhere, Modes.startLine, Modes.wordBound) { Title="Starts at:"};
 
         [NodeInput]
-        protected InputDropdown InputEndsAt { get; } = new InputDropdown("Anywhere", "End of line", "Word boundary") { Title = "Ends at:" };
+        protected InputDropdown InputEndsAt { get; } = new InputDropdown(Modes.anywhere, Modes.endLine, Modes.wordBound) { Title = "Ends at:" };
+
+        private class Modes
+        {
+            public const string anywhere = "Anywhere";
+            public const string startLine = "Start of line";
+            public const string endLine = "End of line";
+            public const string wordBound= "Word boundary";
+        }
 
         public override string GetOutput()
         {
@@ -26,27 +34,24 @@ namespace RegexNodes.Shared.NodeTypes
                 return UpdateCache("Nothing connected to Output node");
             }
 
-            string result = "";
-            if(InputStartsAt.DropdownValue == "Start of line")
+            //Prefix
+            string result = InputStartsAt.DropdownValue switch
             {
-                result += "^";
-            }
-            else if(InputStartsAt.DropdownValue == "Word boundary")
-            {
-                result += "\\b";
-            }
+                Modes.startLine => "^",
+                Modes.wordBound => "\\b",
+                _ => ""
+            };
 
             result += PreviousNode.InputNode.GetOutput();
 
-            if (InputEndsAt.DropdownValue == "End of line")
+            //Suffix
+            result += InputStartsAt.DropdownValue switch
             {
-                result += "$";
-            }
-            else if (InputEndsAt.DropdownValue == "Word boundary")
-            {
-                result += "\\b";
-            }
-            CachedValue = result;
+                Modes.endLine => "$",
+                Modes.wordBound => "\\b",
+                _ => ""
+            };
+
             return UpdateCache(result);
         }
     }
