@@ -1,15 +1,18 @@
 ﻿@inject INodeHandler NodeHandler
 @inject IJSRuntime JSRuntime
 
-<h3 style="margin:7px 10px 7px 7px; display:inline-block;">Output:</h3>
+<h3 style="margin:6px 10px 7px 7px; display:inline-block;">Output:</h3>
 @*<div class="textbox" style="
     display: inline;
     font-size: 30px;
     font-family: Consolas, monospace;">
     @NodeHandler.CachedOutput
 </div>*@
-<span class="output-regex">@NodeHandler.CachedOutput</span>
-<button class="output-regex output-clipboard-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>
+<div class="output-regex-container">
+    <span class="output-regex">@NodeHandler.CachedOutput</span>
+    <button class="output-regex output-regex-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>
+</div>
+
 
 @functions{
 
