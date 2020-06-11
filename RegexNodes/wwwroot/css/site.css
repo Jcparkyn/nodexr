@@ -172,11 +172,8 @@ app {
 
 .sidebar {
     background-color: hsl(218, 27%, 13%);
-    width: 7%;
-    /*margin: var(--padding-main);*/
+    width: 165px;
     overflow: auto;
-    /*padding: 5px;*/
-    /*background-clip: content-box;*/
     z-index: 1;
     box-shadow: 3px 0 17px #00000055;
     display: flex;
