@@ -8,14 +8,14 @@
 
     --col-node-default: hsl(194, 0%, 50%);
 
-    --col-node-text: hsl(0,100%, 70%);
+    --col-node-text: hsl(0,100%, 68%);
     --col-node-wildcard: hsl(24,90%, 68%);
     --col-node-characterset: hsl(48,80%, 70%);
     --col-node-anchor: hsl(72,80%, 74%);
-    --col-node-whitespace: hsl(96,80%, 75%);
+    --col-node-whitespace: hsl(96,91%, 80%);
     --col-node-unicode: hsl(110,80%, 70%);
-    --col-node-comment: hsl(124,80%, 75%);
-    --col-node-or: hsl(147,86%, 73%);
+    --col-node-comment: hsl(112,92%, 67%);
+    --col-node-or: hsl(153,94%, 53%);
     --col-node-concatenate: hsl(168,80%, 61%);
     --col-node-group: hsl(192,80%, 64%);
     --col-node-quantifier: hsl(216,79%, 70%);
@@ -23,7 +23,7 @@
     --col-node-lookaround: hsl(264,80%, 70%);
     --col-node-if-else: hsl(275,80%, 70%);
     --col-node-flags: hsl(288,80%, 70%);
-    --col-node-output: hsl(312,80%, 75%);
+    --col-node-output: hsl(324, 87%, 66%);
 
     --col-field: hsl(218, 12%, 28%);
     --col-field-editable: hsl(218, 10%, 28%);
