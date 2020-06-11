@@ -24,7 +24,7 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
         [NodeInput]
-        protected InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy") { Title = "Search type:" };
+        protected InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy", "Possessive") { Title = "Search type:" };
 
         private class Repetitions
         {
@@ -64,6 +64,10 @@ namespace RegexNodes.Shared.NodeTypes
             if (InputSearchType.DropdownValue == "Lazy")
             {
                 suffix += "?";
+            }
+            else if (InputSearchType.DropdownValue == "Possessive")
+            {
+                suffix += "+";
             }
 
             string contents = InputNode.GetValue();
