@@ -45,7 +45,7 @@ namespace RegexNodes.Shared.NodeTypes
             result += PreviousNode.InputNode.GetOutput();
 
             //Suffix
-            result += InputStartsAt.DropdownValue switch
+            result += InputEndsAt.DropdownValue switch
             {
                 Modes.endLine => "$",
                 Modes.wordBound => "\\b",
