@@ -17,14 +17,16 @@ namespace RegexNodes.Shared
         string CachedValue { get; set; }
         string GetValueAndUpdateCache();
 
-        List<INodeInput> NodeInputs { get; }
+        List<NodeInput> NodeInputs { get; }
 
         Vector2L OutputPos { get; }
         InputProcedural PreviousNode { get; }
+        string CssColor { get; }
 
         void MoveBy(long x, long y);
         void MoveBy(Vector2L delta);
         void CalculateInputsPos();
+        IEnumerable<NodeInput> GetInputsRecursive();
     }
 
     public abstract class Node : INode
@@ -42,8 +44,8 @@ namespace RegexNodes.Shared
         }
         public InputProcedural PreviousNode { get; } = new InputProcedural();
 
-        private readonly List<INodeInput> nodeInputs;
-        public virtual List<INodeInput> NodeInputs => nodeInputs;
+        private readonly List<NodeInput> nodeInputs;
+        public virtual List<NodeInput> NodeInputs => nodeInputs;
         public abstract string Title { get; }
         public abstract string NodeInfo { get; }
 
@@ -53,13 +55,11 @@ namespace RegexNodes.Shared
 
         public bool IsCollapsed { get; set; }
 
-        //private Node() { }
-
         public Node()
         {
-            nodeInputs = GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance)
+            nodeInputs = GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                     .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)))
-                    .Select(prop => prop.GetValue(this) as INodeInput)
+                    .Select(prop => prop.GetValue(this) as NodeInput)
                     .ToList();
             
             UpdateCache(GetValue());
@@ -130,6 +130,29 @@ namespace RegexNodes.Shared
                 }
             }
         }
+
+        /// <summary>
+        /// Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
+        /// InputCollections themselves are not returned.
+        /// </summary>
+        public IEnumerable<NodeInput> GetInputsRecursive()
+        {
+            yield return PreviousNode;
+            foreach(var input in nodeInputs)
+            {
+                if(input is InputCollection coll)
+                {
+                    foreach (var subInput in coll.Inputs)
+                        yield return subInput;
+                }
+                else
+                {
+                    yield return input;
+                }
+            }
+        }
+
+        public string CssColor => $"var(--col-node-{Title.Replace(" ", "").ToLowerInvariant()})";
 
         public string UpdateCache(string result)
         {

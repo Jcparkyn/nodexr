@@ -1,5 +1,8 @@
 ﻿
-<path id="@DomId" class="@CssClass" d="@PathInstructions" style="display:@(Enabled ? "default" : "none")"/>
+<path id="@DomId" class="@CssClass" d="@PathInstructions"
+      style="
+            display:@(Enabled ? "default" : "none");
+            @CssStrokeStyle"/>
     @*<div id="@DomId" class="@CssClass" style="left:@(StartPoint.x)px; top:@(StartPoint.y)px; width:@(Length)px; transform:rotate(@(Angle)deg);" />*@
 
 
@@ -13,6 +16,8 @@
     public Vector2L EndPoint { get; set; }
     [Parameter]
     public string DomId { get; set; } = "";
+    [Parameter]
+    public string Gradient { get; set; }
 
     public bool Valid { get; set; } = true;
     public bool Enabled { get; set; } = true;
@@ -26,6 +31,10 @@
             return $"M {startX} {startY} C {startX + ctrlLength} {startY} {endX - ctrlLength} {endY} {endX} {endY}";
         }
     }
+
+    string CssStrokeStyle => string.IsNullOrEmpty(Gradient) ?
+        "" :
+        "stroke: url(#" + Gradient + ")";
 
     public void SetStartPoint(Vector2L pos)
     {

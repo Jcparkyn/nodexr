@@ -1,32 +1,43 @@
 ﻿@inject INodeHandler NodeHandler
 
+@{
+    //Store the pairs of inputs and nodes used to render the gradients
+    var gradientPairs = new List<(InputProcedural input, INode node)>();
+}
+
 @foreach (var node in Nodes)
 {
-    if (node.PreviousNode.InputNode != null)
+    var inputsWithNoodles = node.GetInputsRecursive()
+        .OfType<InputProcedural>()
+        .Where(input => input.InputNode != null);
+
+    @foreach (var input in inputsWithNoodles)
     {
-        <NoodleSvg StartPoint="node.PreviousNode.InputNode.OutputPos" EndPoint="node.PreviousNode.Pos" />
-    }
-    foreach (var input in node.NodeInputs)
-    {
-        switch (input)
-        {
-            case InputProcedural inputProc when inputProc.InputNode != null:
-                <NoodleSvg StartPoint="inputProc.InputNode.OutputPos" EndPoint="inputProc.Pos" />
-                break;
-            case InputCollection inputCollection:
-                foreach (INodeInput input2 in inputCollection.Inputs)
-                {
-                    if (input2 is InputProcedural inputProc && inputProc.InputNode != null)
-                    {
-                        <NoodleSvg StartPoint="inputProc.InputNode.OutputPos" EndPoint="inputProc.Pos" />
-                    }
-                }
-                break;
-        }
+        gradientPairs.Add((input, node));
+        <NoodleSvg StartPoint="@input.InputNode.OutputPos" EndPoint="@input.Pos" Gradient="@GradientName(input, node)"/>
     }
 }
 
+<defs>
+    @foreach (var (input, node) in gradientPairs)
+    {
+        <linearGradient id="@GradientName(input, node)" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:@input.InputNode.CssColor"></stop>
+            <stop offset="100%" style="stop-color:@node.CssColor"></stop>
+        </linearGradient>
+    }
+</defs>
+
 @functions {
+
+    public string GradientName(InputProcedural input, INode node)
+    {
+        return "gradient-"
+        + input.InputNode.Title.ToLowerInvariant()
+        + "-"
+        + node.Title.ToLowerInvariant();
+    }
+
     protected override void OnInitialized()
     {
         //base.OnInit();
