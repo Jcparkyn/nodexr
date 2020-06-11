@@ -9,7 +9,7 @@ namespace RegexNodes.Shared.NodeTypes
     {
         public override string Title => "Unicode";
 
-        public override string NodeInfo => "Insert a unicode category.";
+        public override string NodeInfo => "Insert a unicode category, unicode block, or the hex value of a unicode/ascii character.";
 
         [NodeInput]
         protected InputDropdown InputMode { get; } = new InputDropdown(Modes.category, Modes.hex) { Title = "Mode" };
