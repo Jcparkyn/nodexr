@@ -3,6 +3,7 @@
 <div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" @ondragstart="OnDragStart"
      class="@CssClass" @ondrop="@(() => NodeDragService.OnDropNoodle(Input))"
      ondragenter="tempNoodle.setValid()" ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault()">
+    <span class="outputtooltip" style="right:0">Previous</span>
 </div>
 
 @code {

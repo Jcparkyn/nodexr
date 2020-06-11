@@ -157,7 +157,7 @@
         }
 
         /* Tooltip text */
-        .node .node-output-dot .outputtooltip {
+        .node .outputtooltip {
             visibility: hidden;
             position: absolute;
             width: initial;
@@ -170,9 +170,11 @@
             border-radius: 6px;
             opacity: 0.5;
             z-index: 1;
+            pointer-events: none;
         }
 
-        .node .node-output-dot:hover .outputtooltip {
+        .node-input-dot:hover .outputtooltip,
+        .node-output-dot:hover .outputtooltip {
             visibility: visible;
         }
 
