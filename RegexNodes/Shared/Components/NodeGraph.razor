@@ -17,8 +17,8 @@
             <NodeRender Data="node" />
         }
         <svg style="overflow:visible;">
-            <NoodleCollection Nodes="@NodeHandler.Nodes"/>
             <NoodleSvg @ref="NodeDragService.TempNoodle" StartPoint="@(new Vector2L(-10000, -10000))" EndPoint="@(new Vector2L(-10000, -10000))" DomId="tempNoodle" />
+            <NoodleCollection Nodes="@NodeHandler.Nodes"/>
         </svg>
     </div>
 </div>

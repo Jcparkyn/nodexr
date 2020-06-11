@@ -4,6 +4,7 @@ using Microsoft.JSInterop;
 using RegexNodes.Shared.Components;
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace RegexNodes.Shared
 {
@@ -119,26 +120,11 @@ namespace RegexNodes.Shared
             CurDragType = DragType.None;
         }
 
-        //[JSInvokable]
-        //public void DropNodeJS(long xPos, long yPos)
-        //{
-        //    if (CurDragType == DragType.Node)
-        //    {
-        //        //NodeToDrag?.MoveBy(xPos, yPos);
-        //        Console.WriteLine("Drop from JS: " + xPos + ", " + yPos);
-        //        NodeToDrag.Pos = new Vector2L(xPos, yPos);
-        //        nodeHandler.OnNodeCountChanged();
-        //    }
-        //    TempNoodle.Enabled = false;
-        //    TempNoodle.Valid = false;
-        //    NodeToDrag = null;
-        //    CurDragType = DragType.None;
-        //}
-
         public void OnDropNoodle(InputProcedural nodeInput)
         {
             Console.WriteLine("OnDropNoodle");
-            if (CurDragType == DragType.Node || NodeToDrag.NodeInputs.Contains(nodeInput))
+            //TODO: Properly check for cyclic dependencies
+            if (CurDragType != DragType.Noodle || NodeToDrag.GetInputsRecursive().Contains(nodeInput))
             {
                 Console.WriteLine("Can't drop here!");
                 NodeToDrag = null;
@@ -148,13 +134,5 @@ namespace RegexNodes.Shared
             NodeToDrag = null;
             //NoodleEnd = null;
         }
-
-        //public void OnDeleteNode()
-        //{
-        //    if (CurDragType == DragType.Node)
-        //    {
-        //        nodeHandler.DeleteNode(NodeToDrag);
-        //    }
-        //}
     }
 }

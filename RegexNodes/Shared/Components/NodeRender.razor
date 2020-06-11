@@ -4,7 +4,7 @@
 @inject IModalService Modal
 
 
-<div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Color;"
+<div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Data.CssColor;"
         ondragover="event.preventDefault()" onmousedown="event.stopPropagation()" @onfocusin="Deselect">
 
     <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" @onclick="Select" class="node-drag-region"></div>
@@ -30,7 +30,7 @@
     }
     else
     {
-        <div class="node-title collapsed" style="background-color: @Color; height:100%;">
+        <div class="node-title collapsed" style="background-color: var(--col-node-accent); height:100%;">
             <button @onclick="ToggleCollapsed" class="collapse-button" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
             <b> @Data.Title</b>
             <button class="icon-button info-button"
@@ -53,7 +53,7 @@
     [Parameter] public INode Data { get; set; }
     //[Parameter] public int NodeId { get; set; }
 
-    string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
+    
     string CssClass => "node" + (NodeHandler.SelectedNode == Data ? " selected" : "");
 
     protected override void OnInitialized()
