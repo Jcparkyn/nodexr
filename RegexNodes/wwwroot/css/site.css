@@ -272,10 +272,37 @@ input {
     /*background-color: var(--col-field);*/
     color: var(--col-text-medium);
     width: 100%;
-    background-color: hsla(0, 0%, 0%, 0.09);
-    border: 2px solid #00000030;
     resize: none;
     flex: 1;
+}
+
+.textbox {
+    background-color: hsla(0, 0%, 0%, 0.09);
+    border: 2px solid #00000030;
+}
+
+.output-regex {
+    background-color: var(--col-field);
+    color: var(--col-text-medium);
+    border: none;
+    font-size: 30px;
+    font-family: Consolas, monospace;
+    line-height: 35px;
+    border-radius: 9px 0 0 9px;
+    min-width: 200px;
+    padding: 1px 5px;
+    white-space: pre;
+    height: auto;
+    margin: 5px 0px
+}
+
+.output-clipboard-button {
+    width: 42px;
+    min-width: unset;
+    /* margin-left: 0; */
+    border-radius: 0 5px 5px 0;
+    background-color: hsl(223, 13%, 44%);
+    font-size: 24px;
 }
 
 /*.search-text-container, .search-text-backdrop, search-textarea {

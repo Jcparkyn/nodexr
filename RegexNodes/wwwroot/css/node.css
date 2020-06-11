@@ -1,7 +1,7 @@
 ﻿.node {
     position: absolute;
     width: 155px;
-    /*padding: 4px;*/
+    z-index: 1;
     border-radius: 8px;
     box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 0.16);
     background-color: var(--col-node-0);
