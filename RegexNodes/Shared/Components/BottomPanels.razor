@@ -7,7 +7,7 @@
         <div class="viewport-title-bar">
             <h1>Search Text</h1>
         </div>
-        <div class="search-text-container textarea">
+        <div class="search-text-container textarea textbox">
             <SearchTextHighlight Text="@RegexReplaceHandler.SearchText" Matches="@RegexReplaceHandler.GetAllMatches()"/>
             <textarea @bind-value="@RegexReplaceHandler.SearchText" @bind-value:event="oninput" class="search-textarea" />
         </div>
@@ -16,7 +16,7 @@
         <div class="viewport-title-bar">
             <h1>Replacement Regex</h1>
         </div>
-        <textarea class="textarea" @bind-value="@RegexReplaceHandler.ReplacementRegex" @bind-value:event="oninput"/>
+        <textarea class="textarea textbox" @bind-value="@RegexReplaceHandler.ReplacementRegex" @bind-value:event="oninput"/>
     </div>
     <div class="viewport replace-result panel" id="viewport-replaceresult">
         <div class="viewport-title-bar">
