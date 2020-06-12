@@ -11,12 +11,12 @@ namespace Regex_Nodes.Tests
     [TestFixture]
     public class ExactStringTests
     {
-        ExactString _node;
+        TextNode _node;
 
         [SetUp]
         public void SetUp()
         {
-            _node = new ExactString();
+            _node = new TextNode();
         }
 
         [TestCase(@" ")]
@@ -28,7 +28,7 @@ namespace Regex_Nodes.Tests
         {
             //_node.Input = new InputString(contents);
 
-            Assert.That("Test case: " + contents + " End.", Does.Match(_node.GetValue()));
+            Assert.That("Test case: " + contents + " End.", Does.Match(_node.GetOutput()));
         }
     }
 }
