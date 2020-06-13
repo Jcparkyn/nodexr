@@ -29,6 +29,7 @@ namespace RegexNodes.Shared.NodeTypes
 
         public class Repetitions
         {
+            public const string one = "One";
             public const string zeroOrMore = "Zero or more";
             public const string oneOrMore = "One or more";
             public const string zeroOrOne = "Zero or one";
@@ -39,6 +40,7 @@ namespace RegexNodes.Shared.NodeTypes
             {
                 return mode switch
                 {
+                    Repetitions.one => "",
                     Repetitions.zeroOrMore => "*",
                     Repetitions.oneOrMore => "+",
                     Repetitions.zeroOrOne => "?",
