@@ -23,26 +23,56 @@ namespace RegexNodes.Tests
             return node.GetOutput();
         }
 
-        [TestCase(@".", 0, 0, ExpectedResult = @".{0,0}")]
-        [TestCase(@".", 0, 1, ExpectedResult = @".{0,1}")]
-        [TestCase(@".", 1, 2, ExpectedResult = @".{1,2}")]
-        [TestCase(@"(.)", 1, 2, ExpectedResult = @"(.){1,2}")]
-        [TestCase(@"(test)", 1, 2, ExpectedResult = @"(test){1,2}")]
-        [TestCase(@"[test]", 1, 2, ExpectedResult = @"[test]{1,2}")]
-        [TestCase(@"\t", 1, 2, ExpectedResult = @"\t{1,2}")]
-        public string RangeWithGroupedContents_ReturnsContentsWithRange(string contents, int min, int max)
+        [TestCase(@".", ExpectedResult = @".*")]
+        [TestCase(@"(.)", ExpectedResult = @"(.)*")]
+        [TestCase(@"(test)", ExpectedResult = @"(test)*")]
+        [TestCase(@"[test]", ExpectedResult = @"[test]*")]
+        [TestCase(@"\t", ExpectedResult = @"\t*")]
+        public string GetOutput_GroupedContents_ReturnsContentsWithAsterisk(string contents)
         {
-            var node = CreateQuantifierWithRange(contents, min, max);
+            var node = CreateDefaultQuantifier(contents);
             return node.GetOutput();
         }
 
-        [TestCase(@"test", 1, 2, ExpectedResult = @"(?:test){1,2}")]
-        [TestCase(@"\t\n", 1, 2, ExpectedResult = @"(?:\t\n){1,2}")]
-        [TestCase(@"(a)(b)", 1, 2, ExpectedResult = @"(?:(a)(b)){1,2}")]
-        public string RangeWithUngroupedContents_ReturnsContentsGroupedWithRange(string contents, int min, int max)
+        [TestCase(@"test", ExpectedResult = @"(?:test)*")]
+        [TestCase(@"\t\n", ExpectedResult = @"(?:\t\n)*")]
+        [TestCase(@"(a)(b)", ExpectedResult = @"(?:(a)(b))*")]
+        public string GetOutput_UngroupedContents_ReturnsContentsGroupedWithAsterisk(string contents)
         {
-            var node = CreateQuantifierWithRange(contents, min, max);
+            var node = CreateDefaultQuantifier(contents);
+            node.InputSearchType.DropdownValue = Reps.zeroOrMore;
+
             return node.GetOutput();
+        }
+
+        [TestCase(Reps.zeroOrMore, ExpectedResult = @"*")]
+        [TestCase(Reps.oneOrMore, ExpectedResult = @"+")]
+        [TestCase(Reps.zeroOrOne, ExpectedResult = @"?")]
+        public string GetSuffix_BasicModes_ReturnsSuffix(string mode)
+        {
+            return Reps.GetSuffix(mode);
+        }
+
+        [TestCase(0, ExpectedResult = @"{0}")]
+        [TestCase(1, ExpectedResult = @"{1}")]
+        [TestCase(99, ExpectedResult = @"{99}")]
+        [TestCase(null, ExpectedResult = @"{0}")]
+        public string GetSuffix_Number_ReturnsSuffix(int? number)
+        {
+            const string mode = Reps.number;
+            return Reps.GetSuffix(mode, number: number);
+        }
+
+        [TestCase(0, 0, ExpectedResult = @"{0,0}")]
+        [TestCase(0, 1, ExpectedResult = @"{0,1}")]
+        [TestCase(0, 99, ExpectedResult = @"{0,99}")]
+        [TestCase(null, 1, ExpectedResult = @"{0,1}")]
+        [TestCase(1, 99, ExpectedResult = @"{1,99}")]
+        [TestCase(1, null, ExpectedResult = @"{1,}")]
+        public string GetSuffix_Range_ReturnsSuffix(int? min, int? max)
+        {
+            const string mode = Reps.range;
+            return Reps.GetSuffix(mode, min: min, max: max);
         }
 
         private Quantifier CreateQuantifierWithRange(string contents, int min, int max)
