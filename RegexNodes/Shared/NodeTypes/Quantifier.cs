@@ -9,30 +9,35 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Inserts a quantifier to set the minimum and maximum number of 'repeats' for the inputted node. Leave the 'max' option blank to allow unlimited repeats. 'Greedy' and 'Lazy' search type will attempt to match as many or as few times as possible respectively.";
 
         [NodeInput]
-        protected InputProcedural InputNode { get; } = new InputProcedural() { Title = "Input" };
+        public InputProcedural InputContents { get; } = new InputProcedural() { Title = "Input" };
         [NodeInput]
-        protected InputDropdown InputCount { get; } = new InputDropdown(
+        public InputDropdown InputCount { get; } = new InputDropdown(
             Repetitions.zeroOrMore,
             Repetitions.oneOrMore,
             Repetitions.zeroOrOne,
             Repetitions.number,
             Repetitions.range) { Title = "Repetitions:" };
         [NodeInput]
-        protected InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
+        public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
         [NodeInput]
-        protected InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
+        public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
         [NodeInput]
-        protected InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+        public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
         [NodeInput]
-        protected InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy", "Possessive") { Title = "Search type:" };
+        public InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy", "Possessive") { Title = "Search type:" };
 
-        private class Repetitions
+        public class Repetitions
         {
             public const string zeroOrMore = "Zero or more";
             public const string oneOrMore = "One or more";
             public const string zeroOrOne = "Zero or one";
             public const string number = "Number";
             public const string range = "Range";
+
+            //static string GetSuffix(string mode, int min, int? max)
+            //{
+
+            //}
         }
 
         public Quantifier()
@@ -45,8 +50,6 @@ namespace RegexNodes.Shared.NodeTypes
         protected override string GetValue()
         {
             string suffix = "";
-            //int min = InputMin.GetValue() ?? 0;
-            //int? max = InputMax.GetValue();
 
             switch (InputCount.DropdownValue)
             {
@@ -70,7 +73,7 @@ namespace RegexNodes.Shared.NodeTypes
                 suffix += "+";
             }
 
-            string contents = InputNode.GetValue();
+            string contents = InputContents.GetValue();
             if (!contents.IsSingleRegexChar())
             {
                 contents = contents.EnforceGrouped();

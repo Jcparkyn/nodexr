@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace RegexNodes.Shared
 {
-    public interface INode : IPositionable
+    public interface INodeOutput
     {
-        //protected string GetValue();
+        Vector2L OutputPos { get; }
+        string CssName { get; }
+        string CssColor { get; }
+
         string GetOutput();
+    }
+
+    public interface INode : IPositionable, INodeOutput
+    {
         string Title { get; }
         string NodeInfo { get; }
         bool IsCollapsed { get; set; }
@@ -18,11 +25,7 @@ namespace RegexNodes.Shared
         string GetValueAndUpdateCache();
 
         List<NodeInput> NodeInputs { get; }
-
-        Vector2L OutputPos { get; }
         InputProcedural PreviousNode { get; }
-        string CssColor { get; }
-        string CssName { get; }
 
         void MoveBy(long x, long y);
         void MoveBy(Vector2L delta);

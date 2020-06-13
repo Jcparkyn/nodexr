@@ -4,8 +4,8 @@ namespace RegexNodes.Shared
 {
     public class InputProcedural : NodeInput
     {
-        private INode inputNode;
-        public INode InputNode
+        private INodeOutput inputNode;
+        public INodeOutput InputNode
         {
             get => inputNode;
             set
