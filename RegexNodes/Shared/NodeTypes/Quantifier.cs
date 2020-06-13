@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using RegexNodes.Shared;
 
 namespace RegexNodes.Shared.NodeTypes
@@ -34,10 +35,18 @@ namespace RegexNodes.Shared.NodeTypes
             public const string number = "Number";
             public const string range = "Range";
 
-            //static string GetSuffix(string mode, int min, int? max)
-            //{
-
-            //}
+            public static string GetSuffix(string mode, int? number = 0, int? min = 0, int? max = 0)
+            {
+                return mode switch
+                {
+                    Repetitions.zeroOrMore => "*",
+                    Repetitions.oneOrMore => "+",
+                    Repetitions.zeroOrOne => "?",
+                    Repetitions.number => $"{{{number ?? 0}}}",
+                    Repetitions.range => $"{{{min ?? 0},{max}}}",
+                    _ => throw new ArgumentOutOfRangeException(nameof(mode))
+                };
+            }
         }
 
         public Quantifier()
@@ -49,20 +58,11 @@ namespace RegexNodes.Shared.NodeTypes
 
         protected override string GetValue()
         {
-            string suffix = "";
-
-            switch (InputCount.DropdownValue)
-            {
-                case Repetitions.zeroOrMore: suffix = "*"; break;
-                case Repetitions.oneOrMore: suffix = "+"; break;
-                case Repetitions.zeroOrOne: suffix = "?"; break;
-                case Repetitions.number: suffix = $"{{{InputNumber.InputContents}}}"; break;
-                case Repetitions.range:
-                    int min = InputMin.GetValue() ?? 0;
-                    int? max = InputMax.GetValue();
-                    suffix = $"{{{min},{max}}}";
-                    break;
-            }
+            string suffix = Repetitions.GetSuffix(
+                InputCount.DropdownValue,
+                InputNumber.InputContents,
+                InputMin.GetValue(),
+                InputMax.GetValue());
 
             if (InputSearchType.DropdownValue == "Lazy")
             {
