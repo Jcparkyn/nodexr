@@ -5,11 +5,11 @@ using System.Text.RegularExpressions;
 using RegexNodes.Shared;
 using RegexNodes.Shared.NodeTypes;
 
-namespace Regex_Nodes.Tests
+namespace RegexNodes.Tests
 {
 
     [TestFixture]
-    public class ExactStringTests
+    public class TextNodeTests
     {
         TextNode _node;
 

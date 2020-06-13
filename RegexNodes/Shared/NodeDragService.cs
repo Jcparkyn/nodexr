@@ -12,16 +12,14 @@ namespace RegexNodes.Shared
     {
         INode NodeToDrag { get; set; }
         NodeDragService.DragType CurDragType { get; set; }
-        //TempNoodleEnd NoodleEnd { get; set; }
         NoodleSvg TempNoodle { get; set; }
         void OnStartNodeDrag(INode nodeToDrag, DragEventArgs e);
-        void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e);
+        void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e);
+        void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2L _cursorStartPos);
         void OnDrag(DragEventArgs e);
         void OnDrop(DragEventArgs e);
         void OnDropNoodle(InputProcedural nodeInput);
-        //void OnDeleteNode();
         Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e);
-        void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e, Vector2L _cursorStartPos);
     }
 
     public class NodeDragService : INodeDragService
@@ -68,15 +66,15 @@ namespace RegexNodes.Shared
             NodeToDrag.Pos = new Vector2L(x-75, y-15);
         }
 
-        public void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e)
+        public void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e)
         {
             OnStartNoodleDrag(nodeToDrag, e, nodeToDrag.OutputPos);
         }
 
-        public void OnStartNoodleDrag(INode nodeToDrag, DragEventArgs e, Vector2L noodleEndPos)
+        public void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2L noodleEndPos)
         {
             CurDragType = DragType.Noodle;
-            NodeToDrag = nodeToDrag;
+            NodeToDrag = (Node)nodeToDrag;
             TempNoodle.SetStartPoint(nodeToDrag.OutputPos);
             TempNoodle.SetEndPoint(nodeToDrag.OutputPos);
 

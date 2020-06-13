@@ -25,25 +25,52 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputCheckbox InputAllowOther { get; } = new InputCheckbox() { Title = "Other" };
 
+        [NodeInput]
+        public InputDropdown InputCount { get; } = new InputDropdown(
+            Quantifier.Repetitions.one,
+            Quantifier.Repetitions.zeroOrMore,
+            Quantifier.Repetitions.oneOrMore,
+            Quantifier.Repetitions.zeroOrOne,
+            Quantifier.Repetitions.number,
+            Quantifier.Repetitions.range)
+        { Title = "Repetitions:" };
+        [NodeInput]
+        public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
+        [NodeInput]
+        public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
+        [NodeInput]
+        public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+
         public WildcardNode()
         {
             bool isAllowAllUnchecked() => !InputAllowAll.IsChecked;
+
             InputAllowWhitespace.IsEnabled = isAllowAllUnchecked;
             InputAllowUnderscore.IsEnabled = isAllowAllUnchecked;
             InputAllowUppercase.IsEnabled = isAllowAllUnchecked;
             InputAllowLowercase.IsEnabled = isAllowAllUnchecked;
             InputAllowDigits.IsEnabled = isAllowAllUnchecked;
             InputAllowOther.IsEnabled = isAllowAllUnchecked;
+
+            InputNumber.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.number;
+            InputMin.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
+            InputMax.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
         }
 
         protected override string GetValue()
         {
             string result;
 
+            string suffix = Quantifier.Repetitions.GetSuffix(
+                InputCount.DropdownValue,
+                InputNumber.InputContents,
+                InputMin.GetValue(),
+                InputMax.GetValue());
+
             if (InputAllowAll.IsChecked)
             {
                 result = ".";
-                return UpdateCache(result);
+                return UpdateCache(result + suffix);
             }
 
             var inputs = (
@@ -76,7 +103,7 @@ namespace RegexNodes.Shared.NodeTypes
                 _ => "[" + GetClassContents(w: inputs.w, L: inputs.L, l: inputs.l, d: inputs.d, u: inputs.u) + "]",
             };
 
-            return UpdateCache(result);
+            return UpdateCache(result + suffix);
         }
 
         private string GetClassContents(bool w, bool L, bool l, bool d, bool u)
