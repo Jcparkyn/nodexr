@@ -59,7 +59,7 @@ namespace RegexNodes.Shared
             OutputNode outputNode = GetOutputNode();
             if (outputNode != null)
             {
-                output = outputNode.GetOutput();
+                output = outputNode.CachedOutput;
             }
             else
             {

@@ -2,7 +2,7 @@
 
 namespace RegexNodes.Shared
 {
-    public struct Vector2L
+    public readonly struct Vector2L
     {
         public readonly long x;
         public readonly long y;

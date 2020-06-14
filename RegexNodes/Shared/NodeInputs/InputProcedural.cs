@@ -25,7 +25,7 @@ namespace RegexNodes.Shared
 
         public string GetValue()
         {
-            return ConnectedNode?.GetOutput() ?? "";
+            return ConnectedNode?.CachedOutput ?? "";
         }
     }
 }

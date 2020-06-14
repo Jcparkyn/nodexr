@@ -42,7 +42,7 @@ namespace RegexNodes.Shared.NodeTypes
                 _ => ""
             };
 
-            result += PreviousNode.ConnectedNode.GetOutput();
+            result += PreviousNode.ConnectedNode.CachedOutput;
 
             //Suffix
             result += InputEndsAt.DropdownValue switch

@@ -94,8 +94,6 @@ namespace RegexNodes.Shared
 
             if (CurDragType == DragType.Noodle)
             {
-                //NoodleEnd.Pos = NodeToDrag.Pos + new Vector2L(150, 17) + (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
-                //TempNoodle.Refresh();
                 Vector2L endPoint = NodeToDrag.OutputPos + (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
                 TempNoodle.SetEndPoint(endPoint);
             }
@@ -103,14 +101,11 @@ namespace RegexNodes.Shared
 
         public void OnDrop(DragEventArgs e)
         {
-            if (CurDragType == DragType.Node)
+            if (CurDragType == DragType.Node && NodeToDrag != null)
             {
-                NodeToDrag?.MoveBy((e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom);
+                NodeToDrag.Pos += (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
             }
-            else if (CurDragType == DragType.Noodle)
-            {
-                //TempNoodle.Refresh();
-            }
+            
             TempNoodle.Enabled = false;
             TempNoodle.Valid = false;
             NodeToDrag = null;

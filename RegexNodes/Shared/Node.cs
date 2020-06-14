@@ -24,13 +24,9 @@ namespace RegexNodes.Shared
         string NodeInfo { get; }
         bool IsCollapsed { get; set; }
 
-        string GetValueAndUpdateCache();
-
         List<NodeInput> NodeInputs { get; }
         InputProcedural PreviousNode { get; }
 
-        void MoveBy(long x, long y);
-        void MoveBy(Vector2L delta);
         void CalculateInputsPos();
         IEnumerable<NodeInput> GetInputsRecursive();
     }
@@ -79,8 +75,11 @@ namespace RegexNodes.Shared
 
         public Node()
         {
-            NodeInputs = GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                    .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)))
+            var inputProperties = GetType()
+                .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)));
+
+            NodeInputs = inputProperties
                     .Select(prop => prop.GetValue(this) as NodeInput)
                     .ToList();
 
@@ -92,15 +91,6 @@ namespace RegexNodes.Shared
             }
             
             OnInputsChanged(this, EventArgs.Empty);
-        }
-
-        [Obsolete("Update cache in derived class instead")]
-        public string GetValueAndUpdateCache()
-        {
-            string value = GetValue();
-            //Console.WriteLine("Updating cache value to " + value);
-            CachedOutput = value;
-            return value;
         }
 
         /// <summary>
@@ -184,17 +174,9 @@ namespace RegexNodes.Shared
         public string CssName => Title.Replace(" ", "").ToLowerInvariant();
         public string CssColor => $"var(--col-node-{CssName})";
 
-        public void MoveBy(long x, long y)
-        {
-            Pos = new Vector2L(Pos.x + x, Pos.y + y);
-            CalculateInputsPos();
-        }
-        public void MoveBy(Vector2L delta) => MoveBy(delta.x, delta.y);
-
         public virtual string GetOutput()
         {
-            //TODO: use cache
-            return PreviousNode.ConnectedNode?.GetOutput() + GetValue();
+            return PreviousNode.ConnectedNode?.CachedOutput + GetValue();
         }
 
         protected abstract string GetValue();

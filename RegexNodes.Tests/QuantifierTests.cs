@@ -20,7 +20,7 @@ namespace RegexNodes.Tests
             var node = CreateDefaultQuantifier(contents);
             node.InputCount.DropdownValue = repetitions;
 
-            return node.GetOutput();
+            return node.CachedOutput;
         }
 
         [TestCase(@".", ExpectedResult = @".*")]
@@ -31,7 +31,7 @@ namespace RegexNodes.Tests
         public string GetOutput_GroupedContents_ReturnsContentsWithAsterisk(string contents)
         {
             var node = CreateDefaultQuantifier(contents);
-            return node.GetOutput();
+            return node.CachedOutput;
         }
 
         [TestCase(@"test", ExpectedResult = @"(?:test)*")]
@@ -42,7 +42,7 @@ namespace RegexNodes.Tests
             var node = CreateDefaultQuantifier(contents);
             node.InputSearchType.DropdownValue = Reps.zeroOrMore;
 
-            return node.GetOutput();
+            return node.CachedOutput;
         }
 
         [TestCase(Reps.zeroOrMore, ExpectedResult = @"*")]
