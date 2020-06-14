@@ -17,7 +17,6 @@ namespace RegexNodes.Shared.NodeTypes
             {
                 result += input.GetValue();
             }
-            CachedValue = result;
             return result;
         }
     }

@@ -11,7 +11,7 @@ namespace RegexNodes.Shared
             set
             {
                 inputContents = value;
-                OnValueChanged?.Invoke();
+                OnValueChanged();
             }
         }
 

@@ -43,7 +43,7 @@ namespace RegexNodes.Shared.NodeTypes
             //{
             //    return UpdateCache(prefix + input.Substring(3));
             //}
-            return UpdateCache($"{prefix}{input})");
+            return $"{prefix}{input})";
         }
     }
 }

@@ -16,8 +16,7 @@ namespace RegexNodes.Shared
             set
             {
                 checkedState = value;
-                //Console.WriteLine("change");
-                OnValueChanged?.Invoke();
+                OnValueChanged();
             }
         }
 

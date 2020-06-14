@@ -4,20 +4,25 @@ namespace RegexNodes.Shared
 {
     public class InputProcedural : NodeInput
     {
-        private INodeOutput inputNode;
-        public INodeOutput InputNode
+        private INodeOutput connectedNode;
+        public INodeOutput ConnectedNode
         {
-            get => inputNode;
+            get => connectedNode;
             set
             {
-                inputNode = value;
-                OnValueChanged?.Invoke();
+                if (connectedNode != null)
+                {
+                    connectedNode.OutputChanged -= OnValueChanged;
+                }
+                value.OutputChanged += OnValueChanged;
+                connectedNode = value;
+                OnValueChanged();
             }
         }
 
         public string GetValue()
         {
-            return InputNode?.GetOutput() ?? "";
+            return ConnectedNode?.GetOutput() ?? "";
         }
     }
 }

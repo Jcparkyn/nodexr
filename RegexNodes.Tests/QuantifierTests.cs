@@ -89,7 +89,7 @@ namespace RegexNodes.Tests
         private Quantifier CreateDefaultQuantifier(string contents)
         {
             var node = new Quantifier();
-            node.InputContents.InputNode = new FakeNodeOutput(contents);
+            node.InputContents.ConnectedNode = new FakeNodeOutput(contents);
             return node;
         }
     }

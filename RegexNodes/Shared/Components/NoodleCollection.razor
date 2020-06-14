@@ -9,12 +9,12 @@
 {
     var inputsWithNoodles = node.GetInputsRecursive()
         .OfType<InputProcedural>()
-        .Where(input => input.InputNode != null);
+        .Where(input => input.ConnectedNode != null);
 
     @foreach (var input in inputsWithNoodles)
     {
         gradientPairs.Add((input, node));
-        <NoodleSvg StartPoint="@input.InputNode.OutputPos" EndPoint="@input.Pos" Gradient="@GradientName(input, node)"/>
+        <NoodleSvg StartPoint="@input.ConnectedNode.OutputPos" EndPoint="@input.Pos" Gradient="@GradientName(input, node)"/>
     }
 }
 
@@ -22,7 +22,7 @@
     @foreach (var (input, node) in gradientPairs)
     {
         <linearGradient id="@GradientName(input, node)" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:@input.InputNode.CssColor"></stop>
+            <stop offset="0%" style="stop-color:@input.ConnectedNode.CssColor"></stop>
             <stop offset="100%" style="stop-color:@node.CssColor"></stop>
         </linearGradient>
     }
@@ -33,7 +33,7 @@
     public string GradientName(InputProcedural input, INode node)
     {
         return "gradient-"
-        + input.InputNode.CssName
+        + input.ConnectedNode.CssName
         + "-"
         + node.CssName;
     }

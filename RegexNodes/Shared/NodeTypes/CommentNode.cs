@@ -23,7 +23,7 @@ namespace RegexNodes.Shared.NodeTypes
                 .Replace(")", "")
                 + ")";
 
-            return UpdateCache(result);
+            return result;
         }
     }
 }

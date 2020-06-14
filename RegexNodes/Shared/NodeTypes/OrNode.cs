@@ -20,11 +20,9 @@ namespace RegexNodes.Shared.NodeTypes
             //{
             //    result += input.GetValue();
             //}
-            result += String.Join("|", from input
-                                       in Inputs.Inputs
-                                       select input.GetValue());
+            result += String.Join("|", Inputs.Inputs.Select(input => input.GetValue()));
             result += ")";
-            CachedValue = result;
+
             return result;
         }
     }

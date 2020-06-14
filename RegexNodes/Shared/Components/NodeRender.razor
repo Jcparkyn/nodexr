@@ -23,7 +23,7 @@
             {
                 if (nodeInput.IsEnabled())
                 {
-                    <NodeInputRender Data="nodeInput" OnValueChanged="OnValueChanged" OnInputsChanged="Data.CalculateInputsPos" />
+                    <NodeInputRender Data="nodeInput" />
                 }
             }
         </div>
@@ -51,14 +51,12 @@
 
 @functions{
     [Parameter] public INode Data { get; set; }
-    //[Parameter] public int NodeId { get; set; }
 
-    
-    string CssClass => "node" + (NodeHandler.SelectedNode == Data ? " selected" : "");
+    string CssClass => "node " + (NodeHandler.SelectedNode == Data ? "selected" : "");
 
     protected override void OnInitialized()
     {
-        Data.PreviousNode.OnValueChanged = OnValueChanged;
+        Data.OutputChanged += OnOutputChanged;
     }
 
     void ToggleCollapsed()
@@ -87,10 +85,8 @@
         NodeHandler.SelectedNode = null;
     }
 
-    void OnValueChanged()
+    void OnOutputChanged(object sender, EventArgs e)
     {
-        //Data.GetValueAndUpdateCache();
-        NodeHandler.RecalculateOutput();
         StateHasChanged();
     }
 }

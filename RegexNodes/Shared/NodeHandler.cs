@@ -37,6 +37,22 @@ namespace RegexNodes.Shared
         public Action OnRequireNoodleRefresh { get; set; }
         public Action OnRequireNodeGraphRefresh { get; set; }
 
+        public NodeHandler()
+        {
+            var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
+            var defaultNode = new TextNode("fox") { Pos = new Vector2L(300, 200) };
+            defaultOutput.PreviousNode.ConnectedNode = defaultNode;
+            defaultOutput.OutputChanged += OnOutputChanged;
+            Nodes.Add(defaultNode);
+            Nodes.Add(defaultOutput);
+            RecalculateOutput();
+        }
+
+        void OnOutputChanged(object sender, EventArgs e)
+        {
+            RecalculateOutput();
+        }
+
         public void RecalculateOutput()
         {
             string output;
@@ -62,9 +78,9 @@ namespace RegexNodes.Shared
             return (OutputNode)(Nodes.FirstOrDefault(x => x is OutputNode));
         }
 
-        public void AddNode<T>(bool refreshIndex = true) where T : Node, new()
+        public void AddNode<TNode>(bool refreshIndex = true) where TNode : Node, new()
         {
-            Node newNode = new T();
+            Node newNode = new TNode();
             newNode.CalculateInputsPos();
             AddNode(newNode, refreshIndex);
         }
@@ -119,9 +135,9 @@ namespace RegexNodes.Shared
 
         private void DeleteNoodlesBetween(INode node, INodeInput input)
         {
-            if (input is InputProcedural inputProcedural && inputProcedural.InputNode == node)
+            if (input is InputProcedural inputProcedural && inputProcedural.ConnectedNode == node)
             {
-                inputProcedural.InputNode = null;
+                inputProcedural.ConnectedNode = null;
             }
             else if (input is InputCollection inputCollection)
             {

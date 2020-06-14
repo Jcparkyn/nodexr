@@ -30,13 +30,6 @@
 
     protected override void OnInitialized()
     {
-        //base.OnInit();
-        var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
-        var defaultNode = new TextNode("fox") { Pos = new Vector2L(300, 200) };
-        defaultOutput.PreviousNode.InputNode = defaultNode;
-        NodeHandler.Nodes.Add(defaultNode);
-        NodeHandler.Nodes.Add(defaultOutput);
-        NodeHandler.RecalculateOutput();
         NodeHandler.OnNodeCountChanged += StateHasChanged;
         NodeHandler.OnRequireNodeGraphRefresh = StateHasChanged;
     }

@@ -4,36 +4,36 @@ namespace RegexNodes.Shared
 {
     public class InputCollection : NodeInput
     {
-
         public List<InputProcedural> Inputs { get; private set; }
 
         public InputCollection(List<InputProcedural> inputs)
         {
             Inputs = inputs;
         }
-        public InputCollection(int numInputs = 2, string inputTitle = "Input")
+        public InputCollection(int numInputs = 2, string inputTitle = "")
         {
             Inputs = new List<InputProcedural>();
             for(int i = 0; i < numInputs; i++)
             {
-                Inputs.Add(new InputProcedural() { Title = inputTitle});
+                AddItem(inputTitle);
             }
         }
 
-        public void AddItem()
+        public void AddItem(string title = null)
         {
-            var newInput = new InputProcedural();
+            var newInput = new InputProcedural() { Title = title };
             //newInput.Pos = new Vector2L(Pos.x, Pos.y + 35 * Inputs.Count); //TODO: refactor
+            newInput.ValueChanged += OnValueChanged;
             Inputs.Add(newInput);
             //nodeHandler.OnRequireNoodleRefresh?.Invoke();
-            OnValueChanged?.Invoke();
+            OnValueChanged();
         }
 
         public void RemoveItem(InputProcedural item)
         {
             Inputs.Remove(item);
             //nodeHandler.OnRequireNoodleRefresh?.Invoke();
-            OnValueChanged?.Invoke();
+            OnValueChanged();
         }
 
         public void MoveUp(InputProcedural input)
@@ -46,7 +46,7 @@ namespace RegexNodes.Shared
                 Inputs[index - 1] = input;
                 //(Inputs[index].Pos, Inputs[index - 1].Pos) = (Inputs[index - 1].Pos, Inputs[index].Pos);
                 //nodeHandler.OnRequireNoodleRefresh?.Invoke();
-                OnValueChanged?.Invoke();
+                OnValueChanged();
             }
         }
 
@@ -59,7 +59,7 @@ namespace RegexNodes.Shared
                 Inputs[index + 1] = input;
                 //(Inputs[index].Pos, Inputs[index + 1].Pos) = (Inputs[index + 1].Pos, Inputs[index].Pos);
                 //nodeHandler.OnRequireNoodleRefresh?.Invoke();
-                OnValueChanged?.Invoke();
+                OnValueChanged();
             }
         }
     }

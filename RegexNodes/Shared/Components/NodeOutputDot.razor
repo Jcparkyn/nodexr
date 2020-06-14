@@ -6,7 +6,7 @@
 <div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" @ondragstart="OnDragStart" class="node-output-dot">
     <span class="outputtooltip">
         Output:<br />
-        @{string output = Data.CachedValue;}
+        @{string output = Data.CachedOutput;}
         <nobr>@(String.IsNullOrEmpty(output) ? "None" : output)</nobr>
     </span>
 </div>

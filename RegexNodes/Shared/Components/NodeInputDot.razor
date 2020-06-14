@@ -16,10 +16,10 @@
 
     void OnDragStart(DragEventArgs e)
     {
-        if (Input.InputNode != null)
+        if (Input.ConnectedNode != null)
         {
-            NodeDragService.OnStartNoodleDrag(Input.InputNode, e, Input.Pos);
-            Input.InputNode = null;
+            NodeDragService.OnStartNoodleDrag(Input.ConnectedNode, e, Input.Pos);
+            Input.ConnectedNode = null;
         }
     }
 }

@@ -127,7 +127,7 @@ namespace RegexNodes.Shared
                 NodeToDrag = null;
                 return;
             }
-            nodeInput.InputNode = NodeToDrag;
+            nodeInput.ConnectedNode = NodeToDrag;
             NodeToDrag = null;
             //NoodleEnd = null;
         }

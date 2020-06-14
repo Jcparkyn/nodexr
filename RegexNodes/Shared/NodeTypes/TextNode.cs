@@ -29,8 +29,7 @@ namespace RegexNodes.Shared.NodeTypes
 
             if (String.IsNullOrEmpty(result))
             {
-                CachedValue = null;
-                return null;
+                return "";
             }
 
             if (InputDoEscape.IsChecked)
@@ -38,7 +37,7 @@ namespace RegexNodes.Shared.NodeTypes
                 result = result.EscapeCharacters(charsToEscape); 
             }
 
-            return UpdateCache(result);
+            return result;
         }
     }
 }

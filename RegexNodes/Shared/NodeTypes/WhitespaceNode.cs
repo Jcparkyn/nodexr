@@ -31,17 +31,17 @@ namespace RegexNodes.Shared.NodeTypes
 
             if (charsToAllow.Count == 4)
             {
-                return UpdateCache("\\s");
+                return "\\s";
             }
 
             string charsConverted = string.Join("", charsToAllow);
             if (charsToAllow.Count > 1)
             {
-                return UpdateCache("[" + charsConverted + "]");
+                return "[" + charsConverted + "]";
             }
             else
             {
-                return UpdateCache("" + charsConverted);
+                return "" + charsConverted;
             }
         }
     }
