@@ -10,18 +10,19 @@ namespace RegexNodes.Shared
         {
             Inputs = inputs;
         }
-        public InputCollection(int numInputs = 2, string inputTitle = "")
+        public InputCollection(string title, int numInputs = 2)
         {
-            Inputs = new List<InputProcedural>();
+            Title = title;
+            Inputs = new List<InputProcedural>(numInputs);
             for(int i = 0; i < numInputs; i++)
             {
-                AddItem(inputTitle);
+                AddItem();
             }
         }
 
-        public void AddItem(string title = null)
+        public void AddItem()
         {
-            var newInput = new InputProcedural() { Title = title };
+            var newInput = new InputProcedural() { Title = this.Title };
             //newInput.Pos = new Vector2L(Pos.x, Pos.y + 35 * Inputs.Count); //TODO: refactor
             newInput.ValueChanged += OnValueChanged;
             Inputs.Add(newInput);
