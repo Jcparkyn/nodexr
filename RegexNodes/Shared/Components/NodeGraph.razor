@@ -34,18 +34,6 @@
         NodeHandler.OnRequireNodeGraphRefresh = StateHasChanged;
     }
 
-    protected void Refresh()
-    {
-        StateHasChanged();
-    }
-
-    void AddNode<T>() where T : Node, new()
-    {
-        Node newNode = new T();
-        newNode.CalculateInputsPos();
-        NodeHandler.Nodes.Add(newNode);
-    }
-
     void DeleteSelectedNode(KeyboardEventArgs e)
     {
         if (e.Key == "Delete")
