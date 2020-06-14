@@ -14,7 +14,10 @@ namespace RegexNodes.Shared
                 {
                     connectedNode.OutputChanged -= OnValueChanged;
                 }
-                value.OutputChanged += OnValueChanged;
+                if (value != null)
+                {
+                    value.OutputChanged += OnValueChanged;
+                }
                 connectedNode = value;
                 OnValueChanged();
             }

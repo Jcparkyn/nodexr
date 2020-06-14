@@ -125,7 +125,7 @@
         position: absolute;
         top: 5px;
         left: -12px;
-        /* z-index: 11; */
+        z-index: 1;
         box-sizing: border-box;
         border: 2px solid var(--col-bg-2);
     }
