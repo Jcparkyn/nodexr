@@ -63,8 +63,7 @@
     void ToggleCollapsed()
     {
         Data.IsCollapsed = !Data.IsCollapsed;
-        Data.CalculateInputsPos();
-        NodeHandler.OnRequireNoodleRefresh?.Invoke();
+        Data.OnLayoutChanged(this, EventArgs.Empty);
     }
 
     void ShowModal()

@@ -22,18 +22,18 @@
     void MoveUp(InputProcedural input)
     {
         Data.MoveUp(input);
-        NodeHandler.OnRequireNoodleRefresh?.Invoke();
+        NodeHandler.ForceRefreshNoodles();
     }
 
     void MoveDown(InputProcedural input)
     {
         Data.MoveDown(input);
-        NodeHandler.OnRequireNoodleRefresh?.Invoke();
+        NodeHandler.ForceRefreshNoodles();
     }
 
     void RemoveItem(InputProcedural input)
     {
         Data.RemoveItem(input);
-        NodeHandler.OnRequireNoodleRefresh?.Invoke();
+        NodeHandler.ForceRefreshNoodles();
     }
 }

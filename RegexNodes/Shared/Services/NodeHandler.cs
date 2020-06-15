@@ -10,12 +10,12 @@ namespace RegexNodes.Shared
     {
         List<INode> Nodes { get; set; }
         string CachedOutput { get; }
-        Action OnRequireNoodleRefresh { get; set; }
 
+        event Action OnRequireNoodleRefresh;
+        event Action OnRequireNodeGraphRefresh;
         event Action OnOutputHasChanged;
         Action OnNodeCountChanged { get; set; }
         INode SelectedNode { get; set; }
-        event Action OnRequireNodeGraphRefresh;
 
         void AddNode<T>(bool refreshIndex = true) where T : Node, new();
         void AddNode(INode node, bool refreshIndex = true);
@@ -24,6 +24,7 @@ namespace RegexNodes.Shared
         void RecalculateOutput();
         void DeleteSelectedNode();
         void ForceRefreshNodeGraph();
+        void ForceRefreshNoodles();
     }
 
     public class NodeHandler : INodeHandler
@@ -35,7 +36,7 @@ namespace RegexNodes.Shared
 
         public event Action OnOutputHasChanged;
         public Action OnNodeCountChanged { get; set; }
-        public Action OnRequireNoodleRefresh { get; set; }
+        public event Action OnRequireNoodleRefresh;
         public event Action OnRequireNodeGraphRefresh;
 
         public NodeHandler()
@@ -52,6 +53,11 @@ namespace RegexNodes.Shared
         public void ForceRefreshNodeGraph()
         {
             OnRequireNodeGraphRefresh?.Invoke();
+        }
+
+        public void ForceRefreshNoodles()
+        {
+            OnRequireNoodleRefresh?.Invoke();
         }
 
         void OnOutputChanged(object sender, EventArgs e)

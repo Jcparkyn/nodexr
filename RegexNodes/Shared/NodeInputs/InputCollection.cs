@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RegexNodes.Shared
 {
@@ -20,15 +21,19 @@ namespace RegexNodes.Shared
             }
         }
 
-        public override bool AffectsLayout { get; set; } = true;
+        public event EventHandler InputPositionsChanged;
+
+        private void OnInputPositionsChanged()
+        {
+            InputPositionsChanged?.Invoke(this, EventArgs.Empty);
+        }
 
         public void AddItem()
         {
             var newInput = new InputProcedural() { Title = this.Title };
-            //newInput.Pos = new Vector2L(Pos.x, Pos.y + 35 * Inputs.Count); //TODO: refactor
             newInput.ValueChanged += OnValueChanged;
             Inputs.Add(newInput);
-            //nodeHandler.OnRequireNoodleRefresh?.Invoke();
+            OnInputPositionsChanged();
             OnValueChanged();
         }
 
@@ -36,6 +41,7 @@ namespace RegexNodes.Shared
         {
             Inputs.Remove(item);
             //nodeHandler.OnRequireNoodleRefresh?.Invoke();
+            OnInputPositionsChanged();
             OnValueChanged();
         }
 
@@ -49,6 +55,7 @@ namespace RegexNodes.Shared
                 Inputs[index - 1] = input;
                 //(Inputs[index].Pos, Inputs[index - 1].Pos) = (Inputs[index - 1].Pos, Inputs[index].Pos);
                 //nodeHandler.OnRequireNoodleRefresh?.Invoke();
+                OnInputPositionsChanged();
                 OnValueChanged();
             }
         }
@@ -62,6 +69,7 @@ namespace RegexNodes.Shared
                 Inputs[index + 1] = input;
                 //(Inputs[index].Pos, Inputs[index + 1].Pos) = (Inputs[index + 1].Pos, Inputs[index].Pos);
                 //nodeHandler.OnRequireNoodleRefresh?.Invoke();
+                OnInputPositionsChanged();
                 OnValueChanged();
             }
         }
