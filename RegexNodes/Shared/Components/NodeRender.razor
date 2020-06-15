@@ -3,6 +3,7 @@
 @inject INodeHandler  NodeHandler
 @inject IModalService Modal
 
+@{ Console.WriteLine("Updating node: " + Data.Title); }
 
 <div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Data.CssColor;"
         ondragover="event.preventDefault()" onmousedown="event.stopPropagation()" @onfocusin="Deselect">
@@ -23,7 +24,7 @@
             {
                 if (nodeInput.IsEnabled())
                 {
-                    <NodeInputRender Data="nodeInput" OnValueChanged="OnValueChanged" OnInputsChanged="Data.CalculateInputsPos" />
+                    <NodeInputRender Data="nodeInput" />
                 }
             }
         </div>
@@ -51,21 +52,18 @@
 
 @functions{
     [Parameter] public INode Data { get; set; }
-    //[Parameter] public int NodeId { get; set; }
 
-    
-    string CssClass => "node" + (NodeHandler.SelectedNode == Data ? " selected" : "");
+    string CssClass => "node " + (NodeHandler.SelectedNode == Data ? "selected" : "");
 
     protected override void OnInitialized()
     {
-        Data.PreviousNode.OnValueChanged = OnValueChanged;
+        Data.OutputChanged += (sender, e) => StateHasChanged();
     }
 
     void ToggleCollapsed()
     {
         Data.IsCollapsed = !Data.IsCollapsed;
-        Data.CalculateInputsPos();
-        NodeHandler.OnRequireNoodleRefresh?.Invoke();
+        Data.OnLayoutChanged(this, EventArgs.Empty);
     }
 
     void ShowModal()
@@ -79,18 +77,11 @@
     void Select()
     {
         NodeHandler.SelectedNode = Data;
-        NodeHandler.OnRequireNodeGraphRefresh.Invoke();
+        NodeHandler.ForceRefreshNodeGraph();
     }
 
     void Deselect()
     {
         NodeHandler.SelectedNode = null;
-    }
-
-    void OnValueChanged()
-    {
-        //Data.GetValueAndUpdateCache();
-        NodeHandler.RecalculateOutput();
-        StateHasChanged();
     }
 }

@@ -49,7 +49,7 @@ namespace RegexNodes.Shared.NodeTypes
                 flagsOff = "-" + flagsOff;
             }
 
-            return UpdateCache($"(?{flagsOn}{flagsOff}{input})");
+            return $"(?{flagsOn}{flagsOff}{input})";
         }
     }
 }

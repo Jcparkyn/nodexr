@@ -9,7 +9,7 @@
             set
             {
                 inputContents = value;
-                OnValueChanged?.Invoke();
+                OnValueChanged();
             }
         }
 

@@ -10,12 +10,12 @@ namespace RegexNodes.Shared
     {
         List<INode> Nodes { get; set; }
         string CachedOutput { get; }
-        Action OnRequireNoodleRefresh { get; set; }
 
+        event Action OnRequireNoodleRefresh;
+        event Action OnRequireNodeGraphRefresh;
         event Action OnOutputHasChanged;
         Action OnNodeCountChanged { get; set; }
         INode SelectedNode { get; set; }
-        Action OnRequireNodeGraphRefresh { get; set; }
 
         void AddNode<T>(bool refreshIndex = true) where T : Node, new();
         void AddNode(INode node, bool refreshIndex = true);
@@ -23,6 +23,8 @@ namespace RegexNodes.Shared
         OutputNode GetOutputNode();
         void RecalculateOutput();
         void DeleteSelectedNode();
+        void ForceRefreshNodeGraph();
+        void ForceRefreshNoodles();
     }
 
     public class NodeHandler : INodeHandler
@@ -34,21 +36,41 @@ namespace RegexNodes.Shared
 
         public event Action OnOutputHasChanged;
         public Action OnNodeCountChanged { get; set; }
-        public Action OnRequireNoodleRefresh { get; set; }
-        public Action OnRequireNodeGraphRefresh { get; set; }
+        public event Action OnRequireNoodleRefresh;
+        public event Action OnRequireNodeGraphRefresh;
+
+        public NodeHandler()
+        {
+            var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
+            var defaultNode = new TextNode("fox") { Pos = new Vector2L(300, 200) };
+            defaultOutput.PreviousNode.ConnectedNode = defaultNode;
+            defaultOutput.OutputChanged += OnOutputChanged;
+            Nodes.Add(defaultNode);
+            Nodes.Add(defaultOutput);
+            RecalculateOutput();
+        }
+
+        public void ForceRefreshNodeGraph()
+        {
+            OnRequireNodeGraphRefresh?.Invoke();
+        }
+
+        public void ForceRefreshNoodles()
+        {
+            OnRequireNoodleRefresh?.Invoke();
+        }
+
+        void OnOutputChanged(object sender, EventArgs e)
+        {
+            RecalculateOutput();
+        }
 
         public void RecalculateOutput()
         {
-            string output;
             OutputNode outputNode = GetOutputNode();
-            if (outputNode != null)
-            {
-                output = outputNode.GetOutput();
-            }
-            else
-            {
-                output = "Add an 'Output' node to get started";
-            }
+
+            string output = outputNode?.CachedOutput ??
+                "Add an 'Output' node to get started";
 
             if (output != CachedOutput)
             {
@@ -62,9 +84,9 @@ namespace RegexNodes.Shared
             return (OutputNode)(Nodes.FirstOrDefault(x => x is OutputNode));
         }
 
-        public void AddNode<T>(bool refreshIndex = true) where T : Node, new()
+        public void AddNode<TNode>(bool refreshIndex = true) where TNode : Node, new()
         {
-            Node newNode = new T();
+            Node newNode = new TNode();
             newNode.CalculateInputsPos();
             AddNode(newNode, refreshIndex);
         }
@@ -75,7 +97,7 @@ namespace RegexNodes.Shared
 
             if(node is OutputNode)
             {
-                //
+                node.OutputChanged += OnOutputChanged;
                 RecalculateOutput();
             }
             if (refreshIndex)
@@ -119,9 +141,9 @@ namespace RegexNodes.Shared
 
         private void DeleteNoodlesBetween(INode node, INodeInput input)
         {
-            if (input is InputProcedural inputProcedural && inputProcedural.InputNode == node)
+            if (input is InputProcedural inputProcedural && inputProcedural.ConnectedNode == node)
             {
-                inputProcedural.InputNode = null;
+                inputProcedural.ConnectedNode = null;
             }
             else if (input is InputCollection inputCollection)
             {

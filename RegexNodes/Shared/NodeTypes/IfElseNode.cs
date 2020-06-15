@@ -39,7 +39,7 @@ namespace RegexNodes.Shared.NodeTypes
             //string condition = ConditionType.DropdownValue == "Expression" ? InputCondition.GetValue() : InputGroupID.GetValue();
             string condition = InputGroupID.GetValue();
             
-            return UpdateCache($"(?({condition}){InputThen.GetValue()}|{InputElse.GetValue()})");
+            return $"(?({condition}){InputThen.GetValue()}|{InputElse.GetValue()})";
         }
     }
 }

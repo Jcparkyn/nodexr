@@ -1,39 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace RegexNodes.Shared
 {
     public class InputCollection : NodeInput
     {
-
         public List<InputProcedural> Inputs { get; private set; }
 
         public InputCollection(List<InputProcedural> inputs)
         {
             Inputs = inputs;
         }
-        public InputCollection(int numInputs = 2, string inputTitle = "Input")
+        public InputCollection(string title, int numInputs = 2)
         {
-            Inputs = new List<InputProcedural>();
+            Title = title;
+            Inputs = new List<InputProcedural>(numInputs);
             for(int i = 0; i < numInputs; i++)
             {
-                Inputs.Add(new InputProcedural() { Title = inputTitle});
+                AddItem();
             }
+        }
+
+        public event EventHandler InputPositionsChanged;
+
+        private void OnInputPositionsChanged()
+        {
+            InputPositionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void AddItem()
         {
-            var newInput = new InputProcedural();
-            //newInput.Pos = new Vector2L(Pos.x, Pos.y + 35 * Inputs.Count); //TODO: refactor
+            var newInput = new InputProcedural() { Title = this.Title };
+            newInput.ValueChanged += OnValueChanged;
             Inputs.Add(newInput);
-            //nodeHandler.OnRequireNoodleRefresh?.Invoke();
-            OnValueChanged?.Invoke();
+            OnInputPositionsChanged();
+            OnValueChanged();
         }
 
         public void RemoveItem(InputProcedural item)
         {
             Inputs.Remove(item);
             //nodeHandler.OnRequireNoodleRefresh?.Invoke();
-            OnValueChanged?.Invoke();
+            OnInputPositionsChanged();
+            OnValueChanged();
         }
 
         public void MoveUp(InputProcedural input)
@@ -46,7 +55,8 @@ namespace RegexNodes.Shared
                 Inputs[index - 1] = input;
                 //(Inputs[index].Pos, Inputs[index - 1].Pos) = (Inputs[index - 1].Pos, Inputs[index].Pos);
                 //nodeHandler.OnRequireNoodleRefresh?.Invoke();
-                OnValueChanged?.Invoke();
+                OnInputPositionsChanged();
+                OnValueChanged();
             }
         }
 
@@ -59,7 +69,8 @@ namespace RegexNodes.Shared
                 Inputs[index + 1] = input;
                 //(Inputs[index].Pos, Inputs[index + 1].Pos) = (Inputs[index + 1].Pos, Inputs[index].Pos);
                 //nodeHandler.OnRequireNoodleRefresh?.Invoke();
-                OnValueChanged?.Invoke();
+                OnInputPositionsChanged();
+                OnValueChanged();
             }
         }
     }

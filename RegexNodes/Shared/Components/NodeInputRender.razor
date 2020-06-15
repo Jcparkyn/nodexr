@@ -21,7 +21,7 @@
         break;
     case InputProcedural input:
         <div class="node-input procedural" style="font-size:15px; font-style:italic">
-            <NodeInputDot Input="input"/>
+            <NodeInputDot Input="@input"/>
             @input.Title
         </div>
         break;
@@ -49,19 +49,13 @@
         </div>
         break;
     case RegexNodes.Shared.InputCollection input:
-        <InputCollectionRender Data="@input" OnInputsChanged="@OnInputsChanged" />
+        <InputCollectionRender Data="@input" />
         break;
 }
 
 
 @functions{
     [Parameter] public INodeInput Data { get; set; }
-    [Parameter] public Action OnValueChanged { get; set; }
-    [Parameter] public Action OnInputsChanged { get; set; }
 
-    protected override void OnInitialized()
-    {
-        //base.OnInit();
-        Data.OnValueChanged = OnValueChanged;
-    }
+    
 }

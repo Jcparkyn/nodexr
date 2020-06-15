@@ -13,24 +13,35 @@ window.tempNoodle = {
         startY = _startY;
         endX = _endX - 6;
         endY = _endY - 6;
-        tempNoodle.setInvalid();
+        this.setInvalid();
+        this.updatePath();
     },
 
     dragNoodle: function (event) {
+        this.updatePath();
+    },
+
+    updatePath: function () {
         if (noodleElement != null) {
             this.setPath(this.getNoodlePath(startX, startY, endX + event.offsetX, endY + event.offsetY));
         }
     },
 
     setPath: function (path) {
-        noodleElement.setAttribute("d", path);
+        if (noodleElement != null) {
+            noodleElement.setAttribute("d", path);
+        }
     },
 
     setValid: function () {
-        noodleElement.classList.remove("noodle-invalid");
+        if (noodleElement != null) {
+            noodleElement.classList.remove("noodle-invalid");
+        }
     },
     setInvalid: function () {
-        noodleElement.classList.add("noodle-invalid");
+        if (noodleElement != null) {
+            noodleElement.classList.add("noodle-invalid");
+        }
     },
 
     getNoodlePath: function (startX, startY, endX, endY) {

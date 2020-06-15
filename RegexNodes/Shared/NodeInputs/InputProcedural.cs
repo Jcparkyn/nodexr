@@ -1,23 +1,55 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace RegexNodes.Shared
 {
-    public class InputProcedural : NodeInput
+    public class InputProcedural : NodeInput, INoodleData
     {
-        private INodeOutput inputNode;
-        public INodeOutput InputNode
+        private INodeOutput connectedNode;
+        public INodeOutput ConnectedNode
         {
-            get => inputNode;
+            get => connectedNode;
             set
             {
-                inputNode = value;
-                OnValueChanged?.Invoke();
+                if (connectedNode != null)
+                {
+                    connectedNode.OutputChanged -= OnValueChanged;
+                }
+                if (value != null)
+                {
+                    value.OutputChanged += OnValueChanged;
+                }
+                connectedNode = value;
+                OnValueChanged();
             }
         }
 
+        public Vector2L StartPos => connectedNode.OutputPos;
+
+        public Vector2L EndPos => Pos;
+
+        public bool Enabled => connectedNode != null;
+
+        public event EventHandler NoodleChanged;
+
         public string GetValue()
         {
-            return InputNode?.GetOutput() ?? "";
+            return ConnectedNode?.CachedOutput ?? "";
         }
+
+        public void Refresh()
+        {
+            NoodleChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public interface INoodleData
+    {
+        Vector2L StartPos { get; }
+        Vector2L EndPos { get; }
+        bool Enabled { get; }
+        void Refresh();
+
+        event EventHandler NoodleChanged;
     }
 }

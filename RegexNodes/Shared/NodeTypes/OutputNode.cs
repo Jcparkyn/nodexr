@@ -29,9 +29,9 @@ namespace RegexNodes.Shared.NodeTypes
         protected override string GetValue()
         {
             //check whether nothing is connected to this node.
-            if (PreviousNode.InputNode is null)
+            if (PreviousNode.ConnectedNode is null)
             {
-                return UpdateCache("Nothing connected to Output node");
+                return "Nothing connected to Output node";
             }
 
             //Prefix
@@ -42,7 +42,7 @@ namespace RegexNodes.Shared.NodeTypes
                 _ => ""
             };
 
-            result += PreviousNode.InputNode.GetOutput();
+            result += PreviousNode.ConnectedNode.CachedOutput;
 
             //Suffix
             result += InputEndsAt.DropdownValue switch
@@ -52,7 +52,7 @@ namespace RegexNodes.Shared.NodeTypes
                 _ => ""
             };
 
-            return UpdateCache(result);
+            return result;
         }
     }
 }

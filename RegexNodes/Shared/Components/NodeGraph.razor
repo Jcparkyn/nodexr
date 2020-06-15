@@ -2,22 +2,22 @@
 @using RegexNodes.Shared.NodeTypes;
 @using RegexNodes.Shared.Components;
 @inject INodeDragService NodeDragService
+@inject INoodleDragService NoodleDragService  
 @inject INodeHandler  NodeHandler
 
 @{
     //Console.WriteLine("Updating Node Graph");
 }
 <div class="viewport nodegraph" onwheel="panzoom.zoom(event)" onmousedown="panzoom.startPan(event)"
-    ondragover="event.preventDefault()" @ondrop="@NodeDragService.OnDrop" @onkeydown="@DeleteSelectedNode" tabindex="-1">
+    ondragover="event.preventDefault()" @ondrop="@OnDrop" @onkeydown="@OnKeyDown" tabindex="-1">
     <div style="width:100%; height:100%; position:absolute;" @onclick="@DeselectNode"></div>
     <div id="nodegraph" style="position:relative; transform-origin:0% 0%; width:0px; height:0px;">
-        @for (int i = 0; i < NodeHandler.Nodes.Count; i++)
+        @foreach(var node in NodeHandler.Nodes)
         {
-            INode node = NodeHandler.Nodes[i];
-            <NodeRender Data="node" />
+            <NodeRender @key="node" Data="node" />
         }
         <svg style="overflow:visible;">
-            <NoodleSvg @ref="NodeDragService.TempNoodle" StartPoint="@(new Vector2L(-10000, -10000))" EndPoint="@(new Vector2L(-10000, -10000))" DomId="tempNoodle" />
+            <NoodleSvg Noodle="NoodleDragService.TempNoodle" DomId="tempNoodle" />
             <NoodleCollection Nodes="@NodeHandler.Nodes"/>
         </svg>
     </div>
@@ -28,47 +28,41 @@
     protected int XOffset { get; set; } = 0;
     //OutputDisplay outputDisplay;
 
+    bool shouldRender = false;
+
+    protected override bool ShouldRender() => shouldRender;
+
     protected override void OnInitialized()
     {
-        //base.OnInit();
-        var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
-        var defaultNode = new TextNode("fox") { Pos = new Vector2L(300, 200) };
-        defaultOutput.PreviousNode.InputNode = defaultNode;
-        NodeHandler.Nodes.Add(defaultNode);
-        NodeHandler.Nodes.Add(defaultOutput);
-        NodeHandler.RecalculateOutput();
-        NodeHandler.OnNodeCountChanged += StateHasChanged;
-        NodeHandler.OnRequireNodeGraphRefresh = StateHasChanged;
+        //NodeHandler.OnNodeCountChanged += StateHasChanged;
+        NodeHandler.OnRequireNodeGraphRefresh += Refresh;
     }
 
-    protected void Refresh()
+    void Refresh()
     {
+        shouldRender = true;
         StateHasChanged();
+        shouldRender = false;
     }
 
-    void AddNode<T>() where T : Node, new()
+    void OnDrop(DragEventArgs e)
     {
-        Node newNode = new T();
-        newNode.CalculateInputsPos();
-        NodeHandler.Nodes.Add(newNode);
+        NodeDragService.OnDrop(e);
+        Refresh();
     }
 
-    void DeleteSelectedNode(KeyboardEventArgs e)
+    void OnKeyDown(KeyboardEventArgs e)
     {
-        if (e.Key == "Delete")
+        if (e.Key == "Delete" || e.Key == "Backspace")
         {
             NodeHandler.DeleteSelectedNode();
+            Refresh();
         }
     }
 
     void DeselectNode()
     {
         NodeHandler.SelectedNode = null;
-        StateHasChanged();
-    }
-
-    void RecomputeOutput()
-    {
-        throw new NotImplementedException();
+        Refresh();
     }
 }

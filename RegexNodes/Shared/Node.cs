@@ -11,8 +11,11 @@ namespace RegexNodes.Shared
         Vector2L OutputPos { get; }
         string CssName { get; }
         string CssColor { get; }
+        string CachedOutput { get; }
 
         string GetOutput();
+
+        event EventHandler OutputChanged;
     }
 
     public interface INode : IPositionable, INodeOutput
@@ -21,16 +24,14 @@ namespace RegexNodes.Shared
         string NodeInfo { get; }
         bool IsCollapsed { get; set; }
 
-        string CachedValue { get; set; }
-        string GetValueAndUpdateCache();
-
         List<NodeInput> NodeInputs { get; }
         InputProcedural PreviousNode { get; }
 
-        void MoveBy(long x, long y);
-        void MoveBy(Vector2L delta);
         void CalculateInputsPos();
         IEnumerable<NodeInput> GetInputsRecursive();
+        void OnLayoutChanged(object sender, EventArgs e);
+
+        //event EventHandler LayoutChanged;
     }
 
     public abstract class Node : INode
@@ -48,34 +49,65 @@ namespace RegexNodes.Shared
         }
         public InputProcedural PreviousNode { get; } = new InputProcedural();
 
-        private readonly List<NodeInput> nodeInputs;
-        public virtual List<NodeInput> NodeInputs => nodeInputs;
+        public virtual List<NodeInput> NodeInputs { get; private set; }
         public abstract string Title { get; }
         public abstract string NodeInfo { get; }
 
-        public string CachedValue { get; set; } = "";
+        public string CachedOutput { get; private set; }
 
         public Vector2L OutputPos => Pos + new Vector2L(150, 14);
 
         public bool IsCollapsed { get; set; }
 
-        public Node()
+        public event EventHandler OutputChanged;
+
+        protected virtual void OnOutputChanged(EventArgs e)
         {
-            nodeInputs = GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                    .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)))
-                    .Select(prop => prop.GetValue(this) as NodeInput)
-                    .ToList();
-            
-            UpdateCache(GetValue());
+            Console.WriteLine("Initiating update: " + Title);
+            OutputChanged?.Invoke(this, e);
         }
 
-        [Obsolete("Update cache in derived class instead")]
-        public string GetValueAndUpdateCache()
+        public void OnLayoutChanged(object sender, EventArgs e)
         {
-            string value = GetValue();
-            //Console.WriteLine("Updating cache value to " + value);
-            CachedValue = value;
-            return value;
+            CalculateInputsPos();
+            foreach(var input in GetInputsRecursive().OfType<InputProcedural>())
+            {
+                input.Refresh();
+            }
+        }
+
+        protected virtual void OnInputsChanged(object sender, EventArgs e)
+        {
+            var newOutput = GetOutput();
+            if (newOutput != CachedOutput)
+            {
+                CachedOutput = newOutput;
+                OnOutputChanged(EventArgs.Empty);
+            }
+        }
+
+        public Node()
+        {
+            var inputProperties = GetType()
+                .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)));
+
+            NodeInputs = inputProperties
+                    .Select(prop => prop.GetValue(this) as NodeInput)
+                    .ToList();
+
+            PreviousNode.ValueChanged += OnInputsChanged;
+
+            foreach (var input in NodeInputs)
+            {
+                input.ValueChanged += OnInputsChanged;
+                if (input is InputCollection inputColl)
+                {
+                    inputColl.InputPositionsChanged += OnLayoutChanged;
+                }
+            }
+
+            OnInputsChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -142,7 +174,7 @@ namespace RegexNodes.Shared
         public IEnumerable<NodeInput> GetInputsRecursive()
         {
             yield return PreviousNode;
-            foreach(var input in nodeInputs)
+            foreach(var input in NodeInputs)
             {
                 if(input is InputCollection coll)
                 {
@@ -159,23 +191,9 @@ namespace RegexNodes.Shared
         public string CssName => Title.Replace(" ", "").ToLowerInvariant();
         public string CssColor => $"var(--col-node-{CssName})";
 
-        public string UpdateCache(string result)
-        {
-            CachedValue = result;
-            return result;
-        }
-
-        public void MoveBy(long x, long y)
-        {
-            Pos = new Vector2L(Pos.x + x, Pos.y + y);
-            CalculateInputsPos();
-        }
-        public void MoveBy(Vector2L delta) => MoveBy(delta.x, delta.y);
-
         public virtual string GetOutput()
         {
-            //TODO: use cache
-            return PreviousNode.InputNode?.GetOutput() + GetValue();
+            return PreviousNode.ConnectedNode?.CachedOutput + GetValue();
         }
 
         protected abstract string GetValue();

@@ -10,21 +10,16 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Outputs a Regex that will accept any of the given inputs.";
 
         [NodeInput]
-        protected InputCollection Inputs { get; } = new InputCollection() { Title = "Inputs" };
+        protected InputCollection Inputs { get; } = new InputCollection("Option", 2);
 
         protected override string GetValue()
         {
             //string result = $"(?:{Input1.GetValue()}|{Input2.GetValue()})";
             string result = @"(?:";
-            //foreach(InputProcedural input in Inputs.Inputs)
-            //{
-            //    result += input.GetValue();
-            //}
-            result += String.Join("|", from input
-                                       in Inputs.Inputs
-                                       select input.GetValue());
+
+            result += String.Join("|", Inputs.Inputs.Select(input => input.GetValue()));
             result += ")";
-            CachedValue = result;
+
             return result;
         }
     }

@@ -82,7 +82,7 @@ namespace RegexNodes.Shared.NodeTypes
             }
 
             string result = contents + suffix;
-            return UpdateCache(result);
+            return result;
         }
     }
 }

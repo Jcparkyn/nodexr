@@ -8,7 +8,7 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Concatenates (strings together) the outputs of multiple nodes, so that they come one after another. This could also be thought of as an 'And' or 'Then' node. The resulting regex will be order-sensitive, so order your inputs from top to bottom.";
 
         [NodeInput]
-        protected InputCollection Inputs { get; } = new InputCollection() { Title = "Inputs" };
+        protected InputCollection Inputs { get; } = new InputCollection("Item", 2);
 
         protected override string GetValue()
         {
@@ -17,7 +17,6 @@ namespace RegexNodes.Shared.NodeTypes
             {
                 result += input.GetValue();
             }
-            CachedValue = result;
             return result;
         }
     }

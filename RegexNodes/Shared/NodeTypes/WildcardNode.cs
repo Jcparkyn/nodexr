@@ -70,7 +70,7 @@ namespace RegexNodes.Shared.NodeTypes
             if (InputAllowAll.IsChecked)
             {
                 result = ".";
-                return UpdateCache(result + suffix);
+                return result + suffix;
             }
 
             var inputs = (
@@ -103,7 +103,7 @@ namespace RegexNodes.Shared.NodeTypes
                 _ => "[" + GetClassContents(w: inputs.w, L: inputs.L, l: inputs.l, d: inputs.d, u: inputs.u) + "]",
             };
 
-            return UpdateCache(result + suffix);
+            return result + suffix;
         }
 
         private string GetClassContents(bool w, bool L, bool l, bool d, bool u)

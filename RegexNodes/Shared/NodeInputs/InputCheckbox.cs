@@ -10,7 +10,7 @@
             set
             {
                 isChecked = value;
-                OnValueChanged?.Invoke();
+                OnValueChanged();
             }
         }
 

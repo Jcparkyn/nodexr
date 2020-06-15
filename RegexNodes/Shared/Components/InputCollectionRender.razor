@@ -1,12 +1,10 @@
 ﻿@inject INodeHandler NodeHandler
 
 <button class="add-button" @onclick="@AddItem">Add Item</button>
-@for (int i = 0; i < Data.Inputs.Count; i++)
+@foreach (var input in Data.Inputs)
 {
-    var input = Data.Inputs[i];
-    int _i = i;
     <div style="display:flex;">
-        <NodeInputRender Data="@input" OnValueChanged="@Data.OnValueChanged"/>
+        <NodeInputRender Data="@input"/>
         <button @onclick="@(() => MoveUp(input))" class="item-button"><i class="fas fa-chevron-up"></i></button>
         <button @onclick="@(() => MoveDown(input))" class="item-button"><i class="fas fa-chevron-down"></i></button>
         <button @onclick="@(() => RemoveItem(input))" class="item-button"><i class="fas fa-times"></i></button>
@@ -15,30 +13,27 @@
 
 @functions{
     [Parameter] public InputCollection Data { get; set; }
-    [Parameter] public Action OnInputsChanged { get; set; }
 
     void AddItem()
     {
         Data.AddItem();
-        OnInputsChanged?.Invoke();
     }
 
     void MoveUp(InputProcedural input)
     {
         Data.MoveUp(input);
-        OnInputsChanged?.Invoke();
-        NodeHandler.OnRequireNoodleRefresh?.Invoke();
+        NodeHandler.ForceRefreshNoodles();
     }
+
     void MoveDown(InputProcedural input)
     {
         Data.MoveDown(input);
-        OnInputsChanged?.Invoke();
-        NodeHandler.OnRequireNoodleRefresh?.Invoke();
+        NodeHandler.ForceRefreshNoodles();
     }
+
     void RemoveItem(InputProcedural input)
     {
         Data.RemoveItem(input);
-        OnInputsChanged?.Invoke();
-        NodeHandler.OnRequireNoodleRefresh?.Invoke();
+        NodeHandler.ForceRefreshNoodles();
     }
 }

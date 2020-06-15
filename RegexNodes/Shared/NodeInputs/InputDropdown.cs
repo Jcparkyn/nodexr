@@ -13,7 +13,7 @@ namespace RegexNodes.Shared
             set
             {
                 dropdownValue = value;
-                OnValueChanged?.Invoke();
+                OnValueChanged();
             }
         }
 

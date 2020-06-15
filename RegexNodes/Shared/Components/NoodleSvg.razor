@@ -1,32 +1,26 @@
-﻿
-<path id="@DomId" class="@CssClass" d="@PathInstructions"
-      style="
-            display:@(Enabled ? "default" : "none");
-            @CssStrokeStyle"/>
-    @*<div id="@DomId" class="@CssClass" style="left:@(StartPoint.x)px; top:@(StartPoint.y)px; width:@(Length)px; transform:rotate(@(Angle)deg);" />*@
+﻿@inject INodeHandler NodeHandler;
+
+
+    <path id="@DomId" class="noodle" d="@PathInstructions"
+          style="display:@(Noodle.Enabled ? "default" : "none"); @CssStrokeStyle"/>
+
 
 
 @functions{
-    public const string normalClass = "noodle";
-    public const string invalidClass = "noodle noodle-invalid";
+    //public const string normalClass = "noodle";
+    //public const string invalidClass = "noodle noodle-invalid";
 
-    [Parameter]
-    public Vector2L StartPoint { get; set; }
-    [Parameter]
-    public Vector2L EndPoint { get; set; }
-    [Parameter]
-    public string DomId { get; set; } = "";
-    [Parameter]
-    public string Gradient { get; set; }
+    [Parameter] public INoodleData Noodle { get; set; }
+    [Parameter] public string DomId { get; set; } = "";
+    [Parameter] public string Gradient { get; set; }
 
     public bool Valid { get; set; } = true;
-    public bool Enabled { get; set; } = true;
-    public string CssClass => Valid ? normalClass : invalidClass;
+    //public string CssClass => Valid ? normalClass : invalidClass;
     protected string PathInstructions {
         get
         {
-            long startX = StartPoint.x, startY = StartPoint.y;
-            long endX = EndPoint.x, endY = EndPoint.y;
+            long startX = Noodle.StartPos.x, startY = Noodle.StartPos.y;
+            long endX = Noodle.EndPos.x, endY = Noodle.EndPos.y;
             long ctrlLength = (long)(5 + 0.4*Math.Abs(endX-startX) + 0.2*Math.Abs(endY-startY));
             return $"M {startX} {startY} C {startX + ctrlLength} {startY} {endX - ctrlLength} {endY} {endX} {endY}";
         }
@@ -36,19 +30,14 @@
         "" :
         "stroke: url(#" + Gradient + ")";
 
-    public void SetStartPoint(Vector2L pos)
+
+    protected override void OnInitialized()
     {
-        StartPoint = pos;
-        StateHasChanged();
+        Noodle.NoodleChanged += Refresh;
+        //NodeHandler.OnRequireNodeGraphRefresh += StateHasChanged;
     }
 
-    public void SetEndPoint(Vector2L pos)
-    {
-        EndPoint = pos;
-        StateHasChanged();
-    }
-
-    public void Refresh()
+    public void Refresh(object sender, EventArgs e)
     {
         StateHasChanged();
     }

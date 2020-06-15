@@ -43,7 +43,7 @@ namespace RegexNodes.Shared.NodeTypes
             string charSet = InputCharacters.GetValue();
             if (String.IsNullOrEmpty(charSet))
             {
-                return UpdateCache("");
+                return "";
             }
 
             string prefix = InputDoInvert.IsChecked ? "^" : "";
@@ -55,7 +55,7 @@ namespace RegexNodes.Shared.NodeTypes
                 InputMin.GetValue(),
                 InputMax.GetValue());
 
-            return UpdateCache(result + suffix);
+            return result + suffix;
         }
     }
 }

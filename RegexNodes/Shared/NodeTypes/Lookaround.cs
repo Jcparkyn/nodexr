@@ -32,7 +32,7 @@ namespace RegexNodes.Shared.NodeTypes
                 case "Negative Lookbehind": prefix = "(?<!"; break;
             };
             
-            return UpdateCache($"{prefix}{input})");
+            return $"{prefix}{input})";
         }
     }
 }
