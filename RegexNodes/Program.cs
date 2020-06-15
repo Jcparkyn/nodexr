@@ -32,6 +32,7 @@ namespace RegexNodes
 
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddSingleton<INodeDragService, NodeDragService>();
+            builder.Services.AddSingleton<INoodleDragService, NoodleDragService>();
             builder.Services.AddSingleton<INodeHandler, NodeHandler>();
             builder.Services.AddSingleton<RegexReplaceHandler>();
             builder.Services.AddBlazoredModal();

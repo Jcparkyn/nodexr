@@ -1,9 +1,10 @@
 ﻿@using Microsoft.JSInterop;
-@inject INodeDragService NodeDragService;
+@inject INoodleDragService NoodleDragService;
 @inject IJSRuntime  JSRuntime;
 
 
-<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" @ondragstart="OnDragStart" class="node-output-dot">
+<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" class="node-output-dot"
+     @ondragstart="OnDragStart" @ondragend="OnDragEnd">
     <span class="outputtooltip">
         Output:<br />
         @{string output = Data.CachedOutput;}
@@ -17,6 +18,11 @@
     void OnDragStart(DragEventArgs e)
     {
         //TODO: Set drag image
-        NodeDragService.OnStartNoodleDrag(Data, e);
+        NoodleDragService.OnStartNoodleDrag(Data, e);
+    }
+    
+    void OnDragEnd(DragEventArgs e)
+    {
+        NoodleDragService.CancelDrag();
     }
 }

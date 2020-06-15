@@ -2,6 +2,7 @@
 @using RegexNodes.Shared.NodeTypes;
 @using RegexNodes.Shared.Components;
 @inject INodeDragService NodeDragService
+@inject INoodleDragService NoodleDragService  
 @inject INodeHandler  NodeHandler
 
 @{
@@ -17,7 +18,7 @@
             <NodeRender Data="node" />
         }
         <svg style="overflow:visible;">
-            <NoodleSvg Noodle="NodeDragService.TempNoodle" DomId="tempNoodle" />
+            <NoodleSvg Noodle="NoodleDragService.TempNoodle" DomId="tempNoodle" />
             <NoodleCollection Nodes="@NodeHandler.Nodes"/>
         </svg>
     </div>

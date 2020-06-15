@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace RegexNodes.Shared
 {
@@ -29,6 +30,8 @@ namespace RegexNodes.Shared
 
         public bool Enabled => connectedNode != null;
 
+        public event EventHandler Changed;
+
         public string GetValue()
         {
             return ConnectedNode?.CachedOutput ?? "";
@@ -40,5 +43,7 @@ namespace RegexNodes.Shared
         Vector2L StartPos { get; }
         Vector2L EndPos { get; }
         bool Enabled { get; }
+
+        event EventHandler Changed;
     }
 }

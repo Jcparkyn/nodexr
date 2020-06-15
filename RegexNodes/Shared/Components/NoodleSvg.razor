@@ -1,29 +1,26 @@
 ﻿@inject INodeHandler NodeHandler;
 
 
-<path id="@DomId" class="@CssClass" d="@PathInstructions"
-      style="
-            display:@(Noodle.Enabled ? "default" : "none");
-            @CssStrokeStyle"/>
+<path id="@DomId" class="noodle" d="@PathInstructions"
+      style="display:@(Noodle.Enabled ? "default" : "none"); @CssStrokeStyle"/>
+
+
 
 @functions{
-    public const string normalClass = "noodle";
-    public const string invalidClass = "noodle noodle-invalid";
-
-    Vector2L StartPoint => Noodle.StartPos;
-    Vector2L EndPoint => Noodle.EndPos;
+    //public const string normalClass = "noodle";
+    //public const string invalidClass = "noodle noodle-invalid";
 
     [Parameter] public INoodleData Noodle { get; set; }
     [Parameter] public string DomId { get; set; } = "";
     [Parameter] public string Gradient { get; set; }
 
     public bool Valid { get; set; } = true;
-    public string CssClass => Valid ? normalClass : invalidClass;
+    //public string CssClass => Valid ? normalClass : invalidClass;
     protected string PathInstructions {
         get
         {
-            long startX = StartPoint.x, startY = StartPoint.y;
-            long endX = EndPoint.x, endY = EndPoint.y;
+            long startX = Noodle.StartPos.x, startY = Noodle.StartPos.y;
+            long endX = Noodle.EndPos.x, endY = Noodle.EndPos.y;
             long ctrlLength = (long)(5 + 0.4*Math.Abs(endX-startX) + 0.2*Math.Abs(endY-startY));
             return $"M {startX} {startY} C {startX + ctrlLength} {startY} {endX - ctrlLength} {endY} {endX} {endY}";
         }
@@ -36,10 +33,11 @@
 
     protected override void OnInitialized()
     {
-        NodeHandler.OnRequireNoodleRefresh += Refresh;
+        Noodle.Changed += OnRefresh;
+        NodeHandler.OnRequireNodeGraphRefresh += StateHasChanged;
     }
 
-    public void Refresh()
+    public void OnRefresh(object sender, EventArgs e)
     {
         StateHasChanged();
     }
