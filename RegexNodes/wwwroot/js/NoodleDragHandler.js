@@ -6,9 +6,7 @@ var noodleElement = null;
 window.tempNoodle = {
 
     startNoodleDrag: function (_startX, _startY, _endX, _endY) {
-        if (!noodleElement) {
-            noodleElement = document.getElementById("tempNoodle");
-        }
+        noodleElement = document.getElementById("tempNoodle");
         startX = _startX;
         startY = _startY;
         endX = _endX - 6;
