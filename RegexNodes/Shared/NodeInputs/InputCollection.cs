@@ -20,6 +20,8 @@ namespace RegexNodes.Shared
             }
         }
 
+        public override bool AffectsLayout { get; set; } = true;
+
         public void AddItem()
         {
             var newInput = new InputProcedural() { Title = this.Title };

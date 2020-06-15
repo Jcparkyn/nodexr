@@ -22,5 +22,11 @@
             InputCollections themselves are not returned.
             </summary>
         </member>
+        <member name="P:RegexNodes.Shared.NodeInput.AffectsLayout">
+            <summary>
+            Determines whether a change from this input should trigger a
+            re-render of noodles connected to the parent node.
+            </summary>
+        </member>
     </members>
 </doc>

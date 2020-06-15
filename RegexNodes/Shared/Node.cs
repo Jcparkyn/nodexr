@@ -29,6 +29,8 @@ namespace RegexNodes.Shared
 
         void CalculateInputsPos();
         IEnumerable<NodeInput> GetInputsRecursive();
+
+        //event EventHandler LayoutChanged;
     }
 
     public abstract class Node : INode
@@ -57,10 +59,23 @@ namespace RegexNodes.Shared
         public bool IsCollapsed { get; set; }
 
         public event EventHandler OutputChanged;
+        //public event EventHandler LayoutChanged;
 
         protected virtual void OnOutputChanged(EventArgs e)
         {
+            Console.WriteLine("Initiating update: " + Title);
             OutputChanged?.Invoke(this, e);
+        }
+
+        protected virtual void OnLayoutChanged(object sender, EventArgs e)
+        {
+            //LayoutChanged?.Invoke(this, e);
+            CalculateInputsPos();
+            foreach(var input in GetInputsRecursive().OfType<InputProcedural>())
+            {
+                input.Refresh();
+            }
+            //Console.WriteLine("Node layout changed");
         }
 
         protected virtual void OnInputsChanged(object sender, EventArgs e)
@@ -85,11 +100,15 @@ namespace RegexNodes.Shared
 
             PreviousNode.ValueChanged += OnInputsChanged;
 
-            foreach(var input in NodeInputs)
+            foreach (var input in NodeInputs)
             {
                 input.ValueChanged += OnInputsChanged;
+                if (input.AffectsLayout)
+                {
+                    input.ValueChanged += OnLayoutChanged;
+                }
             }
-            
+
             OnInputsChanged(this, EventArgs.Empty);
         }
 

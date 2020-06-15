@@ -30,11 +30,16 @@ namespace RegexNodes.Shared
 
         public bool Enabled => connectedNode != null;
 
-        public event EventHandler Changed;
+        public event EventHandler NoodleChanged;
 
         public string GetValue()
         {
             return ConnectedNode?.CachedOutput ?? "";
+        }
+
+        public void Refresh()
+        {
+            NoodleChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -43,7 +48,8 @@ namespace RegexNodes.Shared
         Vector2L StartPos { get; }
         Vector2L EndPos { get; }
         bool Enabled { get; }
+        void Refresh();
 
-        event EventHandler Changed;
+        event EventHandler NoodleChanged;
     }
 }

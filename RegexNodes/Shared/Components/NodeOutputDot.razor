@@ -12,15 +12,21 @@
     </span>
 </div>
 
-@functions{
+@functions
+{
     [Parameter] public INode Data { get; set; }
+
+    //protected override void OnInitialized()
+    //{
+    //    Data.OutputChanged += (sender, e) => StateHasChanged();
+    //}
 
     void OnDragStart(DragEventArgs e)
     {
         //TODO: Set drag image
         NoodleDragService.OnStartNoodleDrag(Data, e);
     }
-    
+
     void OnDragEnd(DragEventArgs e)
     {
         NoodleDragService.CancelDrag();

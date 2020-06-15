@@ -16,6 +16,12 @@ namespace RegexNodes.Shared
         public Vector2L Pos { get; set; }
         public Func<bool> IsEnabled { get; set; } = (() => true);
 
+        /// <summary>
+        /// Determines whether a change from this input should trigger a
+        /// re-render of noodles connected to the parent node.
+        /// </summary>
+        public virtual bool AffectsLayout { get; set; } = false;
+
         protected virtual void OnValueChanged(object sender, EventArgs e)
         {
             ValueChanged?.Invoke(this, e);

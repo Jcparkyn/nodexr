@@ -3,6 +3,7 @@
 @inject INodeHandler  NodeHandler
 @inject IModalService Modal
 
+@{ Console.WriteLine("Updating node: " + Data.Title); }
 
 <div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Data.CssColor;"
         ondragover="event.preventDefault()" onmousedown="event.stopPropagation()" @onfocusin="Deselect">
@@ -56,7 +57,7 @@
 
     protected override void OnInitialized()
     {
-        Data.OutputChanged += OnOutputChanged;
+        Data.OutputChanged += (sender, e) => StateHasChanged();
     }
 
     void ToggleCollapsed()
@@ -77,16 +78,11 @@
     void Select()
     {
         NodeHandler.SelectedNode = Data;
-        NodeHandler.OnRequireNodeGraphRefresh.Invoke();
+        NodeHandler.ForceRefreshNodeGraph();
     }
 
     void Deselect()
     {
         NodeHandler.SelectedNode = null;
-    }
-
-    void OnOutputChanged(object sender, EventArgs e)
-    {
-        StateHasChanged();
     }
 }

@@ -15,7 +15,7 @@ namespace RegexNodes.Shared
         event Action OnOutputHasChanged;
         Action OnNodeCountChanged { get; set; }
         INode SelectedNode { get; set; }
-        Action OnRequireNodeGraphRefresh { get; set; }
+        event Action OnRequireNodeGraphRefresh;
 
         void AddNode<T>(bool refreshIndex = true) where T : Node, new();
         void AddNode(INode node, bool refreshIndex = true);
@@ -23,6 +23,7 @@ namespace RegexNodes.Shared
         OutputNode GetOutputNode();
         void RecalculateOutput();
         void DeleteSelectedNode();
+        void ForceRefreshNodeGraph();
     }
 
     public class NodeHandler : INodeHandler
@@ -35,7 +36,7 @@ namespace RegexNodes.Shared
         public event Action OnOutputHasChanged;
         public Action OnNodeCountChanged { get; set; }
         public Action OnRequireNoodleRefresh { get; set; }
-        public Action OnRequireNodeGraphRefresh { get; set; }
+        public event Action OnRequireNodeGraphRefresh;
 
         public NodeHandler()
         {
@@ -48,6 +49,11 @@ namespace RegexNodes.Shared
             RecalculateOutput();
         }
 
+        public void ForceRefreshNodeGraph()
+        {
+            OnRequireNodeGraphRefresh?.Invoke();
+        }
+
         void OnOutputChanged(object sender, EventArgs e)
         {
             RecalculateOutput();
@@ -55,16 +61,10 @@ namespace RegexNodes.Shared
 
         public void RecalculateOutput()
         {
-            string output;
             OutputNode outputNode = GetOutputNode();
-            if (outputNode != null)
-            {
-                output = outputNode.CachedOutput;
-            }
-            else
-            {
-                output = "Add an 'Output' node to get started";
-            }
+
+            string output = outputNode?.CachedOutput ??
+                "Add an 'Output' node to get started";
 
             if (output != CachedOutput)
             {
@@ -91,7 +91,7 @@ namespace RegexNodes.Shared
 
             if(node is OutputNode)
             {
-                //
+                node.OutputChanged += OnOutputChanged;
                 RecalculateOutput();
             }
             if (refreshIndex)

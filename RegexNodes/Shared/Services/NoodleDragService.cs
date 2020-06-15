@@ -64,6 +64,7 @@ namespace RegexNodes.Shared
             if (NodeToDrag != null && !NodeToDrag.GetInputsRecursive().Contains(nodeInput))
             {
                 nodeInput.ConnectedNode = NodeToDrag;
+                //nodeHandler.OnRequireNodeGraphRefresh?.Invoke();
             }
 
             NodeToDrag = null;
@@ -86,11 +87,11 @@ namespace RegexNodes.Shared
             public Vector2L EndPos { get; set; }
             public bool Enabled { get; set; }
 
-            public event EventHandler Changed;
+            public event EventHandler NoodleChanged;
 
             public void Refresh()
             {
-                Changed?.Invoke(this, EventArgs.Empty);
+                NoodleChanged?.Invoke(this, EventArgs.Empty);
             }
         }
     }
