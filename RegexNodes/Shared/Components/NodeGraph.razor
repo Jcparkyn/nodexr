@@ -17,7 +17,7 @@
             <NodeRender Data="node" />
         }
         <svg style="overflow:visible;">
-            <NoodleSvg @ref="NodeDragService.TempNoodle" StartPoint="@(new Vector2L(-10000, -10000))" EndPoint="@(new Vector2L(-10000, -10000))" DomId="tempNoodle" />
+            <NoodleSvg Noodle="NodeDragService.TempNoodle" DomId="tempNoodle" />
             <NoodleCollection Nodes="@NodeHandler.Nodes"/>
         </svg>
     </div>
@@ -30,7 +30,7 @@
 
     protected override void OnInitialized()
     {
-        NodeHandler.OnNodeCountChanged += StateHasChanged;
+        //NodeHandler.OnNodeCountChanged += StateHasChanged;
         NodeHandler.OnRequireNodeGraphRefresh = StateHasChanged;
     }
 

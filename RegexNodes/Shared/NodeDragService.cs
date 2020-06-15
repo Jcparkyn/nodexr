@@ -12,7 +12,7 @@ namespace RegexNodes.Shared
     {
         INode NodeToDrag { get; set; }
         NodeDragService.DragType CurDragType { get; set; }
-        NoodleSvg TempNoodle { get; set; }
+        NodeDragService.NoodleDataCustom TempNoodle { get; }
         void OnStartNodeDrag(INode nodeToDrag, DragEventArgs e);
         void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e);
         void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2L _cursorStartPos);
@@ -42,10 +42,9 @@ namespace RegexNodes.Shared
         public INode NodeToDrag { get; set; }
         public DragType CurDragType { get; set; } = DragType.None;
 
-        //public TempNoodleEnd NoodleEnd { get; set; } = new TempNoodleEnd();
-        public NoodleSvg TempNoodle { get; set; }
-        Vector2L cursorStartPos;
+        public NoodleDataCustom TempNoodle { get; private set; } = new NoodleDataCustom() { Enabled = false };
 
+        Vector2L cursorStartPos;
 
         public void OnStartNodeDrag(INode nodeToDrag, DragEventArgs e)
         {
@@ -75,12 +74,13 @@ namespace RegexNodes.Shared
         {
             CurDragType = DragType.Noodle;
             NodeToDrag = (Node)nodeToDrag;
-            TempNoodle.SetStartPoint(nodeToDrag.OutputPos);
-            TempNoodle.SetEndPoint(nodeToDrag.OutputPos);
+            TempNoodle.StartPos = nodeToDrag.OutputPos;
+            TempNoodle.EndPos = nodeToDrag.OutputPos;
 
             TempNoodle.Enabled = true;
+            nodeHandler.OnRequireNoodleRefresh?.Invoke();
 
-            //Console.WriteLine("Start Noodle Drag");
+            Console.WriteLine("Start Noodle Drag");
             jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
                 nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y,
                 noodleEndPos.x, noodleEndPos.y);
@@ -95,7 +95,7 @@ namespace RegexNodes.Shared
             if (CurDragType == DragType.Noodle)
             {
                 Vector2L endPoint = NodeToDrag.OutputPos + (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
-                TempNoodle.SetEndPoint(endPoint);
+                TempNoodle.EndPos = endPoint;
             }
         }
 
@@ -107,7 +107,7 @@ namespace RegexNodes.Shared
             }
             
             TempNoodle.Enabled = false;
-            TempNoodle.Valid = false;
+            //TempNoodle.Valid = false;
             NodeToDrag = null;
             CurDragType = DragType.None;
         }
@@ -125,6 +125,15 @@ namespace RegexNodes.Shared
             nodeInput.ConnectedNode = NodeToDrag;
             NodeToDrag = null;
             //NoodleEnd = null;
+        }
+
+        public class NoodleDataCustom : INoodleData
+        {
+            public Vector2L StartPos { get; set; }
+
+            public Vector2L EndPos { get; set; }
+
+            public bool Enabled { get; set; }
         }
     }
 }

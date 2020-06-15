@@ -14,7 +14,7 @@
     @foreach (var input in inputsWithNoodles)
     {
         gradientPairs.Add((input, node));
-        <NoodleSvg StartPoint="@input.ConnectedNode.OutputPos" EndPoint="@input.Pos" Gradient="@GradientName(input, node)"/>
+        <NoodleSvg Noodle="@input" Gradient="@GradientName(input, node)"/>
     }
 }
 
@@ -40,7 +40,6 @@
 
     protected override void OnInitialized()
     {
-        //base.OnInit();
         NodeHandler.OnRequireNoodleRefresh += Refresh;
     }
 

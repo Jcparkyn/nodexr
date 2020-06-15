@@ -1,26 +1,23 @@
-﻿
+﻿@inject INodeHandler NodeHandler;
+
+
 <path id="@DomId" class="@CssClass" d="@PathInstructions"
       style="
-            display:@(Enabled ? "default" : "none");
+            display:@(Noodle.Enabled ? "default" : "none");
             @CssStrokeStyle"/>
-    @*<div id="@DomId" class="@CssClass" style="left:@(StartPoint.x)px; top:@(StartPoint.y)px; width:@(Length)px; transform:rotate(@(Angle)deg);" />*@
-
 
 @functions{
     public const string normalClass = "noodle";
     public const string invalidClass = "noodle noodle-invalid";
 
-    [Parameter]
-    public Vector2L StartPoint { get; set; }
-    [Parameter]
-    public Vector2L EndPoint { get; set; }
-    [Parameter]
-    public string DomId { get; set; } = "";
-    [Parameter]
-    public string Gradient { get; set; }
+    Vector2L StartPoint => Noodle.StartPos;
+    Vector2L EndPoint => Noodle.EndPos;
+
+    [Parameter] public INoodleData Noodle { get; set; }
+    [Parameter] public string DomId { get; set; } = "";
+    [Parameter] public string Gradient { get; set; }
 
     public bool Valid { get; set; } = true;
-    public bool Enabled { get; set; } = true;
     public string CssClass => Valid ? normalClass : invalidClass;
     protected string PathInstructions {
         get
@@ -36,16 +33,10 @@
         "" :
         "stroke: url(#" + Gradient + ")";
 
-    public void SetStartPoint(Vector2L pos)
-    {
-        StartPoint = pos;
-        StateHasChanged();
-    }
 
-    public void SetEndPoint(Vector2L pos)
+    protected override void OnInitialized()
     {
-        EndPoint = pos;
-        StateHasChanged();
+        NodeHandler.OnRequireNoodleRefresh += Refresh;
     }
 
     public void Refresh()

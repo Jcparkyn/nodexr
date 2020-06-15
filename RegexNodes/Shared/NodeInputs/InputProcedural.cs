@@ -2,7 +2,7 @@
 
 namespace RegexNodes.Shared
 {
-    public class InputProcedural : NodeInput
+    public class InputProcedural : NodeInput, INoodleData
     {
         private INodeOutput connectedNode;
         public INodeOutput ConnectedNode
@@ -23,9 +23,22 @@ namespace RegexNodes.Shared
             }
         }
 
+        public Vector2L StartPos => connectedNode.OutputPos;
+
+        public Vector2L EndPos => Pos;
+
+        public bool Enabled => connectedNode != null;
+
         public string GetValue()
         {
             return ConnectedNode?.CachedOutput ?? "";
         }
+    }
+
+    public interface INoodleData
+    {
+        Vector2L StartPos { get; }
+        Vector2L EndPos { get; }
+        bool Enabled { get; }
     }
 }
