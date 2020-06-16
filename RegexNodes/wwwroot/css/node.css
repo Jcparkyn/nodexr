@@ -161,12 +161,14 @@
             visibility: hidden;
             position: absolute;
             width: initial;
+            font-family: Consolas;
+            font-size: large;
             bottom: 90%;
             background-color: black;
             color: #fff;
             text-align: left;
             margin-bottom: 10px;
-            padding: 5px;
+            padding: 0 5px;
             border-radius: 6px;
             opacity: 0.5;
             z-index: 1;
