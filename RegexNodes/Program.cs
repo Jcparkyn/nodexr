@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RegexNodes.Shared;
+using RegexNodes.Shared.Services;
 using Blazored;
 using Blazored.Modal;
 using Blazored.Modal.Services;
@@ -16,15 +17,6 @@ namespace RegexNodes
 {
     public class Program
     {
-        //public static void Main(string[] args)
-        //{
-        //    CreateHostBuilder(args).Build().Run();
-        //}
-
-        //public static IWebAssemblyHostBuilder CreateHostBuilder(string[] args) =>
-        //    BlazorWebAssemblyHost.CreateDefaultBuilder()
-        //        .UseBlazorStartup<Startup>();
-
         public static async Task Main(string[] args)
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);

@@ -18,7 +18,7 @@
 
     protected override void OnInitialized()
     {
-        NodeHandler.OnOutputHasChanged += StateHasChanged;
+        NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
     }
 
     private async Task CopyTextToClipboard()

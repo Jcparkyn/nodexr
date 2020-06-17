@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 
-namespace RegexNodes.Shared
+namespace RegexNodes.Shared.Services
 {
     public class RegexReplaceHandler
     {

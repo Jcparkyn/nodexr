@@ -1,4 +1,5 @@
 ﻿@inject INodeHandler NodeHandler;
+@implements IDisposable
 
 
     <path id="@DomId" class="noodle" d="@PathInstructions"
@@ -40,5 +41,10 @@
     public void Refresh(object sender, EventArgs e)
     {
         StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Noodle.NoodleChanged -= Refresh;
     }
 }
