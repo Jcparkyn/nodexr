@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
-namespace RegexNodes.Shared
+namespace RegexNodes.Shared.Services
 {
     public class ZoomHandler
     {

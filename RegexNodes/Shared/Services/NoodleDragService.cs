@@ -7,7 +7,7 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace RegexNodes.Shared
+namespace RegexNodes.Shared.Services
 {
     public interface INoodleDragService
     {

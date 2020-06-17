@@ -30,7 +30,7 @@ namespace RegexNodes.Tests
             //_node.Input2 = new InputProcedural();
             //_node.Input2.InputNode = new ExactString(in2);
             //Console.WriteLine(_node.GetValue());
-            string nodeVal = _node.GetOutput();
+            string nodeVal = _node.CachedOutput;
 
             Assert.Multiple(()=>
             {

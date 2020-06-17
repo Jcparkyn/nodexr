@@ -30,12 +30,6 @@
     protected override void OnInitialized()
     {
         //base.OnInit();
-        NodeHandler.OnOutputHasChanged += StateHasChanged;
-    }
-
-    void SetOutput()
-    {
-        //Output = str;
-        StateHasChanged();
+        NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
     }
 }

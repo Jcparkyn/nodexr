@@ -28,7 +28,7 @@ namespace RegexNodes.Tests
         {
             //_node.Input = new InputString(contents);
 
-            Assert.That("Test case: " + contents + " End.", Does.Match(_node.GetOutput()));
+            Assert.That("Test case: " + contents + " End.", Does.Match(_node.CachedOutput));
         }
     }
 }

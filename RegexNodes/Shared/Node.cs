@@ -13,8 +13,6 @@ namespace RegexNodes.Shared
         string CssColor { get; }
         string CachedOutput { get; }
 
-        string GetOutput();
-
         event EventHandler OutputChanged;
     }
 
@@ -30,8 +28,6 @@ namespace RegexNodes.Shared
         void CalculateInputsPos();
         IEnumerable<NodeInput> GetInputsRecursive();
         void OnLayoutChanged(object sender, EventArgs e);
-
-        //event EventHandler LayoutChanged;
     }
 
     public abstract class Node : INode

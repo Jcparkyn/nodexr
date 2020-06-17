@@ -34,11 +34,4 @@
         new FlagNode(),
         new OutputNode(),
     };
-
-    void AddNode(Type type)
-    {
-        INode node = (INode)Activator.CreateInstance(type);
-        NodeHandler.AddNode(node, refreshIndex: true);
-        //NodeDragService.OnStartNodeDrag(node, e);
-    }
 }
