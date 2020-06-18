@@ -11,37 +11,13 @@ namespace RegexNodes.Tests.RegexParserTests
 {
     class RegexParserTests
     {
-        [TestCase(@"\]", ExpectedResult = @"\]")]
-        [TestCase(@"\t", ExpectedResult = @"\t")]
-        public string CharSetChar_EscapedChar_ReturnsSelf(string input)
-        {
-            string result = RegexParser.ValidCharSetChar.ParseOrThrow(input);
-            return result;
-        }
-
-        [TestCase(@"a", ExpectedResult = @"a")]
-        [TestCase(@" ", ExpectedResult = @" ")]
-        public string CharSetChar_NormalChar_ReturnsSelf(string input)
-        {
-            string result = RegexParser.ValidCharSetChar.ParseOrThrow(input);
-            return result;
-        }
-
-        [TestCase(@"]")]
-        public void CharSetChar_CloseBracket_Fails(string input)
-        {
-            var parser = RegexParser.ValidCharSetChar;
-            //string output = parser.ParseOrThrow(input);
-            TestDelegate result = () => parser.ParseOrThrow(input);
-            Assert.Throws<ParseException>(result);
-        }
 
         [TestCase("[a]", "a")]
         [TestCase("[a-z]", "a-z")]
         [TestCase(@"[\\]", @"\\")]
         public void CharSetNode_NoSpecials_ReturnsContents(string input, string expectedContents)
         {
-            CharSetNode result = RegexParser.ParseCharSet.ParseOrThrow(input);
+            CharSetNode result = CharSetParser.ParseCharSet.ParseOrThrow(input);
             Assert.AreEqual(expectedContents, result.InputCharacters.Contents);
         }
 
@@ -49,7 +25,7 @@ namespace RegexNodes.Tests.RegexParserTests
         [TestCase(@"[abc\]def]", @"abc\]def")]
         public void CharSetNode_EscapedBracket_ReturnsContents(string input, string expectedContents)
         {
-            var result = RegexParser.ParseCharSet.ParseOrThrow(input);
+            var result = CharSetParser.ParseCharSet.ParseOrThrow(input);
             Assert.AreEqual(expectedContents, result.InputCharacters.Contents);
         }
 

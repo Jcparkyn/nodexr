@@ -7,16 +7,12 @@ using Pidgin;
 using RegexNodes.Shared.NodeTypes;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
+using static RegexNodes.Shared.RegexParsers.ParsersShared;
 
 namespace RegexNodes.Shared.RegexParsers
 {
-    public class RegexParser
+    public static class RegexParser
     {
-        private static readonly Parser<char, char> LBracket = Char('[');
-        private static readonly Parser<char, char> RBracket = Char(']');
-        private static readonly Parser<char, char> EscapeChar = Char('\\');
-        private static readonly Parser<char, char> NotEscapeChar = AnyCharExcept('\\');
-
         private static readonly Parser<char, string> SingleNonSpecialRegexChar =
             AnyCharExcept("\\|?*+()[{")
                 .Select(c => c.ToString())
@@ -29,50 +25,23 @@ namespace RegexNodes.Shared.RegexParsers
             SingleNonSpecialRegexChar
             .AtLeastOnceString();
 
-        public static readonly Parser<char, string> ValidCharSetChar =
-            AnyCharExcept('\\', ']').Select(c => c.ToString())
-            .Or(EscapeChar
-                .Then(Any)
-                .Select(c => "\\" + c)
-                );
-
-        //TODO: support negated sets
-        private static readonly Parser<char, string> CharSetContents =
-            ValidCharSetChar
-            .AtLeastOnceString();
-
         public static readonly Parser<char, TextNode> ParseTextNode =
             NonSpecialRegexPhrase
             .Select(text => TextNode.CreateFromContents(text));
 
-        public static readonly Parser<char, CharSetNode> ParseCharSet =
-            LBracket.Then(CharSetContents).Before(RBracket)
-                .Select(contents =>
-                    new CharSetNode(contents));
+        
 
         public static Parser<char, Node> ParseRegex =>
-            ParseRegexChunk
-            .Many()
+            ParseSingleNode
+            .AtLeastOnce()
             .Select(ConnectNodesInSequence);
 
 
-        public static readonly Parser<char, Node> ParseRegexChunk =
-            ParseCharSet.Cast<Node>()
+        public static readonly Parser<char, Node> ParseSingleNode =
+            CharSetParser.ParseCharSet.Cast<Node>()
             .Or(ParseTextNode.Cast<Node>())
-            .Or(Rec(() => ParseGroup).Cast<Node>());
+            .Or(Rec(() => GroupParser.ParseGroup).Cast<Node>());
 
-        public static readonly Parser<char, GroupNode> ParseGroup =
-            Char('(')
-            .Then(ParseRegex)
-            .Before(Char(')'))
-            .Select(contents =>
-            {
-                var group = new GroupNode();
-                group.Input.ConnectedNode = contents;
-                return group;
-            });
-
-        //private static readonly Parser<>
 
         public static Result<char, NodeTree> Parse(string input)
         {
