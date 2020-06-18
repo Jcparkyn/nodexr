@@ -13,7 +13,7 @@ namespace RegexNodes.Shared.NodeTypes
         public CommentNode() { }
         public CommentNode(string contents)
         {
-            Input.InputContents = contents;
+            Input.Contents = contents;
         }
 
         protected override string GetValue()

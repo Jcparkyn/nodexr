@@ -8,8 +8,6 @@
             <summary>
             Adds a non-capturing group if the input string is not wrapped in parentheses.
             </summary>
-            <param name="input"></param>
-            <returns></returns>
         </member>
         <member name="M:RegexNodes.Shared.Node.CalculateInputsPos">
             <summary>

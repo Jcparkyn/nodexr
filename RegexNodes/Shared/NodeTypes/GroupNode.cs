@@ -8,18 +8,18 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Wraps the input node in a group. A capturing or named group can be used later in a backrefence (with the 'Reference' node) or in the  Replacement Regex.";
 
         [NodeInput]
-        protected InputProcedural Input { get; } = new InputProcedural() { Title = "Contents" };
+        public InputProcedural Input { get; } = new InputProcedural() { Title = "Contents" };
         [NodeInput]
-        protected InputDropdown InputGroupType { get; } = new InputDropdown(
+        public InputDropdown InputGroupType { get; } = new InputDropdown(
             "Capturing",
             "Non-capturing",
             "Named",
             "Custom")
         { Title = "Type of group:" };
         [NodeInput]
-        protected InputString GroupName { get; } = new InputString("") { Title = "Name:" };
+        public InputString GroupName { get; } = new InputString("") { Title = "Name:" };
         [NodeInput]
-        protected InputString CustomPrefix { get; } = new InputString("") { Title = "Prefix:" };
+        public InputString CustomPrefix { get; } = new InputString("") { Title = "Prefix:" };
 
         public GroupNode()
         {

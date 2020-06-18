@@ -37,9 +37,9 @@ namespace RegexNodes.Shared.NodeTypes
             switch (InputMode.DropdownValue)
             {
                 case Modes.category:
-                    return GetCategoryRegex(InputCategory.InputContents, InputInvert.IsChecked);
+                    return GetCategoryRegex(InputCategory.Contents, InputInvert.IsChecked);
                 case Modes.hex:
-                    return GetHexCodeRegex(InputHexCode.InputContents, InputInvert.IsChecked);
+                    return GetHexCodeRegex(InputHexCode.Contents, InputInvert.IsChecked);
                 default: return "";
             }
         }

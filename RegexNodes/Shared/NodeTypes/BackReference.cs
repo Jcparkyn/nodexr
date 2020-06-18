@@ -32,7 +32,7 @@ namespace RegexNodes.Shared.NodeTypes
             }
             else if (InputType.DropdownValue == "Name")
             {
-                return @"\k<" + InputName.InputContents + ">";
+                return @"\k<" + InputName.Contents + ">";
             }
             else
             {

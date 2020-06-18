@@ -1,8 +1,11 @@
-﻿using RegexNodes.Shared.NodeTypes;
+﻿using Microsoft.AspNetCore.Components;
+using RegexNodes.Shared.NodeTypes;
+using RegexNodes.Shared.RegexParsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace RegexNodes.Shared.Services
 {
@@ -26,7 +29,7 @@ namespace RegexNodes.Shared.Services
 
     public class NodeHandler : INodeHandler
     {
-        public NodeTree Tree { get; } = new NodeTree();
+        public NodeTree Tree { get; }
         
         public string CachedOutput => Tree.CachedOutput;
         
@@ -36,9 +39,32 @@ namespace RegexNodes.Shared.Services
         public event EventHandler OnRequireNoodleRefresh;
         public event EventHandler OnRequireNodeGraphRefresh;
 
-        public NodeHandler()
+        NavigationManager navManager;
+
+        public NodeHandler(NavigationManager navManager)
         {
-            CreateDefaultNodes();
+            this.navManager = navManager;
+
+            var uri = navManager.ToAbsoluteUri(navManager.Uri);
+            if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("parse", out var parseString))
+            {
+                var parseResult = RegexParsers.RegexParser.Parse(parseString);
+                if (parseResult.Success)
+                {
+                    Tree = parseResult.Value;
+                }
+                else
+                {
+                    Console.WriteLine("Couldn't parse input: " + parseResult.Error);
+                }
+            }
+
+            if (Tree is null)
+            {
+                Tree = new NodeTree();
+                CreateDefaultNodes(Tree);
+            }
+
             Tree.OutputChanged += OnOutputChanged;
         }
 
@@ -47,13 +73,13 @@ namespace RegexNodes.Shared.Services
             OutputChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private void CreateDefaultNodes()
+        private void CreateDefaultNodes(NodeTree tree)
         {
             var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
             var defaultNode = new TextNode("fox") { Pos = new Vector2L(300, 200) };
             defaultOutput.PreviousNode.ConnectedNode = defaultNode;
-            Tree.AddNode(defaultNode);
-            Tree.AddNode(defaultOutput);
+            tree.AddNode(defaultNode);
+            tree.AddNode(defaultOutput);
         }
 
         public void ForceRefreshNodeGraph()

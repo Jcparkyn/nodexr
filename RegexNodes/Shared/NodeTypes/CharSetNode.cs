@@ -11,9 +11,9 @@ namespace RegexNodes.Shared.NodeTypes
             + "The 'Invert' option creates a negated class by adding a ^ character at the start.";
 
         [NodeInput]
-        protected InputString InputCharacters { get; } = new InputString("a-z") { Title = "Characters:" };
+        public InputString InputCharacters { get; } = new InputString("a-z") { Title = "Characters:" };
         [NodeInput]
-        protected InputCheckbox InputDoInvert { get; } = new InputCheckbox(false) { Title = "Invert"};
+        public InputCheckbox InputDoInvert { get; } = new InputCheckbox(false) { Title = "Invert"};
 
         [NodeInput]
         public InputDropdown InputCount { get; } = new InputDropdown(
@@ -32,6 +32,17 @@ namespace RegexNodes.Shared.NodeTypes
         public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
 
         public CharSetNode()
+        {
+            SetupInputEnables();
+        }
+
+        public CharSetNode(string chars)
+        {
+            SetupInputEnables();
+            InputCharacters.Contents = chars;
+        }
+
+        void SetupInputEnables()
         {
             InputNumber.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.number;
             InputMin.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
