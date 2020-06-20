@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using RegexNodes.Shared;
 using RegexNodes.Shared.NodeTypes;
 
-using Reps = RegexNodes.Shared.NodeTypes.Quantifier.Repetitions;
+using Reps = RegexNodes.Shared.NodeTypes.QuantifierNode.Repetitions;
 
 namespace RegexNodes.Tests
 {
@@ -75,7 +75,7 @@ namespace RegexNodes.Tests
             return Reps.GetSuffix(mode, min: min, max: max);
         }
 
-        private Quantifier CreateQuantifierWithRange(string contents, int min, int max)
+        private QuantifierNode CreateQuantifierWithRange(string contents, int min, int max)
         {
             var node = CreateDefaultQuantifier(contents);
 
@@ -86,9 +86,9 @@ namespace RegexNodes.Tests
             return node;
         }
 
-        private Quantifier CreateDefaultQuantifier(string contents)
+        private QuantifierNode CreateDefaultQuantifier(string contents)
         {
-            var node = new Quantifier();
+            var node = new QuantifierNode();
             node.InputContents.ConnectedNode = new FakeNodeOutput(contents);
             return node;
         }

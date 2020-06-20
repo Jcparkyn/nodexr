@@ -12,30 +12,6 @@ namespace RegexNodes.Tests.RegexParserTests
     class RegexParserTests
     {
 
-        [TestCase("[a]", "a")]
-        [TestCase("[a-z]", "a-z")]
-        [TestCase(@"[\\]", @"\\")]
-        public void CharSetNode_NoSpecials_ReturnsContents(string input, string expectedContents)
-        {
-            CharSetNode result = CharSetParser.ParseCharSet.ParseOrThrow(input);
-            Assert.AreEqual(expectedContents, result.InputCharacters.Contents);
-        }
-
-        [TestCase(@"[\]]", @"\]")]
-        [TestCase(@"[abc\]def]", @"abc\]def")]
-        public void CharSetNode_EscapedBracket_ReturnsContents(string input, string expectedContents)
-        {
-            var result = CharSetParser.ParseCharSet.ParseOrThrow(input);
-            Assert.AreEqual(expectedContents, result.InputCharacters.Contents);
-        }
-
-        //[TestCase(@"(a)", @"a")]
-        //[TestCase(@"(abc)", @"abc")]
-        //public void GroupNode_ReturnsGroupWithContents(string input, string expectedContents)
-        //{
-        //    var result = RegexParser.ParseGroup.ParseOrThrow(input);
-        //    Assert.AreEqual(expectedContents, result.Input.GetValue());
-        //}
 
         [TestCase(@"a", @"a")]
         public void TextNode_BasicString_ReturnsContents(string input, string expectedContents)
@@ -73,7 +49,7 @@ namespace RegexNodes.Tests.RegexParserTests
         public void ParseRegex_TwoChunks_ReturnsNodesInSequence(string input, Type type2, Type type1)
         {
             var node1 = RegexParser.ParseRegex.ParseOrThrow(input);
-            var node2 = node1.PreviousNode.ConnectedNode;
+            var node2 = node1.PreviousNode;
 
             Assert.Multiple(() =>
             {
@@ -88,8 +64,8 @@ namespace RegexNodes.Tests.RegexParserTests
         public void ParseRegex_ThreeChunks_ReturnsNodesInSequence(string input, Type type3, Type type2, Type type1)
         {
             var node1 = RegexParser.ParseRegex.ParseOrThrow(input);
-            var node2 = node1.PreviousNode.ConnectedNode as Node;
-            var node3 = node2.PreviousNode.ConnectedNode;
+            var node2 = node1.PreviousNode as Node;
+            var node3 = node2.PreviousNode;
 
             Assert.Multiple(() =>
             {

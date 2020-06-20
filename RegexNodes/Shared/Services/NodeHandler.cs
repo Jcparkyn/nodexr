@@ -77,7 +77,7 @@ namespace RegexNodes.Shared.Services
         {
             var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
             var defaultNode = new TextNode("fox") { Pos = new Vector2L(300, 200) };
-            defaultOutput.PreviousNode.ConnectedNode = defaultNode;
+            defaultOutput.PreviousNode = defaultNode;
             tree.AddNode(defaultNode);
             tree.AddNode(defaultOutput);
         }

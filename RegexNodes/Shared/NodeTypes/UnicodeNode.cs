@@ -12,15 +12,15 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Insert a unicode category, unicode block, or the hex value of a unicode/ascii character.";
 
         [NodeInput]
-        protected InputDropdown InputMode { get; } = new InputDropdown(Modes.category, Modes.hex) { Title = "Mode" };
+        public InputDropdown InputMode { get; } = new InputDropdown(Modes.category, Modes.hex) { Title = "Mode" };
         [NodeInput]
-        protected InputString InputCategory { get; } = new InputString("IsBasicLatin") { Title = "Unicode Category" };
+        public InputString InputCategory { get; } = new InputString("IsBasicLatin") { Title = "Unicode Category" };
         [NodeInput]
-        protected InputString InputHexCode { get; } = new InputString("1e22") { Title = "Hex Code" };
+        public InputString InputHexCode { get; } = new InputString("1e22") { Title = "Hex Code" };
         [NodeInput]
-        protected InputCheckbox InputInvert { get; } = new InputCheckbox() { Title = "Invert" };
+        public InputCheckbox InputInvert { get; } = new InputCheckbox() { Title = "Invert" };
 
-        private static class Modes
+        public static class Modes
         {
             public const string category = "Category/Block";
             public const string hex = "Hex Code";

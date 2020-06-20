@@ -9,9 +9,23 @@ using static Pidgin.Parser<char>;
 
 namespace RegexNodes.Shared.RegexParsers
 {
-    public class ParsersShared
+    public static class ParsersShared
     {
         public static readonly Parser<char, char> EscapeChar = Char('\\');
 
+        public static Parser<TToken, T?> OptionalOrNull<TToken, T>(this Parser<TToken, T> original)
+            where T : struct =>
+            original
+            .Optional()
+            .Select(maybe => maybe.HasValue ?
+                             (T?)maybe.Value :
+                             null);
+
+        public static Parser<TToken, T> OptionalOrDefault<TToken, T>(this Parser<TToken, T> original) =>
+            original
+            .Optional()
+            .Select(maybe => maybe.HasValue ?
+                             maybe.Value :
+                             default);
     }
 }

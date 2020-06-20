@@ -27,12 +27,12 @@ namespace RegexNodes.Shared.NodeTypes
 
         [NodeInput]
         public InputDropdown InputCount { get; } = new InputDropdown(
-            Quantifier.Repetitions.one,
-            Quantifier.Repetitions.zeroOrMore,
-            Quantifier.Repetitions.oneOrMore,
-            Quantifier.Repetitions.zeroOrOne,
-            Quantifier.Repetitions.number,
-            Quantifier.Repetitions.range)
+            QuantifierNode.Repetitions.one,
+            QuantifierNode.Repetitions.zeroOrMore,
+            QuantifierNode.Repetitions.oneOrMore,
+            QuantifierNode.Repetitions.zeroOrOne,
+            QuantifierNode.Repetitions.number,
+            QuantifierNode.Repetitions.range)
         { Title = "Repetitions:" };
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
@@ -52,16 +52,16 @@ namespace RegexNodes.Shared.NodeTypes
             InputAllowDigits.IsEnabled = isAllowAllUnchecked;
             InputAllowOther.IsEnabled = isAllowAllUnchecked;
 
-            InputNumber.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.number;
-            InputMin.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
-            InputMax.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
+            InputNumber.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.number;
+            InputMin.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.range;
+            InputMax.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.range;
         }
 
         protected override string GetValue()
         {
             string result;
 
-            string suffix = Quantifier.Repetitions.GetSuffix(
+            string suffix = QuantifierNode.Repetitions.GetSuffix(
                 InputCount.DropdownValue,
                 InputNumber.InputContents,
                 InputMin.GetValue(),

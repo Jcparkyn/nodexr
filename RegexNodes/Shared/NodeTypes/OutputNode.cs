@@ -31,7 +31,7 @@ namespace RegexNodes.Shared.NodeTypes
         protected override string GetValue()
         {
             //check whether nothing is connected to this node.
-            if (PreviousNode.ConnectedNode is null)
+            if (Previous.ConnectedNode is null)
             {
                 return "Nothing connected to Output node";
             }
@@ -44,7 +44,7 @@ namespace RegexNodes.Shared.NodeTypes
                 _ => ""
             };
 
-            result += PreviousNode.ConnectedNode.CachedOutput;
+            result += Previous.ConnectedNode.CachedOutput;
 
             //Suffix
             result += InputEndsAt.DropdownValue switch

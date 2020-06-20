@@ -13,35 +13,22 @@ namespace RegexNodes.Shared.RegexParsers
 {
     public static class RegexParser
     {
-        private static readonly Parser<char, string> SingleNonSpecialRegexChar =
-            AnyCharExcept("\\|?*+()[{")
-                .Select(c => c.ToString())
-            .Or(EscapeChar
-                .Then(Any)
-                .Select(c => "\\" + c)
-                );
-
-        private static readonly Parser<char, string> NonSpecialRegexPhrase =
-            SingleNonSpecialRegexChar
-            .AtLeastOnceString();
-
-        public static readonly Parser<char, TextNode> ParseTextNode =
-            NonSpecialRegexPhrase
-            .Select(text => TextNode.CreateFromContents(text));
-
-        
 
         public static Parser<char, Node> ParseRegex =>
             ParseSingleNode
             .AtLeastOnce()
             .Select(ConnectNodesInSequence);
 
+        private static readonly Parser<char, Node> ParseSingleNode =
+            OneOf(
+                TextParser.ParseTextWithOptionalQuantifier,
+                CharSetParser.ParseCharSet.Cast<Node>().WithOptionalQuantifier(),
+                GroupParser.ParseGroup.Cast<Node>().WithOptionalQuantifier());
 
-        public static readonly Parser<char, Node> ParseSingleNode =
-            CharSetParser.ParseCharSet.Cast<Node>()
-            .Or(ParseTextNode.Cast<Node>())
-            .Or(Rec(() => GroupParser.ParseGroup).Cast<Node>());
-
+        //TODO: include backreferences
+        private static readonly Parser<char, Node> ParseEscapedWord =
+            OneOf(
+                UnicodeParser.ParseUnicode.Cast<Node>());
 
         public static Result<char, NodeTree> Parse(string input)
         {
@@ -54,7 +41,7 @@ namespace RegexNodes.Shared.RegexParsers
             Vector2L outputPos = new Vector2L(1200, 300);
             NodeTree tree = new NodeTree();
             var output = new OutputNode() { Pos = outputPos };
-            output.PreviousNode.ConnectedNode = endNode;
+            output.PreviousNode = endNode;
             tree.AddNode(output);
 
             AddNodeChildren(output, outputPos);
@@ -84,9 +71,22 @@ namespace RegexNodes.Shared.RegexParsers
         {
             return nodes.Aggregate((first, second) =>
             {
-                second.PreviousNode.ConnectedNode = first;
+                first.ConnectBefore(second);
                 return second;
             });
+        }
+
+        private static void ConnectBefore(this Node first, Node second)
+        {
+            if(second.PreviousNode is null)
+            {
+                second.PreviousNode = first;
+                return;
+            }
+            else
+            {
+                first.ConnectBefore((Node)second.PreviousNode);
+            }
         }
     }
 }

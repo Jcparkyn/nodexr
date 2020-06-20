@@ -44,7 +44,7 @@ namespace RegexNodes.Shared.NodeTypes
             return result;
         }
 
-        public static TextNode CreateFromContents(string contents)
+        public static TextNode CreateWithContents(string contents)
         {
             string escapedContents = StripUnnecessaryEscapes(contents);
 

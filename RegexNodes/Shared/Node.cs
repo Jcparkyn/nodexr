@@ -23,7 +23,8 @@ namespace RegexNodes.Shared
         bool IsCollapsed { get; set; }
 
         List<NodeInput> NodeInputs { get; }
-        InputProcedural PreviousNode { get; }
+        InputProcedural Previous { get; }
+        INodeOutput PreviousNode { get; set; }
 
         void CalculateInputsPos();
         IEnumerable<NodeInput> GetInputsRecursive();
@@ -43,7 +44,12 @@ namespace RegexNodes.Shared
                 CalculateInputsPos();
             }
         }
-        public InputProcedural PreviousNode { get; } = new InputProcedural();
+        public InputProcedural Previous { get; } = new InputProcedural();
+        public INodeOutput PreviousNode
+        {
+            get => Previous.ConnectedNode;
+            set => Previous.ConnectedNode = value;
+        }
 
         public virtual List<NodeInput> NodeInputs { get; private set; }
         public abstract string Title { get; }
@@ -92,7 +98,7 @@ namespace RegexNodes.Shared
                     .Select(prop => prop.GetValue(this) as NodeInput)
                     .ToList();
 
-            PreviousNode.ValueChanged += OnInputsChanged;
+            Previous.ValueChanged += OnInputsChanged;
 
             foreach (var input in NodeInputs)
             {
@@ -112,7 +118,7 @@ namespace RegexNodes.Shared
         public void CalculateInputsPos()
         {
             //TODO: refactor using GetHeight() on each input
-            PreviousNode.Pos = new Vector2L(Pos.x + 2, Pos.y + 13);
+            Previous.Pos = new Vector2L(Pos.x + 2, Pos.y + 13);
             if (IsCollapsed)
             {
                 int startHeight = 13;
@@ -169,7 +175,7 @@ namespace RegexNodes.Shared
         /// </summary>
         public IEnumerable<NodeInput> GetInputsRecursive()
         {
-            yield return PreviousNode;
+            yield return Previous;
             foreach(var input in NodeInputs)
             {
                 if(input is InputCollection coll)
@@ -189,7 +195,7 @@ namespace RegexNodes.Shared
 
         public virtual string GetOutput()
         {
-            return PreviousNode.ConnectedNode?.CachedOutput + GetValue();
+            return Previous.ConnectedNode?.CachedOutput + GetValue();
         }
 
         protected abstract string GetValue();

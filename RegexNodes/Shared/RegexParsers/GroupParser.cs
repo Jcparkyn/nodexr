@@ -14,7 +14,7 @@ namespace RegexNodes.Shared.RegexParsers
     {
         public static readonly Parser<char, GroupNode> ParseGroup =
             Char('(')
-            .Then(RegexParser.ParseRegex)
+            .Then(Rec(() => RegexParser.ParseRegex))
             .Before(Char(')'))
             .Select(contents =>
             {
