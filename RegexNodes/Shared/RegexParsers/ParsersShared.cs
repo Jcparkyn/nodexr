@@ -13,6 +13,10 @@ namespace RegexNodes.Shared.RegexParsers
     {
         public static readonly Parser<char, char> EscapeChar = Char('\\');
 
+        public static Parser<char, bool> UpperOrLower(char letter) =>
+            CIChar(letter)
+            .Select(c => char.IsUpper(c));
+
         public static Parser<TToken, T?> OptionalOrNull<TToken, T>(this Parser<TToken, T> original)
             where T : struct =>
             original

@@ -33,6 +33,7 @@ namespace RegexNodes.Shared.RegexParsers
             Char('p')
             .Then(UnicodeClassContents);
 
+
         private static Parser<char, UnicodeNode> UnicodeClassInverted =>
             Char('P')
             .Then(UnicodeClassContents)

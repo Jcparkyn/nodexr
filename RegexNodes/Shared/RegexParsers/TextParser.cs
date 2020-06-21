@@ -21,7 +21,7 @@ namespace RegexNodes.Shared.RegexParsers
             NonSpecialRegexChar.AtLeastOnce();
 
         private static readonly Parser<char, string> NonSpecialRegexChar =
-            AnyCharExcept("\\|?*+()[{")
+            AnyCharExcept("\\|?*+()[{.^$")
                 .Select(c => c.ToString())
             .Or(Try(
                 EscapeChar

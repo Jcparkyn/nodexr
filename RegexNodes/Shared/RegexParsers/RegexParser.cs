@@ -21,20 +21,23 @@ namespace RegexNodes.Shared.RegexParsers
 
         private static readonly Parser<char, Node> ParseSingleNode =
             OneOf(
-                TextParser.ParseTextWithOptionalQuantifier,
-                CharSetParser.ParseCharSet.Cast<Node>().WithOptionalQuantifier(),
-                GroupParser.ParseGroup.Cast<Node>().WithOptionalQuantifier(),
-                ParseEscapedWord.WithOptionalQuantifier()
-                );
+                CharSetParser.ParseCharSet.Cast<Node>(),
+                GroupParser.ParseGroup.Cast<Node>(),
+                WildcardParser.ParseWildcard.Cast<Node>(),
+                AnchorParser.ParseAnchor.Cast<Node>(),
+                ParseEscapedWord)
+            .WithOptionalQuantifier()
+            .Or(TextParser.ParseTextWithOptionalQuantifier);
 
-        //TODO: include backreferences
         public static Parser<char, Node> ParseEscapedWord =>
             EscapeChar.Then(ParseSpecialAfterBackslash);
 
         public static Parser<char, Node> ParseSpecialAfterBackslash =>
             OneOf(
                 UnicodeParser.ParseUnicode.Cast<Node>(),
-                ReferenceParser.ParseReference.Cast<Node>());
+                ReferenceParser.ParseReference.Cast<Node>(),
+                WildcardParser.ParseWildcardAfterEscape.Cast<Node>(),
+                AnchorParser.ParseAnchorAfterEscape.Cast<Node>());
 
         public static Result<char, NodeTree> Parse(string input)
         {
