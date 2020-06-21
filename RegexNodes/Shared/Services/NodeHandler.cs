@@ -49,6 +49,7 @@ namespace RegexNodes.Shared.Services
             if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("parse", out var parseString))
             {
                 var parseResult = RegexParsers.RegexParser.Parse(parseString);
+
                 if (parseResult.Success)
                 {
                     Tree = parseResult.Value;

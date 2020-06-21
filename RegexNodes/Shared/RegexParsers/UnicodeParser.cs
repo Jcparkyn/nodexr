@@ -16,7 +16,8 @@ namespace RegexNodes.Shared.RegexParsers
             OneOf(
                 HexX,
                 HexU,
-                UnicodeClass);
+                UnicodeClass,
+                UnicodeClassInverted);
 
         private static Parser<char, UnicodeNode> HexX =>
             Char('x')
@@ -29,6 +30,19 @@ namespace RegexNodes.Shared.RegexParsers
                 .Select(hex => CreateWithHexCode(hex));
 
         private static Parser<char, UnicodeNode> UnicodeClass =>
+            Char('p')
+            .Then(UnicodeClassContents);
+
+        private static Parser<char, UnicodeNode> UnicodeClassInverted =>
+            Char('P')
+            .Then(UnicodeClassContents)
+            .Select(node =>
+            {
+                node.InputInvert.IsChecked = true;
+                return node;
+            });
+
+        private static Parser<char, UnicodeNode> UnicodeClassContents =>
             Token(c => c != '}')
             .AtLeastOnceString()
             .Between(Char('{'), Char('}'))

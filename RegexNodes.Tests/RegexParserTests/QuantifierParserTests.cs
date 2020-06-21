@@ -38,16 +38,17 @@ namespace RegexNodes.Tests.RegexParserTests
             Assert.AreEqual(expectedRepetitions, node.InputCount.DropdownValue);
         }
 
-        [TestCase("[a]+", "[a]")]
+        [TestCase("[a]+", "a")]
+        [TestCase("[ab]+", "ab")]
+        [TestCase("[a]{0,1}", "a")]
         public void ParseQuantifier_AfterCharSet_ReturnsCharSetWithQuantifier(string input, string expectedContents)
         {
             var previous = CharSetParser.ParseCharSet;
             var parser = previous.Cast<Node>().WithOptionalQuantifier();
-            var node = parser.ParseOrThrow(input) as QuantifierNode;
+            var node = parser.ParseOrThrow(input) as CharSetNode;
 
             Assert.That(node, Is.Not.Null);
-            Assert.That(node.InputContents.ConnectedNode, Is.TypeOf<CharSetNode>());
-            Assert.AreEqual(expectedContents, node.InputContents.GetValue());
+            Assert.AreEqual(expectedContents, node.InputCharacters.GetValue());
         }
     }
 }

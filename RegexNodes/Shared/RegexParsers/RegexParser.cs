@@ -23,12 +23,18 @@ namespace RegexNodes.Shared.RegexParsers
             OneOf(
                 TextParser.ParseTextWithOptionalQuantifier,
                 CharSetParser.ParseCharSet.Cast<Node>().WithOptionalQuantifier(),
-                GroupParser.ParseGroup.Cast<Node>().WithOptionalQuantifier());
+                GroupParser.ParseGroup.Cast<Node>().WithOptionalQuantifier(),
+                ParseEscapedWord.WithOptionalQuantifier()
+                );
 
         //TODO: include backreferences
-        private static readonly Parser<char, Node> ParseEscapedWord =
+        public static Parser<char, Node> ParseEscapedWord =>
+            EscapeChar.Then(ParseSpecialAfterBackslash);
+
+        public static Parser<char, Node> ParseSpecialAfterBackslash =>
             OneOf(
-                UnicodeParser.ParseUnicode.Cast<Node>());
+                UnicodeParser.ParseUnicode.Cast<Node>(),
+                ReferenceParser.ParseReference.Cast<Node>());
 
         public static Result<char, NodeTree> Parse(string input)
         {

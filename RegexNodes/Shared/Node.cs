@@ -65,7 +65,6 @@ namespace RegexNodes.Shared
 
         protected virtual void OnOutputChanged(EventArgs e)
         {
-            Console.WriteLine("Initiating update: " + Title);
             OutputChanged?.Invoke(this, e);
         }
 

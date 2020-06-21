@@ -13,10 +13,10 @@ namespace RegexNodes.Tests.RegexParserTests
     {
 
 
-        [TestCase(@"a", @"a")]
+/*        [TestCase(@"a", @"a")]
         public void TextNode_BasicString_ReturnsContents(string input, string expectedContents)
         {
-            var result = RegexParser.ParseTextNode.ParseOrThrow(input);
+            var result = TextParser.ParseTextWithOptionalQuantifier.ParseOrThrow(input);
             Assert.AreEqual(expectedContents, result.Input.Contents);
         }
 
@@ -39,7 +39,7 @@ namespace RegexNodes.Tests.RegexParserTests
         {
             TestDelegate getResult = () => RegexParser.ParseTextNode.ParseOrThrow(input);
             Assert.Throws<ParseException>(getResult);
-        }
+        }*/
 
         [TestCase(@"abc[abc]", typeof(TextNode), typeof(CharSetNode))]
         [TestCase(@"_[a]", typeof(TextNode), typeof(CharSetNode))]

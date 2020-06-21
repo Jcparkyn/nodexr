@@ -14,16 +14,22 @@ namespace RegexNodes.Shared.RegexParsers
     {
         public static Parser<char, Node> ParseTextWithOptionalQuantifier =>
             Map(CreateTextWithQuantifier,
-                NonSpecialRegexChar.AtLeastOnce(),
+                ParseText,
                 QuantifierParser.ParseQuantifier.Optional());
+
+        public static Parser<char, IEnumerable<string>> ParseText =>
+            NonSpecialRegexChar.AtLeastOnce();
 
         private static readonly Parser<char, string> NonSpecialRegexChar =
             AnyCharExcept("\\|?*+()[{")
                 .Select(c => c.ToString())
-            .Or(EscapeChar
-                .Then(Any)
+            .Or(Try(
+                EscapeChar
+                .Then(
+                    Not(RegexParser.ParseSpecialAfterBackslash)
+                    .Then(Any))
                 .Select(c => "\\" + c)
-                );
+                ));
 
         public static Node CreateTextWithQuantifier(IEnumerable<string> chars, Maybe<QuantifierNode> maybeQuant)
         {

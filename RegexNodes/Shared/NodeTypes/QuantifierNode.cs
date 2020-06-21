@@ -25,7 +25,17 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
         [NodeInput]
-        public InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy", "Possessive") { Title = "Search type:" };
+        public InputDropdown InputSearchType { get; } = new InputDropdown(
+            SearchModes.greedy,
+            SearchModes.lazy,
+            SearchModes.possessive) { Title = "Search type:" };
+
+        public class SearchModes
+        {
+            public const string greedy = "Greedy";
+            public const string lazy = "Lazy";
+            public const string possessive = "Possessive";
+        }
 
         public class Repetitions
         {
@@ -66,11 +76,11 @@ namespace RegexNodes.Shared.NodeTypes
                 InputMin.GetValue(),
                 InputMax.GetValue());
 
-            if (InputSearchType.DropdownValue == "Lazy")
+            if (InputSearchType.DropdownValue == SearchModes.lazy)
             {
                 suffix += "?";
             }
-            else if (InputSearchType.DropdownValue == "Possessive")
+            else if (InputSearchType.DropdownValue == SearchModes.possessive)
             {
                 suffix += "+";
             }

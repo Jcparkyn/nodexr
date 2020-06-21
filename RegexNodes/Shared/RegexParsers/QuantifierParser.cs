@@ -12,15 +12,6 @@ namespace RegexNodes.Shared.RegexParsers
 {
     public static class QuantifierParser
     {
-        //public static Parser<char, QuantifierNode> ParseQuantifierOptional(this Parser<char, Node> previous) =>
-        //    Map((Node node, QuantifierNode quant) => quant.WithContents(node),
-        //        previous,
-        //        QuantifierPrefix)
-        //    .Optional()
-        //    .Select(maybe => maybe.HasValue ?
-        //        maybe.Value :
-        //        previous.);
-
         public static Parser<char, Node> WithOptionalQuantifier(this Parser<char, Node> previous) =>
             Map((prev, maybeQuant) =>
                     maybeQuant.HasValue ?
@@ -29,6 +20,7 @@ namespace RegexNodes.Shared.RegexParsers
                 previous,
                 ParseQuantifier.Optional());
 
+        //TODO: support lazy & possessive quantifiers
         public static Parser<char, QuantifierNode> ParseQuantifier =>
             OneOf(
                 OneOrMore,
@@ -36,9 +28,6 @@ namespace RegexNodes.Shared.RegexParsers
                 ZeroOrOne,
                 Try(Number),
                 Range);
-
-        //public static Parser<char, QuantifierNode> ParseQuantifier =>
-        //    OneOrMore;
 
         private static Parser<char, QuantifierNode> OneOrMore =>
             Char('+')
@@ -74,17 +63,6 @@ namespace RegexNodes.Shared.RegexParsers
             UnsignedInt(10)
             .OptionalOrNull();
 
-        //private static readonly Parser<char, QuantifierNode> NumberOrRange =
-        //    UnsignedInt(10)
-        //    .Separated(Char(','))
-        //    .Between(
-        //            Char('{'),
-        //            Char('}'))
-        //    .Select(numbers => numbers.Count() switch
-        //    {
-        //        1 => CreateWithNumber(numbers.First()),
-        //        2 => Cre
-        //    });
 
         private static QuantifierNode CreateWithNumber(int number)
         {
@@ -110,17 +88,26 @@ namespace RegexNodes.Shared.RegexParsers
             return node;
         }
 
-        private static QuantifierNode AttachToNode(this QuantifierNode quant, Node contents)
+        private static Node AttachToNode(this QuantifierNode quant, Node contents)
         {
             switch (contents)
             {
-                //case TextNode node: //If contents is a TextNode, we only want to quantify the last char of text
-                //    quant.QuantifyLastCharOfTextNode(node); break;
+                case CharSetNode node when quant.InputSearchType.DropdownValue == QuantifierNode.SearchModes.greedy:
+                    node.InputCount.DropdownValue = quant.InputCount.DropdownValue;
+                    node.InputMin.InputContents = quant.InputMin.InputContents;
+                    node.InputMax.InputContents = quant.InputMax.InputContents;
+                    node.InputNumber.InputContents = quant.InputNumber.InputContents;
+                    return node;
+                case WildcardNode node when quant.InputSearchType.DropdownValue == QuantifierNode.SearchModes.greedy:
+                    node.InputCount.DropdownValue = quant.InputCount.DropdownValue;
+                    node.InputMin.InputContents = quant.InputMin.InputContents;
+                    node.InputMax.InputContents = quant.InputMax.InputContents;
+                    node.InputNumber.InputContents = quant.InputNumber.InputContents;
+                    return node;
                 default:
-                    quant.InputContents.ConnectedNode = contents; break;
+                    quant.InputContents.ConnectedNode = contents;
+                    return quant;
             }
-            
-            return quant;
         }
 
         //private static void QuantifyLastCharOfTextNode(this QuantifierNode quant, TextNode textNode)
