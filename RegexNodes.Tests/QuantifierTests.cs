@@ -36,7 +36,7 @@ namespace RegexNodes.Tests
 
         [TestCase(@"test", ExpectedResult = @"(?:test)*")]
         [TestCase(@"\t\n", ExpectedResult = @"(?:\t\n)*")]
-        [TestCase(@"(a)(b)", ExpectedResult = @"(?:(a)(b))*", Ignore = "Feature not implemented yet.")]
+        [TestCase(@"(a)(b)", ExpectedResult = @"(?:(a)(b))*", Ignore = "Fix not implemented yet.")]
         public string GetOutput_UngroupedContents_ReturnsContentsGroupedWithAsterisk(string contents)
         {
             var node = CreateDefaultQuantifier(contents);

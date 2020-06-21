@@ -7,10 +7,6 @@ namespace RegexNodes.Shared
     {
         public List<InputProcedural> Inputs { get; private set; }
 
-        public InputCollection(List<InputProcedural> inputs)
-        {
-            Inputs = inputs;
-        }
         public InputCollection(string title, int numInputs = 2)
         {
             Title = title;

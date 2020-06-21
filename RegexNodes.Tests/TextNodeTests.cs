@@ -11,24 +11,20 @@ namespace RegexNodes.Tests
     [TestFixture]
     public class TextNodeTests
     {
-        TextNode _node;
-
-        [SetUp]
-        public void SetUp()
+        [TestCase(@" ", " ")]
+        [TestCase(@"a", "a")]
+        [TestCase(@"(a)", "(a)")]
+        [TestCase(@"a\\b", @"a\b")]
+        [TestCase(@"*", @"*")]
+        [TestCase(@"\*", @"*")]
+        public void VariousStrings_MatchesString(string contents, string shouldMatch)
         {
-            _node = new TextNode();
-        }
+            var node = new TextNode(contents);
 
-        [TestCase(@" ")]
-        [TestCase(@"Testing")]
-        [TestCase(@"(Price) is: $21.99?")]
-        [TestCase(@"High\medium\\low high/medium//low")]
-        [TestCase(@"((][fg]lnd#$23\4)_")]
-        public void VariousStrings(string contents)
-        {
-            //_node.Input = new InputString(contents);
+            string nodeVal = node.CachedOutput;
 
-            Assert.That("Test case: " + contents + " End.", Does.Match(_node.CachedOutput));
+            Assert.That(nodeVal, Is.Not.Null);
+            Assert.That(shouldMatch, Does.Match(node.CachedOutput));
         }
     }
 }
