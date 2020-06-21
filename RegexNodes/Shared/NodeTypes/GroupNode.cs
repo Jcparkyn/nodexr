@@ -19,7 +19,7 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputString GroupName { get; } = new InputString("") { Title = "Name:" };
         [NodeInput]
-        public InputString CustomPrefix { get; } = new InputString("") { Title = "Prefix:" };
+        public InputString CustomPrefix { get; } = new InputString("?>") { Title = "Prefix:" };
 
         public GroupNode()
         {
