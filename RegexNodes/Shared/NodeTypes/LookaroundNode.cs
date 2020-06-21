@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class Lookaround : Node
+    public class LookaroundNode : Node
     {
         public override string Title => "Lookaround";
         public override string NodeInfo => "Converts the input node into a lookahead or lookbehind.";
