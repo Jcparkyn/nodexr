@@ -316,7 +316,7 @@ input {
     }
 
 .search-text-highlight, .search-textarea {
-    padding: 0px;
+    padding: 3px;
     /*letter-spacing: 1px;*/
     line-height: 26px;
     width: 100%;

@@ -25,11 +25,22 @@ namespace RegexNodes.Shared.Services
         void ForceRefreshNoodles();
         void SelectNode(INode node);
         void DeselectAllNodes();
+        bool TryCreateTreeFromRegex(string regex);
     }
 
     public class NodeHandler : INodeHandler
     {
-        public NodeTree Tree { get; }
+        private NodeTree tree;
+        public NodeTree Tree
+        {
+            get => tree;
+            private set
+            {
+                if(tree != null) tree.OutputChanged -= OnOutputChanged;
+                value.OutputChanged += OnOutputChanged;
+                tree = value;
+            }
+        }
         
         public string CachedOutput => Tree.CachedOutput;
         
@@ -48,16 +59,7 @@ namespace RegexNodes.Shared.Services
             var uri = navManager.ToAbsoluteUri(navManager.Uri);
             if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("parse", out var parseString))
             {
-                var parseResult = RegexParsers.RegexParser.Parse(parseString);
-
-                if (parseResult.Success)
-                {
-                    Tree = parseResult.Value;
-                }
-                else
-                {
-                    Console.WriteLine("Couldn't parse input: " + parseResult.Error);
-                }
+                TryCreateTreeFromRegex(parseString);
             }
 
             if (Tree is null)
@@ -67,6 +69,23 @@ namespace RegexNodes.Shared.Services
             }
 
             Tree.OutputChanged += OnOutputChanged;
+        }
+
+        public bool TryCreateTreeFromRegex(string regex)
+        {
+            var parseResult = RegexParsers.RegexParser.Parse(regex);
+
+            if (parseResult.Success)
+            {
+                Tree = parseResult.Value;
+                ForceRefreshNodeGraph();
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Couldn't parse input: " + parseResult.Error);
+                return false;
+            }
         }
 
         private void OnOutputChanged(object sender, EventArgs e)
