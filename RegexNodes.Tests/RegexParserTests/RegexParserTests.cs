@@ -46,6 +46,8 @@ namespace RegexNodes.Tests.RegexParserTests
         [TestCase(@"_\*[a]", typeof(TextNode), typeof(CharSetNode))]
         [TestCase(@"[abc]def", typeof(CharSetNode), typeof(TextNode))]
         [TestCase(@"(abc)def", typeof(GroupNode), typeof(TextNode))]
+        [TestCase(@"(abc)(def)", typeof(GroupNode), typeof(GroupNode))]
+        [TestCase(@"(a[bc])def", typeof(GroupNode), typeof(TextNode))]
         public void ParseRegex_TwoChunks_ReturnsNodesInSequence(string input, Type type2, Type type1)
         {
             var node1 = RegexParser.ParseRegex.ParseOrThrow(input);
@@ -60,7 +62,7 @@ namespace RegexNodes.Tests.RegexParserTests
         }
 
         [TestCase(@"abc[def]ghi", typeof(TextNode), typeof(CharSetNode), typeof(TextNode))]
-        [TestCase(@"abc(def)ghi", typeof(TextNode), typeof(GroupNode), typeof(TextNode))]
+        [TestCase(@"ijk(gdef)ghi", typeof(TextNode), typeof(GroupNode), typeof(TextNode))]
         public void ParseRegex_ThreeChunks_ReturnsNodesInSequence(string input, Type type3, Type type2, Type type1)
         {
             var node1 = RegexParser.ParseRegex.ParseOrThrow(input);

@@ -13,6 +13,9 @@ namespace RegexNodes.Shared.RegexParsers
     {
         public static readonly Parser<char, char> EscapeChar = Char('\\');
 
+        public static Parser<char, T> ReturnLazy<T>(Func<T> func) =>
+            Return<T>(default).Select(a => func());
+
         public static Parser<char, bool> UpperOrLower(char letter) =>
             CIChar(letter)
             .Select(c => char.IsUpper(c));

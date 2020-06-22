@@ -19,7 +19,8 @@ namespace RegexNodes.Tests
         [TestCase(@"\*", @"*")]
         public void VariousStrings_MatchesString(string contents, string shouldMatch)
         {
-            var node = new TextNode(contents);
+            var node = new TextNode();
+            node.Input.Contents = contents;
 
             string nodeVal = node.CachedOutput;
 

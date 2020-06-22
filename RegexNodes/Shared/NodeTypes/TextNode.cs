@@ -18,12 +18,6 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputCheckbox InputDoEscape { get; } = new InputCheckbox(true) { Title = "Escape" };
 
-        public TextNode() { }
-        public TextNode(string contents, bool escape = true)
-        {
-            Input.Contents = contents;
-            InputDoEscape.IsChecked = escape;
-        }
 
         static readonly HashSet<char> charsToEscape = new HashSet<char> { '/', '(', ')', '[', ']', '{', '}', '$', '^', '?', '^', '.', '+', '*', '|' };
 
@@ -48,7 +42,8 @@ namespace RegexNodes.Shared.NodeTypes
         {
             string escapedContents = StripUnnecessaryEscapes(contents);
 
-            var result = new TextNode(escapedContents);
+            var result = new TextNode();
+            result.Input.Contents = escapedContents;
             return result;
 
             string StripUnnecessaryEscapes(string input)

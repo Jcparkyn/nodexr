@@ -10,7 +10,7 @@ using static RegexNodes.Shared.RegexParsers.ParsersShared;
 
 namespace RegexNodes.Shared.RegexParsers
 {
-    public class WildcardParser
+    public static class WildcardParser
     {
         public static Parser<char, WildcardNode> ParseWildcardAfterEscape =>
             OneOf(
@@ -19,7 +19,7 @@ namespace RegexNodes.Shared.RegexParsers
 
         public static Parser<char, WildcardNode> ParseWildcard =>
             Char('.')
-            .WithResult(CreateWithInputs(a: true));
+            .Select(_ => CreateWithInputs(a: true));
 
         private static Parser<char, WildcardNode> Digits =>
             UpperOrLower('d')

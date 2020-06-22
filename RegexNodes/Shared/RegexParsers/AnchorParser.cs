@@ -14,13 +14,13 @@ namespace RegexNodes.Shared.RegexParsers
     {
         public static Parser<char, AnchorNode> ParseAnchor =>
             OneOf(
-                Char('^').WithResult(CreateWithType(AnchorNode.Modes.startLine)),
-                Char('$').WithResult(CreateWithType(AnchorNode.Modes.endLine))
+                Char('^').Select(_ => CreateWithType(AnchorNode.Modes.startLine)),
+                Char('$').Select(_ => CreateWithType(AnchorNode.Modes.endLine))
                 );
 
         public static Parser<char, AnchorNode> ParseAnchorAfterEscape =>
-            Char('b').WithResult(CreateWithType(AnchorNode.Modes.wordBoundary))
-            .Or(Char('B').WithResult(CreateWithType(AnchorNode.Modes.notWordBoundary)));
+            Char('b').Select(_ => CreateWithType(AnchorNode.Modes.wordBoundary))
+            .Or(Char('B').Select(_ => CreateWithType(AnchorNode.Modes.notWordBoundary)));
 
         private static AnchorNode CreateWithType(string type)
         {

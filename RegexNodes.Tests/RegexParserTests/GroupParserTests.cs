@@ -14,7 +14,9 @@ namespace RegexNodes.Tests.RegexParserTests
     {
         [TestCase(@"(a)", @"a")]
         [TestCase(@"(abc)", @"abc")]
-        public void GroupNode_ReturnsGroupWithContents(string input, string expectedContents)
+        [TestCase(@"(?:a)", @"a")]
+        [TestCase(@"(?<name>a)", @"a")]
+        public void VariousGroups_ReturnsGroupWithContents(string input, string expectedContents)
         {
             var result = ParseGroup.ParseOrThrow(input);
             Assert.AreEqual(expectedContents, result.Input.GetValue());

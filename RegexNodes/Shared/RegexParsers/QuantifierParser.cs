@@ -31,18 +31,17 @@ namespace RegexNodes.Shared.RegexParsers
 
         private static Parser<char, QuantifierNode> OneOrMore =>
             Char('+')
-            .WithResult(CreateWithRepetitions(QuantifierNode.Repetitions.oneOrMore)
+            .Select(_ => CreateWithRepetitions(QuantifierNode.Repetitions.oneOrMore)
             );
 
         private static Parser<char, QuantifierNode> ZeroOrMore =>
             Char('*')
-            .WithResult(CreateWithRepetitions(QuantifierNode.Repetitions.zeroOrMore)
+            .Select(_ => CreateWithRepetitions(QuantifierNode.Repetitions.zeroOrMore)
             );
 
         private static Parser<char, QuantifierNode> ZeroOrOne =>
             Char('?')
-            .WithResult(CreateWithRepetitions(QuantifierNode.Repetitions.zeroOrOne)
-            );
+            .Select(_ => CreateWithRepetitions(QuantifierNode.Repetitions.zeroOrOne));
 
         private static Parser<char, QuantifierNode> Number =>
             UnsignedInt(10)

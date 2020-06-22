@@ -11,20 +11,28 @@ namespace RegexNodes.Shared.NodeTypes
         public InputProcedural Input { get; } = new InputProcedural() { Title = "Contents" };
         [NodeInput]
         public InputDropdown InputGroupType { get; } = new InputDropdown(
-            "Capturing",
-            "Non-capturing",
-            "Named",
-            "Custom")
+            GroupTypes.capturing,
+            GroupTypes.nonCapturing,
+            GroupTypes.named,
+            GroupTypes.custom)
         { Title = "Type of group:" };
         [NodeInput]
         public InputString GroupName { get; } = new InputString("") { Title = "Name:" };
         [NodeInput]
         public InputString CustomPrefix { get; } = new InputString("?>") { Title = "Prefix:" };
 
+        public static class GroupTypes
+        {
+            public const string capturing = "Capturing";
+            public const string nonCapturing = "Non-capturing";
+            public const string named = "Named";
+            public const string custom = "Custom";
+        }
+
         public GroupNode()
         {
-            GroupName.IsEnabled = (() => InputGroupType.DropdownValue == "Named");
-            CustomPrefix.IsEnabled = (() => InputGroupType.DropdownValue == "Custom");
+            GroupName.IsEnabled = (() => InputGroupType.DropdownValue == GroupTypes.named);
+            CustomPrefix.IsEnabled = (() => InputGroupType.DropdownValue == GroupTypes.custom);
         }
 
         protected override string GetValue()
@@ -33,16 +41,12 @@ namespace RegexNodes.Shared.NodeTypes
             string prefix = "";
             switch (InputGroupType.DropdownValue)
             {
-                case "Capturing": prefix = "("; break;
-                case "Non-capturing": prefix = "(?:"; break;
-                case "Named": prefix = $"(?<{GroupName.GetValue()}>"; break;
-                case "Custom": prefix = "(" + CustomPrefix.GetValue(); break;
+                case GroupTypes.capturing: prefix = "("; break;
+                case GroupTypes.nonCapturing: prefix = "(?:"; break;
+                case GroupTypes.named: prefix = $"(?<{GroupName.GetValue()}>"; break;
+                case GroupTypes.custom: prefix = "(" + CustomPrefix.GetValue(); break;
             };
-            //string prefix = (InputGroupType.Value == "Capturing") ? "(" : "(?:";
-            //if (input.StartsWith("(?:") && input.EndsWith(")"))
-            //{
-            //    return UpdateCache(prefix + input.Substring(3));
-            //}
+
             return $"{prefix}{input})";
         }
     }

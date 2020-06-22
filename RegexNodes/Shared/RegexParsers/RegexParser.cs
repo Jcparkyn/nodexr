@@ -14,30 +14,33 @@ namespace RegexNodes.Shared.RegexParsers
     public static class RegexParser
     {
 
-        public static Parser<char, Node> ParseRegex =>
+        public static readonly Parser<char, Node> ParseRegex =
             ParseSingleNode
             .AtLeastOnce()
-            .Select(ConnectNodesInSequence);
+            .Select(ConnectNodesInSequence)
+            .WithOptionalAlternation();
 
-        private static readonly Parser<char, Node> ParseSingleNode =
-            OneOf(
-                CharSetParser.ParseCharSet.Cast<Node>(),
-                GroupParser.ParseGroup.Cast<Node>(),
-                WildcardParser.ParseWildcard.Cast<Node>(),
-                AnchorParser.ParseAnchor.Cast<Node>(),
-                ParseEscapedWord)
-            .WithOptionalQuantifier()
-            .Or(TextParser.ParseTextWithOptionalQuantifier);
+        private static Parser<char, Node> ParseSingleNode =>
+            TextParser.ParseTextWithOptionalQuantifier
+            .Or(
+                OneOf(
+                    CharSetParser.ParseCharSet.Cast<Node>(),
+                    GroupParser.ParseGroup.Cast<Node>(),
+                    WildcardParser.ParseWildcard.Cast<Node>(),
+                    AnchorParser.ParseAnchor.Cast<Node>(),
+                    ParseEscapedWord)
+                .WithOptionalQuantifier());
 
         public static Parser<char, Node> ParseEscapedWord =>
-            EscapeChar.Then(ParseSpecialAfterBackslash);
+            EscapeChar.Then(ParseSpecialAfterEscape);
 
-        public static Parser<char, Node> ParseSpecialAfterBackslash =>
+        public static Parser<char, Node> ParseSpecialAfterEscape =>
             OneOf(
                 UnicodeParser.ParseUnicode.Cast<Node>(),
                 ReferenceParser.ParseReference.Cast<Node>(),
                 WildcardParser.ParseWildcardAfterEscape.Cast<Node>(),
-                AnchorParser.ParseAnchorAfterEscape.Cast<Node>());
+                AnchorParser.ParseAnchorAfterEscape.Cast<Node>(),
+                WhitespaceParser.ParseWhitespaceAfterEscape.Cast<Node>());
 
         public static Result<char, NodeTree> Parse(string input)
         {
@@ -78,11 +81,13 @@ namespace RegexNodes.Shared.RegexParsers
 
         private static Node ConnectNodesInSequence(IEnumerable<Node> nodes)
         {
-            return nodes.Aggregate((first, second) =>
+            var endNode = nodes.Aggregate((first, second) =>
             {
                 first.ConnectBefore(second);
                 return second;
             });
+
+            return endNode;
         }
 
         private static void ConnectBefore(this Node first, Node second)

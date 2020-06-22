@@ -77,7 +77,8 @@ namespace RegexNodes.Shared.Services
         private void CreateDefaultNodes(NodeTree tree)
         {
             var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
-            var defaultNode = new TextNode("fox") { Pos = new Vector2L(300, 200) };
+            var defaultNode = new TextNode() { Pos = new Vector2L(300, 200) };
+            defaultNode.Input.Contents = "fox";
             defaultOutput.PreviousNode = defaultNode;
             tree.AddNode(defaultNode);
             tree.AddNode(defaultOutput);

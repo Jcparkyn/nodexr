@@ -26,7 +26,7 @@ namespace RegexNodes.Shared.RegexParsers
             .Or(Try(
                 EscapeChar
                 .Then(
-                    Not(RegexParser.ParseSpecialAfterBackslash)
+                    Not(RegexParser.ParseSpecialAfterEscape)
                     .Then(Any))
                 .Select(c => "\\" + c)
                 ));
