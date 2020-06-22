@@ -27,7 +27,15 @@ namespace RegexNodes.Shared.RegexParsers
                 ZeroOrMore,
                 ZeroOrOne,
                 Try(Number),
-                Range);
+                Range)
+            .Then(QuantifierSuffix,
+                (node, searchType) => node.WithSearchType(searchType));
+
+        private static Parser<char, string> QuantifierSuffix =>
+            OneOf(
+                Char('?').WithResult(QuantifierNode.SearchModes.lazy),
+                Char('+').WithResult(QuantifierNode.SearchModes.possessive),
+                Return(QuantifierNode.SearchModes.greedy));
 
         private static Parser<char, QuantifierNode> OneOrMore =>
             Char('+')
@@ -87,6 +95,12 @@ namespace RegexNodes.Shared.RegexParsers
             return node;
         }
 
+        private static QuantifierNode WithSearchType(this QuantifierNode node, string searchType)
+        {
+            node.InputSearchType.DropdownValue = searchType;
+            return node;
+        }
+
         private static Node AttachToNode(this QuantifierNode quant, Node contents)
         {
             switch (contents)
@@ -108,18 +122,5 @@ namespace RegexNodes.Shared.RegexParsers
                     return quant;
             }
         }
-
-        //private static void QuantifyLastCharOfTextNode(this QuantifierNode quant, TextNode textNode)
-        //{
-        //    string text = textNode.Input.Contents;
-
-        //    if (text.IsSingleRegexChar())
-        //    {
-        //        quant.InputContents.ConnectedNode = textNode;
-        //        return;
-        //    }
-
-        //    str
-        //}
     }
 }
