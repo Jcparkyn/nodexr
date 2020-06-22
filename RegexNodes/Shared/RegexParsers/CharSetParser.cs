@@ -14,6 +14,7 @@ namespace RegexNodes.Shared.RegexParsers
     {
         private static readonly Parser<char, char> LBracket = Char('[');
         private static readonly Parser<char, char> RBracket = Char(']');
+        private static readonly Parser<char, char> Hat = Char('^');
 
         private static readonly Parser<char, string> ValidCharSetChar =
             AnyCharExcept('\\', ']').Select(c => c.ToString())
@@ -28,8 +29,18 @@ namespace RegexNodes.Shared.RegexParsers
             .AtLeastOnceString();
 
         public static readonly Parser<char, CharSetNode> ParseCharSet =
-            LBracket.Then(CharSetContents).Before(RBracket)
-                .Select(contents =>
-                    new CharSetNode(contents));
+            Map((invert, contents) => CreateWithContents(contents, invert),
+                Hat.WasMatched(),
+                CharSetContents)
+            .Between(LBracket, RBracket);
+
+
+        private static CharSetNode CreateWithContents(string contents, bool invert)
+        {
+            var node = new CharSetNode();
+            node.InputCharacters.Contents = contents;
+            node.InputDoInvert.IsChecked = invert;
+            return node;
+        }
     }
 }

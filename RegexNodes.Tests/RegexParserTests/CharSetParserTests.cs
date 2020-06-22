@@ -28,5 +28,14 @@ namespace RegexNodes.Tests.RegexParserTests
             var result = ParseCharSet.ParseOrThrow(input);
             Assert.AreEqual(expectedContents, result.InputCharacters.Contents);
         }
+
+        [TestCase(@"[^a]", @"a")]
+        [TestCase(@"[^abc]", @"abc")]
+        public void Inverted_ReturnsContents(string input, string expectedContents)
+        {
+            var result = ParseCharSet.ParseOrThrow(input);
+            Assert.That(result.InputDoInvert.IsChecked, Is.True);
+            Assert.AreEqual(expectedContents, result.InputCharacters.Contents);
+        }
     }
 }

@@ -36,12 +36,6 @@ namespace RegexNodes.Shared.NodeTypes
             SetupInputEnables();
         }
 
-        public CharSetNode(string chars)
-        {
-            SetupInputEnables();
-            InputCharacters.Contents = chars;
-        }
-
         void SetupInputEnables()
         {
             InputNumber.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.number;

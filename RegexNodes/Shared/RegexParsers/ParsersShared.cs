@@ -28,11 +28,9 @@ namespace RegexNodes.Shared.RegexParsers
                              (T?)maybe.Value :
                              null);
 
-        public static Parser<TToken, T> OptionalOrDefault<TToken, T>(this Parser<TToken, T> original) =>
-            original
-            .Optional()
-            .Select(maybe => maybe.HasValue ?
-                             maybe.Value :
-                             default);
+        public static Parser<TToken, bool> WasMatched<TToken, T>(this Parser<TToken, T> original) =>
+            original.Optional()
+            .Select(maybe => maybe.HasValue);
+
     }
 }
