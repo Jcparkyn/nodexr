@@ -300,7 +300,8 @@ input {
     line-height: 34px;
     min-width: 250px;
     padding: 0px 5px;
-    white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-all;
     height: auto;
 }
 
