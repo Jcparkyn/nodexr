@@ -26,8 +26,6 @@ namespace RegexNodes.Shared
         /// <summary>
         /// Adds a non-capturing group if the input string is not wrapped in parentheses.
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         public static string EnforceGrouped(this string input)
         {
             //TODO: check for escaped end bracket
@@ -45,6 +43,8 @@ namespace RegexNodes.Shared
             }
         }
 
+        public static string InNonCapturingGroup(this string input) => $"(?:{input})";
+
         public static bool IsSingleRegexChar(this string input)
         {
             return input.Length <= 1 || (input.Length == 2 && input.StartsWith("\\"));
@@ -55,14 +55,14 @@ namespace RegexNodes.Shared
             string result = "";
             for(int i = 0; i < input.Length; i++)
             {
-                char curChar = input[i];
-                if (chars.Contains(curChar))
+                if (chars.Contains(input[i]) &&
+                    (i == 0 || input[i - 1] != '\\'))
                 {
-                    result += @"\" + curChar;
+                    result += @"\" + input[i];
                 }
                 else
                 {
-                    result += curChar;
+                    result += input[i];
                 }
             }
             return result;

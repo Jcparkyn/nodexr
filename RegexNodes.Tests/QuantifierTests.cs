@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using RegexNodes.Shared;
 using RegexNodes.Shared.NodeTypes;
 
-using Reps = RegexNodes.Shared.NodeTypes.Quantifier.Repetitions;
+using Reps = RegexNodes.Shared.NodeTypes.QuantifierNode.Repetitions;
 
 namespace RegexNodes.Tests
 {
@@ -36,10 +36,15 @@ namespace RegexNodes.Tests
 
         [TestCase(@"test", ExpectedResult = @"(?:test)*")]
         [TestCase(@"\t\n", ExpectedResult = @"(?:\t\n)*")]
-        [TestCase(@"(a)(b)", ExpectedResult = @"(?:(a)(b))*", Ignore = "Feature not implemented yet.")]
+        [TestCase(@"(a)(b)", ExpectedResult = @"(?:(a)(b))*")]
         public string GetOutput_UngroupedContents_ReturnsContentsGroupedWithAsterisk(string contents)
         {
-            var node = CreateDefaultQuantifier(contents);
+            var node = new QuantifierNode();
+            var input = new TextNode();
+            input.Input.Contents = contents;
+            input.InputDoEscape.IsChecked = false;
+
+            node.InputContents.ConnectedNode = input;
             node.InputSearchType.DropdownValue = Reps.zeroOrMore;
 
             return node.CachedOutput;
@@ -75,7 +80,7 @@ namespace RegexNodes.Tests
             return Reps.GetSuffix(mode, min: min, max: max);
         }
 
-        private Quantifier CreateQuantifierWithRange(string contents, int min, int max)
+        private QuantifierNode CreateQuantifierWithRange(string contents, int min, int max)
         {
             var node = CreateDefaultQuantifier(contents);
 
@@ -86,9 +91,9 @@ namespace RegexNodes.Tests
             return node;
         }
 
-        private Quantifier CreateDefaultQuantifier(string contents)
+        private QuantifierNode CreateDefaultQuantifier(string contents)
         {
-            var node = new Quantifier();
+            var node = new QuantifierNode();
             node.InputContents.ConnectedNode = new FakeNodeOutput(contents);
             return node;
         }

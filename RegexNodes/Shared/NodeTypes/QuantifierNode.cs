@@ -4,10 +4,14 @@ using RegexNodes.Shared;
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class Quantifier : Node, INode
+    public class QuantifierNode : Node
     {
         public override string Title => "Quantifier";
-        public override string NodeInfo => "Inserts a quantifier to set the minimum and maximum number of 'repeats' for the inputted node. Leave the 'max' option blank to allow unlimited repeats. 'Greedy' and 'Lazy' search type will attempt to match as many or as few times as possible respectively.";
+        public override string NodeInfo => "Inserts a quantifier to set the minimum and maximum number " +
+            "of 'repeats' for the inputted node. Leave the 'max' option blank to allow unlimited repeats." +
+            "\n'Greedy' and 'Lazy' search type will attempt to match as many or as few times as possible respectively." +
+            "\nThe .NET Regex engine does not support possessive quantifiers, so they are automatically replaced " +
+            "by atomic groups (which are functionally identical).";
 
         [NodeInput]
         public InputProcedural InputContents { get; } = new InputProcedural() { Title = "Input" };
@@ -25,7 +29,17 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
         [NodeInput]
-        public InputDropdown InputSearchType { get; } = new InputDropdown("Greedy", "Lazy", "Possessive") { Title = "Search type:" };
+        public InputDropdown InputSearchType { get; } = new InputDropdown(
+            SearchModes.greedy,
+            SearchModes.lazy,
+            SearchModes.possessive) { Title = "Search type:" };
+
+        public class SearchModes
+        {
+            public const string greedy = "Greedy";
+            public const string lazy = "Lazy";
+            public const string possessive = "Possessive";
+        }
 
         public class Repetitions
         {
@@ -51,7 +65,7 @@ namespace RegexNodes.Shared.NodeTypes
             }
         }
 
-        public Quantifier()
+        public QuantifierNode()
         {
             InputNumber.IsEnabled = () => InputCount.DropdownValue == Repetitions.number;
             InputMin.IsEnabled = () => InputCount.DropdownValue == Repetitions.range;
@@ -60,29 +74,49 @@ namespace RegexNodes.Shared.NodeTypes
 
         protected override string GetValue()
         {
+            string prefix = "";
             string suffix = Repetitions.GetSuffix(
                 InputCount.DropdownValue,
                 InputNumber.InputContents,
                 InputMin.GetValue(),
                 InputMax.GetValue());
 
-            if (InputSearchType.DropdownValue == "Lazy")
+            if (InputSearchType.DropdownValue == SearchModes.lazy)
             {
                 suffix += "?";
             }
-            else if (InputSearchType.DropdownValue == "Possessive")
+            else if (InputSearchType.DropdownValue == SearchModes.possessive)
             {
-                suffix += "+";
+                suffix += ")";
+                prefix = "(?>";
             }
 
             string contents = InputContents.GetValue();
-            if (!contents.IsSingleRegexChar())
+            if (InputContents.ConnectedNode is Node _node
+                && RequiresGroupToQuantify(_node))
             {
-                contents = contents.EnforceGrouped();
+                contents = contents.InNonCapturingGroup();
             }
 
-            string result = contents + suffix;
-            return result;
+            return prefix + contents + suffix;
+        }
+
+        private bool RequiresGroupToQuantify(Node val)
+        {
+            if (val is null) throw new ArgumentNullException(nameof(val));
+            
+            //Any chain of 2 or more nodes will always need to be wrapped in a group to quantify properly.
+            if (!(val.PreviousNode is null))
+                return true;
+
+            //All Concat, and Quantifier nodes also need to be wrapped in a group to quantify properly.
+            if (val is ConcatNode || val is QuantifierNode)
+                return true;
+
+            if (val is TextNode && !val.CachedOutput.IsSingleRegexChar())
+                return true;
+
+            return false;
         }
     }
 }
