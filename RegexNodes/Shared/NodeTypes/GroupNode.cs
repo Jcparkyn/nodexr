@@ -14,6 +14,7 @@ namespace RegexNodes.Shared.NodeTypes
             GroupTypes.capturing,
             GroupTypes.nonCapturing,
             GroupTypes.named,
+            GroupTypes.atomic,
             GroupTypes.custom)
         { Title = "Type of group:" };
         [NodeInput]
@@ -26,6 +27,7 @@ namespace RegexNodes.Shared.NodeTypes
             public const string capturing = "Capturing";
             public const string nonCapturing = "Non-capturing";
             public const string named = "Named";
+            public const string atomic = "Atomic";
             public const string custom = "Custom";
         }
 
@@ -38,13 +40,14 @@ namespace RegexNodes.Shared.NodeTypes
         protected override string GetValue()
         {
             string input = Input.GetValue().RemoveNonCapturingGroup();
-            string prefix = "";
-            switch (InputGroupType.DropdownValue)
+            string prefix = InputGroupType.DropdownValue switch
             {
-                case GroupTypes.capturing: prefix = "("; break;
-                case GroupTypes.nonCapturing: prefix = "(?:"; break;
-                case GroupTypes.named: prefix = $"(?<{GroupName.GetValue()}>"; break;
-                case GroupTypes.custom: prefix = "(" + CustomPrefix.GetValue(); break;
+                GroupTypes.capturing => "(",
+                GroupTypes.nonCapturing => "(?:",
+                GroupTypes.named => $"(?<{GroupName.GetValue()}>",
+                GroupTypes.atomic => $"(?>",
+                GroupTypes.custom => "(" + CustomPrefix.GetValue(),
+                _ => "",
             };
 
             return $"{prefix}{input})";

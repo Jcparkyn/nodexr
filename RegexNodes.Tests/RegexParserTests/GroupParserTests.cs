@@ -18,7 +18,8 @@ namespace RegexNodes.Tests.RegexParserTests
         [TestCase(@"(?<name>a)", @"a")]
         public void VariousGroups_ReturnsGroupWithContents(string input, string expectedContents)
         {
-            var result = ParseGroup.ParseOrThrow(input);
+            var result = ParseGroup.ParseOrThrow(input) as GroupNode;
+            Assert.That(result, Is.Not.Null);
             Assert.AreEqual(expectedContents, result.Input.GetValue());
         }
     }

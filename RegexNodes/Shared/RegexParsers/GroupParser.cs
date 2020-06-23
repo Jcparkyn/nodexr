@@ -12,37 +12,45 @@ namespace RegexNodes.Shared.RegexParsers
 {
     public static class GroupParser
     {
-
-        public static Parser<char, GroupNode> ParseGroup =>
-            Map((node, contents) => node.WithContents(contents),
-                GroupPrefix,
-                Rec(() => RegexParser.ParseRegex))
+        /// <summary>
+        /// Parse any type of group. This includes anything in (non-escaped) parentheses.
+        /// </summary>
+        public static Parser<char, Node> ParseGroup =>
+            Char('?').Then(OneOf(
+                LookaroundParser.ParseLookaround.Cast<Node>(),
+                OtherGroup.Cast<Node>(),
+                IfElseParser.ParseIfElse.Cast<Node>()
+                ))
+            .Or(CaptureGroup.Cast<Node>())
             .Between(Char('('), Char(')'));
 
-        private static Parser<char, GroupNode> GroupPrefix =>
-            Char('?').Then(
-                OneOf(
-                    Char(':').Select(c => CreateWithNonCapturing()),
-                    GroupName.Select(name => CreateWithName(name))
-                    ))
-            .Or(ReturnLazy(CreateWithCapturing));
+        private static Parser<char, GroupNode> OtherGroup =>
+            Map((node, contents) => node.WithContents(contents),
+                NormalGroupPrefix,
+                Rec(() => RegexParser.ParseRegex));
+
+        private static Parser<char, GroupNode> CaptureGroup =>
+            Rec(() => RegexParser.ParseRegex)
+            .Select(contents =>
+                CreateWithType(GroupNode.GroupTypes.capturing)
+                .WithContents(contents));
+
+        private static Parser<char, GroupNode> NormalGroupPrefix =>
+            OneOf(
+                Char(':').Select(c => CreateWithType(GroupNode.GroupTypes.nonCapturing)),
+                Char('>').Select(c => CreateWithType(GroupNode.GroupTypes.atomic)),
+                GroupName.Select(name => CreateWithName(name))
+                );
 
         private static Parser<char, string> GroupName =>
             OneOf("<'")
             .Then(AnyCharExcept(">'").ManyString())
             .Before(OneOf(">'"));
 
-        private static GroupNode CreateWithCapturing()
+        private static GroupNode CreateWithType(string groupType)
         {
             var node = new GroupNode();
-            node.InputGroupType.DropdownValue = GroupNode.GroupTypes.capturing;
-            return node;
-        }
-
-        private static GroupNode CreateWithNonCapturing()
-        {
-            var node = new GroupNode();
-            node.InputGroupType.DropdownValue = GroupNode.GroupTypes.nonCapturing;
+            node.InputGroupType.DropdownValue = groupType;
             return node;
         }
 

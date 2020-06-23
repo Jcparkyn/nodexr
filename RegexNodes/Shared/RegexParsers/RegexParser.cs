@@ -15,10 +15,13 @@ namespace RegexNodes.Shared.RegexParsers
     {
 
         public static readonly Parser<char, Node> ParseRegex =
+            ParseRegexWithoutAlternation
+            .WithOptionalAlternation();
+
+        public static Parser<char, Node> ParseRegexWithoutAlternation =>
             ParseSingleNode
             .AtLeastOnce()
-            .Select(ConnectNodesInSequence)
-            .WithOptionalAlternation();
+            .Select(ConnectNodesInSequence);
 
         private static Parser<char, Node> ParseSingleNode =>
             TextParser.ParseTextWithOptionalQuantifier

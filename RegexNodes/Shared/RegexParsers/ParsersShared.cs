@@ -12,6 +12,8 @@ namespace RegexNodes.Shared.RegexParsers
     public static class ParsersShared
     {
         public static readonly Parser<char, char> EscapeChar = Char('\\');
+        public static readonly Parser<char, char> OpenPar = Char('(');
+        public static readonly Parser<char, char> ClosePar = Char(')');
 
         public static Parser<char, T> ReturnLazy<T>(Func<T> func) =>
             Return<T>(default).Select(a => func());

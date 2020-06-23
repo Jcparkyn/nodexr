@@ -14,11 +14,19 @@ namespace RegexNodes.Shared.NodeTypes
         public InputProcedural Input { get; } = new InputProcedural() { Title = "Contents" };
         [NodeInput]
         public InputDropdown InputGroupType { get; } = new InputDropdown(
-            "Lookahead",
-            "Lookbehind",
-            "Negative Lookahead",
-            "Negative Lookbehind")
+            Types.lookahead,
+            Types.lookbehind,
+            Types.lookaheadNeg,
+            Types.lookbehindNeg)
         { Title = "Type:" };
+
+        public class Types
+        {
+            public const string lookahead = "Lookahead";
+            public const string lookbehind = "Lookbehind";
+            public const string lookaheadNeg = "Negative Lookahead";
+            public const string lookbehindNeg = "Negative Lookbehind";
+        }
 
         protected override string GetValue()
         {
@@ -26,10 +34,10 @@ namespace RegexNodes.Shared.NodeTypes
             string prefix = "";
             switch (InputGroupType.DropdownValue)
             {
-                case "Lookahead": prefix = "(?="; break;
-                case "Lookbehind": prefix = "(?<="; break;
-                case "Negative Lookahead": prefix = "(?!"; break;
-                case "Negative Lookbehind": prefix = "(?<!"; break;
+                case Types.lookahead: prefix = "(?="; break;
+                case Types.lookbehind: prefix = "(?<="; break;
+                case Types.lookaheadNeg: prefix = "(?!"; break;
+                case Types.lookbehindNeg: prefix = "(?<!"; break;
             };
             
             return $"{prefix}{input})";

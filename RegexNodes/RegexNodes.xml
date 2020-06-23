@@ -26,5 +26,10 @@
             re-render of noodles connected to the parent node.
             </summary>
         </member>
+        <member name="P:RegexNodes.Shared.RegexParsers.GroupParser.ParseGroup">
+            <summary>
+            Parse any type of group. This includes anything in (non-escaped) parentheses.
+            </summary>
+        </member>
     </members>
 </doc>

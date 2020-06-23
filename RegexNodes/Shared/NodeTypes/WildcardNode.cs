@@ -13,7 +13,7 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputCheckbox InputAllowAll { get; } = new InputCheckbox(true) { Title = "Everything" };
         [NodeInput]
-        public InputCheckbox InputAllowWhitespace { get; } = new InputCheckbox() { Title = "Whitespace" };
+        public InputCheckbox InputAllowWhitespace { get; } = new InputCheckbox(false) { Title = "Whitespace" };
         [NodeInput]
         public InputCheckbox InputAllowUppercase { get; } = new InputCheckbox(true) { Title = "Uppercase Letters" };
         [NodeInput]
@@ -23,7 +23,7 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputCheckbox InputAllowUnderscore { get; } = new InputCheckbox(true) { Title = "Underscore" };
         [NodeInput]
-        public InputCheckbox InputAllowOther { get; } = new InputCheckbox() { Title = "Other" };
+        public InputCheckbox InputAllowOther { get; } = new InputCheckbox(false) { Title = "Other" };
 
         [NodeInput]
         public InputDropdown InputCount { get; } = new InputDropdown(
