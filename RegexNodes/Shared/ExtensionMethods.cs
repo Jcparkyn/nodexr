@@ -43,6 +43,8 @@ namespace RegexNodes.Shared
             }
         }
 
+        public static string InNonCapturingGroup(this string input) => $"(?:{input})";
+
         public static bool IsSingleRegexChar(this string input)
         {
             return input.Length <= 1 || (input.Length == 2 && input.StartsWith("\\"));

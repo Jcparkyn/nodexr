@@ -36,10 +36,15 @@ namespace RegexNodes.Tests
 
         [TestCase(@"test", ExpectedResult = @"(?:test)*")]
         [TestCase(@"\t\n", ExpectedResult = @"(?:\t\n)*")]
-        [TestCase(@"(a)(b)", ExpectedResult = @"(?:(a)(b))*", Ignore = "Fix not implemented yet.")]
+        [TestCase(@"(a)(b)", ExpectedResult = @"(?:(a)(b))*")]
         public string GetOutput_UngroupedContents_ReturnsContentsGroupedWithAsterisk(string contents)
         {
-            var node = CreateDefaultQuantifier(contents);
+            var node = new QuantifierNode();
+            var input = new TextNode();
+            input.Input.Contents = contents;
+            input.InputDoEscape.IsChecked = false;
+
+            node.InputContents.ConnectedNode = input;
             node.InputSearchType.DropdownValue = Reps.zeroOrMore;
 
             return node.CachedOutput;

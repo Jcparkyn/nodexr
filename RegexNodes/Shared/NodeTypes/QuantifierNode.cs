@@ -7,7 +7,11 @@ namespace RegexNodes.Shared.NodeTypes
     public class QuantifierNode : Node
     {
         public override string Title => "Quantifier";
-        public override string NodeInfo => "Inserts a quantifier to set the minimum and maximum number of 'repeats' for the inputted node. Leave the 'max' option blank to allow unlimited repeats. 'Greedy' and 'Lazy' search type will attempt to match as many or as few times as possible respectively.";
+        public override string NodeInfo => "Inserts a quantifier to set the minimum and maximum number " +
+            "of 'repeats' for the inputted node. Leave the 'max' option blank to allow unlimited repeats." +
+            "\n'Greedy' and 'Lazy' search type will attempt to match as many or as few times as possible respectively." +
+            "\nThe .NET Regex engine does not support possessive quantifiers, so they are automatically replaced " +
+            "by atomic groups (which are functionally identical).";
 
         [NodeInput]
         public InputProcedural InputContents { get; } = new InputProcedural() { Title = "Input" };
@@ -70,6 +74,7 @@ namespace RegexNodes.Shared.NodeTypes
 
         protected override string GetValue()
         {
+            string prefix = "";
             string suffix = Repetitions.GetSuffix(
                 InputCount.DropdownValue,
                 InputNumber.InputContents,
@@ -82,17 +87,36 @@ namespace RegexNodes.Shared.NodeTypes
             }
             else if (InputSearchType.DropdownValue == SearchModes.possessive)
             {
-                suffix += "+";
+                suffix += ")";
+                prefix = "(?>";
             }
 
             string contents = InputContents.GetValue();
-            if (!contents.IsSingleRegexChar())
+            if (InputContents.ConnectedNode is Node _node
+                && RequiresGroupToQuantify(_node))
             {
-                contents = contents.EnforceGrouped();
+                contents = contents.InNonCapturingGroup();
             }
 
-            string result = contents + suffix;
-            return result;
+            return prefix + contents + suffix;
+        }
+
+        private bool RequiresGroupToQuantify(Node val)
+        {
+            if (val is null) throw new ArgumentNullException(nameof(val));
+            
+            //Any chain of 2 or more nodes will always need to be wrapped in a group to quantify properly.
+            if (!(val.PreviousNode is null))
+                return true;
+
+            //All Concat, and Quantifier nodes also need to be wrapped in a group to quantify properly.
+            if (val is ConcatNode || val is QuantifierNode)
+                return true;
+
+            if (val is TextNode && !val.CachedOutput.IsSingleRegexChar())
+                return true;
+
+            return false;
         }
     }
 }
