@@ -31,9 +31,16 @@ namespace RegexNodes.Shared.NodeTypes
         protected override string GetValue()
         {
             //check whether nothing is connected to this node.
-            if (PreviousNode.ConnectedNode is null)
+            if (PreviousNode is null)
             {
                 return "Nothing connected to Output node";
+            }
+
+            string contents = Previous.ConnectedNode.CachedOutput;
+            //Remove the uneccessary group from an OrNode if it is the final node
+            if(CanStripNonCapturingGroup())
+            {
+                contents = contents[3..^1];
             }
 
             //Prefix
@@ -44,7 +51,7 @@ namespace RegexNodes.Shared.NodeTypes
                 _ => ""
             };
 
-            result += PreviousNode.ConnectedNode.CachedOutput;
+            result += contents;
 
             //Suffix
             result += InputEndsAt.DropdownValue switch
@@ -55,6 +62,14 @@ namespace RegexNodes.Shared.NodeTypes
             };
 
             return result;
+        }
+
+        private bool CanStripNonCapturingGroup()
+        {
+            return PreviousNode is OrNode _node
+                && _node.PreviousNode is null
+                && InputStartsAt.DropdownValue == Modes.anywhere
+                && InputEndsAt.DropdownValue == Modes.anywhere;
         }
     }
 }

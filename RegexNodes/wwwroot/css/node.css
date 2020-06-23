@@ -110,7 +110,7 @@
         position: absolute;
         height: 100%;
         width: 100%;
-        cursor: move;
+        cursor: pointer;
         top: 0px;
         left: -6px;
         padding: 0px 6px 0px 6px;

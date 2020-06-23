@@ -11,18 +11,18 @@ namespace RegexNodes.Shared.NodeTypes
             + "The 'Invert' option creates a negated class by adding a ^ character at the start.";
 
         [NodeInput]
-        protected InputString InputCharacters { get; } = new InputString("a-z") { Title = "Characters:" };
+        public InputString InputCharacters { get; } = new InputString("a-z") { Title = "Characters:" };
         [NodeInput]
-        protected InputCheckbox InputDoInvert { get; } = new InputCheckbox(false) { Title = "Invert"};
+        public InputCheckbox InputDoInvert { get; } = new InputCheckbox(false) { Title = "Invert"};
 
         [NodeInput]
         public InputDropdown InputCount { get; } = new InputDropdown(
-            Quantifier.Repetitions.one,
-            Quantifier.Repetitions.zeroOrMore,
-            Quantifier.Repetitions.oneOrMore,
-            Quantifier.Repetitions.zeroOrOne,
-            Quantifier.Repetitions.number,
-            Quantifier.Repetitions.range)
+            QuantifierNode.Repetitions.one,
+            QuantifierNode.Repetitions.zeroOrMore,
+            QuantifierNode.Repetitions.oneOrMore,
+            QuantifierNode.Repetitions.zeroOrOne,
+            QuantifierNode.Repetitions.number,
+            QuantifierNode.Repetitions.range)
         { Title = "Repetitions:" };
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
@@ -33,9 +33,14 @@ namespace RegexNodes.Shared.NodeTypes
 
         public CharSetNode()
         {
-            InputNumber.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.number;
-            InputMin.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
-            InputMax.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
+            SetupInputEnables();
+        }
+
+        void SetupInputEnables()
+        {
+            InputNumber.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.number;
+            InputMin.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.range;
+            InputMax.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.range;
         }
 
         protected override string GetValue()
@@ -49,7 +54,7 @@ namespace RegexNodes.Shared.NodeTypes
             string prefix = InputDoInvert.IsChecked ? "^" : "";
             string result = "[" + prefix + charSet + "]";
 
-            string suffix = Quantifier.Repetitions.GetSuffix(
+            string suffix = QuantifierNode.Repetitions.GetSuffix(
                 InputCount.DropdownValue,
                 InputNumber.InputContents,
                 InputMin.GetValue(),

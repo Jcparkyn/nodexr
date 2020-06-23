@@ -8,8 +8,6 @@
             <summary>
             Adds a non-capturing group if the input string is not wrapped in parentheses.
             </summary>
-            <param name="input"></param>
-            <returns></returns>
         </member>
         <member name="M:RegexNodes.Shared.Node.CalculateInputsPos">
             <summary>
@@ -26,6 +24,11 @@
             <summary>
             Determines whether a change from this input should trigger a
             re-render of noodles connected to the parent node.
+            </summary>
+        </member>
+        <member name="P:RegexNodes.Shared.RegexParsers.GroupParser.ParseGroup">
+            <summary>
+            Parse any type of group. This includes anything in (non-escaped) parentheses.
             </summary>
         </member>
     </members>

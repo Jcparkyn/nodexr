@@ -275,7 +275,7 @@ input {
 
 .textbox {
     background-color: hsla(0, 0%, 0%, 0.09);
-    border: 2px solid #00000030;
+    border: 2px solid #00000052;
 }
 
 .output-regex-container {
@@ -300,7 +300,8 @@ input {
     line-height: 34px;
     min-width: 250px;
     padding: 0px 5px;
-    white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-all;
     height: auto;
 }
 
@@ -316,7 +317,7 @@ input {
     }
 
 .search-text-highlight, .search-textarea {
-    padding: 0px;
+    padding: 3px;
     /*letter-spacing: 1px;*/
     line-height: 26px;
     width: 100%;
