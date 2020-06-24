@@ -32,7 +32,7 @@ namespace RegexNodes.Shared.RegexParsers
             int index = digit - '0';
             if (index > 9 || index < 0) throw new ArgumentOutOfRangeException(nameof(digit));
             var node = new ReferenceNode();
-            node.InputType.DropdownValue = ReferenceNode.InputTypes.index;
+            node.InputType.Value = ReferenceNode.InputTypes.Index;
             node.InputIndex.InputContents = index;
             return node;
         }
@@ -40,7 +40,7 @@ namespace RegexNodes.Shared.RegexParsers
         private static ReferenceNode CreateWithName(string name)
         {
             var node = new ReferenceNode();
-            node.InputType.DropdownValue = ReferenceNode.InputTypes.name;
+            node.InputType.Value = ReferenceNode.InputTypes.Name;
             node.InputName.Contents = name;
             return node;
         }

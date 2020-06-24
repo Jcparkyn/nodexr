@@ -10,29 +10,33 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Inserts a start-of-line or end-of-line character. Useful for ensuring that your regex only matches if it's at a specific position in a line.";
 
         [NodeInput]
-        public InputDropdown InputAnchorType { get; } = new InputDropdown(
-            Modes.startLine,
-            Modes.endLine,
-            Modes.wordBoundary,
-            Modes.notWordBoundary) { Title = "Type of anchor:" };
+        public InputDropdown<Mode> InputAnchorType { get; } = new InputDropdown<Mode>(modeDisplayNames) { Title = "Type of anchor:" };
 
-        public static class Modes
+        public static readonly Dictionary<Mode, string> modeDisplayNames = new Dictionary<Mode, string>()
         {
-            public const string startLine = "Start of line";
-            public const string endLine = "End of line";
-            public const string wordBoundary = "Word boundary";
-            public const string notWordBoundary = "Not word boundary";
+            {Mode.StartLine, "Start of line"},
+            {Mode.EndLine, "End of line"},
+            {Mode.WordBoundary, "Word boundary"},
+            {Mode.NotWordBoundary, "Not word boundary"}
+        };
+
+        public enum Mode
+        {
+            StartLine,
+            EndLine,
+            WordBoundary,
+            NotWordBoundary,
         }
 
         protected override string GetValue()
         {
             string result;
-            switch (InputAnchorType.DropdownValue)
+            switch (InputAnchorType.Value)
             {
-                case Modes.startLine: result = "^"; break;
-                case Modes.endLine: result = "$"; break;
-                case Modes.wordBoundary: result = "\\b"; break;
-                case Modes.notWordBoundary: result = "\\B"; break;
+                case Mode.StartLine: result = "^"; break;
+                case Mode.EndLine: result = "$"; break;
+                case Mode.WordBoundary: result = "\\b"; break;
+                case Mode.NotWordBoundary: result = "\\B"; break;
                 default: result = ""; break;
             }
             return result;

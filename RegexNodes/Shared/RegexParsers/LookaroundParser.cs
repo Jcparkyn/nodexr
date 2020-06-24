@@ -39,10 +39,10 @@ namespace RegexNodes.Shared.RegexParsers
                         .Select(_ => CreateWithType(LookaroundNode.Types.lookbehindNeg)))
                     ));
 
-        private static LookaroundNode CreateWithType(string type)
+        private static LookaroundNode CreateWithType(LookaroundNode.Types type)
         {
             var node = new LookaroundNode();
-            node.InputGroupType.DropdownValue = type;
+            node.InputGroupType.Value = type;
             return node;
         }
 

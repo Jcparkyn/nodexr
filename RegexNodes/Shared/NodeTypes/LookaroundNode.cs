@@ -13,26 +13,30 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputProcedural Input { get; } = new InputProcedural() { Title = "Contents" };
         [NodeInput]
-        public InputDropdown InputGroupType { get; } = new InputDropdown(
-            Types.lookahead,
-            Types.lookbehind,
-            Types.lookaheadNeg,
-            Types.lookbehindNeg)
+        public InputDropdown<Types> InputGroupType { get; } = new InputDropdown<Types>(groupTypeDisplyNames)
         { Title = "Type:" };
 
-        public class Types
+        public enum Types
         {
-            public const string lookahead = "Lookahead";
-            public const string lookbehind = "Lookbehind";
-            public const string lookaheadNeg = "Negative Lookahead";
-            public const string lookbehindNeg = "Negative Lookbehind";
+            lookahead,
+            lookbehind,
+            lookaheadNeg,
+            lookbehindNeg,
         }
+
+        private static readonly Dictionary<Types, string> groupTypeDisplyNames = new Dictionary<Types, string>()
+        {
+            {Types.lookahead, "Lookahead"},
+            {Types.lookbehind, "Lookbehind"},
+            {Types.lookaheadNeg, "Negative Lookahead"},
+            {Types.lookbehindNeg, "Negative Lookbehind"},
+        };
 
         protected override string GetValue()
         {
             string input = Input.GetValue().RemoveNonCapturingGroup();
             string prefix = "";
-            switch (InputGroupType.DropdownValue)
+            switch (InputGroupType.Value)
             {
                 case Types.lookahead: prefix = "(?="; break;
                 case Types.lookbehind: prefix = "(?<="; break;

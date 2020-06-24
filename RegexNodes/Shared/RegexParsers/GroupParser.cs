@@ -47,17 +47,17 @@ namespace RegexNodes.Shared.RegexParsers
             .Then(AnyCharExcept(">'").ManyString())
             .Before(OneOf(">'"));
 
-        private static GroupNode CreateWithType(string groupType)
+        private static GroupNode CreateWithType(GroupNode.GroupTypes groupType)
         {
             var node = new GroupNode();
-            node.InputGroupType.DropdownValue = groupType;
+            node.InputGroupType.Value = groupType;
             return node;
         }
 
         private static GroupNode CreateWithName(string name)
         {
             var node = new GroupNode();
-            node.InputGroupType.DropdownValue = GroupNode.GroupTypes.named;
+            node.InputGroupType.Value = GroupNode.GroupTypes.named;
             node.GroupName.Contents = name;
             return node;
         }

@@ -14,18 +14,18 @@ namespace RegexNodes.Shared.RegexParsers
     {
         public static Parser<char, AnchorNode> ParseAnchor =>
             OneOf(
-                Char('^').Select(_ => CreateWithType(AnchorNode.Modes.startLine)),
-                Char('$').Select(_ => CreateWithType(AnchorNode.Modes.endLine))
+                Char('^').Select(_ => CreateWithType(AnchorNode.Mode.StartLine)),
+                Char('$').Select(_ => CreateWithType(AnchorNode.Mode.EndLine))
                 );
 
         public static Parser<char, AnchorNode> ParseAnchorAfterEscape =>
-            Char('b').Select(_ => CreateWithType(AnchorNode.Modes.wordBoundary))
-            .Or(Char('B').Select(_ => CreateWithType(AnchorNode.Modes.notWordBoundary)));
+            Char('b').Select(_ => CreateWithType(AnchorNode.Mode.WordBoundary))
+            .Or(Char('B').Select(_ => CreateWithType(AnchorNode.Mode.NotWordBoundary)));
 
-        private static AnchorNode CreateWithType(string type)
+        private static AnchorNode CreateWithType(AnchorNode.Mode type)
         {
             var node = new AnchorNode();
-            node.InputAnchorType.DropdownValue = type;
+            node.InputAnchorType.Value = type;
             return node;
         }
     }

@@ -12,7 +12,7 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Insert a unicode category, unicode block, or the hex value of a unicode/ascii character.";
 
         [NodeInput]
-        public InputDropdown InputMode { get; } = new InputDropdown(Modes.category, Modes.hex) { Title = "Mode" };
+        public InputDropdown<Modes> InputMode { get; } = new InputDropdown<Modes>(modeDisplayNames) { Title = "Mode" };
         [NodeInput]
         public InputString InputCategory { get; } = new InputString("IsBasicLatin") { Title = "Unicode Category" };
         [NodeInput]
@@ -20,25 +20,31 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputCheckbox InputInvert { get; } = new InputCheckbox() { Title = "Invert" };
 
-        public static class Modes
+        public enum Modes
         {
-            public const string category = "Category/Block";
-            public const string hex = "Hex Code";
+            Category,
+            Hex
         }
+
+        private static readonly Dictionary<Modes, string> modeDisplayNames = new Dictionary<Modes, string>()
+        {
+            {Modes.Category, "Category/Block"},
+            {Modes.Hex, "Hex Code"},
+        };
 
         public UnicodeNode()
         {
-            InputCategory.IsEnabled = () => InputMode.DropdownValue == Modes.category;
-            InputHexCode.IsEnabled = () => InputMode.DropdownValue == Modes.hex;
+            InputCategory.IsEnabled = () => InputMode.Value == Modes.Category;
+            InputHexCode.IsEnabled = () => InputMode.Value == Modes.Hex;
         }
 
         protected override string GetValue()
         {
-            switch (InputMode.DropdownValue)
+            switch (InputMode.Value)
             {
-                case Modes.category:
+                case Modes.Category:
                     return GetCategoryRegex(InputCategory.Contents, InputInvert.IsChecked);
-                case Modes.hex:
+                case Modes.Hex:
                     return GetHexCodeRegex(InputHexCode.Contents, InputInvert.IsChecked);
                 default: return "";
             }

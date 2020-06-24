@@ -57,7 +57,7 @@ namespace RegexNodes.Shared.RegexParsers
         private static UnicodeNode CreateWithCategory(string unicodeCategory)
         {
             var node = new UnicodeNode();
-            node.InputMode.DropdownValue = UnicodeNode.Modes.category;
+            node.InputMode.Value = UnicodeNode.Modes.Category;
             node.InputCategory.Contents = unicodeCategory;
             return node;
         }
@@ -65,7 +65,7 @@ namespace RegexNodes.Shared.RegexParsers
         private static UnicodeNode CreateWithHexCode(string hex)
         {
             var node = new UnicodeNode();
-            node.InputMode.DropdownValue = UnicodeNode.Modes.hex;
+            node.InputMode.Value = UnicodeNode.Modes.Hex;
             node.InputHexCode.Contents = hex;
             return node;
         }

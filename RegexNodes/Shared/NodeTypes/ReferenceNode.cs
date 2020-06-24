@@ -8,35 +8,33 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Inserts a backreference (or forward-reference if the language supports it) to a captured group, either by name or index.";
 
         [NodeInput]
-        public InputDropdown InputType { get; } = new InputDropdown(
-            InputTypes.index,
-            InputTypes.name)
+        public InputDropdown<InputTypes> InputType { get; } = new InputDropdown<InputTypes>()
         { Title = "Type:" };
         [NodeInput]
         public InputNumber InputIndex { get; } = new InputNumber(1, min: 1) { Title = "Index:" };
         [NodeInput]
         public InputString InputName { get; } = new InputString("") { Title = "Name:" };
 
-        public static class InputTypes
+        public enum InputTypes
         {
-            public const string index = "Index";
-            public const string name = "Name";
+            Index,
+            Name
         }
 
         public ReferenceNode()
         {
-            InputIndex.IsEnabled = (() => InputType.DropdownValue == InputTypes.index);
-            InputName.IsEnabled = (() => InputType.DropdownValue == InputTypes.name);
+            InputIndex.IsEnabled = (() => InputType.Value == InputTypes.Index);
+            InputName.IsEnabled = (() => InputType.Value == InputTypes.Name);
         }
 
         protected override string GetValue()
         {
             //string prefix = (InputGroupType.Value == "Capturing") ? "(" : "(?:";
-            if (InputType.DropdownValue == InputTypes.index)
+            if (InputType.Value == InputTypes.Index)
             {
                 return @"\" + InputIndex.InputContents;
             }
-            else if (InputType.DropdownValue == InputTypes.name)
+            else if (InputType.Value == InputTypes.Name)
             {
                 return @"\k<" + InputName.Contents + ">";
             }

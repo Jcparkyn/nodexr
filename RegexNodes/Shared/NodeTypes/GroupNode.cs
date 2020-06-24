@@ -10,37 +10,41 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputProcedural Input { get; } = new InputProcedural() { Title = "Contents" };
         [NodeInput]
-        public InputDropdown InputGroupType { get; } = new InputDropdown(
-            GroupTypes.capturing,
-            GroupTypes.nonCapturing,
-            GroupTypes.named,
-            GroupTypes.atomic,
-            GroupTypes.custom)
+        public InputDropdown<GroupTypes> InputGroupType { get; } = new InputDropdown<GroupTypes>(groupTypeDisplayNames)
         { Title = "Type of group:" };
         [NodeInput]
         public InputString GroupName { get; } = new InputString("") { Title = "Name:" };
         [NodeInput]
         public InputString CustomPrefix { get; } = new InputString("?>") { Title = "Prefix:" };
 
-        public static class GroupTypes
+        public enum GroupTypes
         {
-            public const string capturing = "Capturing";
-            public const string nonCapturing = "Non-capturing";
-            public const string named = "Named";
-            public const string atomic = "Atomic";
-            public const string custom = "Custom";
+            capturing,
+            nonCapturing,
+            named,
+            atomic,
+            custom
         }
+
+        private static readonly Dictionary<GroupTypes, string> groupTypeDisplayNames = new Dictionary<GroupTypes, string>()
+        {
+            {GroupTypes.capturing, "Capturing" },
+            {GroupTypes.nonCapturing, "Non-capturing" },
+            {GroupTypes.named, "Named" },
+            {GroupTypes.atomic, "Atomic" },
+            {GroupTypes.custom, "Custom" }
+        };
 
         public GroupNode()
         {
-            GroupName.IsEnabled = (() => InputGroupType.DropdownValue == GroupTypes.named);
-            CustomPrefix.IsEnabled = (() => InputGroupType.DropdownValue == GroupTypes.custom);
+            GroupName.IsEnabled = (() => InputGroupType.Value == GroupTypes.named);
+            CustomPrefix.IsEnabled = (() => InputGroupType.Value == GroupTypes.custom);
         }
 
         protected override string GetValue()
         {
             string input = Input.GetValue().RemoveNonCapturingGroup();
-            string prefix = InputGroupType.DropdownValue switch
+            string prefix = InputGroupType.Value switch
             {
                 GroupTypes.capturing => "(",
                 GroupTypes.nonCapturing => "(?:",

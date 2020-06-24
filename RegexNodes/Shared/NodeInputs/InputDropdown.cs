@@ -20,9 +20,12 @@ namespace RegexNodes.Shared
 
         public virtual List<string> Options { get; private set; }
 
+        public InputDropdown() { }
+
         public InputDropdown(params string[] options)
         {
-            DropdownValue = options[0];
+            dropdownValue = options[0];
+            OnValueChanged();
             Options = options.ToList();
         }
     }
@@ -33,11 +36,15 @@ namespace RegexNodes.Shared
         //private string dropdownValue;
         private Dictionary<TValue, string> displayNames;
 
-        public TValue Value { get; set; }
+        public TValue Value { get; set; } = default;
 
         public override string DropdownValue
         {
-            get => displayNames[Value];
+            get
+            {
+                return displayNames?.GetValueOrDefault(Value) ?? Value.ToString();
+            }
+
             set
             {
                 Value = displayNames.FirstOrDefault(x => x.Value == value).Key;
@@ -47,7 +54,12 @@ namespace RegexNodes.Shared
 
         public override List<string> Options
         {
-            get => displayNames.Values.ToList();
+            get
+            {
+                if(displayNames != null) return displayNames.Values.ToList();
+
+                else return Enum.GetNames(typeof(TValue)).ToList();
+            }
         }
 
 
@@ -56,6 +68,10 @@ namespace RegexNodes.Shared
             this.displayNames = displayNames;
             //DropdownValue = options[0];
             //Options = options.ToList();
+        }
+
+        public InputDropdown()
+        {
         }
     }
 }
