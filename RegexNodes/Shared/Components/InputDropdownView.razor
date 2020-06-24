@@ -1,0 +1,14 @@
+﻿
+<div class="node-input-heading">@Input.Title</div>
+<div class="node-input">
+    <select @bind="@Input.DropdownValue" class="input-field">
+        @foreach (string str in Input.Options)
+        {
+            <option value="@str">@str</option>
+        }
+    </select>
+</div>
+
+@code {
+    [Parameter] public InputDropdown Input { get; set; }
+}
