@@ -5,40 +5,32 @@ using System.Linq;
 
 namespace RegexNodes.Shared
 {
-    public class InputDropdown : NodeInput
+    public abstract class InputDropdown : NodeInput
     {
-        private string dropdownValue;
-        public virtual string DropdownValue
-        {
-            get => dropdownValue;
-            set
-            {
-                dropdownValue = value;
-                OnValueChanged();
-            }
-        }
+        public abstract string ValueDisplayName { get; set; }
 
-        public virtual List<string> Options { get; private set; }
-
-        public InputDropdown() { }
-
-        public InputDropdown(params string[] options)
-        {
-            dropdownValue = options[0];
-            OnValueChanged();
-            Options = options.ToList();
-        }
+        public abstract IEnumerable<string> Options { get; }
     }
 
     public class InputDropdown<TValue> : InputDropdown
-        where TValue : Enum
+        where TValue : struct, Enum
     {
         //private string dropdownValue;
         private Dictionary<TValue, string> displayNames;
 
-        public TValue Value { get; set; } = default;
+        private TValue value = default;
 
-        public override string DropdownValue
+        public TValue Value
+        {
+            get => value;
+            set
+            {
+                this.value = value;
+                OnValueChanged();
+            }
+        }
+
+        public override string ValueDisplayName
         {
             get
             {
@@ -47,25 +39,27 @@ namespace RegexNodes.Shared
 
             set
             {
-                Value = displayNames.FirstOrDefault(x => x.Value == value).Key;
-                OnValueChanged();
+                if (displayNames != null)
+                    Value = displayNames.FirstOrDefault(x => x.Value == value).Key;
+                else
+                    Value = Enum.Parse<TValue>(value);
             }
         }
 
-        public override List<string> Options
+        public override IEnumerable<string> Options
         {
             get
             {
-                if(displayNames != null) return displayNames.Values.ToList();
+                if (displayNames != null) return displayNames.Values;
 
-                else return Enum.GetNames(typeof(TValue)).ToList();
+                else return Enum.GetNames(typeof(TValue));
             }
         }
-
 
         public InputDropdown(Dictionary<TValue, string> displayNames)
         {
             this.displayNames = displayNames;
+            Value = displayNames.Keys.FirstOrDefault();
             //DropdownValue = options[0];
             //Options = options.ToList();
         }

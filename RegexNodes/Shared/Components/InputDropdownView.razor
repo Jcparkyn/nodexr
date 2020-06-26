@@ -1,7 +1,7 @@
 ﻿
 <div class="node-input-heading">@Input.Title</div>
 <div class="node-input">
-    <select @bind="@Input.DropdownValue" class="input-field">
+    <select @bind="@Input.ValueDisplayName" class="input-field">
         @foreach (string str in Input.Options)
         {
             <option value="@str">@str</option>

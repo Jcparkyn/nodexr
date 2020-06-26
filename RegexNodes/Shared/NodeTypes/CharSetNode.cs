@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using static RegexNodes.Shared.NodeTypes.IQuantifiableNode;
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class CharSetNode : Node
+    public class CharSetNode : Node, IQuantifiableNode
     {
         public override string Title => "Character Set";
         public override string NodeInfo => "Inserts a character class containing the characters you specify. "
@@ -16,13 +17,7 @@ namespace RegexNodes.Shared.NodeTypes
         public InputCheckbox InputDoInvert { get; } = new InputCheckbox(false) { Title = "Invert"};
 
         [NodeInput]
-        public InputDropdown InputCount { get; } = new InputDropdown(
-            QuantifierNode.Repetitions.one,
-            QuantifierNode.Repetitions.zeroOrMore,
-            QuantifierNode.Repetitions.oneOrMore,
-            QuantifierNode.Repetitions.zeroOrOne,
-            QuantifierNode.Repetitions.number,
-            QuantifierNode.Repetitions.range)
+        public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNames)
         { Title = "Repetitions:" };
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
@@ -38,15 +33,15 @@ namespace RegexNodes.Shared.NodeTypes
 
         void SetupInputEnables()
         {
-            InputNumber.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.number;
-            InputMin.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.range;
-            InputMax.IsEnabled = () => InputCount.DropdownValue == QuantifierNode.Repetitions.range;
+            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
+            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override string GetValue()
         {
             string charSet = InputCharacters.GetValue();
-            if (String.IsNullOrEmpty(charSet))
+            if (string.IsNullOrEmpty(charSet))
             {
                 return "";
             }
@@ -54,8 +49,8 @@ namespace RegexNodes.Shared.NodeTypes
             string prefix = InputDoInvert.IsChecked ? "^" : "";
             string result = "[" + prefix + charSet + "]";
 
-            string suffix = QuantifierNode.Repetitions.GetSuffix(
-                InputCount.DropdownValue,
+            string suffix = GetSuffix(
+                InputCount.Value,
                 InputNumber.InputContents,
                 InputMin.GetValue(),
                 InputMax.GetValue());

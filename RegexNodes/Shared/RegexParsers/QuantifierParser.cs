@@ -7,6 +7,7 @@ using RegexNodes.Shared.NodeTypes;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
 using static RegexNodes.Shared.RegexParsers.ParsersShared;
+using static RegexNodes.Shared.NodeTypes.IQuantifiableNode;
 
 namespace RegexNodes.Shared.RegexParsers
 {
@@ -31,25 +32,25 @@ namespace RegexNodes.Shared.RegexParsers
             .Then(QuantifierSuffix,
                 (node, searchType) => node.WithSearchType(searchType));
 
-        private static Parser<char, string> QuantifierSuffix =>
+        private static Parser<char, QuantifierNode.SearchMode> QuantifierSuffix =>
             OneOf(
-                Char('?').WithResult(QuantifierNode.SearchModes.lazy),
-                Char('+').WithResult(QuantifierNode.SearchModes.possessive),
-                Return(QuantifierNode.SearchModes.greedy));
+                Char('?').WithResult(QuantifierNode.SearchMode.Lazy),
+                Char('+').WithResult(QuantifierNode.SearchMode.Possessive),
+                Return(QuantifierNode.SearchMode.Greedy));
 
         private static Parser<char, QuantifierNode> OneOrMore =>
             Char('+')
-            .Select(_ => CreateWithRepetitions(QuantifierNode.Repetitions.oneOrMore)
+            .Select(_ => CreateWithRepetitions(Reps.OneOrMore)
             );
 
         private static Parser<char, QuantifierNode> ZeroOrMore =>
             Char('*')
-            .Select(_ => CreateWithRepetitions(QuantifierNode.Repetitions.zeroOrMore)
+            .Select(_ => CreateWithRepetitions(Reps.ZeroOrMore)
             );
 
         private static Parser<char, QuantifierNode> ZeroOrOne =>
             Char('?')
-            .Select(_ => CreateWithRepetitions(QuantifierNode.Repetitions.zeroOrOne));
+            .Select(_ => CreateWithRepetitions(Reps.ZeroOrOne));
 
         private static Parser<char, QuantifierNode> Number =>
             UnsignedInt(10)
@@ -74,7 +75,7 @@ namespace RegexNodes.Shared.RegexParsers
         private static QuantifierNode CreateWithNumber(int number)
         {
             var node = new QuantifierNode();
-            node.InputCount.DropdownValue = QuantifierNode.Repetitions.number;
+            node.InputCount.Value = Reps.Number;
             node.InputNumber.InputContents = number;
             return node;
         }
@@ -82,22 +83,22 @@ namespace RegexNodes.Shared.RegexParsers
         private static QuantifierNode CreateWithRange(int min, int? max)
         {
             var node = new QuantifierNode();
-            node.InputCount.DropdownValue = QuantifierNode.Repetitions.range;
+            node.InputCount.Value = Reps.Range;
             node.InputMin.InputContents = min;
             node.InputMax.InputContents = max;
             return node;
         }
 
-        private static QuantifierNode CreateWithRepetitions(string repetitions)
+        private static QuantifierNode CreateWithRepetitions(Reps repetitions)
         {
             var node = new QuantifierNode();
-            node.InputCount.DropdownValue = repetitions;
+            node.InputCount.Value = repetitions;
             return node;
         }
 
-        private static QuantifierNode WithSearchType(this QuantifierNode node, string searchType)
+        private static QuantifierNode WithSearchType(this QuantifierNode node, QuantifierNode.SearchMode searchType)
         {
-            node.InputSearchType.DropdownValue = searchType;
+            node.InputSearchType.Value = searchType;
             return node;
         }
 
@@ -105,18 +106,21 @@ namespace RegexNodes.Shared.RegexParsers
         {
             switch (contents)
             {
-                case CharSetNode node when quant.InputSearchType.DropdownValue == QuantifierNode.SearchModes.greedy:
-                    node.InputCount.DropdownValue = quant.InputCount.DropdownValue;
-                    node.InputMin.InputContents = quant.InputMin.InputContents;
-                    node.InputMax.InputContents = quant.InputMax.InputContents;
-                    node.InputNumber.InputContents = quant.InputNumber.InputContents;
-                    return node;
-                case WildcardNode node when quant.InputSearchType.DropdownValue == QuantifierNode.SearchModes.greedy:
-                    node.InputCount.DropdownValue = quant.InputCount.DropdownValue;
-                    node.InputMin.InputContents = quant.InputMin.InputContents;
-                    node.InputMax.InputContents = quant.InputMax.InputContents;
-                    node.InputNumber.InputContents = quant.InputNumber.InputContents;
-                    return node;
+                case IQuantifiableNode child when
+                contents.PreviousNode is null
+                && quant.InputSearchType.Value == QuantifierNode.SearchMode.Greedy:
+                    child.InputCount.Value = quant.InputCount.Value;
+                    child.InputMin.InputContents = quant.InputMin.InputContents;
+                    child.InputMax.InputContents = quant.InputMax.InputContents;
+                    child.InputNumber.InputContents = quant.InputNumber.InputContents;
+                    return child as Node;
+
+                case GroupNode child when
+                child.PreviousNode is null
+                && child.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing:
+                    quant.InputContents.ConnectedNode = child.Input.ConnectedNode;
+                    return quant;
+
                 default:
                     quant.InputContents.ConnectedNode = contents;
                     return quant;

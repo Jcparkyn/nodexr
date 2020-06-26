@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using RegexNodes.Shared;
+using static RegexNodes.Shared.NodeTypes.IQuantifiableNode;
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class QuantifierNode : Node
+    public class QuantifierNode : Node, IQuantifiableNode
     {
         public override string Title => "Quantifier";
         public override string NodeInfo => "Inserts a quantifier to set the minimum and maximum number " +
@@ -16,12 +17,8 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputProcedural InputContents { get; } = new InputProcedural() { Title = "Input" };
         [NodeInput]
-        public InputDropdown InputCount { get; } = new InputDropdown(
-            Repetitions.zeroOrMore,
-            Repetitions.oneOrMore,
-            Repetitions.zeroOrOne,
-            Repetitions.number,
-            Repetitions.range) { Title = "Repetitions:" };
+        public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNamesExcludingOne)
+        { Title = "Repetitions:" };
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
         [NodeInput]
@@ -29,63 +26,46 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
         [NodeInput]
-        public InputDropdown InputSearchType { get; } = new InputDropdown(
-            SearchModes.greedy,
-            SearchModes.lazy,
-            SearchModes.possessive) { Title = "Search type:" };
+        public InputDropdown<SearchMode> InputSearchType { get; } = new InputDropdown<SearchMode>()
+        { Title = "Search type:" };
 
-        public class SearchModes
+        public enum SearchMode
         {
-            public const string greedy = "Greedy";
-            public const string lazy = "Lazy";
-            public const string possessive = "Possessive";
+            Greedy,
+            Lazy,
+            Possessive,
         }
 
-        public class Repetitions
+        static readonly Dictionary<Reps, string> displayNamesExcludingOne = new Dictionary<Reps, string>()
         {
-            public const string one = "One";
-            public const string zeroOrMore = "Zero or more";
-            public const string oneOrMore = "One or more";
-            public const string zeroOrOne = "Zero or one";
-            public const string number = "Number";
-            public const string range = "Range";
-
-            public static string GetSuffix(string mode, int? number = 0, int? min = 0, int? max = 0)
-            {
-                return mode switch
-                {
-                    Repetitions.one => "",
-                    Repetitions.zeroOrMore => "*",
-                    Repetitions.oneOrMore => "+",
-                    Repetitions.zeroOrOne => "?",
-                    Repetitions.number => $"{{{number ?? 0}}}",
-                    Repetitions.range => $"{{{min ?? 0},{max}}}",
-                    _ => throw new ArgumentOutOfRangeException(nameof(mode))
-                };
-            }
-        }
+            {Reps.ZeroOrMore, "Zero or more"},
+            {Reps.OneOrMore, "One or more"},
+            {Reps.ZeroOrOne, "Zero or one"},
+            {Reps.Number, "Number"},
+            {Reps.Range, "Range"}
+        };
 
         public QuantifierNode()
         {
-            InputNumber.IsEnabled = () => InputCount.DropdownValue == Repetitions.number;
-            InputMin.IsEnabled = () => InputCount.DropdownValue == Repetitions.range;
-            InputMax.IsEnabled = () => InputCount.DropdownValue == Repetitions.range;
+            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
+            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override string GetValue()
         {
             string prefix = "";
-            string suffix = Repetitions.GetSuffix(
-                InputCount.DropdownValue,
+            string suffix = GetSuffix(
+                InputCount.Value,
                 InputNumber.InputContents,
                 InputMin.GetValue(),
                 InputMax.GetValue());
 
-            if (InputSearchType.DropdownValue == SearchModes.lazy)
+            if (InputSearchType.Value == SearchMode.Lazy)
             {
                 suffix += "?";
             }
-            else if (InputSearchType.DropdownValue == SearchModes.possessive)
+            else if (InputSearchType.Value == SearchMode.Possessive)
             {
                 suffix += ")";
                 prefix = "(?>";

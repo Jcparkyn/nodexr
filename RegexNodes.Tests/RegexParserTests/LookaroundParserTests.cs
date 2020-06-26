@@ -16,7 +16,10 @@ namespace RegexNodes.Tests.RegexParserTests
         [TestCase(@"(?!a)", @"a", LookaroundNode.Types.lookaheadNeg)]
         [TestCase(@"(?<=a)", @"a", LookaroundNode.Types.lookbehind)]
         [TestCase(@"(?<!a)", @"a", LookaroundNode.Types.lookbehindNeg)]
-        public void VariousGroups_ReturnsLookaroundWithContentsAndType(string input, string expectedContents, string expectedType)
+        public void VariousGroups_ReturnsLookaroundWithContentsAndType(
+            string input,
+            string expectedContents,
+            LookaroundNode.Types expectedType)
         {
             var result = ParseGroup.ParseOrThrow(input);
             var lookaround = result as LookaroundNode;
@@ -26,7 +29,7 @@ namespace RegexNodes.Tests.RegexParserTests
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.TypeOf<LookaroundNode>());
                 Assert.AreEqual(expectedContents, lookaround.Input.GetValue());
-                Assert.AreEqual(expectedType, lookaround.InputGroupType.DropdownValue);
+                Assert.AreEqual(expectedType, lookaround.InputGroupType.Value);
             });
         }
     }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using RegexNodes.Shared;
 using RegexNodes.Shared.NodeTypes;
 
-using Reps = RegexNodes.Shared.NodeTypes.QuantifierNode.Repetitions;
+using Reps = RegexNodes.Shared.NodeTypes.IQuantifiableNode.Reps;
 
 namespace RegexNodes.Tests
 {
@@ -14,11 +14,11 @@ namespace RegexNodes.Tests
     public class QuantifierTests
     {
 
-        [TestCase(@".", Reps.oneOrMore, ExpectedResult = @".+")]
-        public string Greedy_ReturnsOutput(string contents, string repetitions)
+        [TestCase(@".", Reps.OneOrMore, ExpectedResult = @".+")]
+        public string Greedy_ReturnsOutput(string contents, Reps repetitions)
         {
             var node = CreateDefaultQuantifier(contents);
-            node.InputCount.DropdownValue = repetitions;
+            node.InputCount.Value = Reps.OneOrMore;
 
             return node.CachedOutput;
         }
@@ -45,17 +45,17 @@ namespace RegexNodes.Tests
             input.InputDoEscape.IsChecked = false;
 
             node.InputContents.ConnectedNode = input;
-            node.InputSearchType.DropdownValue = Reps.zeroOrMore;
+            node.InputSearchType.Value = QuantifierNode.SearchMode.Greedy;
 
             return node.CachedOutput;
         }
 
-        [TestCase(Reps.zeroOrMore, ExpectedResult = @"*")]
-        [TestCase(Reps.oneOrMore, ExpectedResult = @"+")]
-        [TestCase(Reps.zeroOrOne, ExpectedResult = @"?")]
-        public string GetSuffix_BasicModes_ReturnsSuffix(string mode)
+        [TestCase(Reps.ZeroOrMore, ExpectedResult = @"*")]
+        [TestCase(Reps.OneOrMore, ExpectedResult = @"+")]
+        [TestCase(Reps.ZeroOrOne, ExpectedResult = @"?")]
+        public string GetSuffix_BasicModes_ReturnsSuffix(Reps mode)
         {
-            return Reps.GetSuffix(mode);
+            return IQuantifiableNode.GetSuffix(mode);
         }
 
         [TestCase(0, ExpectedResult = @"{0}")]
@@ -64,8 +64,7 @@ namespace RegexNodes.Tests
         [TestCase(null, ExpectedResult = @"{0}")]
         public string GetSuffix_Number_ReturnsSuffix(int? number)
         {
-            const string mode = Reps.number;
-            return Reps.GetSuffix(mode, number: number);
+            return IQuantifiableNode.GetSuffix(Reps.Number, number: number);
         }
 
         [TestCase(0, 0, ExpectedResult = @"{0,0}")]
@@ -76,15 +75,14 @@ namespace RegexNodes.Tests
         [TestCase(1, null, ExpectedResult = @"{1,}")]
         public string GetSuffix_Range_ReturnsSuffix(int? min, int? max)
         {
-            const string mode = Reps.range;
-            return Reps.GetSuffix(mode, min: min, max: max);
+            return IQuantifiableNode.GetSuffix(Reps.Range, min: min, max: max);
         }
 
         private QuantifierNode CreateQuantifierWithRange(string contents, int min, int max)
         {
             var node = CreateDefaultQuantifier(contents);
 
-            node.InputCount.DropdownValue = Reps.range;
+            node.InputCount.Value = Reps.Range;
             node.InputMin.InputContents = min;
             node.InputMax.InputContents = max;
 

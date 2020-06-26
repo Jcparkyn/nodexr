@@ -10,17 +10,31 @@ namespace RegexNodes.Shared.NodeTypes
             "(This is equivalent to using the Anchor node).";
 
         [NodeInput]
-        protected InputDropdown InputStartsAt { get; } = new InputDropdown(Modes.anywhere, Modes.startLine, Modes.wordBound) { Title="Starts at:"};
+        public InputDropdown<Modes> InputStartsAt { get; } = new InputDropdown<Modes>(
+            new Dictionary<Modes, string>()
+            {
+                {Modes.anywhere, "Anywhere"},
+                {Modes.startLine, "Start of line"},
+                {Modes.wordBound, "Word boundary"},
+            })
+        { Title="Starts at:"};
 
         [NodeInput]
-        protected InputDropdown InputEndsAt { get; } = new InputDropdown(Modes.anywhere, Modes.endLine, Modes.wordBound) { Title = "Ends at:" };
+        public InputDropdown<Modes> InputEndsAt { get; } = new InputDropdown<Modes>(
+            new Dictionary<Modes, string>()
+            {
+                {Modes.anywhere, "Anywhere"},
+                {Modes.endLine, "End of line"},
+                {Modes.wordBound, "Word boundary"},
+            })
+        { Title = "Ends at:" };
 
-        private class Modes
+        public enum Modes
         {
-            public const string anywhere = "Anywhere";
-            public const string startLine = "Start of line";
-            public const string endLine = "End of line";
-            public const string wordBound= "Word boundary";
+            anywhere,
+            startLine,
+            endLine,
+            wordBound,
         }
 
         public override string GetOutput()
@@ -44,7 +58,7 @@ namespace RegexNodes.Shared.NodeTypes
             }
 
             //Prefix
-            string result = InputStartsAt.DropdownValue switch
+            string result = InputStartsAt.Value switch
             {
                 Modes.startLine => "^",
                 Modes.wordBound => "\\b",
@@ -54,7 +68,7 @@ namespace RegexNodes.Shared.NodeTypes
             result += contents;
 
             //Suffix
-            result += InputEndsAt.DropdownValue switch
+            result += InputEndsAt.Value switch
             {
                 Modes.endLine => "$",
                 Modes.wordBound => "\\b",
@@ -68,8 +82,8 @@ namespace RegexNodes.Shared.NodeTypes
         {
             return PreviousNode is OrNode _node
                 && _node.PreviousNode is null
-                && InputStartsAt.DropdownValue == Modes.anywhere
-                && InputEndsAt.DropdownValue == Modes.anywhere;
+                && InputStartsAt.Value == Modes.anywhere
+                && InputEndsAt.Value == Modes.anywhere;
         }
     }
 }

@@ -26,16 +26,16 @@ namespace RegexNodes.Tests.RegexParserTests
             Assert.AreEqual(input, node.CachedOutput);
         }
         
-        [TestCase("+", QuantifierNode.Repetitions.oneOrMore)]
-        [TestCase("*", QuantifierNode.Repetitions.zeroOrMore)]
-        [TestCase("?", QuantifierNode.Repetitions.zeroOrOne)]
-        [TestCase("{0}", QuantifierNode.Repetitions.number)]
-        [TestCase("{0,1}", QuantifierNode.Repetitions.range)]
-        [TestCase("{0,}", QuantifierNode.Repetitions.range)]
-        public void Quantifier_Various_ReturnsQuantifier(string input, string expectedRepetitions)
+        [TestCase("+", IQuantifiableNode.Reps.OneOrMore)]
+        [TestCase("*", IQuantifiableNode.Reps.ZeroOrMore)]
+        [TestCase("?", IQuantifiableNode.Reps.ZeroOrOne)]
+        [TestCase("{0}", IQuantifiableNode.Reps.Number)]
+        [TestCase("{0,1}", IQuantifiableNode.Reps.Range)]
+        [TestCase("{0,}", IQuantifiableNode.Reps.Range)]
+        public void Quantifier_Various_ReturnsQuantifier(string input, IQuantifiableNode.Reps expectedRepetitions)
         {
             var node = ParseQuantifier.ParseOrThrow(input);
-            Assert.AreEqual(expectedRepetitions, node.InputCount.DropdownValue);
+            Assert.AreEqual(expectedRepetitions, node.InputCount.Value);
         }
 
         [TestCase("[a]+", "a")]
