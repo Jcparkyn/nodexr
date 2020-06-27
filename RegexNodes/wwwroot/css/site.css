@@ -170,38 +170,6 @@ app {
     align-items: center;
 }
 
-.sidebar {
-    background-color: hsl(218, 27%, 13%);
-    width: 165px;
-    overflow: auto;
-    z-index: 1;
-    box-shadow: 3px 0 17px #00000055;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-    .sidebar .top-row {
-        background-color: rgba(0,0,0,0.4);
-    }
-
-    .sidebar .navbar-brand {
-        font-size: 1.1rem;
-    }
-
-    .sidebar .oi {
-        width: 2rem;
-        font-size: 1.1rem;
-        vertical-align: text-top;
-        top: -2px;
-    }
-
-    .sidebar .separator {
-        width: 96%;
-        /*margin: 6px auto 11px auto;*/
-        height: 2px;
-        background-color: hsl(213, 11%, 19%);
-    }
 
 .nav-item {
     font-size: 0.9rem;

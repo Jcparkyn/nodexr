@@ -2,36 +2,68 @@
 @inject INodeHandler NodeHandler
 @inject INodeDragService NodeDragService
 
-    <div class="viewport sidebar panel">
-        <div class="viewport-title-bar">
-            <h1>Nodes</h1>
-        </div>
-        
-        @foreach (var node in exampleNodes)
+<div class="viewport sidebar panel">
+    <div class="node-list-heading">Nodes</div>
+    @foreach (var category in exampleCategories)
+    {
+        <div class="node-list-subheading">@category.name</div>
+        foreach (var node in category.nodes)
         {
-            <NodeListPreview Data="node"/>
+            <NodeListPreview Data="node" />
         }
-    </div>
+    }
+
+</div>
 
 @functions{
     protected Type[] nodeTypes { get; set; }
-    List<INode> exampleNodes { get; set; } = new List<INode>
+
+    List<(string name, Node[] nodes)> exampleCategories = new List<(string, Node[])>
     {
-        new TextNode(),
-        new WildcardNode(),
-        new CharSetNode(),
-        new AnchorNode(),
-        new WhitespaceNode(),
-        new UnicodeNode(),
-        new CommentNode(),
-        new OrNode(),
-        new ConcatNode(),
-        new GroupNode(),
-        new QuantifierNode(),
-        new ReferenceNode(),
-        new LookaroundNode(),
-        new IfElseNode(),
-        new FlagNode(),
-        new OutputNode(),
+        ("Basics",
+        new Node[]
+        {
+            new TextNode(),
+            new GroupNode(),
+            new OutputNode(),
+        }),
+
+        ("Wildcards",
+        new Node[]
+        {
+            new WildcardNode(),
+            new CharSetNode(),
+            new WhitespaceNode(),
+            new UnicodeNode(),
+        }),
+
+        ("Alternation",
+        new Node[]
+        {
+            new OrNode(),
+            new IfElseNode(),
+        }),
+
+        ("Repetition",
+        new Node[]
+        {
+            new QuantifierNode(),
+            new ReferenceNode(),
+            new ConcatNode(),
+        }),
+
+        ("Zero-Width Anchors",
+        new Node[]
+        {
+            new AnchorNode(),
+            new LookaroundNode(),
+        }),
+
+        ("Other",
+        new Node[]
+        {
+            new CommentNode(),
+            new FlagNode(),
+        }),
     };
 }
