@@ -22,7 +22,7 @@ namespace RegexNodes.Shared
         string NodeInfo { get; }
         bool IsCollapsed { get; set; }
 
-        List<NodeInput> NodeInputs { get; }
+        IEnumerable<NodeInput> NodeInputs { get; }
         InputProcedural Previous { get; }
         INodeOutput PreviousNode { get; set; }
 
@@ -51,7 +51,7 @@ namespace RegexNodes.Shared
             set => Previous.ConnectedNode = value;
         }
 
-        public virtual List<NodeInput> NodeInputs { get; private set; }
+        public IEnumerable<NodeInput> NodeInputs { get; private set; }
         public abstract string Title { get; }
         public abstract string NodeInfo { get; }
 
