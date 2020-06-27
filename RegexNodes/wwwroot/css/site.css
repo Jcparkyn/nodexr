@@ -9,8 +9,8 @@
     /*-----------*/
     /*Basics*/
     --col-node-text: hsl(0,100%, 68%);
-    --col-node-output: hsl(24,90%, 68%);
-    --col-node-group: hsl(48,80%, 70%);
+    --col-node-group: hsl(24,90%, 68%);
+    --col-node-output: hsl(48,80%, 70%);
     /*Wildcards*/
     --col-node-wildcard: hsl(72,80%, 74%);
     --col-node-characterset: hsl(96,91%, 80%);
