@@ -5,13 +5,9 @@ namespace RegexNodes.Shared
 {
     public class InputCollection : NodeInput
     {
-        public List<InputProcedural> Inputs { get; private set; }
+        public List<InputProcedural> Inputs { get; }
 
-        public InputCollection(List<InputProcedural> inputs)
-        {
-            Inputs = inputs;
-        }
-        public InputCollection(string title, int numInputs = 2)
+        public InputCollection(string title, int numInputs = 0)
         {
             Title = title;
             Inputs = new List<InputProcedural>(numInputs);
@@ -39,22 +35,30 @@ namespace RegexNodes.Shared
 
         public void RemoveItem(InputProcedural item)
         {
+            item.ValueChanged -= OnValueChanged;
             Inputs.Remove(item);
-            //nodeHandler.OnRequireNoodleRefresh?.Invoke();
+            OnInputPositionsChanged();
+            OnValueChanged();
+        }
+
+        public void RemoveAll()
+        {
+            foreach(var input in Inputs)
+            {
+                input.ValueChanged -= OnValueChanged;
+            }
+            Inputs.Clear();
             OnInputPositionsChanged();
             OnValueChanged();
         }
 
         public void MoveUp(InputProcedural input)
         {
-            //var temp = input;
             int index = Inputs.IndexOf(input);
             if (index > 0)
             {
                 Inputs[index] = Inputs[index - 1];
                 Inputs[index - 1] = input;
-                //(Inputs[index].Pos, Inputs[index - 1].Pos) = (Inputs[index - 1].Pos, Inputs[index].Pos);
-                //nodeHandler.OnRequireNoodleRefresh?.Invoke();
                 OnInputPositionsChanged();
                 OnValueChanged();
             }
@@ -67,8 +71,6 @@ namespace RegexNodes.Shared
             {
                 Inputs[index] = Inputs[index + 1];
                 Inputs[index + 1] = input;
-                //(Inputs[index].Pos, Inputs[index + 1].Pos) = (Inputs[index + 1].Pos, Inputs[index].Pos);
-                //nodeHandler.OnRequireNoodleRefresh?.Invoke();
                 OnInputPositionsChanged();
                 OnValueChanged();
             }

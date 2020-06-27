@@ -10,17 +10,31 @@ namespace RegexNodes.Shared.NodeTypes
             "(This is equivalent to using the Anchor node).";
 
         [NodeInput]
-        protected InputDropdown InputStartsAt { get; } = new InputDropdown(Modes.anywhere, Modes.startLine, Modes.wordBound) { Title="Starts at:"};
+        public InputDropdown<Modes> InputStartsAt { get; } = new InputDropdown<Modes>(
+            new Dictionary<Modes, string>()
+            {
+                {Modes.anywhere, "Anywhere"},
+                {Modes.startLine, "Start of line"},
+                {Modes.wordBound, "Word boundary"},
+            })
+        { Title="Starts at:"};
 
         [NodeInput]
-        protected InputDropdown InputEndsAt { get; } = new InputDropdown(Modes.anywhere, Modes.endLine, Modes.wordBound) { Title = "Ends at:" };
+        public InputDropdown<Modes> InputEndsAt { get; } = new InputDropdown<Modes>(
+            new Dictionary<Modes, string>()
+            {
+                {Modes.anywhere, "Anywhere"},
+                {Modes.endLine, "End of line"},
+                {Modes.wordBound, "Word boundary"},
+            })
+        { Title = "Ends at:" };
 
-        private class Modes
+        public enum Modes
         {
-            public const string anywhere = "Anywhere";
-            public const string startLine = "Start of line";
-            public const string endLine = "End of line";
-            public const string wordBound= "Word boundary";
+            anywhere,
+            startLine,
+            endLine,
+            wordBound,
         }
 
         public override string GetOutput()
@@ -31,23 +45,30 @@ namespace RegexNodes.Shared.NodeTypes
         protected override string GetValue()
         {
             //check whether nothing is connected to this node.
-            if (PreviousNode.ConnectedNode is null)
+            if (PreviousNode is null)
             {
                 return "Nothing connected to Output node";
             }
 
+            string contents = Previous.ConnectedNode.CachedOutput;
+            //Remove the uneccessary group from an OrNode if it is the final node
+            if(CanStripNonCapturingGroup())
+            {
+                contents = contents[3..^1];
+            }
+
             //Prefix
-            string result = InputStartsAt.DropdownValue switch
+            string result = InputStartsAt.Value switch
             {
                 Modes.startLine => "^",
                 Modes.wordBound => "\\b",
                 _ => ""
             };
 
-            result += PreviousNode.ConnectedNode.CachedOutput;
+            result += contents;
 
             //Suffix
-            result += InputEndsAt.DropdownValue switch
+            result += InputEndsAt.Value switch
             {
                 Modes.endLine => "$",
                 Modes.wordBound => "\\b",
@@ -55,6 +76,14 @@ namespace RegexNodes.Shared.NodeTypes
             };
 
             return result;
+        }
+
+        private bool CanStripNonCapturingGroup()
+        {
+            return PreviousNode is OrNode _node
+                && _node.PreviousNode is null
+                && InputStartsAt.Value == Modes.anywhere
+                && InputEndsAt.Value == Modes.anywhere;
         }
     }
 }

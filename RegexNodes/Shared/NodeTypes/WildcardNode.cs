@@ -2,37 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static RegexNodes.Shared.NodeTypes.IQuantifiableNode;
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class WildcardNode : Node
+    public class WildcardNode : Node, IQuantifiableNode
     {
         public override string Title => "Wildcard";
         public override string NodeInfo => "Matches any of the specified types of character. Note: the 'Everything' option will only match newlines if the Regex is in singleline mode.";
 
         [NodeInput]
-        protected InputCheckbox InputAllowAll { get; } = new InputCheckbox(true) { Title = "Everything" };
+        public InputCheckbox InputAllowAll { get; } = new InputCheckbox(true) { Title = "Everything" };
         [NodeInput]
-        protected InputCheckbox InputAllowWhitespace { get; } = new InputCheckbox() { Title = "Whitespace" };
+        public InputCheckbox InputAllowWhitespace { get; } = new InputCheckbox(false) { Title = "Whitespace" };
         [NodeInput]
-        protected InputCheckbox InputAllowUppercase { get; } = new InputCheckbox() { Title = "Uppercase Letters" };
+        public InputCheckbox InputAllowUppercase { get; } = new InputCheckbox(true) { Title = "Uppercase Letters" };
         [NodeInput]
-        protected InputCheckbox InputAllowLowercase { get; } = new InputCheckbox() { Title = "Lowercase Letters" };
+        public InputCheckbox InputAllowLowercase { get; } = new InputCheckbox(true) { Title = "Lowercase Letters" };
         [NodeInput]
-        protected InputCheckbox InputAllowDigits { get; } = new InputCheckbox() { Title = "Digits" };
+        public InputCheckbox InputAllowDigits { get; } = new InputCheckbox(true) { Title = "Digits" };
         [NodeInput]
-        protected InputCheckbox InputAllowUnderscore { get; } = new InputCheckbox() { Title = "Underscore" };
+        public InputCheckbox InputAllowUnderscore { get; } = new InputCheckbox(true) { Title = "Underscore" };
         [NodeInput]
-        protected InputCheckbox InputAllowOther { get; } = new InputCheckbox() { Title = "Other" };
+        public InputCheckbox InputAllowOther { get; } = new InputCheckbox(false) { Title = "Other" };
 
         [NodeInput]
-        public InputDropdown InputCount { get; } = new InputDropdown(
-            Quantifier.Repetitions.one,
-            Quantifier.Repetitions.zeroOrMore,
-            Quantifier.Repetitions.oneOrMore,
-            Quantifier.Repetitions.zeroOrOne,
-            Quantifier.Repetitions.number,
-            Quantifier.Repetitions.range)
+        public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNames)
         { Title = "Repetitions:" };
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
@@ -52,17 +47,17 @@ namespace RegexNodes.Shared.NodeTypes
             InputAllowDigits.IsEnabled = isAllowAllUnchecked;
             InputAllowOther.IsEnabled = isAllowAllUnchecked;
 
-            InputNumber.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.number;
-            InputMin.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
-            InputMax.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
+            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
+            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override string GetValue()
         {
             string result;
 
-            string suffix = Quantifier.Repetitions.GetSuffix(
-                InputCount.DropdownValue,
+            string suffix = GetSuffix(
+                InputCount.Value,
                 InputNumber.InputContents,
                 InputMin.GetValue(),
                 InputMax.GetValue());

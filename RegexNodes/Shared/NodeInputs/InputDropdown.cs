@@ -1,28 +1,71 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 
 namespace RegexNodes.Shared
 {
-    public class InputDropdown : NodeInput
+    public abstract class InputDropdown : NodeInput
     {
-        private string dropdownValue;
-        public string DropdownValue
+        public abstract string ValueDisplayName { get; set; }
+
+        public abstract IEnumerable<string> Options { get; }
+    }
+
+    public class InputDropdown<TValue> : InputDropdown
+        where TValue : struct, Enum
+    {
+        //private string dropdownValue;
+        private Dictionary<TValue, string> displayNames;
+
+        private TValue value = default;
+
+        public TValue Value
         {
-            get => dropdownValue;
+            get => value;
             set
             {
-                dropdownValue = value;
+                this.value = value;
                 OnValueChanged();
             }
         }
 
-        public List<string> Options { get; private set; }
-
-        public InputDropdown(params string[] options)
+        public override string ValueDisplayName
         {
-            DropdownValue = options[0];
-            Options = options.ToList();
+            get
+            {
+                return displayNames?.GetValueOrDefault(Value) ?? Value.ToString();
+            }
+
+            set
+            {
+                if (displayNames != null)
+                    Value = displayNames.FirstOrDefault(x => x.Value == value).Key;
+                else
+                    Value = Enum.Parse<TValue>(value);
+            }
+        }
+
+        public override IEnumerable<string> Options
+        {
+            get
+            {
+                if (displayNames != null) return displayNames.Values;
+
+                else return Enum.GetNames(typeof(TValue));
+            }
+        }
+
+        public InputDropdown(Dictionary<TValue, string> displayNames)
+        {
+            this.displayNames = displayNames;
+            Value = displayNames.Keys.FirstOrDefault();
+            //DropdownValue = options[0];
+            //Options = options.ToList();
+        }
+
+        public InputDropdown()
+        {
         }
     }
 }

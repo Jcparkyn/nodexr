@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using static RegexNodes.Shared.NodeTypes.IQuantifiableNode;
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class CharSetNode : Node
+    public class CharSetNode : Node, IQuantifiableNode
     {
         public override string Title => "Character Set";
         public override string NodeInfo => "Inserts a character class containing the characters you specify. "
@@ -11,18 +12,12 @@ namespace RegexNodes.Shared.NodeTypes
             + "The 'Invert' option creates a negated class by adding a ^ character at the start.";
 
         [NodeInput]
-        protected InputString InputCharacters { get; } = new InputString("a-z") { Title = "Characters:" };
+        public InputString InputCharacters { get; } = new InputString("a-z") { Title = "Characters:" };
         [NodeInput]
-        protected InputCheckbox InputDoInvert { get; } = new InputCheckbox(false) { Title = "Invert"};
+        public InputCheckbox InputDoInvert { get; } = new InputCheckbox(false) { Title = "Invert"};
 
         [NodeInput]
-        public InputDropdown InputCount { get; } = new InputDropdown(
-            Quantifier.Repetitions.one,
-            Quantifier.Repetitions.zeroOrMore,
-            Quantifier.Repetitions.oneOrMore,
-            Quantifier.Repetitions.zeroOrOne,
-            Quantifier.Repetitions.number,
-            Quantifier.Repetitions.range)
+        public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNames)
         { Title = "Repetitions:" };
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
@@ -33,15 +28,20 @@ namespace RegexNodes.Shared.NodeTypes
 
         public CharSetNode()
         {
-            InputNumber.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.number;
-            InputMin.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
-            InputMax.IsEnabled = () => InputCount.DropdownValue == Quantifier.Repetitions.range;
+            SetupInputEnables();
+        }
+
+        void SetupInputEnables()
+        {
+            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
+            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override string GetValue()
         {
             string charSet = InputCharacters.GetValue();
-            if (String.IsNullOrEmpty(charSet))
+            if (string.IsNullOrEmpty(charSet))
             {
                 return "";
             }
@@ -49,8 +49,8 @@ namespace RegexNodes.Shared.NodeTypes
             string prefix = InputDoInvert.IsChecked ? "^" : "";
             string result = "[" + prefix + charSet + "]";
 
-            string suffix = Quantifier.Repetitions.GetSuffix(
-                InputCount.DropdownValue,
+            string suffix = GetSuffix(
+                InputCount.Value,
                 InputNumber.InputContents,
                 InputMin.GetValue(),
                 InputMax.GetValue());

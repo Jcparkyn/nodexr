@@ -2,37 +2,41 @@
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class Backreference : Node, INode
+    public class ReferenceNode : Node, INode
     {
         public override string Title => "Reference";
         public override string NodeInfo => "Inserts a backreference (or forward-reference if the language supports it) to a captured group, either by name or index.";
 
         [NodeInput]
-        protected InputDropdown InputType { get; } = new InputDropdown(
-            "Index",
-            "Name")
+        public InputDropdown<InputTypes> InputType { get; } = new InputDropdown<InputTypes>()
         { Title = "Type:" };
         [NodeInput]
-        protected InputNumber InputIndex { get; } = new InputNumber(1, min: 1) { Title = "Index:" };
+        public InputNumber InputIndex { get; } = new InputNumber(1, min: 1) { Title = "Index:" };
         [NodeInput]
-        protected InputString InputName { get; } = new InputString("") { Title = "Name:" };
+        public InputString InputName { get; } = new InputString("") { Title = "Name:" };
 
-        public Backreference()
+        public enum InputTypes
         {
-            InputIndex.IsEnabled = (() => InputType.DropdownValue == "Index");
-            InputName.IsEnabled = (() => InputType.DropdownValue == "Name");
+            Index,
+            Name
+        }
+
+        public ReferenceNode()
+        {
+            InputIndex.IsEnabled = (() => InputType.Value == InputTypes.Index);
+            InputName.IsEnabled = (() => InputType.Value == InputTypes.Name);
         }
 
         protected override string GetValue()
         {
             //string prefix = (InputGroupType.Value == "Capturing") ? "(" : "(?:";
-            if (InputType.DropdownValue == "Index")
+            if (InputType.Value == InputTypes.Index)
             {
                 return @"\" + InputIndex.InputContents;
             }
-            else if (InputType.DropdownValue == "Name")
+            else if (InputType.Value == InputTypes.Name)
             {
-                return @"\k<" + InputName.InputContents + ">";
+                return @"\k<" + InputName.Contents + ">";
             }
             else
             {
