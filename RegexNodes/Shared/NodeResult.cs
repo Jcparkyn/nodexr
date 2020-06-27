@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RegexNodes.Shared
 {
-    public class NodeResult
+    public class NodeResult : IEnumerable<RegexSegment>
     {
         private ReadOnlyCollection<RegexSegment> contents;
         public IReadOnlyCollection<RegexSegment> Contents => contents;
@@ -15,6 +16,9 @@ namespace RegexNodes.Shared
         {
             this.contents = new ReadOnlyCollection<RegexSegment>(contents);
         }
+
+        public IEnumerator<RegexSegment> GetEnumerator() => contents.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => contents.GetEnumerator();
     }
 
     public class NodeResultBuilder
