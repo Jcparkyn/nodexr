@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
-using RegexNodes.Shared.NodeTypes;
-using RegexNodes.Shared.RegexParsers;
+﻿using RegexNodes.Shared.NodeTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace RegexNodes.Shared.Services
 {
@@ -25,22 +22,11 @@ namespace RegexNodes.Shared.Services
         void ForceRefreshNoodles();
         void SelectNode(INode node);
         void DeselectAllNodes();
-        bool TryCreateTreeFromRegex(string regex);
     }
 
     public class NodeHandler : INodeHandler
     {
-        private NodeTree tree;
-        public NodeTree Tree
-        {
-            get => tree;
-            private set
-            {
-                if(tree != null) tree.OutputChanged -= OnOutputChanged;
-                value.OutputChanged += OnOutputChanged;
-                tree = value;
-            }
-        }
+        public NodeTree Tree { get; } = new NodeTree();
         
         public string CachedOutput => Tree.CachedOutput;
         
@@ -50,42 +36,10 @@ namespace RegexNodes.Shared.Services
         public event EventHandler OnRequireNoodleRefresh;
         public event EventHandler OnRequireNodeGraphRefresh;
 
-        NavigationManager navManager;
-
-        public NodeHandler(NavigationManager navManager)
+        public NodeHandler()
         {
-            this.navManager = navManager;
-
-            var uri = navManager.ToAbsoluteUri(navManager.Uri);
-            if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("parse", out var parseString))
-            {
-                TryCreateTreeFromRegex(parseString);
-            }
-
-            if (Tree is null)
-            {
-                Tree = new NodeTree();
-                CreateDefaultNodes(Tree);
-            }
-
+            CreateDefaultNodes();
             Tree.OutputChanged += OnOutputChanged;
-        }
-
-        public bool TryCreateTreeFromRegex(string regex)
-        {
-            var parseResult = RegexParsers.RegexParser.Parse(regex);
-
-            if (parseResult.Success)
-            {
-                Tree = parseResult.Value;
-                ForceRefreshNodeGraph();
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Couldn't parse input: " + parseResult.Error);
-                return false;
-            }
         }
 
         private void OnOutputChanged(object sender, EventArgs e)
@@ -93,14 +47,13 @@ namespace RegexNodes.Shared.Services
             OutputChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private void CreateDefaultNodes(NodeTree tree)
+        private void CreateDefaultNodes()
         {
             var defaultOutput = new OutputNode() { Pos = new Vector2L(800, 200) };
-            var defaultNode = new TextNode() { Pos = new Vector2L(300, 200) };
-            defaultNode.Input.Contents = "fox";
-            defaultOutput.PreviousNode = defaultNode;
-            tree.AddNode(defaultNode);
-            tree.AddNode(defaultOutput);
+            var defaultNode = new TextNode("fox") { Pos = new Vector2L(300, 200) };
+            defaultOutput.PreviousNode.ConnectedNode = defaultNode;
+            Tree.AddNode(defaultNode);
+            Tree.AddNode(defaultOutput);
         }
 
         public void ForceRefreshNodeGraph()

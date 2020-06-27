@@ -3,5 +3,11 @@
 <p style="white-space: pre-wrap;">@InfoText</p>
 
 @functions {
+    //[CascadingParameter] ModalParameters Parameters { get; set; }
     [Parameter] public string InfoText { get; set; }
+
+    protected override void OnInitialized()
+    {
+        //InfoText = Parameters.Get<string>("InfoText");
+    }
 }

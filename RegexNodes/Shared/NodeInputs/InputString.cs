@@ -3,25 +3,25 @@ namespace RegexNodes.Shared
 {
     public class InputString : NodeInput
     {
-        private string contents;
+        private string inputContents;
 
-        public string Contents
+        public string InputContents
         {
-            get => contents;
+            get => inputContents;
             set
             {
-                contents = value;
+                inputContents = value;
                 OnValueChanged();
             }
         }
 
         public InputString(string contents)
         {
-            Contents = contents;
+            InputContents = contents;
         }
         public string GetValue()
         {
-            return Contents;
+            return InputContents;
         }
     }
 }

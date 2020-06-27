@@ -74,18 +74,27 @@ namespace RegexNodes.Shared
         {
             foreach (var node in nodes)
             {
-                foreach (var input in node.GetInputsRecursive().OfType<InputProcedural>())
+                DeleteNoodlesBetween(nodeToRemove, node.PreviousNode);
+
+                foreach (var input in node.NodeInputs)
                 {
                     DeleteNoodlesBetween(nodeToRemove, input);
                 }
             }
         }
 
-        private void DeleteNoodlesBetween(INode node, InputProcedural input)
+        private void DeleteNoodlesBetween(INode node, INodeInput input)
         {
-            if (input.ConnectedNode == node)
+            if (input is InputProcedural inputProcedural && inputProcedural.ConnectedNode == node)
             {
-                input.ConnectedNode = null;
+                inputProcedural.ConnectedNode = null;
+            }
+            else if (input is InputCollection inputCollection)
+            {
+                foreach (INodeInput _input in inputCollection.Inputs)
+                {
+                    DeleteNoodlesBetween(node, _input);
+                }
             }
         }
     }

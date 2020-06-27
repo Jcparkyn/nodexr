@@ -10,7 +10,7 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Outputs a Regex that will accept any of the given inputs.";
 
         [NodeInput]
-        public InputCollection Inputs { get; } = new InputCollection("Option", 2);
+        protected InputCollection Inputs { get; } = new InputCollection("Option", 2);
 
         protected override string GetValue()
         {

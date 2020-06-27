@@ -9,14 +9,23 @@ namespace RegexNodes.Shared.NodeTypes
             "\nIf the name or number of a captured group is used as the 'Condition' expression, it will be considered to have matched if the group it references was matched.";
 
 
-        [NodeInput]
-        public InputString InputCondition { get; } = new InputString("") { Title = "Condition:" };
+        //[NodeInput]
+        //protected InputDropdown ConditionType { get; } = new InputDropdown(
+        //    "Expression",
+        //    "Captured Group")
+        //{ Title = "Type:" };
+
+        //[NodeInput]
+        //protected InputProcedural InputCondition { get; set; } = new InputProcedural() { Title = "Condition" };
 
         [NodeInput]
-        public InputProcedural InputThen { get; set; } = new InputProcedural() { Title = "Match if true" };
+        protected InputString InputGroupID { get; } = new InputString("") { Title = "Condition:" };
 
         [NodeInput]
-        public InputProcedural InputElse { get; set; } = new InputProcedural() { Title = "Match if false" };
+        protected InputProcedural InputThen { get; set; } = new InputProcedural() { Title = "Match if true" };
+
+        [NodeInput]
+        protected InputProcedural InputElse { get; set; } = new InputProcedural() { Title = "Match if false" };
 
         //public IfElseNode()
         //{
@@ -28,7 +37,7 @@ namespace RegexNodes.Shared.NodeTypes
         protected override string GetValue()
         {
             //string condition = ConditionType.DropdownValue == "Expression" ? InputCondition.GetValue() : InputGroupID.GetValue();
-            string condition = InputCondition.GetValue();
+            string condition = InputGroupID.GetValue();
             
             return $"(?({condition}){InputThen.GetValue()}|{InputElse.GetValue()})";
         }

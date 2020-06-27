@@ -8,22 +8,19 @@ namespace RegexNodes.Shared.NodeTypes
     public class WhitespaceNode : Node
     {
         public override string Title => "Whitespace";
-        public override string NodeInfo => "Matches any of the specified types of whitespace character." +
-            "\nIf 'Invert' is checked, matches everything BUT the specified types of whitespace character.";
+        public override string NodeInfo => "Matches any of the specified types of whitespace character.";
 
 
         [NodeInput]
-        public InputCheckbox InputInvert { get; } = new InputCheckbox(false) { Title = "Invert" };
+        protected InputCheckbox InputAllWhitespace { get; } = new InputCheckbox(true) { Title = "All Whitespace" };
         [NodeInput]
-        public InputCheckbox InputAllWhitespace { get; } = new InputCheckbox(true) { Title = "All Whitespace" };
+        protected InputCheckbox InputSpace { get; } = new InputCheckbox(true) { Title = "Space" };
         [NodeInput]
-        public InputCheckbox InputSpace { get; } = new InputCheckbox(true) { Title = "Space" };
+        protected InputCheckbox InputTab { get; } = new InputCheckbox(true) { Title = "Tab" };
         [NodeInput]
-        public InputCheckbox InputTab { get; } = new InputCheckbox(true) { Title = "Tab" };
+        protected InputCheckbox InputCR { get; } = new InputCheckbox(true) { Title = "Newline (\\r)" };
         [NodeInput]
-        public InputCheckbox InputCR { get; } = new InputCheckbox(true) { Title = "Newline (\\r)" };
-        [NodeInput]
-        public InputCheckbox InputLF { get; } = new InputCheckbox(true) { Title = "Newline (\\n)" };
+        protected InputCheckbox InputLF { get; } = new InputCheckbox(true) { Title = "Newline (\\n)" };
 
         public WhitespaceNode()
         {
@@ -37,11 +34,9 @@ namespace RegexNodes.Shared.NodeTypes
 
         protected override string GetValue()
         {
-            bool invert = InputInvert.IsChecked;
-            
             if (InputAllWhitespace.IsChecked)
             {
-                return invert ? "\\S" : "\\s";
+                return "\\s";
             }
 
             List<string> charsToAllow = new List<string>();
@@ -52,11 +47,7 @@ namespace RegexNodes.Shared.NodeTypes
             if (InputLF.IsChecked) charsToAllow.Add("\\n");
 
             string charsConverted = string.Join("", charsToAllow);
-            if (invert)
-            {
-                return "[^" + charsConverted + "]";
-            }
-            else if (charsToAllow.Count > 1)
+            if (charsToAllow.Count > 1)
             {
                 return "[" + charsConverted + "]";
             }

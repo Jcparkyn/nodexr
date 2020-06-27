@@ -8,48 +8,41 @@ namespace RegexNodes.Shared.NodeTypes
         public override string NodeInfo => "Wraps the input node in a group. A capturing or named group can be used later in a backrefence (with the 'Reference' node) or in the  Replacement Regex.";
 
         [NodeInput]
-        public InputProcedural Input { get; } = new InputProcedural() { Title = "Contents" };
+        protected InputProcedural Input { get; } = new InputProcedural() { Title = "Contents" };
         [NodeInput]
-        public InputDropdown InputGroupType { get; } = new InputDropdown(
-            GroupTypes.capturing,
-            GroupTypes.nonCapturing,
-            GroupTypes.named,
-            GroupTypes.atomic,
-            GroupTypes.custom)
+        protected InputDropdown InputGroupType { get; } = new InputDropdown(
+            "Capturing",
+            "Non-capturing",
+            "Named",
+            "Custom")
         { Title = "Type of group:" };
         [NodeInput]
-        public InputString GroupName { get; } = new InputString("") { Title = "Name:" };
+        protected InputString GroupName { get; } = new InputString("") { Title = "Name:" };
         [NodeInput]
-        public InputString CustomPrefix { get; } = new InputString("?>") { Title = "Prefix:" };
-
-        public static class GroupTypes
-        {
-            public const string capturing = "Capturing";
-            public const string nonCapturing = "Non-capturing";
-            public const string named = "Named";
-            public const string atomic = "Atomic";
-            public const string custom = "Custom";
-        }
+        protected InputString CustomPrefix { get; } = new InputString("") { Title = "Prefix:" };
 
         public GroupNode()
         {
-            GroupName.IsEnabled = (() => InputGroupType.DropdownValue == GroupTypes.named);
-            CustomPrefix.IsEnabled = (() => InputGroupType.DropdownValue == GroupTypes.custom);
+            GroupName.IsEnabled = (() => InputGroupType.DropdownValue == "Named");
+            CustomPrefix.IsEnabled = (() => InputGroupType.DropdownValue == "Custom");
         }
 
         protected override string GetValue()
         {
             string input = Input.GetValue().RemoveNonCapturingGroup();
-            string prefix = InputGroupType.DropdownValue switch
+            string prefix = "";
+            switch (InputGroupType.DropdownValue)
             {
-                GroupTypes.capturing => "(",
-                GroupTypes.nonCapturing => "(?:",
-                GroupTypes.named => $"(?<{GroupName.GetValue()}>",
-                GroupTypes.atomic => $"(?>",
-                GroupTypes.custom => "(" + CustomPrefix.GetValue(),
-                _ => "",
+                case "Capturing": prefix = "("; break;
+                case "Non-capturing": prefix = "(?:"; break;
+                case "Named": prefix = $"(?<{GroupName.GetValue()}>"; break;
+                case "Custom": prefix = "(" + CustomPrefix.GetValue(); break;
             };
-
+            //string prefix = (InputGroupType.Value == "Capturing") ? "(" : "(?:";
+            //if (input.StartsWith("(?:") && input.EndsWith(")"))
+            //{
+            //    return UpdateCache(prefix + input.Substring(3));
+            //}
             return $"{prefix}{input})";
         }
     }
