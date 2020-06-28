@@ -38,16 +38,19 @@ namespace RegexNodes.Shared.NodeTypes
             InputHexCode.IsEnabled = () => InputMode.Value == Modes.Hex;
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            switch (InputMode.Value)
+            return new NodeResultBuilder(ValueString(), this);
+        }
+
+        private string ValueString()
+        {
+            return InputMode.Value switch
             {
-                case Modes.Category:
-                    return GetCategoryRegex(InputCategory.Contents, InputInvert.IsChecked);
-                case Modes.Hex:
-                    return GetHexCodeRegex(InputHexCode.Contents, InputInvert.IsChecked);
-                default: return "";
-            }
+                Modes.Category => GetCategoryRegex(InputCategory.Contents, InputInvert.IsChecked),
+                Modes.Hex => GetHexCodeRegex(InputHexCode.Contents, InputInvert.IsChecked),
+                _ => "",
+            };
         }
 
         string GetCategoryRegex(string input, bool invert)

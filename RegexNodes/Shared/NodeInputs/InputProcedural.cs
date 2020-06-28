@@ -34,8 +34,12 @@ namespace RegexNodes.Shared
 
         public string GetValue()
         {
-            return ConnectedNode?.CachedOutput ?? "";
+            return ConnectedNode?.CachedOutput.Expression ?? "";
         }
+
+        public bool IsConnected => connectedNode != null;
+
+        public NodeResult Value => ConnectedNode?.CachedOutput;
 
         public void Refresh()
         {

@@ -23,7 +23,7 @@ namespace RegexNodes.Tests.RegexParserTests
             var node = RegexParser.ParseRegex.ParseOrThrow(input);
 
             Assert.That(node, Is.TypeOf<QuantifierNode>());
-            Assert.AreEqual(input, node.CachedOutput);
+            Assert.AreEqual(input, node.CachedOutput.Expression);
         }
         
         [TestCase("+", IQuantifiableNode.Reps.OneOrMore)]

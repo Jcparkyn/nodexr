@@ -52,9 +52,10 @@ namespace RegexNodes.Shared.NodeTypes
             InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            string prefix = "";
+            var builder = new NodeResultBuilder(InputContents.Value);
+
             string suffix = GetSuffix(
                 InputCount.Value,
                 InputNumber.InputContents,
@@ -68,17 +69,21 @@ namespace RegexNodes.Shared.NodeTypes
             else if (InputSearchType.Value == SearchMode.Possessive)
             {
                 suffix += ")";
-                prefix = "(?>";
+                builder.Prepend("(?>", this);
             }
 
-            string contents = InputContents.GetValue();
+            //TODO: remove uneccessary groups
+            //string contents = InputContents.GetValue();
             if (InputContents.ConnectedNode is Node _node
                 && RequiresGroupToQuantify(_node))
             {
-                contents = contents.InNonCapturingGroup();
+                //contents = contents.InNonCapturingGroup();
+                builder.Prepend("(?:", this);
+                builder.Append(")", this);
             }
 
-            return prefix + contents + suffix;
+            builder.Append(suffix, this);
+            return builder;
         }
 
         private bool RequiresGroupToQuantify(Node val)
@@ -93,7 +98,7 @@ namespace RegexNodes.Shared.NodeTypes
             if (val is ConcatNode || val is QuantifierNode)
                 return true;
 
-            if (val is TextNode && !val.CachedOutput.IsSingleRegexChar())
+            if (val is TextNode && !val.CachedOutput.Expression.IsSingleRegexChar())
                 return true;
 
             return false;

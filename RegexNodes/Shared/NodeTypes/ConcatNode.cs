@@ -10,14 +10,14 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputCollection Inputs { get; } = new InputCollection("Item", 2);
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            string result = "";
+            var builder = new NodeResultBuilder();
             foreach (var input in Inputs.Inputs)
             {
-                result += input.GetValue();
+                builder.Append(input.Value);
             }
-            return result;
+            return builder;
         }
     }
 }

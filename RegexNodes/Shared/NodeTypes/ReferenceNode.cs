@@ -27,21 +27,19 @@ namespace RegexNodes.Shared.NodeTypes
             InputName.IsEnabled = (() => InputType.Value == InputTypes.Name);
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            //string prefix = (InputGroupType.Value == "Capturing") ? "(" : "(?:";
-            if (InputType.Value == InputTypes.Index)
+            return new NodeResultBuilder(ValueString(), this);
+        }
+
+        private string ValueString()
+        {
+            return InputType.Value switch
             {
-                return @"\" + InputIndex.InputContents;
-            }
-            else if (InputType.Value == InputTypes.Name)
-            {
-                return @"\k<" + InputName.Contents + ">";
-            }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
+                InputTypes.Index => @"\" + InputIndex.InputContents,
+                InputTypes.Name => @"\k<" + InputName.Contents + ">",
+                _ => "",
+            };
         }
     }
 }

@@ -22,10 +22,10 @@ namespace RegexNodes.Tests
             var node = new TextNode();
             node.Input.Contents = contents;
 
-            string nodeVal = node.CachedOutput;
+            string nodeVal = node.CachedOutput.Expression;
 
             Assert.That(nodeVal, Is.Not.Null);
-            Assert.That(shouldMatch, Does.Match(node.CachedOutput));
+            Assert.That(shouldMatch, Does.Match(node.CachedOutput.Expression));
         }
     }
 }

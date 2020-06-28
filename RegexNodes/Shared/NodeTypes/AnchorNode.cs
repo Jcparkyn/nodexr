@@ -28,18 +28,19 @@ namespace RegexNodes.Shared.NodeTypes
             NotWordBoundary,
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            string result;
-            switch (InputAnchorType.Value)
+            string result = InputAnchorType.Value switch
             {
-                case Mode.StartLine: result = "^"; break;
-                case Mode.EndLine: result = "$"; break;
-                case Mode.WordBoundary: result = "\\b"; break;
-                case Mode.NotWordBoundary: result = "\\B"; break;
-                default: result = ""; break;
-            }
-            return result;
+                Mode.StartLine => "^",
+                Mode.EndLine => "$",
+                Mode.WordBoundary => "\\b",
+                Mode.NotWordBoundary => "\\B",
+                _ => "",
+            };
+            var builder = new NodeResultBuilder();
+            builder.Append(result, this);
+            return builder;
         }
     }
 }

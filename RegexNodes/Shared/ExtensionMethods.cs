@@ -10,39 +10,6 @@ namespace RegexNodes.Shared
             return new Vector2L((long)e.ClientX, (long)e.ClientY);
         }
 
-        public static string RemoveNonCapturingGroup(this string input)
-        {
-            //TODO: check for escaped end bracket
-            if (input.StartsWith("(?:") && input.EndsWith(")"))
-            {
-                return input.Substring(3, input.Length - 4);
-            }
-            else
-            {
-                return input;
-            }
-        }
-
-        /// <summary>
-        /// Adds a non-capturing group if the input string is not wrapped in parentheses.
-        /// </summary>
-        public static string EnforceGrouped(this string input)
-        {
-            //TODO: check for escaped end bracket
-            if (input.StartsWith("(") && input.EndsWith(")"))
-            {
-                return input;
-            }
-            else if (input.StartsWith("[") && input.EndsWith("]"))
-            {
-                return input;
-            }
-            else
-            {
-                return $"(?:{input})";
-            }
-        }
-
         public static string InNonCapturingGroup(this string input) => $"(?:{input})";
 
         public static bool IsSingleRegexChar(this string input)

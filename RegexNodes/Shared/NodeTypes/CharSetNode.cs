@@ -38,13 +38,10 @@ namespace RegexNodes.Shared.NodeTypes
             InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
+
             string charSet = InputCharacters.GetValue();
-            if (string.IsNullOrEmpty(charSet))
-            {
-                return "";
-            }
 
             string prefix = InputDoInvert.IsChecked ? "^" : "";
             string result = "[" + prefix + charSet + "]";
@@ -55,7 +52,9 @@ namespace RegexNodes.Shared.NodeTypes
                 InputMin.GetValue(),
                 InputMax.GetValue());
 
-            return result + suffix;
+            var builder = new NodeResultBuilder();
+            builder.Append(result + suffix, this);
+            return builder;
         }
     }
 }

@@ -35,7 +35,12 @@ namespace RegexNodes.Shared.NodeTypes
             InputLF.IsEnabled = IsAllWhitespaceUnchecked;
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
+        {
+            return new NodeResultBuilder(ValueString(), this);
+        }
+
+        private string ValueString()
         {
             bool invert = InputInvert.IsChecked;
             

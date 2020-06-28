@@ -11,7 +11,7 @@ namespace RegexNodes.Shared.Services
 {
     public interface INodeHandler
     {
-        string CachedOutput { get; }
+        NodeResult CachedOutput { get; }
 
         event EventHandler OutputChanged;
         event EventHandler OnRequireNoodleRefresh;
@@ -42,7 +42,7 @@ namespace RegexNodes.Shared.Services
             }
         }
         
-        public string CachedOutput => Tree.CachedOutput;
+        public NodeResult CachedOutput => Tree.CachedOutput;
         
         public INode SelectedNode { get; private set; }
 
@@ -50,7 +50,7 @@ namespace RegexNodes.Shared.Services
         public event EventHandler OnRequireNoodleRefresh;
         public event EventHandler OnRequireNodeGraphRefresh;
 
-        NavigationManager navManager;
+        readonly NavigationManager navManager;
 
         public NodeHandler(NavigationManager navManager)
         {

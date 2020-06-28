@@ -7,7 +7,7 @@
      @ondragstart="OnDragStart" @ondragend="OnDragEnd">
     <span class="outputtooltip">
         Output:<br />
-        @{string output = Data.CachedOutput;}
+        @{string output = Data.CachedOutput.Expression;}
         <nobr>@(String.IsNullOrEmpty(output) ? "None" : output)</nobr>
     </span>
 </div>

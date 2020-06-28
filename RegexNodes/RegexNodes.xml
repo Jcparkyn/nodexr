@@ -4,11 +4,6 @@
         <name>RegexNodes</name>
     </assembly>
     <members>
-        <member name="M:RegexNodes.Shared.ExtensionMethods.EnforceGrouped(System.String)">
-            <summary>
-            Adds a non-capturing group if the input string is not wrapped in parentheses.
-            </summary>
-        </member>
         <member name="M:RegexNodes.Shared.Node.CalculateInputsPos">
             <summary>
             Set the position of each input based on the position of the node

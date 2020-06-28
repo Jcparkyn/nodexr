@@ -15,7 +15,7 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputString GroupName { get; } = new InputString("") { Title = "Name:" };
         [NodeInput]
-        public InputString CustomPrefix { get; } = new InputString("?>") { Title = "Prefix:" };
+        public InputString CustomPrefix { get; } = new InputString("?") { Title = "Prefix:" };
 
         public enum GroupTypes
         {
@@ -41,9 +41,13 @@ namespace RegexNodes.Shared.NodeTypes
             CustomPrefix.IsEnabled = (() => InputGroupType.Value == GroupTypes.custom);
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            string input = Input.GetValue().RemoveNonCapturingGroup();
+            var builder = new NodeResultBuilder(Input.Value);
+
+            if(Input.ConnectedNode is OrNode)
+                builder.StripNonCaptureGroup();
+
             string prefix = InputGroupType.Value switch
             {
                 GroupTypes.capturing => "(",
@@ -54,7 +58,9 @@ namespace RegexNodes.Shared.NodeTypes
                 _ => "",
             };
 
-            return $"{prefix}{input})";
+            builder.Prepend(prefix, this);
+            builder.Append(")", this);
+            return builder;
         }
     }
 }

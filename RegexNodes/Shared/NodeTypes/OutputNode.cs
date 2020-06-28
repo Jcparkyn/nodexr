@@ -37,53 +37,44 @@ namespace RegexNodes.Shared.NodeTypes
             wordBound,
         }
 
-        public override string GetOutput()
+        protected override NodeResult GetOutput()
         {
-            return GetValue();
+            var builder = GetValue();
+            return builder.Build();
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
+            var builder = new NodeResultBuilder();
             //check whether nothing is connected to this node.
             if (PreviousNode is null)
             {
-                return "Nothing connected to Output node";
+                builder.Append("Nothing connected to Output node", this);
+                return builder;
             }
-
-            string contents = Previous.ConnectedNode.CachedOutput;
-            //Remove the uneccessary group from an OrNode if it is the final node
-            if(CanStripNonCapturingGroup())
-            {
-                contents = contents[3..^1];
-            }
+            builder.Append(Previous.Value);
 
             //Prefix
-            string result = InputStartsAt.Value switch
+            string prefix = InputStartsAt.Value switch
             {
                 Modes.startLine => "^",
                 Modes.wordBound => "\\b",
                 _ => ""
             };
 
-            result += contents;
-
             //Suffix
-            result += InputEndsAt.Value switch
+            string suffix = InputEndsAt.Value switch
             {
                 Modes.endLine => "$",
                 Modes.wordBound => "\\b",
                 _ => ""
             };
 
-            return result;
-        }
-
-        private bool CanStripNonCapturingGroup()
-        {
-            return PreviousNode is OrNode _node
-                && _node.PreviousNode is null
-                && InputStartsAt.Value == Modes.anywhere
-                && InputEndsAt.Value == Modes.anywhere;
+            builder.Prepend(prefix, this);
+            builder.Append(suffix, this);
+            if (PreviousNode is OrNode)
+                builder.StripNonCaptureGroup();
+            return builder;
         }
     }
 }

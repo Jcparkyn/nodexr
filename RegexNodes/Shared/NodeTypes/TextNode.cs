@@ -21,21 +21,16 @@ namespace RegexNodes.Shared.NodeTypes
 
         static readonly HashSet<char> charsToEscape = new HashSet<char> { '/', '(', ')', '[', ']', '{', '}', '$', '^', '?', '^', '.', '+', '*', '|' };
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            string result = Input.GetValue();
-
-            if (String.IsNullOrEmpty(result))
-            {
-                return "";
-            }
+            string result = Input.GetValue() ?? "";
 
             if (InputDoEscape.IsChecked)
             {
                 result = result.EscapeCharacters(charsToEscape); 
             }
 
-            return result;
+            return new NodeResultBuilder(result, this);
         }
 
         public static TextNode CreateWithContents(string contents)
@@ -46,7 +41,7 @@ namespace RegexNodes.Shared.NodeTypes
             result.Input.Contents = escapedContents;
             return result;
 
-            string StripUnnecessaryEscapes(string input)
+            static string StripUnnecessaryEscapes(string input)
             {
                 for(var i = 0; i < input.Length - 1; i++)
                 {

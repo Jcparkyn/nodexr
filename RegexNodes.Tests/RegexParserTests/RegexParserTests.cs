@@ -57,7 +57,7 @@ namespace RegexNodes.Tests.RegexParserTests
             {
                 Assert.That(node1, Is.TypeOf(type1));
                 Assert.That(node2, Is.TypeOf(type2));
-                Assert.AreEqual(input, node1.CachedOutput);
+                Assert.AreEqual(input, node1.CachedOutput.Expression);
             });
         }
 
@@ -74,7 +74,7 @@ namespace RegexNodes.Tests.RegexParserTests
                 Assert.That(node1, Is.TypeOf(type1));
                 Assert.That(node2, Is.TypeOf(type2));
                 Assert.That(node3, Is.TypeOf(type3));
-                Assert.AreEqual(input, node1.CachedOutput);
+                Assert.AreEqual(input, node1.CachedOutput.Expression);
             });
         }
     }

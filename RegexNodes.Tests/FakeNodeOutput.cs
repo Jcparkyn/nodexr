@@ -7,7 +7,7 @@ namespace RegexNodes.Tests
 {
     class FakeNodeOutput : INodeOutput
     {
-        private string output;
+        readonly private string output;
 
         public event EventHandler OutputChanged;
 
@@ -17,9 +17,7 @@ namespace RegexNodes.Tests
 
         public string CssColor => throw new NotImplementedException();
 
-        public string CachedOutput => output;
-
-        public string GetOutput() => output;
+        public NodeResult CachedOutput => new NodeResult(output, this);
 
         public FakeNodeOutput(string output) => this.output = output;
     }
