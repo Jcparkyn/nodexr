@@ -38,7 +38,12 @@ namespace RegexNodes.Shared.NodeTypes
             InputHexCode.IsEnabled = () => InputMode.Value == Modes.Hex;
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
+        {
+            return new NodeResultBuilder(ValueString(), this);
+        }
+
+        private string ValueString()
         {
             switch (InputMode.Value)
             {

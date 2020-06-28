@@ -32,19 +32,24 @@ namespace RegexNodes.Shared.NodeTypes
             {Types.lookbehindNeg, "Negative Lookbehind"},
         };
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            string input = Input.GetValue().RemoveNonCapturingGroup();
-            string prefix = "";
-            switch (InputGroupType.Value)
+            var builder = new NodeResultBuilder(Input.Value);
+
+            if (Input.ConnectedNode is OrNode)
+                builder.StripNonCaptureGroup();
+
+            string prefix = InputGroupType.Value switch
             {
-                case Types.lookahead: prefix = "(?="; break;
-                case Types.lookbehind: prefix = "(?<="; break;
-                case Types.lookaheadNeg: prefix = "(?!"; break;
-                case Types.lookbehindNeg: prefix = "(?<!"; break;
+                Types.lookahead => "(?=",
+                Types.lookbehind => "(?<=",
+                Types.lookaheadNeg => "(?!",
+                Types.lookbehindNeg => "(?<!",
+                _ => "",
             };
-            
-            return $"{prefix}{input})";
+            builder.Prepend(prefix, this);
+            builder.Append(")", this);
+            return builder;
         }
     }
 }

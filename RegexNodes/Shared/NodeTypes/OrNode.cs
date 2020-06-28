@@ -12,15 +12,24 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputCollection Inputs { get; } = new InputCollection("Option", 2);
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            //string result = $"(?:{Input1.GetValue()}|{Input2.GetValue()})";
-            string result = @"(?:";
+            var builder = new NodeResultBuilder();
+            var inputs = Inputs.Inputs.Where(input => input.IsConnected);
+            builder.Append(@"(?:", this);
 
-            result += String.Join("|", Inputs.Inputs.Select(input => input.GetValue()));
-            result += ")";
+            if (inputs.Any())
+            {
+                builder.Append(inputs.First().Value);
+                foreach (var input in inputs.Skip(1))
+                {
+                    builder.Append("|", this);
+                    builder.Append(input.Value);
+                } 
+            }
+            builder.Append(")", this);
 
-            return result;
+            return builder;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace RegexNodes.Tests
             node.Inputs.Inputs[0].ConnectedNode = new FakeNodeOutput(in0);
             node.Inputs.Inputs[1].ConnectedNode = new FakeNodeOutput(in1);
 
-            string nodeVal = node.CachedOutput;
+            string nodeVal = node.CachedOutput.Expression;
 
             Assert.That(nodeVal, Is.Not.Null);
             Assert.That(shouldMatch, Does.Match(nodeVal));

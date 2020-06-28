@@ -52,7 +52,12 @@ namespace RegexNodes.Shared.NodeTypes
             InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
+        {
+            return new NodeResultBuilder(ValueString(), this);
+        }
+
+        private string ValueString()
         {
             string result;
 

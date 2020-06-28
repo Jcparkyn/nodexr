@@ -18,18 +18,18 @@ namespace RegexNodes.Shared.RegexParsers
         public static Parser<char, Node> ParseGroup =>
             Char('?').Then(OneOf(
                 LookaroundParser.ParseLookaround.Cast<Node>(),
-                OtherGroup.Cast<Node>(),
+                OtherGroup,
                 IfElseParser.ParseIfElse.Cast<Node>()
                 ))
-            .Or(CaptureGroup.Cast<Node>())
+            .Or(CaptureGroup)
             .Between(Char('('), Char(')'));
 
-        private static Parser<char, GroupNode> OtherGroup =>
+        private static Parser<char, Node> OtherGroup =>
             Map((node, contents) => node.WithContents(contents),
                 NormalGroupPrefix,
                 Rec(() => RegexParser.ParseRegex));
 
-        private static Parser<char, GroupNode> CaptureGroup =>
+        private static Parser<char, Node> CaptureGroup =>
             Rec(() => RegexParser.ParseRegex)
             .Select(contents =>
                 CreateWithType(GroupNode.GroupTypes.capturing)
@@ -62,10 +62,17 @@ namespace RegexNodes.Shared.RegexParsers
             return node;
         }
 
-        private static GroupNode WithContents(this GroupNode node, Node contents)
+        private static Node WithContents(this GroupNode node, Node contents)
         {
-            node.Input.ConnectedNode = contents;
-            return node;
+            if(contents is OrNode orNode && node.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing)
+            {
+                return orNode;
+            }
+            else
+            {
+                node.Input.ConnectedNode = contents;
+                return node; 
+            }
         }
     }
 }

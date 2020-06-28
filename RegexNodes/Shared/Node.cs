@@ -11,7 +11,7 @@ namespace RegexNodes.Shared
         Vector2L OutputPos { get; }
         string CssName { get; }
         string CssColor { get; }
-        string CachedOutput { get; }
+        NodeResult CachedOutput { get; }
 
         event EventHandler OutputChanged;
     }
@@ -55,7 +55,7 @@ namespace RegexNodes.Shared
         public abstract string Title { get; }
         public abstract string NodeInfo { get; }
 
-        public string CachedOutput { get; private set; }
+        public NodeResult CachedOutput { get; private set; }
 
         public Vector2L OutputPos => Pos + new Vector2L(150, 14);
 
@@ -77,14 +77,11 @@ namespace RegexNodes.Shared
             }
         }
 
-        protected virtual void OnInputsChanged(object sender, EventArgs e)
+        protected void OnInputsChanged(object sender, EventArgs e)
         {
             var newOutput = GetOutput();
-            if (newOutput != CachedOutput)
-            {
-                CachedOutput = newOutput;
-                OnOutputChanged(EventArgs.Empty);
-            }
+            CachedOutput = newOutput;
+            OnOutputChanged(EventArgs.Empty);
         }
 
         public Node()
@@ -192,11 +189,16 @@ namespace RegexNodes.Shared
         public string CssName => Title.Replace(" ", "").ToLowerInvariant();
         public string CssColor => $"var(--col-node-{CssName})";
 
-        public virtual string GetOutput()
+        protected virtual NodeResult GetOutput()
         {
-            return Previous.ConnectedNode?.CachedOutput + GetValue();
+            var builder = GetValue() ?? new NodeResultBuilder();
+            if(Previous.Value != null)
+            {
+                builder.Prepend(Previous.Value);
+            }
+            return builder.Build();
         }
 
-        protected abstract string GetValue();
+        protected abstract NodeResultBuilder GetValue();
     }
 }

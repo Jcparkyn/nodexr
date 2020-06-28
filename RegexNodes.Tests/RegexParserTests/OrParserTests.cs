@@ -19,7 +19,7 @@ namespace RegexNodes.Tests.RegexParserTests
             var node = RegexParser.ParseRegex.ParseOrThrow(input);
 
             Assert.That(node, Is.TypeOf<OrNode>());
-            Assert.AreEqual(expected, node.CachedOutput);
+            Assert.AreEqual(expected, node.CachedOutput.Expression);
         }
     }
 }

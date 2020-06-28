@@ -21,21 +21,16 @@ namespace RegexNodes.Shared.NodeTypes
 
         static readonly HashSet<char> charsToEscape = new HashSet<char> { '/', '(', ')', '[', ']', '{', '}', '$', '^', '?', '^', '.', '+', '*', '|' };
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            string result = Input.GetValue();
-
-            if (String.IsNullOrEmpty(result))
-            {
-                return "";
-            }
+            string result = Input.GetValue() ?? "";
 
             if (InputDoEscape.IsChecked)
             {
                 result = result.EscapeCharacters(charsToEscape); 
             }
 
-            return result;
+            return new NodeResultBuilder(result, this);
         }
 
         public static TextNode CreateWithContents(string contents)

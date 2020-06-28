@@ -23,14 +23,8 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         protected InputCheckboxNullable OptionIgnoreWhitespace { get; } = new InputCheckboxNullable() { Title = "Ignore Whitespace" };
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
-            string input = "" + InputContents.GetValue().RemoveNonCapturingGroup();
-            if (!String.IsNullOrEmpty(input))
-            {
-                input = ":" + input;
-            }
-
             string flagsOn = "";
             flagsOn += OptionIgnoreCase.CheckedState == 1 ? "i" : "";
             flagsOn += OptionMultiline.CheckedState == 1 ? "m" : "";
@@ -49,7 +43,15 @@ namespace RegexNodes.Shared.NodeTypes
                 flagsOff = "-" + flagsOff;
             }
 
-            return $"(?{flagsOn}{flagsOff}{input})";
+            var builder = new NodeResultBuilder();
+            builder.Append("(?" + flagsOn + flagsOff, this);
+            if (InputContents.IsConnected)
+            {
+                builder.Append(":", this);
+                builder.Append(InputContents.Value);
+            }
+            builder.Append(")", this);
+            return builder;
         }
     }
 }

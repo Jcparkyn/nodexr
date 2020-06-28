@@ -11,10 +11,10 @@ namespace RegexNodes.Shared
     {
         public event EventHandler OutputChanged;
 
-        private List<INode> nodes = new List<INode>();
+        private readonly List<INode> nodes = new List<INode>();
         public IEnumerable<INode> Nodes => nodes.AsReadOnly();
 
-        public string CachedOutput { get; private set; }
+        public NodeResult CachedOutput { get; private set; }
 
         public void AddNode<TNode>(bool refreshIndex = true) where TNode : Node, new()
         {
@@ -55,12 +55,12 @@ namespace RegexNodes.Shared
         public void RecalculateOutput()
         {
             var outputNodes = GetOutputNodes();
-
-            string output = outputNodes.Count() switch
+            var outputNode = outputNodes.First();
+            NodeResult output = outputNodes.Count() switch
             {
-                1 => outputNodes.First().CachedOutput,
-                var count when count > 1 => "Too many Output nodes",
-                _ => "Add an output node to get started"
+                1 => outputNode.CachedOutput,
+                var count when count > 1 => new NodeResult("Too many Output nodes", outputNode),
+                _ => new NodeResult("Add an output node to get started", outputNode)
             };
 
             if (output != CachedOutput)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Http.Headers;
 
 namespace RegexNodes.Shared.NodeTypes
 {
@@ -18,19 +19,21 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputProcedural InputElse { get; set; } = new InputProcedural() { Title = "Match if false" };
 
-        //public IfElseNode()
-        //{
-        //    InputGroupID.IsEnabled = () => ConditionType.DropdownValue == "Captured Group";
-        //    InputCondition.IsEnabled = () => ConditionType.DropdownValue == "Expression";
-        //    ConditionType.OnValueChanged = CalculateInputsPos;
-        //}
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
+            //return null;
+            var builder = new NodeResultBuilder();
             //string condition = ConditionType.DropdownValue == "Expression" ? InputCondition.GetValue() : InputGroupID.GetValue();
             string condition = InputCondition.GetValue();
-            
-            return $"(?({condition}){InputThen.GetValue()}|{InputElse.GetValue()})";
+
+            builder.Append($"(?({condition})", this);
+            builder.Append(InputThen.Value);
+            builder.Append("|", this);
+            builder.Append(InputElse.Value);
+            builder.Append(")", this);
+            //return $"(?({condition}){InputThen.GetValue()}|{InputElse.GetValue()})";
+            return builder;
         }
     }
 }

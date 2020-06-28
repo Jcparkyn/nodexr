@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Pidgin;
+using System.Collections.Generic;
 
 namespace RegexNodes.Shared.NodeTypes
 {
@@ -16,14 +17,15 @@ namespace RegexNodes.Shared.NodeTypes
             Input.Contents = contents;
         }
 
-        protected override string GetValue()
+        protected override NodeResultBuilder GetValue()
         {
             string result = "(?#" + Input.GetValue()
-                .Replace("(", "")
+                //.Replace("(", "")
                 .Replace(")", "")
                 + ")";
 
-            return result;
+            var builder = new NodeResultBuilder(result, this);
+            return builder;
         }
     }
 }

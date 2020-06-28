@@ -22,7 +22,7 @@ namespace RegexNodes.Shared.Services
             //return Regex.Matches("" + SearchText, nodeHandler.CachedOutput, RegexOptions.None, TimeSpan.FromSeconds(0.5));
             try
             {
-                return Regex.Matches("" + SearchText, nodeHandler.CachedOutput, RegexOptions.None, TimeSpan.FromSeconds(0.5));
+                return Regex.Matches("" + SearchText, nodeHandler.CachedOutput.Expression, RegexOptions.None, TimeSpan.FromSeconds(0.5));
             }
             catch (RegexMatchTimeoutException ex)
             {
@@ -42,7 +42,7 @@ namespace RegexNodes.Shared.Services
             string result;
             try
             {
-                result = Regex.Replace(SearchText, nodeHandler.CachedOutput, ReplacementRegex, RegexOptions.None, TimeSpan.FromSeconds(0.5));
+                result = Regex.Replace(SearchText, nodeHandler.CachedOutput.Expression, ReplacementRegex, RegexOptions.None, TimeSpan.FromSeconds(0.5));
             }
             catch (RegexMatchTimeoutException ex)
             {

@@ -24,6 +24,7 @@
         
         .node .node-title b {
             color: hsl(0,0%,15%);
+            font-weight: 500;
         }
 
         .node .node-title .collapse-button {
