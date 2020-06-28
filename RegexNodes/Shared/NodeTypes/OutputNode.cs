@@ -72,16 +72,9 @@ namespace RegexNodes.Shared.NodeTypes
 
             builder.Prepend(prefix, this);
             builder.Append(suffix, this);
-            builder.StripNonCaptureGroup();
+            if (PreviousNode is OrNode)
+                builder.StripNonCaptureGroup();
             return builder;
-        }
-
-        private bool CanStripNonCapturingGroup()
-        {
-            return PreviousNode is OrNode _node
-                && _node.PreviousNode is null
-                && InputStartsAt.Value == Modes.anywhere
-                && InputEndsAt.Value == Modes.anywhere;
         }
     }
 }
