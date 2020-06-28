@@ -7,7 +7,7 @@ namespace RegexNodes.Tests
 {
     class FakeNodeOutput : INodeOutput
     {
-        private string output;
+        readonly private string output;
 
         public event EventHandler OutputChanged;
 

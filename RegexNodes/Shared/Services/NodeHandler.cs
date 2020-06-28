@@ -50,7 +50,7 @@ namespace RegexNodes.Shared.Services
         public event EventHandler OnRequireNoodleRefresh;
         public event EventHandler OnRequireNodeGraphRefresh;
 
-        NavigationManager navManager;
+        readonly NavigationManager navManager;
 
         public NodeHandler(NavigationManager navManager)
         {

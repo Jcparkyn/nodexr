@@ -41,7 +41,7 @@ namespace RegexNodes.Shared.NodeTypes
             result.Input.Contents = escapedContents;
             return result;
 
-            string StripUnnecessaryEscapes(string input)
+            static string StripUnnecessaryEscapes(string input)
             {
                 for(var i = 0; i < input.Length - 1; i++)
                 {

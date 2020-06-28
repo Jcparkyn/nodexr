@@ -8,7 +8,7 @@ namespace RegexNodes.Shared.Services
 {
     public class RegexReplaceHandler
     {
-        INodeHandler nodeHandler;
+        readonly INodeHandler nodeHandler;
         public RegexReplaceHandler(INodeHandler NodeHandler)
         {
             this.nodeHandler = NodeHandler;

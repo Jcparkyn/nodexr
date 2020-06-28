@@ -45,14 +45,12 @@ namespace RegexNodes.Shared.NodeTypes
 
         private string ValueString()
         {
-            switch (InputMode.Value)
+            return InputMode.Value switch
             {
-                case Modes.Category:
-                    return GetCategoryRegex(InputCategory.Contents, InputInvert.IsChecked);
-                case Modes.Hex:
-                    return GetHexCodeRegex(InputHexCode.Contents, InputInvert.IsChecked);
-                default: return "";
-            }
+                Modes.Category => GetCategoryRegex(InputCategory.Contents, InputInvert.IsChecked),
+                Modes.Hex => GetHexCodeRegex(InputHexCode.Contents, InputInvert.IsChecked),
+                _ => "",
+            };
         }
 
         string GetCategoryRegex(string input, bool invert)

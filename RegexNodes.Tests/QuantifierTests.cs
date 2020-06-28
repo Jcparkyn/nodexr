@@ -18,7 +18,7 @@ namespace RegexNodes.Tests
         public string Greedy_ReturnsOutput(string contents, Reps repetitions)
         {
             var node = CreateDefaultQuantifier(contents);
-            node.InputCount.Value = Reps.OneOrMore;
+            node.InputCount.Value = repetitions;
 
             return node.CachedOutput.Expression;
         }
