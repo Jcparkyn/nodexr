@@ -6,7 +6,7 @@
 
 <div class="output-regex-container">
     <div class="output-regex" >@foreach (var segment in @NodeHandler.CachedOutput)
-        {<span class="output-segment" style="color:@segment.Node.CssColor">@segment.Expression</span>}</div>
+        {<span class="output-segment" @onclick="@(() => NodeHandler.SelectNode(segment.Node as INode))" style="color:@segment.Node.CssColor">@segment.Expression</span>}</div>
 
     <button class="output-regex output-regex-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>
     <button class="output-regex output-regex-button" @onclick="OnEditButtonClick"><i class="fas fa-pencil-alt"></i></button>
