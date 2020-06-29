@@ -20,6 +20,8 @@ namespace RegexNodes.Shared
             }
         }
 
+        public override int Height => 19;
+
         public InputCheckboxNullable(int state = 0)
         {
             this.checkedState = state;

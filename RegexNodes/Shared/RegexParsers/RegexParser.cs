@@ -52,34 +52,8 @@ namespace RegexNodes.Shared.RegexParsers
 
         public static NodeTree BuildNodeTree(Node endNode)
         {
-            const long spacingX = 250, spacingY = 200;
-            Vector2L outputPos = new Vector2L(1200, 300);
-            NodeTree tree = new NodeTree();
-            var output = new OutputNode() { Pos = outputPos };
-            output.PreviousNode = endNode;
-            tree.AddNode(output);
-
-            AddNodeChildren(output, outputPos);
-
-            return tree;
-
-            void AddNodeChildren(Node parent, Vector2L position)
-            {
-                var inputs = parent.GetInputsRecursive().OfType<InputProcedural>();
-                var children = inputs.Select(input => input.ConnectedNode).OfType<Node>().ToList();
-
-                var pos = new Vector2L(
-                    position.x - spacingX,
-                    position.y - spacingY * (children.Count - 1) / 2);
-
-                foreach (var child in children)
-                {
-                    tree.AddNode(child);
-                    child.Pos = pos;
-                    AddNodeChildren(child, pos);
-                    pos = new Vector2L(pos.x, pos.y + spacingY);
-                }
-            }
+            var builder = new NodeTreeBuilder(endNode);
+            return builder.Build();
         }
 
         private static Node ConnectNodesInSequence(IEnumerable<Node> nodes)

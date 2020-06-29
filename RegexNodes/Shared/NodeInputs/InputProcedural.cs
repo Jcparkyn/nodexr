@@ -30,6 +30,8 @@ namespace RegexNodes.Shared
 
         public bool Enabled => connectedNode != null;
 
+        public override int Height => 32;
+
         public event EventHandler NoodleChanged;
 
         public string GetValue()

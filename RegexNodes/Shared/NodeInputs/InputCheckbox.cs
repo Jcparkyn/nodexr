@@ -14,6 +14,8 @@
             }
         }
 
+        public override int Height => 19;
+
         public InputCheckbox(bool isChecked = false)
         {
             this.isChecked = isChecked;

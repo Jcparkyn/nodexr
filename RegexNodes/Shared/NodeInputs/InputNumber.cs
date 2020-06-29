@@ -16,6 +16,8 @@
         public int? Min { get; set; }
         public int? Max { get; set; }
 
+        public override int Height => 50;
+
         public InputNumber(int contents, int? min = null, int? max = null)
         {
             InputContents = contents;

@@ -16,6 +16,8 @@ namespace RegexNodes.Shared
         public Vector2L Pos { get; set; }
         public Func<bool> IsEnabled { get; set; } = (() => true);
 
+        public virtual int Height { get; } = 32;
+
         /// <summary>
         /// Determines whether a change from this input should trigger a
         /// re-render of noodles connected to the parent node.
