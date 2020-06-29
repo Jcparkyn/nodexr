@@ -5,7 +5,7 @@ __Nodexr is published [here](https://jcparkyn.github.io/nodexr).__
 Currently it is based on the .NET Regex flavour, although there is potential to allow the user to easily switch between flavours while using the same nodes.
 
 This screenshot shows a Regular Expression used to match floating point numbers, with or without an exponent:
-![Screenshot](https://github.com/Jcparkyn/nodexr/blob/dev/RegexNodes/images/Screenshot_floatingPoint.png?raw=true)
+![Screenshot](https://github.com/Jcparkyn/nodexr/blob/dev/RegexNodes/images/Screenshot_floatingPoint_2.png?raw=true)
 
 ## How To Use
 Drag-and-drop nodes from the left panel to insert them into the main window. The final result/output of your nodes must be connected to the _Output_ node and is displayed at the top left.

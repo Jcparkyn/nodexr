@@ -20,6 +20,8 @@ namespace RegexNodes.Shared
 
         private TValue value = default;
 
+        public override int Height => 50;
+
         public TValue Value
         {
             get => value;

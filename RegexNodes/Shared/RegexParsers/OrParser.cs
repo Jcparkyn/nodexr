@@ -33,7 +33,7 @@ namespace RegexNodes.Shared.RegexParsers
             for (int i = 0; i < nodesList.Count; i++)
             {
                 node.Inputs.AddItem();
-                node.Inputs.Inputs[i].ConnectedNode = nodesList[i];
+                node.Inputs.Inputs.Last().ConnectedNode = nodesList[i];
             }
 
             return node;

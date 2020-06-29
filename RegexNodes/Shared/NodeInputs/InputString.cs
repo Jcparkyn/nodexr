@@ -15,6 +15,8 @@ namespace RegexNodes.Shared
             }
         }
 
+        public override int Height => 50;
+
         public InputString(string contents)
         {
             Contents = contents;

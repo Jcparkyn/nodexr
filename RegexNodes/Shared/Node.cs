@@ -27,6 +27,7 @@ namespace RegexNodes.Shared
         INodeOutput PreviousNode { get; set; }
 
         void CalculateInputsPos();
+        int GetHeight();
         IEnumerable<NodeInput> GetInputsRecursive();
         void OnLayoutChanged(object sender, EventArgs e);
     }
@@ -138,23 +139,22 @@ namespace RegexNodes.Shared
             else
             {
                 int startHeight = 44;
-                int inputHeight = 32;
                 //TODO: Support disabled inputs
                 foreach (var input in NodeInputs)
                 {
                     switch (input)
                     {
-                        case InputProcedural input1:
-                            input1.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
-                            startHeight += inputHeight;
+                        case InputProcedural inputProc:
+                            inputProc.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
+                            startHeight += inputProc.Height;
                             break;
-                        case InputCollection input1:
+                        case InputCollection inputColl:
                             startHeight += 28;
-                            input1.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
-                            foreach (var input2 in input1.Inputs)
+                            inputColl.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
+                            foreach (var input2 in inputColl.Inputs)
                             {
                                 input2.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
-                                startHeight += inputHeight;
+                                startHeight += input2.Height;
                             }
                             break;
                         default:
@@ -184,6 +184,18 @@ namespace RegexNodes.Shared
                     yield return input;
                 }
             }
+        }
+
+        public int GetHeight()
+        {
+            int baseHeight = 28;
+
+            int inputHeight = NodeInputs
+                .Where(input => input.IsEnabled())
+                .Select(input => input.Height)
+                .Sum();
+
+            return baseHeight + inputHeight;
         }
 
         public string CssName => Title.Replace(" ", "").ToLowerInvariant();
