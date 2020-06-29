@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using RegexNodes.Shared;
 using RegexNodes.Shared.NodeTypes;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace RegexNodes.Tests
 {
@@ -20,8 +21,8 @@ namespace RegexNodes.Tests
         public void Or_VariousPairs_MatchesString(string in0, string in1, string shouldMatch)
         {
             var node = new OrNode();
-            node.Inputs.Inputs[0].ConnectedNode = new FakeNodeOutput(in0);
-            node.Inputs.Inputs[1].ConnectedNode = new FakeNodeOutput(in1);
+            node.Inputs.Inputs.ElementAt(0).ConnectedNode = new FakeNodeOutput(in0);
+            node.Inputs.Inputs.ElementAt(1).ConnectedNode = new FakeNodeOutput(in1);
 
             string nodeVal = node.CachedOutput.Expression;
 
