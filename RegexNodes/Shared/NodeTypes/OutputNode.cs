@@ -10,31 +10,31 @@ namespace RegexNodes.Shared.NodeTypes
             "(This is equivalent to using the Anchor node).";
 
         [NodeInput]
-        public InputDropdown<Modes> InputStartsAt { get; } = new InputDropdown<Modes>(
-            new Dictionary<Modes, string>()
+        public InputDropdown<Mode> InputStartsAt { get; } = new InputDropdown<Mode>(
+            new Dictionary<Mode, string>()
             {
-                {Modes.anywhere, "Anywhere"},
-                {Modes.startLine, "Start of line"},
-                {Modes.wordBound, "Word boundary"},
+                {Mode.Anywhere, "Anywhere"},
+                {Mode.StartLine, "Start of line"},
+                {Mode.WordBound, "Word boundary"},
             })
         { Title="Starts at:"};
 
         [NodeInput]
-        public InputDropdown<Modes> InputEndsAt { get; } = new InputDropdown<Modes>(
-            new Dictionary<Modes, string>()
+        public InputDropdown<Mode> InputEndsAt { get; } = new InputDropdown<Mode>(
+            new Dictionary<Mode, string>()
             {
-                {Modes.anywhere, "Anywhere"},
-                {Modes.endLine, "End of line"},
-                {Modes.wordBound, "Word boundary"},
+                {Mode.Anywhere, "Anywhere"},
+                {Mode.EndLine, "End of line"},
+                {Mode.WordBound, "Word boundary"},
             })
         { Title = "Ends at:" };
 
-        public enum Modes
+        public enum Mode
         {
-            anywhere,
-            startLine,
-            endLine,
-            wordBound,
+            Anywhere,
+            StartLine,
+            EndLine,
+            WordBound,
         }
 
         protected override NodeResult GetOutput()
@@ -57,16 +57,16 @@ namespace RegexNodes.Shared.NodeTypes
             //Prefix
             string prefix = InputStartsAt.Value switch
             {
-                Modes.startLine => "^",
-                Modes.wordBound => "\\b",
+                Mode.StartLine => "^",
+                Mode.WordBound => "\\b",
                 _ => ""
             };
 
             //Suffix
             string suffix = InputEndsAt.Value switch
             {
-                Modes.endLine => "$",
-                Modes.wordBound => "\\b",
+                Mode.EndLine => "$",
+                Mode.WordBound => "\\b",
                 _ => ""
             };
 
