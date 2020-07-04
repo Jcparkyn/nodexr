@@ -41,6 +41,18 @@ namespace RegexNodes.Tests.RegexParserTests
             Assert.Throws<ParseException>(getResult);
         }*/
 
+        [TestCase(@"abc")]
+        [TestCase(@"abc[abc]")]
+        [TestCase(@"[abc]+")]
+        [TestCase(@"(a[bc])+")]
+        [TestCase(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")] //Email address
+        [TestCase(@"^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$")] //Floating point
+        public void ParseRegex_OutputIsSameAsInput(string input)
+        {
+            var outputNode = RegexParser.ParseRegex.ParseOrThrow(input);
+            Assert.AreEqual(input, outputNode.CachedOutput.Expression);
+        }
+
         [TestCase(@"abc[abc]", typeof(TextNode), typeof(CharSetNode))]
         [TestCase(@"_[a]", typeof(TextNode), typeof(CharSetNode))]
         [TestCase(@"_\*[a]", typeof(TextNode), typeof(CharSetNode))]
