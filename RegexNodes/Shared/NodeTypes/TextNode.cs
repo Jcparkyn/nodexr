@@ -19,7 +19,7 @@ namespace RegexNodes.Shared.NodeTypes
         public InputCheckbox InputDoEscape { get; } = new InputCheckbox(true) { Title = "Escape" };
 
 
-        static readonly HashSet<char> charsToEscape = new HashSet<char> { '/', '(', ')', '[', ']', '{', '}', '$', '^', '?', '^', '.', '+', '*', '|' };
+        static readonly HashSet<char> charsToEscape = new HashSet<char> ("()[]{}$^?.+*|");
 
         protected override NodeResultBuilder GetValue()
         {
