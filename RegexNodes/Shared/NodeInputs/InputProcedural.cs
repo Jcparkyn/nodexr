@@ -43,6 +43,9 @@ namespace RegexNodes.Shared
 
         public NodeResult Value => ConnectedNode?.CachedOutput;
 
+        /// <summary>
+        /// Causes the connected noodle to be re-rendered
+        /// </summary>
         public void Refresh()
         {
             NoodleChanged?.Invoke(this, EventArgs.Empty);

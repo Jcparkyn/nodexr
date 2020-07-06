@@ -56,7 +56,10 @@
         if (e.Key == "Delete" || e.Key == "Backspace")
         {
             NodeHandler.DeleteSelectedNode();
-            Refresh();
+        }
+        else if(e.Key == "Escape")
+        {
+            DeselectNode();
         }
     }
 

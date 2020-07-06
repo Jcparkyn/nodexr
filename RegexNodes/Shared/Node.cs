@@ -30,6 +30,7 @@ namespace RegexNodes.Shared
         int GetHeight();
         IEnumerable<NodeInput> GetInputsRecursive();
         void OnLayoutChanged(object sender, EventArgs e);
+        event EventHandler LayoutChanged;
     }
 
     public abstract class Node : INode
@@ -63,6 +64,7 @@ namespace RegexNodes.Shared
         public bool IsCollapsed { get; set; }
 
         public event EventHandler OutputChanged;
+        public event EventHandler LayoutChanged;
 
         protected virtual void OnOutputChanged(EventArgs e)
         {
@@ -76,6 +78,7 @@ namespace RegexNodes.Shared
             {
                 input.Refresh();
             }
+            LayoutChanged?.Invoke(this, e);
         }
 
         protected void OnInputsChanged(object sender, EventArgs e)

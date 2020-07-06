@@ -57,7 +57,8 @@
 
     protected override void OnInitialized()
     {
-        Data.OutputChanged += OnOutputChanged;
+        Data.OutputChanged += Refresh;
+        Data.LayoutChanged += Refresh;
     }
 
     void ToggleCollapsed()
@@ -74,7 +75,7 @@
         Modal.Show(typeof(NodeInfo), Data.Title, modalParameters);
     }
 
-    void OnOutputChanged(object sender, EventArgs e)
+    void Refresh(object sender, EventArgs e)
     {
         StateHasChanged();
     }
@@ -91,6 +92,7 @@
 
     public void Dispose()
     {
-        Data.OutputChanged -= OnOutputChanged;
+        Data.OutputChanged -= Refresh;
+        Data.LayoutChanged -= Refresh;
     }
 }
