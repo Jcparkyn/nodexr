@@ -55,12 +55,12 @@ namespace RegexNodes.Shared
         public void RecalculateOutput()
         {
             var outputNodes = GetOutputNodes();
-            var outputNode = outputNodes.First();
+
             NodeResult output = outputNodes.Count() switch
             {
-                1 => outputNode.CachedOutput,
-                var count when count > 1 => new NodeResult("Too many Output nodes", outputNode),
-                _ => new NodeResult("Add an output node to get started", outputNode)
+                1 => outputNodes.First().CachedOutput,
+                var count when count > 1 => new NodeResult("Too many Output nodes", null),
+                _ => new NodeResult("Add an output node to get started", null)
             };
 
             if (output != CachedOutput)
