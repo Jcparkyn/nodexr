@@ -2,10 +2,11 @@
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using static RegexNodes.Shared.NodeTypes.IQuantifiableNode;
 
 namespace RegexNodes.Shared.NodeTypes
 {
-    public class WhitespaceNode : Node
+    public class WhitespaceNode : Node, IQuantifiableNode
     {
         public override string Title => "Whitespace";
         public override string NodeInfo => "Matches any of the specified types of whitespace character." +
@@ -25,6 +26,16 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputCheckbox InputLF { get; } = new InputCheckbox(true) { Title = "Newline (\\n)" };
 
+        [NodeInput]
+        public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNames)
+        { Title = "Repetitions:" };
+        [NodeInput]
+        public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
+        [NodeInput]
+        public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
+        [NodeInput]
+        public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+
         public WhitespaceNode()
         {
             bool IsAllWhitespaceUnchecked() => !InputAllWhitespace.IsChecked;
@@ -33,11 +44,21 @@ namespace RegexNodes.Shared.NodeTypes
             InputTab.IsEnabled = IsAllWhitespaceUnchecked;
             InputCR.IsEnabled = IsAllWhitespaceUnchecked;
             InputLF.IsEnabled = IsAllWhitespaceUnchecked;
+
+            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
+            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override NodeResultBuilder GetValue()
         {
-            return new NodeResultBuilder(ValueString(), this);
+            string suffix = GetSuffix(
+                InputCount.Value,
+                InputNumber.InputContents,
+                InputMin.GetValue(),
+                InputMax.GetValue());
+
+            return new NodeResultBuilder(ValueString() + suffix, this);
         }
 
         private string ValueString()

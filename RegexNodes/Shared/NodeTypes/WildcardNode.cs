@@ -28,8 +28,6 @@ namespace RegexNodes.Shared.NodeTypes
         public InputCheckbox InputAllowDigits { get; } = new InputCheckbox(true) { Title = "Digits" };
         [NodeInput]
         public InputCheckbox InputAllowUnderscore { get; } = new InputCheckbox(true) { Title = "Underscore" };
-        //[NodeInput]
-        //public InputCheckbox InputAllowOther { get; } = new InputCheckbox(false) { Title = "Everything Else" };
 
         [NodeInput]
         public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNames)
