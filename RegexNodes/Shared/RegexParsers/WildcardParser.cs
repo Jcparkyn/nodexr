@@ -19,42 +19,21 @@ namespace RegexNodes.Shared.RegexParsers
 
         public static Parser<char, WildcardNode> ParseWildcard =>
             Char('.')
-            .Select(_ => CreateWithInputs(a: true));
+            .Select(_ => CreateWithType(WildcardNode.WildcardType.Everything));
 
         private static Parser<char, WildcardNode> Digits =>
             UpperOrLower('d')
-            .Select(isUpper => CreateWithInputs(invert: isUpper, d: true));
-        
+            .Select(isUpper => CreateWithType(WildcardNode.WildcardType.Digits, isUpper));
+
         private static Parser<char, WildcardNode> WordChars =>
             UpperOrLower('w')
-            .Select(isUpper => CreateWithInputs(
-                invert: isUpper,
-                L: true,
-                l: true,
-                d: true,
-                u: true
-                ));
+            .Select(isUpper => CreateWithType(WildcardNode.WildcardType.WordCharacters, isUpper));
 
-        private static WildcardNode CreateWithInputs(
-            bool invert = false,
-            bool a = false,
-            bool w = false,
-            bool L = false,
-            bool l = false,
-            bool d = false,
-            bool u = false,
-            bool o = false)
+        private static WildcardNode CreateWithType(WildcardNode.WildcardType type, bool invert = false)
         {
             var node = new WildcardNode();
-
-            node.InputAllowAll.IsChecked = a;
-            node.InputAllowWhitespace.IsChecked = w ^ invert;
-            node.InputAllowUppercase.IsChecked = L ^ invert;
-            node.InputAllowLowercase.IsChecked = l ^ invert;
-            node.InputAllowDigits.IsChecked = d ^ invert;
-            node.InputAllowUnderscore.IsChecked = u ^ invert;
-            node.InputAllowOther.IsChecked = o ^ invert;
-
+            node.InputType.Value = type;
+            node.InputInvert.IsChecked = invert;
             return node;
         }
     }
