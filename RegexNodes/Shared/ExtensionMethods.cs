@@ -25,12 +25,9 @@ namespace RegexNodes.Shared
                 if (chars.Contains(input[i]))
                 {
                     //Escape the current character
-                    result += @"\" + input[i];
+                    result += @"\";
                 }
-                else
-                {
-                    result += input[i];
-                }
+                result += input[i];
             }
             return result;
         }
