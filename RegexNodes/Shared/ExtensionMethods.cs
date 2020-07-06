@@ -22,9 +22,9 @@ namespace RegexNodes.Shared
             string result = "";
             for(int i = 0; i < input.Length; i++)
             {
-                if (chars.Contains(input[i]) &&
-                    (i == 0 || input[i - 1] != '\\'))
+                if (chars.Contains(input[i]))
                 {
+                    //Escape the current character
                     result += @"\" + input[i];
                 }
                 else

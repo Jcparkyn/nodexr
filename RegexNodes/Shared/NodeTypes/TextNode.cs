@@ -16,7 +16,9 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputString Input { get; } = new InputString("") { Title = "Text:"};
         [NodeInput]
-        public InputCheckbox InputDoEscape { get; } = new InputCheckbox(true) { Title = "Escape" };
+        public InputCheckbox InputEscapeSpecials { get; } = new InputCheckbox(true) { Title = "Escape Specials" };
+        [NodeInput]
+        public InputCheckbox InputEscapeBackslash { get; } = new InputCheckbox(false) { Title = "Escape Backslash" };
 
 
         static readonly HashSet<char> charsToEscape = new HashSet<char> ("()[]{}$^?.+*|");
@@ -25,9 +27,13 @@ namespace RegexNodes.Shared.NodeTypes
         {
             string result = Input.GetValue() ?? "";
 
-            if (InputDoEscape.IsChecked)
+            if (InputEscapeBackslash.IsChecked)
             {
-                result = result.EscapeCharacters(charsToEscape); 
+                result = result.EscapeCharacters("\\");
+            }
+            if (InputEscapeSpecials.IsChecked)
+            {
+                result = result.EscapeCharacters(charsToEscape);
             }
 
             return new NodeResultBuilder(result, this);
@@ -48,6 +54,7 @@ namespace RegexNodes.Shared.NodeTypes
                     if(input[i] == '\\'
                         && charsToEscape.Contains(input[i + 1]))
                     {
+                        //Remove the backslash. This automatically causes the next character to be skipped.
                         input = input.Remove(i, 1);
                     }
                 }
