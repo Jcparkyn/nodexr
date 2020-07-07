@@ -52,6 +52,10 @@ namespace RegexNodes.Shared.Services
             if (NodeToDrag != null)
             {
                 NodeToDrag.Pos += (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
+                if (!nodeHandler.Tree.Nodes.Contains(NodeToDrag))
+                {
+                    nodeHandler.Tree.AddNode(NodeToDrag);
+                }
                 NodeToDrag = null;
             }
         }

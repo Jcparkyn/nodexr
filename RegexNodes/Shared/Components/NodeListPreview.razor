@@ -31,9 +31,8 @@
     void StartNodeDrag(DragEventArgs e)
     {
         INode newNode = (INode)Activator.CreateInstance(Data.GetType());
-        NodeHandler.Tree.AddNode(newNode, refreshIndex: false);
+        //NodeHandler.Tree.AddNode(newNode, refreshIndex: false);
 
-        
         NodeDragService.OnStartCreateNodeDrag(newNode, e);
     }
 
