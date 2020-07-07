@@ -1,0 +1,10 @@
+﻿@inject INodeHandler NodeHandler
+
+<span class="output-segment"
+      style="color:@(Segment.Node?.CssColor ?? "inherit")"
+       @onmouseover="@(() => NodeHandler.SelectNode(Segment.Node as INode))"
+      >@Segment.Expression</span>
+
+@code {
+    [Parameter] public RegexSegment Segment { get; set; }
+}

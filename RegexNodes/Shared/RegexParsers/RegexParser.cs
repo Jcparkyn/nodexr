@@ -47,7 +47,7 @@ namespace RegexNodes.Shared.RegexParsers
 
         public static Result<char, NodeTree> Parse(string input)
         {
-            return ParseRegex.Select(BuildNodeTree).Parse(input);
+            return OutputParser.ParseOutputNode.Select(BuildNodeTree).Parse(input);
         }
 
         public static NodeTree BuildNodeTree(Node endNode)

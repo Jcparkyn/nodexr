@@ -9,10 +9,15 @@ namespace RegexNodes.Shared.NodeTypes
     public class WildcardNode : Node, IQuantifiableNode
     {
         public override string Title => "Wildcard";
-        public override string NodeInfo => "Matches any of the specified types of character. Note: the 'Everything' option will only match newlines if the Regex is in singleline mode.";
+        public override string NodeInfo => "Matches any of the specified types of character. " +
+            "Note: the 'Everything' option will only match newlines if the Regex is in singleline mode. " +
+            "\nUse the 'Repetitions' option to add a quantifier with the selected number or range of repetitions " +
+            "(If you need a possessive or lazy quantifer, use a Quantifer node instead).";
 
         [NodeInput]
-        public InputCheckbox InputAllowAll { get; } = new InputCheckbox(true) { Title = "Everything" };
+        public InputDropdown<WildcardType> InputType { get; } = new InputDropdown<WildcardType>(presetDisplayNames) { Title = "Type:" };
+        [NodeInput]
+        public InputCheckbox InputInvert { get; } = new InputCheckbox(false) { Title = "Invert" };
         [NodeInput]
         public InputCheckbox InputAllowWhitespace { get; } = new InputCheckbox(false) { Title = "Whitespace" };
         [NodeInput]
@@ -23,8 +28,6 @@ namespace RegexNodes.Shared.NodeTypes
         public InputCheckbox InputAllowDigits { get; } = new InputCheckbox(true) { Title = "Digits" };
         [NodeInput]
         public InputCheckbox InputAllowUnderscore { get; } = new InputCheckbox(true) { Title = "Underscore" };
-        [NodeInput]
-        public InputCheckbox InputAllowOther { get; } = new InputCheckbox(false) { Title = "Other" };
 
         [NodeInput]
         public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNames)
@@ -36,16 +39,37 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
 
+        public enum WildcardType
+        {
+            Everything,
+            WordCharacters,
+            Letters,
+            Digits,
+            Whitespace,
+            Custom
+        }
+
+        private static readonly Dictionary<WildcardType, string> presetDisplayNames = new Dictionary<WildcardType, string>
+        {
+            { WildcardType.Everything, "Everything" },
+            { WildcardType.WordCharacters, "Word Characters" },
+            { WildcardType.Letters, "Letters" },
+            { WildcardType.Digits, "Digits" },
+            { WildcardType.Whitespace, "Whitespace" },
+            { WildcardType.Custom, "Custom" },
+        };
+
         public WildcardNode()
         {
-            bool isAllowAllUnchecked() => !InputAllowAll.IsChecked;
+            bool isCustom() => InputType.Value == WildcardType.Custom;
 
-            InputAllowWhitespace.IsEnabled = isAllowAllUnchecked;
-            InputAllowUnderscore.IsEnabled = isAllowAllUnchecked;
-            InputAllowUppercase.IsEnabled = isAllowAllUnchecked;
-            InputAllowLowercase.IsEnabled = isAllowAllUnchecked;
-            InputAllowDigits.IsEnabled = isAllowAllUnchecked;
-            InputAllowOther.IsEnabled = isAllowAllUnchecked;
+            InputAllowWhitespace.IsEnabled = isCustom;
+            InputAllowUnderscore.IsEnabled = isCustom;
+            InputAllowUppercase.IsEnabled = isCustom;
+            InputAllowLowercase.IsEnabled = isCustom;
+            InputAllowDigits.IsEnabled = isCustom;
+
+            InputInvert.IsEnabled = () => InputType.Value != WildcardType.Everything;
 
             InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
             InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
@@ -54,12 +78,7 @@ namespace RegexNodes.Shared.NodeTypes
 
         protected override NodeResultBuilder GetValue()
         {
-            return new NodeResultBuilder(ValueString(), this);
-        }
-
-        private string ValueString()
-        {
-            string result;
+            bool invert = InputInvert.IsChecked;
 
             string suffix = GetSuffix(
                 InputCount.Value,
@@ -67,48 +86,63 @@ namespace RegexNodes.Shared.NodeTypes
                 InputMin.GetValue(),
                 InputMax.GetValue());
 
-            if (InputAllowAll.IsChecked)
+            string contents = (InputType.Value, invert) switch
             {
-                result = ".";
-                return result + suffix;
-            }
+                (WildcardType.Everything, _) => ".",
+                (WildcardType.WordCharacters, false) => "\\w",
+                (WildcardType.WordCharacters, true) => "\\W",
+                (WildcardType.Letters, false) => "[a-zA-Z]",
+                (WildcardType.Letters, true) => "[^a-zA-Z]",
+                (WildcardType.Digits, false) => "\\d",
+                (WildcardType.Digits, true) => "\\D",
+                (WildcardType.Whitespace, false) => "\\s",
+                (WildcardType.Whitespace, true) => "\\S",
+                (WildcardType.Custom, _) => GetContentsCustom(invert),
+                _ => ".",
+            };
+            return new NodeResultBuilder(contents + suffix, this);
+        }
+
+        private string GetContentsCustom(bool invert)
+        {
+            string result;
 
             var inputs = (
+                i: invert,
                 w: InputAllowWhitespace.IsChecked,
                 L: InputAllowUppercase.IsChecked,
                 l: InputAllowLowercase.IsChecked,
                 d: InputAllowDigits.IsChecked,
-                u: InputAllowUnderscore.IsChecked,
-                o: InputAllowOther.IsChecked
+                u: InputAllowUnderscore.IsChecked
                 );
 
             result = inputs switch
             {
-                //Handle special cases where simplification is possible - when "other' is ticked
-                (true, true, true, true, true, true) => @".",
-                (true, true, true, false, true, true) => @"\D",
-                (false, true, true, true, true, true) => @"\S",
-                (true, false, false, false, false, true) => @"\W",
+                //Handle special cases where simplification is possible - when 'invert' is ticked
+                (true, false, false, false, false, false) => @"[]",
+                (true, false, false, false, true, false) => @"\D",
+                (true, true, false, false, false, false) => @"\S",
+                (true, false, true, true, true, true) => @"\W",
 
-                //Handle special cases where simplification is possible - when "other' is not ticked
-                (false, false, false, false, false, false) => "",
-                (false, false, false, false, true, false) => @"_",
-                (false, false, false, true, false, false) => @"\d",
-                (true, false, false, false, false, false) => @"\s",
-                (false, true, true, true, true, false) => @"\w",
+                //Handle special cases where simplification is possible - when 'invert' is not ticked
+                (false, true, true, true, true, true) => ".",
+                (false, false, false, false, false, true) => @"_",
+                (false, false, false, false, true, false) => @"\d",
+                (false, false, true, false, false, false) => @"\s",
+                (false, false, true, true, true, true) => @"\w",
 
-                //Handle general case when "other' is ticked
-                _ when inputs.o => "[^" + GetClassContents(w: !inputs.w, L: !inputs.L, l: !inputs.l, d: !inputs.d, u: !inputs.u) + "]",
-                //Handle general case when "other' is not ticked
-                _ => "[" + GetClassContents(w: inputs.w, L: inputs.L, l: inputs.l, d: inputs.d, u: inputs.u) + "]",
+                //Handle general case
+                _ => GetClassContents(invert: invert, w: inputs.w, L: inputs.L, l: inputs.l, d: inputs.d, u: inputs.u),
             };
 
-            return result + suffix;
+            return result;
         }
 
-        private string GetClassContents(bool w, bool L, bool l, bool d, bool u)
+        private string GetClassContents(bool invert, bool w, bool L, bool l, bool d, bool u)
         {
-            string result = (w ? "\\s" : "");
+            string result = invert ? "[^" : "[";
+            result += w ? "\\s" : "";
+
             if(L && l && d && u)
             {
                 result += "\\w";
@@ -121,7 +155,7 @@ namespace RegexNodes.Shared.NodeTypes
                     (d ? "\\d" : "") +
                     (u ? "_" : "");
             }
-            return result;
+            return result + "]";
         }
     }
 }

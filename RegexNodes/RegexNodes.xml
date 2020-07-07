@@ -15,6 +15,11 @@
             InputCollections themselves are not returned.
             </summary>
         </member>
+        <member name="M:RegexNodes.Shared.InputProcedural.Refresh">
+            <summary>
+            Causes the connected noodle to be re-rendered
+            </summary>
+        </member>
         <member name="P:RegexNodes.Shared.NodeInput.AffectsLayout">
             <summary>
             Determines whether a change from this input should trigger a

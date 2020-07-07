@@ -115,14 +115,18 @@ namespace RegexNodes.Shared.Services
 
         public void SelectNode(INode node)
         {
+            var selectedNodePrevious = SelectedNode;
             SelectedNode = node;
-            ForceRefreshNodeGraph();
+            selectedNodePrevious?.OnLayoutChanged(this, EventArgs.Empty);
+            node.OnLayoutChanged(this, EventArgs.Empty);
+            //ForceRefreshNodeGraph();
         }
 
         public void DeselectAllNodes()
         {
             if (SelectedNode != null)
             {
+                SelectedNode.OnLayoutChanged(this, EventArgs.Empty);
                 SelectedNode = null;
                 ForceRefreshNodeGraph();
             }
@@ -132,7 +136,8 @@ namespace RegexNodes.Shared.Services
         {
             if (SelectedNode != null)
             {
-                Tree.DeleteNode(SelectedNode, false); 
+                Tree.DeleteNode(SelectedNode, false);
+                ForceRefreshNodeGraph();
             }
         }
     }

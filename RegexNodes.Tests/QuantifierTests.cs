@@ -42,7 +42,7 @@ namespace RegexNodes.Tests
             var node = new QuantifierNode();
             var input = new TextNode();
             input.Input.Contents = contents;
-            input.InputDoEscape.IsChecked = false;
+            input.InputEscapeSpecials.IsChecked = false;
 
             node.InputContents.ConnectedNode = input;
             node.InputSearchType.Value = QuantifierNode.SearchMode.Greedy;

@@ -8,13 +8,17 @@ window.panzoom = {
 
     zoom: function (event) {
         event.preventDefault();
-        var element = event.target;
-        var mousePosRelative = this.clientToGraphPos(event.clientX, event.clientY);
-        //console.log("Client: " + event.clientX + ", " + event.clientY);
-        //console.log("Offset: " + event.offsetX + ", " + event.offsetY);
-        //console.log("Local: " + mousePosRelative[0] + ", " + mousePosRelative[1]);
+        //let element = event.target;
+        //let mousePosRelative = this.clientToGraphPos(event.clientX, event.clientY);
+        const scalingAmounts = {
+            0: 1,
+            1: 20,
+            2: 1000,
+        }
+        let delta = -event.deltaY * 0.0007 * scalingAmounts[event.deltaMode];
 
-        this.zoomAt(window.innerWidth * 0.45, window.innerHeight*0.35, 1 - event.deltaY * 0.0007);
+        //this.zoomAt(window.innerWidth * 0.45, window.innerHeight*0.35, 1 - event.deltaY * 0.0007);
+        this.zoomAt(window.innerWidth * 0.45, window.innerHeight * 0.35, 1 + delta);
         //this.zoomAt(event.offsetX, event.offsetY, 1 - event.deltaY * 0.001);
         //console.log("zooming");
         this.setZoom();

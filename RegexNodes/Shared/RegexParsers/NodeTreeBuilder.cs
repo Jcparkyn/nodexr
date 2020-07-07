@@ -31,12 +31,12 @@ namespace RegexNodes.Shared.RegexParsers
         void FillColumns(Node endNode)
         {
             //var outputPos = new Vector2L(1200, 300);
-            var output = new OutputNode();// { Pos = outputPos };
-            output.PreviousNode = endNode;
-            tree.AddNode(output);
+            //var output = new OutputNode();// { Pos = outputPos };
+            //output.PreviousNode = endNode;
+            tree.AddNode(endNode);
             int startHeight = (int)outputPos.y;
-            AddToColumn(output, startHeight, 0);
-            AddNodeChildren(output, startHeight, 1);
+            AddToColumn(endNode, startHeight, 0);
+            AddNodeChildren(endNode, startHeight, 1);
         }
 
         private static List<Node> GetChildren(Node node)

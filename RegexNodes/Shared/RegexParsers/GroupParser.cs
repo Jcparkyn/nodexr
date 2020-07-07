@@ -64,7 +64,10 @@ namespace RegexNodes.Shared.RegexParsers
 
         private static Node WithContents(this GroupNode node, Node contents)
         {
-            if(contents is OrNode orNode && node.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing)
+            //This group is not needed if it is actually part of an OrNode
+            if(contents is OrNode orNode
+                && !orNode.Previous.IsConnected
+                && node.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing)
             {
                 return orNode;
             }
