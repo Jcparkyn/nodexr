@@ -55,23 +55,18 @@ namespace RegexNodes.Shared.NodeTypes
             builder.Append(Previous.Value);
 
             //Prefix
-            string prefix = InputStartsAt.Value switch
+            switch (InputStartsAt.Value)
             {
-                Mode.StartLine => "^",
-                Mode.WordBound => "\\b",
-                _ => ""
+                case Mode.StartLine: builder.Prepend("^", this); break;
+                case Mode.WordBound: builder.Prepend("\\b", this); break;
             };
-
             //Suffix
-            string suffix = InputEndsAt.Value switch
+            switch (InputEndsAt.Value)
             {
-                Mode.EndLine => "$",
-                Mode.WordBound => "\\b",
-                _ => ""
+                case Mode.EndLine: builder.Append("$", this); break;
+                case Mode.WordBound: builder.Append("\\b", this); break;
             };
 
-            builder.Prepend(prefix, this);
-            builder.Append(suffix, this);
             if (PreviousNode is OrNode)
                 builder.StripNonCaptureGroup();
             return builder;

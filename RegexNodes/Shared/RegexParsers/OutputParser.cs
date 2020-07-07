@@ -13,14 +13,16 @@ namespace RegexNodes.Shared.RegexParsers
     public class OutputParser
     {
         public static Parser<char, OutputNode> ParseOutputNode =>
-            OneOf(
-                StartsAtWordBoundary,
-                StartsAtStartOfLine,
-                StartsAnywhere
-                )
-            .Then(RegexParser.ParseRegex,
-                (output, main) => AttachOutputToContents(output, main)
-                );
+            RegexParser.ParseRegex
+            .Select(contents => AttachOutputToContents(new OutputNode(), contents));
+            //OneOf(
+            //    StartsAtWordBoundary,
+            //    StartsAtStartOfLine,
+            //    StartsAnywhere
+            //    )
+            //.Then(RegexParser.ParseRegex,
+            //    (output, main) => AttachOutputToContents(output, main)
+            //    );
 
         private static Parser<char, OutputNode> StartsAtWordBoundary =>
             Try(String("\\b"))
@@ -42,9 +44,11 @@ namespace RegexNodes.Shared.RegexParsers
 
         private static OutputNode AttachOutputToContents(OutputNode output, Node contents)
         {
-            if (contents is AnchorNode anchor)
+            output.PreviousNode = contents;
+
+            if (contents is AnchorNode anchorEnd)
             {
-                switch (anchor.InputAnchorType.Value)
+                switch (anchorEnd.InputAnchorType.Value)
                 {
                     case AnchorNode.Mode.EndLine:
                         output.InputEndsAt.Value = OutputNode.Mode.EndLine;
@@ -56,17 +60,46 @@ namespace RegexNodes.Shared.RegexParsers
                         output.PreviousNode = contents.PreviousNode;
                         contents.PreviousNode = null;
                         break;
-                    default:
-                        output.Previous.ConnectedNode = contents;
+                }
+            }
+
+            var previousNodes = GetPreviousNodes(output).ToList();
+            if(previousNodes.Last() is AnchorNode anchorStart)
+            {
+                var anchorParent = previousNodes[^2];
+                switch (anchorStart.InputAnchorType.Value)
+                {
+                    case AnchorNode.Mode.StartLine:
+                        output.InputStartsAt.Value = OutputNode.Mode.StartLine;
+                        anchorParent.PreviousNode = null;
+                        break;
+                    case AnchorNode.Mode.WordBoundary:
+                        output.InputStartsAt.Value = OutputNode.Mode.WordBound;
+                        anchorParent.PreviousNode = null;
                         break;
                 }
             }
-            else
-            {
-                output.Previous.ConnectedNode = contents;
-            }
-
             return output;
+        }
+
+        private static IEnumerable<Node> GetPreviousNodes(Node parent)
+        {
+            var currentNode = parent;
+            while (currentNode.PreviousNode is Node previous)
+            {
+                yield return previous;
+                currentNode = previous;
+            }
+        }
+
+        private static Node GetEarliestPreviousNode(Node parent)
+        {
+            var currentNode = parent;
+            while (currentNode.PreviousNode is Node previous)
+            {
+                currentNode = previous;
+            }
+            return currentNode;
         }
     }
 }
