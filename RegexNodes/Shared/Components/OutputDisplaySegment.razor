@@ -2,7 +2,7 @@
 
 <span class="output-segment"
       style="color:@(Segment.Node?.CssColor ?? "inherit")"
-       @onclick="@(() => NodeHandler.SelectNode(Segment.Node as INode))"
+       @onmouseover="@(() => NodeHandler.SelectNode(Segment.Node as INode))"
       >@Segment.Expression</span>
 
 @code {
