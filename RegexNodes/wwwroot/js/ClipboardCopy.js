@@ -2,9 +2,9 @@
 //From https://chrissainty.com/copy-to-clipboard-in-blazor/
 
 window.clipboardCopy = {
-    copyText: function (text) {
+    copyText: function (text, message) {
         navigator.clipboard.writeText(text).then(function () {
-            alert("Copied to clipboard");
+            alert(message);
         })
             .catch(function (error) {
                 alert(error);

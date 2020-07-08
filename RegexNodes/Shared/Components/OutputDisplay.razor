@@ -1,15 +1,18 @@
 ﻿@inject INodeHandler NodeHandler
 @inject IJSRuntime JSRuntime
 @inject IModalService ModalService
+@inject NavigationManager NavManager
+@using Microsoft.AspNetCore.WebUtilities
 
 <h3 style="margin:6px 10px 7px 7px; display:inline-block;">Output:</h3>
 
 <div class="output-regex-container">
-    <div class="output-regex" >@foreach (var segment in @NodeHandler.CachedOutput)
-        {<OutputDisplaySegment Segment="segment"/>}</div>
+    <div class="output-regex">@foreach (var segment in @NodeHandler.CachedOutput)
+        {<OutputDisplaySegment Segment="segment" />}</div>
 
-    <button class="output-regex output-regex-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>
-    <button class="output-regex output-regex-button" @onclick="OnEditButtonClick"><i class="fas fa-pencil-alt"></i></button>
+    <button title="Copy to clipboard" class="output-regex output-regex-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>
+    <button title="Edit" class="output-regex output-regex-button" @onclick="OnEditButtonClick"><i class="fas fa-pencil-alt"></i></button>
+    <button title="Create shareable link" class="output-regex output-regex-button" @onclick="OnCreateLinkButtonClick"><i class="fas fa-link"></i></button>
 </div>
 
 
@@ -31,15 +34,21 @@
         {
             Console.WriteLine("Modal was cancelled");
         }
-        else if(result.Data is string customRegex)
+        else if (result.Data is string customRegex)
         {
             Console.WriteLine("Custom Regex: " + customRegex);
             NodeHandler.TryCreateTreeFromRegex(customRegex);
         }
     }
 
+    private async Task OnCreateLinkButtonClick()
+    {
+        string url = QueryHelpers.AddQueryString(NavManager.BaseUri, "parse", NodeHandler.CachedOutput.Expression);
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url, "Link copied to clipboard");
+    }
+
     private async Task CopyTextToClipboard()
     {
-        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", NodeHandler.CachedOutput.Expression);
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", NodeHandler.CachedOutput.Expression, "Copied to clipboard");
     }
 }
