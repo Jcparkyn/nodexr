@@ -5,7 +5,7 @@ namespace RegexNodes.Shared.NodeTypes
     public class OutputNode : Node
     {
         public override string Title => "Output";
-        public override string NodeInfo => "The final output of your Regex." +
+        public override string NodeInfo => "The final output of your Regex. " +
             "Use the \"Starts at\" and \"Ends at\" options to only include matches in a certain position" +
             "(This is equivalent to using the Anchor node).";
 
