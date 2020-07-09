@@ -5,6 +5,7 @@
     border-radius: 8px;
     box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 0.16);
     background-color: var(--col-node-0);
+    user-select: none;
 }
 
     .node.selected {
