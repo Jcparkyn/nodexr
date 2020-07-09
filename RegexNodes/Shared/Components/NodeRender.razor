@@ -2,11 +2,14 @@
 @inject INodeDragService NodeDragService
 @inject INodeHandler  NodeHandler
 @inject IModalService Modal
+@inject INoodleDragService NoodleDragService
 
 @implements IDisposable
 
 <div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Data.CssColor;"
-        ondragover="event.preventDefault()" onmousedown="event.stopPropagation()" @onfocusin="Deselect">
+        onmousedown="event.stopPropagation()" @onfocusin="Deselect"
+        @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.Previous))"
+             ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault(); tempNoodle.setValid();">
 
     <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" @onclick="Select" class="node-drag-region"></div>
     @if (!Data.IsCollapsed)

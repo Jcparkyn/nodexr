@@ -2,6 +2,7 @@
 var prevY = 0;
 var startX, startY, endX, endY = 0;
 var noodleElement = null;
+var isValid = false;
 
 window.tempNoodle = {
 
@@ -32,11 +33,16 @@ window.tempNoodle = {
     },
 
     setValid: function () {
-        if (noodleElement != null) {
-            noodleElement.classList.remove("noodle-invalid");
+        if (!isValid) {
+            isValid = true;
+            if (noodleElement != null) {
+                noodleElement.classList.remove("noodle-invalid");
+            }
         }
     },
+
     setInvalid: function () {
+        isValid = false;
         if (noodleElement != null) {
             noodleElement.classList.add("noodle-invalid");
         }
