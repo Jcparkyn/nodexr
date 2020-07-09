@@ -5,6 +5,7 @@
     border-radius: 8px;
     box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 0.16);
     background-color: var(--col-node-0);
+    user-select: none;
 }
 
     .node.selected {
@@ -32,16 +33,16 @@
             background: none;
             border: none;
             font-size: 0.8rem;
-            padding: 0 0 0 6px;
+            padding: 0 0 0 7px;
         }
 
     .node .icon-button {
         position: relative;
         background: none;
         border: none;
-        color: var(--col-text-medium);
+        color: var(--col-text-strong2);
         font-size: 0.9rem;
-        padding: 01px 0 0 0;
+        padding: 1px 0 0 0;
         outline: 0 !important;
     }
 
@@ -63,9 +64,6 @@
             padding-left: 10px;
         }
 
-        .node .node-input.checkbox {
-            width:auto;
-        }
 
     .node .input-checkbox {
         position: relative;
@@ -74,9 +72,13 @@
         margin-left: 2px;
     }
 
-    .node .input-checkbox input {
+    .node .input-checkbox input, .node .input-checkbox button {
         vertical-align: middle;
-        margin-bottom: 1px;
+        margin: 0 3px 1px 0;
+    }
+
+    .node .input-checkbox label {
+        margin-bottom: 0;
     }
 
     .input-checkbox ~ .input-checkbox {
@@ -141,16 +143,21 @@
         height: 17px;
         background-color: var(--col-node-accent);
         border-radius: 50%;
-        position: absolute;
-        top: 5px;
-        right: -9px;
-        z-index: 1;
-        cursor: copy;
+        
         box-sizing: border-box;
         border: 2px solid var(--col-bg-2);
     }
 
-        .node .node-output-dot:hover {
+    .node .node-output-dot-parent {
+        position: absolute;
+        top: 2px;
+        right: -12px;
+        padding: 3px;
+        z-index: 1;
+        cursor: copy;
+    }
+
+        .node .node-output-dot-parent:hover .node-output-dot {
             border: 2px solid white;
         }
         .node .node-input-dot:hover {
@@ -183,7 +190,7 @@
 
     .node .info-button {
         float: right;
-        margin: 1px 6px 0 0;
+        margin: 1px 7px 0 0;
         color: var(--col-node-0);
         cursor: help;
     }

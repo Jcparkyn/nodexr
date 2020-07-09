@@ -1,4 +1,5 @@
-﻿
+﻿@inject INoodleDragService NoodleDragService
+
 @switch (Data)
 {
     case InputString input:
@@ -20,25 +21,25 @@
         </div>
         break;
     case InputProcedural input:
-        <div class="node-input procedural" style="font-size:15px; font-style:italic">
+        <div class="node-input procedural" style="font-size:15px; font-style:italic"
+             @ondrop="@(() => NoodleDragService.OnDropNoodle(input))"
+             ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault(); tempNoodle.setValid();">
             <NodeInputDot Input="@input"/>
             @input.Title
         </div>
         break;
     case RegexNodes.Shared.InputCheckbox input:
         <div class="input-checkbox">
-            <input type="checkbox" @bind="@input.IsChecked" />
-            @input.Title
+            <label><input type="checkbox" @bind="@input.IsChecked" />@input.Title</label>
         </div>
         break;
     case RegexNodes.Shared.InputCheckboxNullable input:
         <div class="input-checkbox">
-            <ThreeStateToggle @bind-ButtonState="@input.CheckedState"/>
-            @input.Title
+            <label><ThreeStateToggle @bind-ButtonState="@input.CheckedState" />@input.Title</label>
         </div>
         break;
     case InputDropdown input:
-        <InputDropdownView Input="@input"/>
+        <InputDropdownView Input="@input" />
         break;
     case RegexNodes.Shared.InputCollection input:
         <InputCollectionRender Data="@input" />
@@ -49,5 +50,5 @@
 @functions{
     [Parameter] public INodeInput Data { get; set; }
 
-    
+
 }
