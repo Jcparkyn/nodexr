@@ -33,7 +33,7 @@
             background: none;
             border: none;
             font-size: 0.8rem;
-            padding: 0 0 0 6px;
+            padding: 0 0 0 7px;
         }
 
     .node .icon-button {
@@ -190,7 +190,7 @@
 
     .node .info-button {
         float: right;
-        margin: 1px 6px 0 0;
+        margin: 1px 7px 0 0;
         color: var(--col-node-0);
         cursor: help;
     }
