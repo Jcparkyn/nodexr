@@ -40,9 +40,9 @@
         position: relative;
         background: none;
         border: none;
-        color: var(--col-text-medium);
+        color: var(--col-text-strong2);
         font-size: 0.9rem;
-        padding: 01px 0 0 0;
+        padding: 1px 0 0 0;
         outline: 0 !important;
     }
 
@@ -64,9 +64,6 @@
             padding-left: 10px;
         }
 
-        .node .node-input.checkbox {
-            width:auto;
-        }
 
     .node .input-checkbox {
         position: relative;
@@ -75,9 +72,13 @@
         margin-left: 2px;
     }
 
-    .node .input-checkbox input {
+    .node .input-checkbox input, .node .input-checkbox button {
         vertical-align: middle;
-        margin-bottom: 1px;
+        margin: 0 3px 1px 0;
+    }
+
+    .node .input-checkbox label {
+        margin-bottom: 0;
     }
 
     .input-checkbox ~ .input-checkbox {

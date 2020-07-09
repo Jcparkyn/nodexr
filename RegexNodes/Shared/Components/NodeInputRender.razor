@@ -27,14 +27,12 @@
         break;
     case RegexNodes.Shared.InputCheckbox input:
         <div class="input-checkbox">
-            <input type="checkbox" @bind="@input.IsChecked" />
-            @input.Title
+            <label><input type="checkbox" @bind="@input.IsChecked" />@input.Title</label>
         </div>
         break;
     case RegexNodes.Shared.InputCheckboxNullable input:
         <div class="input-checkbox">
-            <ThreeStateToggle @bind-ButtonState="@input.CheckedState"/>
-            @input.Title
+            <label><ThreeStateToggle @bind-ButtonState="@input.CheckedState" />@input.Title</label>
         </div>
         break;
     case InputDropdown input:
