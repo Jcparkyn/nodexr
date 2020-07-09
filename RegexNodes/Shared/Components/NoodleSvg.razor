@@ -24,7 +24,8 @@
             double startY = Noodle.StartPos.y + 0.01d;
             long endX = Noodle.EndPos.x, endY = Noodle.EndPos.y;
             long ctrlLength = (long)(5 + 0.4*Math.Abs(endX-startX) + 0.2*Math.Abs(endY-startY));
-            return $"M {startX} {startY} C {startX + ctrlLength} {startY} {endX - ctrlLength} {endY} {endX} {endY}";
+            return FormattableString.Invariant(
+                $"M {startX} {startY} C {startX + ctrlLength} {startY} {endX - ctrlLength} {endY} {endX} {endY}");
         }
     }
 
