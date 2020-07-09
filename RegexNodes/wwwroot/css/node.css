@@ -143,16 +143,21 @@
         height: 17px;
         background-color: var(--col-node-accent);
         border-radius: 50%;
-        position: absolute;
-        top: 5px;
-        right: -9px;
-        z-index: 1;
-        cursor: copy;
+        
         box-sizing: border-box;
         border: 2px solid var(--col-bg-2);
     }
 
-        .node .node-output-dot:hover {
+    .node .node-output-dot-parent {
+        position: absolute;
+        top: 2px;
+        right: -12px;
+        padding: 3px;
+        z-index: 1;
+        cursor: copy;
+    }
+
+        .node .node-output-dot-parent:hover .node-output-dot {
             border: 2px solid white;
         }
         .node .node-input-dot:hover {

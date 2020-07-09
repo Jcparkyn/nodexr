@@ -3,13 +3,15 @@
 @inject IJSRuntime  JSRuntime;
 
 
-<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" class="node-output-dot"
+<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" class="node-output-dot-parent"
      @ondragstart="OnDragStart" @ondragend="OnDragEnd">
-    <span class="outputtooltip">
-        Output:<br />
-        @{string output = Data.CachedOutput.Expression;}
-        <nobr>@(String.IsNullOrEmpty(output) ? "None" : output)</nobr>
-    </span>
+    <div class="node-output-dot">
+        <span class="outputtooltip">
+            Output:<br />
+            @{string output = Data.CachedOutput.Expression;}
+            <nobr>@(String.IsNullOrEmpty(output) ? "None" : output)</nobr>
+        </span>
+    </div>
 </div>
 
 @functions
