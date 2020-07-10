@@ -5,16 +5,20 @@
 @inject INodeDragService NodeDragService
 @inject INodeHandler  NodeHandler
 @inject IJSRuntime JSRuntime
+@inject IModalService ModalService
 
 @{Console.WriteLine("Updating Index"); }
 
-    <div style="background-color: hsl(218, 18%, 18%);
+<div style="background-color: hsl(218, 18%, 18%);
     box-shadow: 0px 4px 7px #00000033;
     z-index: 10;
     display: flex;">
-        <OutputDisplay />
-        <a href="http://github.com/jcparkyn/nodexr/" target="_blank" style="float:right; color:#0469d4; margin:12px 12px 12px auto">GitHub</a>
-    </div>
+    <OutputDisplay />
+    <a @onclick="ShowHelpInfo" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
+       style="float:right; color:#0469d4; margin:12px 6px 12px auto">Help</a>
+    <a href="http://github.com/jcparkyn/nodexr/" target="_blank"
+       style="float:right; color:#0469d4; margin:12px">GitHub</a>
+</div>
 
 <div id="mainpanels" style="display:flex; flex-direction:row;">
     <NodeList />
@@ -28,9 +32,18 @@
 
     protected override void OnAfterRender(bool firstRender)
     {
-        //base.OnAfterRender();
-        JSRuntime.InvokeAsync<object>(
+        if (firstRender)
+        {
+            JSRuntime.InvokeAsync<object>(
             "jsFunctions.blazorHasRendered");
+        }
+    }
+
+    protected override bool ShouldRender() => false;
+
+    protected void ShowHelpInfo(MouseEventArgs e)
+    {
+        ModalService.Show<HelpModal>("How To Use");
     }
 
     protected void Refresh()

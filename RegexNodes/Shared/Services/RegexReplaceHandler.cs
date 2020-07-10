@@ -16,10 +16,7 @@ namespace RegexNodes.Shared.Services
 
         public string ReplacementRegex { get; set; } = "cow";
         public string SearchText { get; set; } =
-            "The quick brown fox jumped over the lazy dog." +
-            "\nDrag nodes in from the left to start building an expression. " +
-            "Check the results of search and replace as you work, using the bottom panels. " +
-            "You can also start from an existing Regex using the 'edit' button at the top left.";
+            "The quick brown fox jumped over the lazy dog.";
 
         public MatchCollection GetAllMatches()
         {
