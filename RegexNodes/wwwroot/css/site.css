@@ -64,6 +64,7 @@ app {
     flex: 1;
     background-color: var(--col-bg-1);
     height:100vh;
+    overflow: hidden;
 }
 
     .main .top-row {
