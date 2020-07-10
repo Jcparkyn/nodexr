@@ -1,0 +1,34 @@
+﻿<div class="options-dropdown-parent">
+    <button type="button" class="input-field options-dropdown-button" @onclick="ToggleDropdown" @onfocusout:stopPropagation>
+        <i class="@chevronClass" style="font-size: small" />
+        Regex Options
+    </button>
+
+    @if (dropdownOpen)
+    {
+        <div class="options-dropdown-container">
+            <div class="options-dropdown-item"><label class="options-dropdown-label"><input type="checkbox" /> Ignore Case</label></div>
+            <div class="options-dropdown-item"><label class="options-dropdown-label"><input type="checkbox" /> Multiline</label></div>
+            <div class="options-dropdown-item"><label class="options-dropdown-label"><input type="checkbox" /> Ignore Case</label></div>
+        </div>
+    }
+    
+</div>
+
+
+@code {
+
+
+    bool dropdownOpen = false;
+    string chevronClass => dropdownOpen ? "fas fa-chevron-up" : "fas fa-chevron-down";
+
+    void ToggleDropdown()
+    {
+        dropdownOpen = !dropdownOpen;
+    }
+
+    void HideDropdown()
+    {
+        dropdownOpen = false;
+    }
+}
