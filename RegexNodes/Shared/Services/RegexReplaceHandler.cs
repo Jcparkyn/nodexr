@@ -9,6 +9,8 @@ namespace RegexNodes.Shared.Services
     public class RegexReplaceHandler
     {
         readonly INodeHandler nodeHandler;
+        private RegexOptions options = RegexOptions.None;
+
         public RegexReplaceHandler(INodeHandler NodeHandler)
         {
             this.nodeHandler = NodeHandler;
@@ -17,13 +19,23 @@ namespace RegexNodes.Shared.Services
         public string ReplacementRegex { get; set; } = "cow";
         public string SearchText { get; set; } =
             "The quick brown fox jumped over the lazy dog.";
+        public RegexOptions Options
+        {
+            get => options;
+            set
+            {
+                options = value;
+                RegexOptionsChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler RegexOptionsChanged;
 
         public MatchCollection GetAllMatches()
         {
             //return Regex.Matches("" + SearchText, nodeHandler.CachedOutput, RegexOptions.None, TimeSpan.FromSeconds(0.5));
             try
             {
-                return Regex.Matches("" + SearchText, nodeHandler.CachedOutput.Expression, RegexOptions.None, TimeSpan.FromSeconds(0.5));
+                return Regex.Matches("" + SearchText, nodeHandler.CachedOutput.Expression, Options, TimeSpan.FromSeconds(0.5));
             }
             catch (RegexMatchTimeoutException ex)
             {
@@ -43,7 +55,7 @@ namespace RegexNodes.Shared.Services
             string result;
             try
             {
-                result = Regex.Replace(SearchText, nodeHandler.CachedOutput.Expression, ReplacementRegex, RegexOptions.None, TimeSpan.FromSeconds(0.5));
+                result = Regex.Replace(SearchText, nodeHandler.CachedOutput.Expression, ReplacementRegex, Options, TimeSpan.FromSeconds(0.5));
             }
             catch (RegexMatchTimeoutException ex)
             {

@@ -29,7 +29,7 @@
 @functions{
     protected override void OnInitialized()
     {
-        //base.OnInit();
         NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
+        RegexReplaceHandler.RegexOptionsChanged += (sender, e) => StateHasChanged();
     }
 }
