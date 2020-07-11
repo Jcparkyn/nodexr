@@ -7,15 +7,17 @@ namespace RegexNodes.Shared.NodeTypes
     public class AnchorNode : Node
     {
         public override string Title => "Anchor";
-        public override string NodeInfo => "Inserts a start-of-line or end-of-line character. Useful for ensuring that your regex only matches if it's at a specific position in a line.";
+        public override string NodeInfo => "Inserts a start-of-line or end-of-line character. " +
+            "Useful for ensuring that your regex only matches if it's at a specific position in a line." +
+            "\nNote: The \"Start/End of string\" options will match the starts and ends of individual lines when in Multiline mode.";
 
         [NodeInput]
         public InputDropdown<Mode> InputAnchorType { get; } = new InputDropdown<Mode>(modeDisplayNames) { Title = "Type of anchor:" };
 
         public static readonly Dictionary<Mode, string> modeDisplayNames = new Dictionary<Mode, string>()
         {
-            {Mode.StartLine, "Start of line"},
-            {Mode.EndLine, "End of line"},
+            {Mode.StartLine, "Start of string"},
+            {Mode.EndLine, "End of string"},
             {Mode.WordBoundary, "Word boundary"},
             {Mode.NotWordBoundary, "Not word boundary"}
         };

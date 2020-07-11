@@ -9,6 +9,8 @@ namespace RegexNodes.Shared.Services
     public class RegexReplaceHandler
     {
         readonly INodeHandler nodeHandler;
+        private RegexOptions options = RegexOptions.None;
+
         public RegexReplaceHandler(INodeHandler NodeHandler)
         {
             this.nodeHandler = NodeHandler;
@@ -17,20 +19,30 @@ namespace RegexNodes.Shared.Services
         public string ReplacementRegex { get; set; } = "cow";
         public string SearchText { get; set; } =
             "The quick brown fox jumped over the lazy dog.";
+        public RegexOptions Options
+        {
+            get => options;
+            set
+            {
+                options = value;
+                RegexOptionsChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler RegexOptionsChanged;
 
         public MatchCollection GetAllMatches()
         {
             //return Regex.Matches("" + SearchText, nodeHandler.CachedOutput, RegexOptions.None, TimeSpan.FromSeconds(0.5));
             try
             {
-                return Regex.Matches("" + SearchText, nodeHandler.CachedOutput.Expression, RegexOptions.None, TimeSpan.FromSeconds(0.5));
+                return Regex.Matches("" + SearchText, nodeHandler.CachedOutput.Expression, Options, TimeSpan.FromSeconds(0.5));
             }
             catch (RegexMatchTimeoutException ex)
             {
                 Console.WriteLine(ex.Message);
                 return null;
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return null;
@@ -39,11 +51,15 @@ namespace RegexNodes.Shared.Services
 
         public string GetReplaceResult()
         {
-            //return Regex.Replace(SearchText, nodeHandler.CachedOutput, ReplacementRegex);
+            if (!IsRegexOptionsValid(Options))
+            {
+                return "ECMAScript mode must only be used with Multiline and Ignore Case flags";
+            }
+            
             string result;
             try
             {
-                result = Regex.Replace(SearchText, nodeHandler.CachedOutput.Expression, ReplacementRegex, RegexOptions.None, TimeSpan.FromSeconds(0.5));
+                result = Regex.Replace(SearchText, nodeHandler.CachedOutput.Expression, ReplacementRegex, Options, TimeSpan.FromSeconds(0.5));
             }
             catch (RegexMatchTimeoutException ex)
             {
@@ -54,6 +70,24 @@ namespace RegexNodes.Shared.Services
                 result = "Error: " + ex.Message;
             }
             return result;
+        }
+
+        bool IsRegexOptionsValid(RegexOptions options)
+        {
+            //Options can only be invalid in ECMAScript mode
+            if (!options.HasFlag(RegexOptions.ECMAScript)) return true;
+
+            RegexOptions disallowedFlags = ~(
+                RegexOptions.Multiline |
+                RegexOptions.IgnoreCase);
+
+            //Regex is only allowed to have multiline or ignoreCase flags when in ECMAScript mode
+            if ((options & disallowedFlags & ~RegexOptions.ECMAScript) != 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

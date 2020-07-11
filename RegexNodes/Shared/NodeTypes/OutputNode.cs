@@ -7,14 +7,15 @@ namespace RegexNodes.Shared.NodeTypes
         public override string Title => "Output";
         public override string NodeInfo => "The final output of your Regex. " +
             "Use the \"Starts at\" and \"Ends at\" options to only include matches in a certain position" +
-            "(This is equivalent to using the Anchor node).";
+            "(This is equivalent to using the Anchor node)." +
+            "\nNote: The \"Start/End of string\" options will match the starts and ends of individual lines when in Multiline mode.";
 
         [NodeInput]
         public InputDropdown<Mode> InputStartsAt { get; } = new InputDropdown<Mode>(
             new Dictionary<Mode, string>()
             {
                 {Mode.Anywhere, "Anywhere"},
-                {Mode.StartLine, "Start of line"},
+                {Mode.StartLine, "Start of string"},
                 {Mode.WordBound, "Word boundary"},
             })
         { Title="Starts at:"};
@@ -24,7 +25,7 @@ namespace RegexNodes.Shared.NodeTypes
             new Dictionary<Mode, string>()
             {
                 {Mode.Anywhere, "Anywhere"},
-                {Mode.EndLine, "End of line"},
+                {Mode.EndLine, "End of string"},
                 {Mode.WordBound, "Word boundary"},
             })
         { Title = "Ends at:" };

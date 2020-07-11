@@ -1,0 +1,82 @@
+﻿@using System.Text.RegularExpressions
+@inject RegexReplaceHandler RegexReplaceHandler
+
+<div class="options-dropdown-parent">
+    <button type="button" class="input-field options-dropdown-button" @onclick="ToggleDropdown" @onfocusout:stopPropagation>
+        <i class="@chevronClass" style="font-size: small" />
+        Regex Options
+    </button>
+
+    @if (dropdownOpen)
+    {
+        <div class="options-dropdown-container">
+            @foreach (var option in options)
+            {
+                var _option = option; //copy to make loop reference work
+                <div class="options-dropdown-item">
+                    <label class="options-dropdown-label">
+                        <input type="checkbox" @bind="option.Enabled" @bind:event="oninput" @onchange="HandleChange"/> @_option.Name
+                    </label>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+
+@code {
+    bool dropdownOpen = false;
+    string chevronClass => dropdownOpen ? "fas fa-chevron-up" : "fas fa-chevron-down";
+
+    void HandleChange()
+    {
+        var tempOptions = RegexOptions.None; //Store a temp variable to reduce the number of updates to RegexReplaceHandler.Options
+        foreach(var option in options)
+        {
+            if (option.Enabled)
+            {
+                tempOptions |= option.Option;
+            }
+            else
+            {
+                tempOptions &= ~option.Option;
+            }
+        }
+        RegexReplaceHandler.Options = tempOptions;
+    }
+
+    void ToggleDropdown()
+    {
+        dropdownOpen = !dropdownOpen;
+    }
+
+    void HideDropdown()
+    {
+        dropdownOpen = false;
+    }
+
+    List<RegexSubOption> options = new List<RegexSubOption>
+    {
+        new RegexSubOption("Ignore Case", RegexOptions.IgnoreCase),
+        new RegexSubOption("Ignore Whitespace", RegexOptions.IgnorePatternWhitespace),
+        new RegexSubOption("Explicit Capture", RegexOptions.ExplicitCapture),
+        new RegexSubOption("Multiline", RegexOptions.Multiline),
+        new RegexSubOption("Single Line", RegexOptions.Singleline),
+        new RegexSubOption("Right to Left", RegexOptions.RightToLeft),
+        new RegexSubOption("Culture Invariant", RegexOptions.CultureInvariant),
+        new RegexSubOption("ECMA Script", RegexOptions.ECMAScript),
+    };
+
+    protected class RegexSubOption
+    {
+        public string Name { get; }
+        public RegexOptions Option { get; }
+        public bool Enabled { get; set; }
+        public RegexSubOption(string name, RegexOptions option, bool enabled = false)
+        {
+            this.Name = name;
+            this.Option = option;
+            this.Enabled = enabled;
+        }
+    }
+}
