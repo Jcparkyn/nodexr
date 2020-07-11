@@ -43,7 +43,6 @@
             }
         }
         RegexReplaceHandler.Options = tempOptions;
-        Console.WriteLine(tempOptions.ToString());
     }
 
     void ToggleDropdown()
@@ -56,28 +55,16 @@
         dropdownOpen = false;
     }
 
-    //List<(string name, RegexOptions option)> options = new List<(string name, RegexOptions option)>
-    //{
-    //    ("Ignore Case", RegexOptions.IgnoreCase),
-    //    ("Multiline", RegexOptions.Multiline),
-    //    ("Explicit Capture", RegexOptions.ExplicitCapture),
-    //    ("SingleLine", RegexOptions.Singleline),
-    //    ("Ignore Whitespace", RegexOptions.IgnorePatternWhitespace),
-    //    ("Right to Left", RegexOptions.RightToLeft),
-    //    ("ECMA Script", RegexOptions.ECMAScript),
-    //    ("Culture Invariant", RegexOptions.CultureInvariant),
-    //};
-
     List<RegexSubOption> options = new List<RegexSubOption>
     {
         new RegexSubOption("Ignore Case", RegexOptions.IgnoreCase),
-        new RegexSubOption("Multiline", RegexOptions.Multiline),
-        new RegexSubOption("Explicit Capture", RegexOptions.ExplicitCapture),
-        new RegexSubOption("SingleLine", RegexOptions.Singleline),
         new RegexSubOption("Ignore Whitespace", RegexOptions.IgnorePatternWhitespace),
+        new RegexSubOption("Explicit Capture", RegexOptions.ExplicitCapture),
+        new RegexSubOption("Multiline", RegexOptions.Multiline),
+        new RegexSubOption("Single Line", RegexOptions.Singleline),
         new RegexSubOption("Right to Left", RegexOptions.RightToLeft),
-        new RegexSubOption("ECMA Script", RegexOptions.ECMAScript),
         new RegexSubOption("Culture Invariant", RegexOptions.CultureInvariant),
+        new RegexSubOption("ECMA Script", RegexOptions.ECMAScript),
     };
 
     protected class RegexSubOption

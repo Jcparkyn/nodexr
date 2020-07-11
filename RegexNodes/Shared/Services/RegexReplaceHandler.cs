@@ -42,7 +42,7 @@ namespace RegexNodes.Shared.Services
                 Console.WriteLine(ex.Message);
                 return null;
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return null;
@@ -51,7 +51,11 @@ namespace RegexNodes.Shared.Services
 
         public string GetReplaceResult()
         {
-            //return Regex.Replace(SearchText, nodeHandler.CachedOutput, ReplacementRegex);
+            if (!IsRegexOptionsValid(Options))
+            {
+                return "ECMAScript mode must only be used with Multiline and Ignore Case flags";
+            }
+            
             string result;
             try
             {
@@ -66,6 +70,24 @@ namespace RegexNodes.Shared.Services
                 result = "Error: " + ex.Message;
             }
             return result;
+        }
+
+        bool IsRegexOptionsValid(RegexOptions options)
+        {
+            //Options can only be invalid in ECMAScript mode
+            if (!options.HasFlag(RegexOptions.ECMAScript)) return true;
+
+            RegexOptions disallowedFlags = ~(
+                RegexOptions.Multiline |
+                RegexOptions.IgnoreCase);
+
+            //Regex is only allowed to have multiline or ignoreCase flags when in ECMAScript mode
+            if ((options & disallowedFlags & ~RegexOptions.ECMAScript) != 0)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
