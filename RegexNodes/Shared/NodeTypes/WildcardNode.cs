@@ -17,6 +17,8 @@ namespace RegexNodes.Shared.NodeTypes
         [NodeInput]
         public InputDropdown<WildcardType> InputType { get; } = new InputDropdown<WildcardType>(presetDisplayNames) { Title = "Type:" };
         [NodeInput]
+        public InputCheckbox InputMatchNewline { get; } = new InputCheckbox(false) { Title = "Match newlines" };
+        [NodeInput]
         public InputCheckbox InputInvert { get; } = new InputCheckbox(false) { Title = "Invert" };
         [NodeInput]
         public InputCheckbox InputAllowWhitespace { get; } = new InputCheckbox(false) { Title = "Whitespace" };
@@ -70,6 +72,7 @@ namespace RegexNodes.Shared.NodeTypes
             InputAllowDigits.IsEnabled = isCustom;
 
             InputInvert.IsEnabled = () => InputType.Value != WildcardType.Everything;
+            InputMatchNewline.IsEnabled = () => InputType.Value == WildcardType.Everything;
 
             InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
             InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
@@ -88,7 +91,7 @@ namespace RegexNodes.Shared.NodeTypes
 
             string contents = (InputType.Value, invert) switch
             {
-                (WildcardType.Everything, _) => ".",
+                (WildcardType.Everything, _) => InputMatchNewline.IsChecked ? @"[\s\S]" : ".",
                 (WildcardType.WordCharacters, false) => "\\w",
                 (WildcardType.WordCharacters, true) => "\\W",
                 (WildcardType.Letters, false) => "[a-zA-Z]",

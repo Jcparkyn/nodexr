@@ -14,8 +14,11 @@
     z-index: 10;
     display: flex;">
     <OutputDisplay />
+    <div style="margin:12px 6px 0 auto">
+        <RegexOptionsDropdown />
+    </div>
     <a @onclick="ShowHelpInfo" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
-       style="float:right; color:#0469d4; margin:12px 6px 12px auto">Help</a>
+       style="float:right; color:#0469d4; margin:12px 6px 12px 6px">Help</a>
     <a href="http://github.com/jcparkyn/nodexr/" target="_blank"
        style="float:right; color:#0469d4; margin:12px">GitHub</a>
 </div>
