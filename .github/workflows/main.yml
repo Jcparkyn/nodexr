@@ -1,6 +1,6 @@
 name: DeployToGitHubPages
 env:
-  PUBLISH_DIR: RegexNodes/bin/Release/netstandard2.1/publish/wwwroot
+  PUBLISH_DIR: Nodexr/bin/Release/netstandard2.1/publish/wwwroot
 
 # Controls when the action will run
 on:

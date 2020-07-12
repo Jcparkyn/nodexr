@@ -1,0 +1,15 @@
+@using Nodexr.Shared.NodeTypes;
+@inject RegexReplaceHandler RegexReplaceHandler;
+
+@inherits LayoutComponentBase
+
+
+<div class="main">
+    @*<div class="top-row px-4">
+        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+    </div>*@
+    <BlazoredModal/>
+    <div class="content">
+        @Body
+    </div>
+</div>
