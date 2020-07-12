@@ -1,0 +1,7 @@
+﻿.blazored-toast-body p {
+    white-space: pre-wrap !important;
+}
+
+.blazored-toast-body .blazored-toast-header h5 {
+    text-transform: none !important;
+}

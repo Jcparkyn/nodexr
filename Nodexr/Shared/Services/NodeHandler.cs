@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.WebUtilities;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
+using Blazored.Toast.Services;
 
 namespace Nodexr.Shared.Services
 {
@@ -53,10 +54,12 @@ namespace Nodexr.Shared.Services
         public event EventHandler OnRequireNodeGraphRefresh;
 
         readonly NavigationManager navManager;
+        readonly IToastService toastService;
 
-        public NodeHandler(NavigationManager navManager)
+        public NodeHandler(NavigationManager navManager, IToastService toastService)
         {
             this.navManager = navManager;
+            this.toastService = toastService;
 
             var uri = navManager.ToAbsoluteUri(navManager.Uri);
             if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("parse", out var parseString))
@@ -85,6 +88,7 @@ namespace Nodexr.Shared.Services
             }
             else
             {
+                toastService.ShowError(parseResult.Error.ToString(), "Couldn't parse input");
                 Console.WriteLine("Couldn't parse input: " + parseResult.Error);
                 return false;
             }

@@ -4,7 +4,9 @@
 window.clipboardCopy = {
     copyText: function (text, message) {
         navigator.clipboard.writeText(text).then(function () {
-            alert(message);
+            if (!!message) {
+                alert(message);
+            }
         })
             .catch(function (error) {
                 alert(error);

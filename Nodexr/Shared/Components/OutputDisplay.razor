@@ -2,6 +2,7 @@
 @inject IJSRuntime JSRuntime
 @inject IModalService ModalService
 @inject NavigationManager NavManager
+@inject IToastService ToastService
 @using Microsoft.AspNetCore.WebUtilities
 
 <h3 style="margin:6px 10px 7px 7px; display:inline-block;">Output:</h3>
@@ -44,11 +45,14 @@
     private async Task OnCreateLinkButtonClick()
     {
         string url = QueryHelpers.AddQueryString(NavManager.BaseUri, "parse", NodeHandler.CachedOutput.Expression);
-        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url, "Link copied to clipboard");
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url, "");
+        ToastService.ShowInfo("", "Link copied to clipboard");
     }
 
     private async Task CopyTextToClipboard()
     {
-        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", NodeHandler.CachedOutput.Expression, "Copied to clipboard");
+        string regex = NodeHandler.CachedOutput.Expression;
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", regex, "");
+        ToastService.ShowInfo(regex, "Copied to clipboard");
     }
 }

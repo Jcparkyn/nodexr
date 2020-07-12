@@ -11,6 +11,8 @@ using Nodexr.Shared;
 using Nodexr.Shared.Services;
 using Blazored;
 using Blazored.Modal;
+using Blazored.Toast;
+using Blazored.Toast.Services;
 using Blazored.Modal.Services;
 
 namespace Nodexr
@@ -22,11 +24,12 @@ namespace Nodexr
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
+            builder.Services.AddBlazoredToast();
             builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-            builder.Services.AddSingleton<INodeDragService, NodeDragService>();
-            builder.Services.AddSingleton<INoodleDragService, NoodleDragService>();
-            builder.Services.AddSingleton<INodeHandler, NodeHandler>();
-            builder.Services.AddSingleton<RegexReplaceHandler>();
+            builder.Services.AddScoped<INodeDragService, NodeDragService>();
+            builder.Services.AddScoped<INoodleDragService, NoodleDragService>();
+            builder.Services.AddScoped<INodeHandler, NodeHandler>();
+            builder.Services.AddScoped<RegexReplaceHandler>();
             builder.Services.AddBlazoredModal();
 
             await builder.Build().RunAsync();
