@@ -28,12 +28,12 @@
             @input.Title
         </div>
         break;
-    case RegexNodes.Shared.InputCheckbox input:
+    case InputCheckbox input:
         <div class="input-checkbox">
             <label><input type="checkbox" @bind="@input.IsChecked" />@input.Title</label>
         </div>
         break;
-    case RegexNodes.Shared.InputCheckboxNullable input:
+    case InputCheckboxNullable input:
         <div class="input-checkbox">
             <label><ThreeStateToggle @bind-ButtonState="@input.CheckedState" />@input.Title</label>
         </div>
@@ -41,8 +41,8 @@
     case InputDropdown input:
         <InputDropdownView Input="@input" />
         break;
-    case RegexNodes.Shared.InputCollection input:
-        <InputCollectionRender Data="@input" />
+    case InputCollection input:
+        <InputCollectionView Data="@input" />
         break;
 }
 

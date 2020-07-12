@@ -6,6 +6,8 @@ using Pidgin;
 using RegexNodes.Shared.RegexParsers;
 using RegexNodes.Shared.NodeTypes;
 using RegexNodes.Shared;
+using RegexNodes.Shared.Nodes;
+using RegexNodes.Shared.NodeInputs;
 using static RegexNodes.Shared.RegexParsers.QuantifierParser;
 
 namespace RegexNodes.Tests.RegexParserTests

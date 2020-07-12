@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using RegexNodes.Shared;
+using RegexNodes.Shared.Nodes;
+using RegexNodes.Shared.NodeInputs;
 
 namespace RegexNodes.Tests
 {

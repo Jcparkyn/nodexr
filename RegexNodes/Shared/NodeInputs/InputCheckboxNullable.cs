@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RegexNodes.Shared
+namespace RegexNodes.Shared.NodeInputs
 {
     public class InputCheckboxNullable : NodeInput
     {

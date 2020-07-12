@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using RegexNodes.Shared.Nodes;
 
-namespace RegexNodes.Shared
+namespace RegexNodes.Shared.NodeInputs
 {
     public class InputProcedural : NodeInput, INoodleData
     {

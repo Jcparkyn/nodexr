@@ -14,7 +14,7 @@
     <div id="nodegraph" style="position:relative; transform-origin:0% 0%; width:0px; height:0px;">
         @foreach(var node in NodeHandler.Tree.Nodes)
         {
-            <NodeRender @key="node" Data="node" />
+            <NodeView @key="node" Data="node" />
         }
         <svg style="overflow:visible;">
             <NoodleSvg Noodle="NoodleDragService.TempNoodle" DomId="tempNoodle" />

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using RegexNodes.Shared.Components;
 using RegexNodes.Shared;
+using RegexNodes.Shared.Nodes;
+using RegexNodes.Shared.NodeInputs;
 using System;
 using System.Threading.Tasks;
 using System.Linq;

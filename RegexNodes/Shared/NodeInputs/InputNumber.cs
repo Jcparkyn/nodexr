@@ -1,4 +1,4 @@
-﻿namespace RegexNodes.Shared
+﻿namespace RegexNodes.Shared.NodeInputs
 {
     public class InputNumber : NodeInput
     {

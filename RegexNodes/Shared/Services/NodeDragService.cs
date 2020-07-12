@@ -4,6 +4,8 @@ using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using RegexNodes.Shared.Nodes;
+using RegexNodes.Shared.NodeInputs;
 
 namespace RegexNodes.Shared.Services
 {

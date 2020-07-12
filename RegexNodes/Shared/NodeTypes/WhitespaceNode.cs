@@ -2,6 +2,8 @@
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using RegexNodes.Shared.Nodes;
+using RegexNodes.Shared.NodeInputs;
 using static RegexNodes.Shared.NodeTypes.IQuantifiableNode;
 
 namespace RegexNodes.Shared.NodeTypes

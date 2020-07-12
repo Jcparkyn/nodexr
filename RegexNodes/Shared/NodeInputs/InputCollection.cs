@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RegexNodes.Shared
+namespace RegexNodes.Shared.NodeInputs
 {
     public class InputCollection : NodeInput
     {

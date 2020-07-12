@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Pidgin;
 using RegexNodes.Shared.NodeTypes;
+using RegexNodes.Shared.Nodes;
+using RegexNodes.Shared.NodeInputs;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
 using static RegexNodes.Shared.RegexParsers.ParsersShared;

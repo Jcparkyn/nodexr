@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace RegexNodes.Shared
+namespace RegexNodes.Shared.NodeInputs
 {
     public abstract class InputDropdown : NodeInput
     {

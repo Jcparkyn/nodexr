@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using RegexNodes.Shared.Nodes;
+using RegexNodes.Shared.NodeInputs;
 
 namespace RegexNodes.Shared.NodeTypes
 {

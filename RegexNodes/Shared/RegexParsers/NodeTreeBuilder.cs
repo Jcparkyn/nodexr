@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using RegexNodes.Shared.NodeTypes;
 using RegexNodes.Shared;
+using RegexNodes.Shared.Nodes;
+using RegexNodes.Shared.NodeInputs;
 
 namespace RegexNodes.Shared.RegexParsers
 {

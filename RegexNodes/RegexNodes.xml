@@ -4,26 +4,26 @@
         <name>RegexNodes</name>
     </assembly>
     <members>
-        <member name="M:RegexNodes.Shared.Node.CalculateInputsPos">
-            <summary>
-            Set the position of each input based on the position of the node
-            </summary>
-        </member>
-        <member name="M:RegexNodes.Shared.Node.GetInputsRecursive">
-            <summary>
-            Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
-            InputCollections themselves are not returned.
-            </summary>
-        </member>
-        <member name="M:RegexNodes.Shared.InputProcedural.Refresh">
+        <member name="M:RegexNodes.Shared.NodeInputs.InputProcedural.Refresh">
             <summary>
             Causes the connected noodle to be re-rendered
             </summary>
         </member>
-        <member name="P:RegexNodes.Shared.NodeInput.AffectsLayout">
+        <member name="P:RegexNodes.Shared.NodeInputs.NodeInput.AffectsLayout">
             <summary>
             Determines whether a change from this input should trigger a
             re-render of noodles connected to the parent node.
+            </summary>
+        </member>
+        <member name="M:RegexNodes.Shared.Nodes.Node.CalculateInputsPos">
+            <summary>
+            Set the position of each input based on the position of the node
+            </summary>
+        </member>
+        <member name="M:RegexNodes.Shared.Nodes.Node.GetInputsRecursive">
+            <summary>
+            Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
+            InputCollections themselves are not returned.
             </summary>
         </member>
         <member name="P:RegexNodes.Shared.RegexParsers.GroupParser.ParseGroup">

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using RegexNodes.Shared.Nodes;
+using RegexNodes.Shared.NodeInputs;
 using static RegexNodes.Shared.NodeTypes.IQuantifiableNode;
 
 namespace RegexNodes.Shared.NodeTypes

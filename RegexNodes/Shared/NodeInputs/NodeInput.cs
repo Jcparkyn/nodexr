@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RegexNodes.Shared
+namespace RegexNodes.Shared.NodeInputs
 {
     public interface INodeInput : IPositionable
     {

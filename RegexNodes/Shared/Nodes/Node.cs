@@ -3,8 +3,11 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using RegexNodes.Shared.NodeInputs;
+using RegexNodes.Shared;
 
-namespace RegexNodes.Shared
+
+namespace RegexNodes.Shared.Nodes
 {
     public interface INodeOutput
     {
