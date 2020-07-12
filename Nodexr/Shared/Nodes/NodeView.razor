@@ -1,0 +1,101 @@
+﻿
+@inject INodeDragService NodeDragService
+@inject INodeHandler  NodeHandler
+@inject IModalService Modal
+@inject INoodleDragService NoodleDragService
+
+@implements IDisposable
+
+<div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Data.CssColor;"
+        onmousedown="event.stopPropagation()" @onfocusin="Deselect"
+        @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.Previous))"
+             ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault(); tempNoodle.setValid();">
+
+    <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" @onclick="Select" class="node-drag-region"></div>
+    @if (!Data.IsCollapsed)
+    {
+        <div class="node-title" style="background-color: var(--col-node-accent)">
+            <button @onclick="ToggleCollapsed" class="collapse-button"><i class="fas fa-chevron-down"></i></button>
+            <b>@Data.Title</b>
+            <button class="icon-button info-button"
+                    @onclick="ShowModal">
+                <i class="fas fa-info-circle"></i>
+            </button>
+        </div>
+        <div class="node-content">
+            @foreach(INodeInput nodeInput in Data.NodeInputs)
+            {
+                if (nodeInput.IsEnabled())
+                {
+                    <NodeInputView Data="nodeInput" />
+                }
+            }
+        </div>
+    }
+    else
+    {
+        <div class="node-title collapsed" style="background-color: var(--col-node-accent); height:100%;">
+            <button @onclick="ToggleCollapsed" class="collapse-button" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
+            <b> @Data.Title</b>
+            <button class="icon-button info-button"
+                    @onclick="ShowModal">
+                <i class="fas fa-info-circle"></i>
+            </button>
+        </div>
+    }
+    <NodeInputDot Input="Data.Previous" IsPrevious="true"/>
+
+    @*Output dot*@
+    @if (!(Data is OutputNode))
+    {
+        <NodeOutputDot Data="Data" />
+    }
+</div>
+
+
+@functions{
+    [Parameter] public INode Data { get; set; }
+
+    string CssClass => "node " + (NodeHandler.SelectedNode == Data ? "selected" : "");
+
+    protected override void OnInitialized()
+    {
+        Data.OutputChanged += Refresh;
+        Data.LayoutChanged += Refresh;
+    }
+
+    void ToggleCollapsed()
+    {
+        Data.IsCollapsed = !Data.IsCollapsed;
+        Data.OnLayoutChanged(this, EventArgs.Empty);
+    }
+
+    void ShowModal()
+    {
+        //Console.WriteLine("Showing Modal");
+        var modalParameters = new ModalParameters();
+        modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
+        Modal.Show(typeof(NodeInfo), Data.Title, modalParameters);
+    }
+
+    void Refresh(object sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    void Select()
+    {
+        NodeHandler.SelectNode(Data);
+    }
+
+    void Deselect()
+    {
+        NodeHandler.DeselectAllNodes();
+    }
+
+    public void Dispose()
+    {
+        Data.OutputChanged -= Refresh;
+        Data.LayoutChanged -= Refresh;
+    }
+}
