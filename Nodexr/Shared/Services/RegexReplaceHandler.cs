@@ -16,9 +16,11 @@ namespace Nodexr.Shared.Services
             this.nodeHandler = NodeHandler;
         }
 
-        public string ReplacementRegex { get; set; } = "cow";
+        public string ReplacementRegex { get; set; } = "animal";
+
         public string SearchText { get; set; } =
             "The quick brown fox jumped over the lazy dog.";
+
         public RegexOptions Options
         {
             get => options;

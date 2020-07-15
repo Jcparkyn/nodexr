@@ -101,11 +101,19 @@ namespace Nodexr.Shared.Services
 
         private void CreateDefaultNodes(NodeTree tree)
         {
-            var defaultOutput = new OutputNode() { Pos = new Vector2L(1000, 300) };
-            var defaultNode = new TextNode() { Pos = new Vector2L(400, 300) };
-            defaultNode.Input.Contents = "fox";
-            defaultOutput.PreviousNode = defaultNode;
-            tree.AddNode(defaultNode);
+            var defaultOutput = new OutputNode() { Pos = new Vector2L(1100, 300) };
+            var defaultTextNodeFox = new TextNode() { Pos = new Vector2L(300, 200) };
+            var defaultTextNodeDog = new TextNode() { Pos = new Vector2L(300, 450) };
+            defaultTextNodeFox.Input.Contents = "fox";
+            defaultTextNodeDog.Input.Contents = "dog";
+            var defaultOrNode = new OrNode(new List<INodeOutput>(){ defaultTextNodeFox, defaultTextNodeDog })
+            {
+                Pos = new Vector2L(700, 300)
+            };
+            defaultOutput.PreviousNode = defaultOrNode;
+            tree.AddNode(defaultTextNodeFox);
+            tree.AddNode(defaultTextNodeDog);
+            tree.AddNode(defaultOrNode);
             tree.AddNode(defaultOutput);
         }
 
