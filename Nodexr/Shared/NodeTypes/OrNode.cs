@@ -9,6 +9,7 @@ namespace Nodexr.Shared.NodeTypes
     public class OrNode : Node, INode
     {
         public override string Title => "Or";
+
         public override string NodeInfo => "Outputs a Regex that will accept any of the given inputs.";
 
         [NodeInput]
@@ -17,10 +18,10 @@ namespace Nodexr.Shared.NodeTypes
         protected override NodeResultBuilder GetValue()
         {
             var builder = new NodeResultBuilder();
-            var inputs = Inputs.Inputs.Where(input => input.IsConnected);
+            var inputs = Inputs.Inputs;
             builder.Append("(?:", this);
 
-            if (inputs.Any())
+            if (inputs.Count > 0)
             {
                 builder.Append(inputs.First().Value);
                 foreach (var input in inputs.Skip(1))
@@ -29,8 +30,8 @@ namespace Nodexr.Shared.NodeTypes
                     builder.Append(input.Value);
                 }
             }
-            builder.Append(")", this);
 
+            builder.Append(")", this);
             return builder;
         }
     }

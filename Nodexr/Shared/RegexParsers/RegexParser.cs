@@ -15,9 +15,9 @@ namespace Nodexr.Shared.RegexParsers
 {
     public static class RegexParser
     {
-
         public static readonly Parser<char, Node> ParseRegex =
             ParseRegexWithoutAlternation
+            .Or(Return<Node>(null)) //Empty OrNode options are allowed.
             .WithOptionalAlternation();
 
         public static Parser<char, Node> ParseRegexWithoutAlternation =>

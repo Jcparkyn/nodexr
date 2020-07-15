@@ -40,7 +40,7 @@ namespace Nodexr.Shared.RegexParsers
             }
 
             var previousNodes = GetPreviousNodes(output).ToList();
-            if(previousNodes.Last() is AnchorNode anchorStart)
+            if(previousNodes.LastOrDefault() is AnchorNode anchorStart)
             {
                 var anchorParent = previousNodes[^2];
                 switch (anchorStart.InputAnchorType.Value)
