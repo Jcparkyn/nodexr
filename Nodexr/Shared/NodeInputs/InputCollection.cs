@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nodexr.Shared.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,9 +29,10 @@ namespace Nodexr.Shared.NodeInputs
             InputPositionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void AddItem()
+        public void AddItem(INodeOutput node = null)
         {
             var newInput = new InputProcedural() { Title = this.Title };
+            newInput.ConnectedNode = node;
             newInput.ValueChanged += OnValueChanged;
             inputs.Add(newInput);
             OnInputPositionsChanged();

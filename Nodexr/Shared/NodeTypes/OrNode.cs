@@ -13,7 +13,30 @@ namespace Nodexr.Shared.NodeTypes
         public override string NodeInfo => "Outputs a Regex that will accept any of the given inputs.";
 
         [NodeInput]
-        public InputCollection Inputs { get; } = new InputCollection("Option", 2);
+        public InputCollection Inputs { get; } = new InputCollection("Option");
+
+        public OrNode()
+        {
+            Inputs.AddItem();
+            Inputs.AddItem();
+        }
+
+        /// <summary>
+        /// Creates an OrNode with the given nodes as inputs.
+        /// </summary>
+        public OrNode(IEnumerable<INodeOutput> inputs)
+        {
+            foreach (var input in inputs)
+            {
+                Inputs.AddItem(input);
+            }
+        }
+
+        /// <summary>
+        /// Creates an OrNode with the given nodes as inputs.
+        /// This overload is to allow easy instantiation with params.
+        /// </summary>
+        public OrNode(params INodeOutput[] inputs) : this(inputs as IEnumerable<INodeOutput>) { }
 
         protected override NodeResultBuilder GetValue()
         {
