@@ -78,12 +78,13 @@ namespace Nodexr.Shared.Services
 
         public bool TryCreateTreeFromRegex(string regex)
         {
-            var parseResult = RegexParsers.RegexParser.Parse(regex);
+            var parseResult = RegexParser.Parse(regex);
 
             if (parseResult.Success)
             {
                 Tree = parseResult.Value;
                 ForceRefreshNodeGraph();
+                OnOutputChanged(this, EventArgs.Empty);
                 return true;
             }
             else
@@ -96,7 +97,7 @@ namespace Nodexr.Shared.Services
 
         private void OnOutputChanged(object sender, EventArgs e)
         {
-            OutputChanged?.Invoke(this, EventArgs.Empty);
+            OutputChanged?.Invoke(this, e);
         }
 
         private void CreateDefaultNodes(NodeTree tree)
