@@ -2,7 +2,7 @@
 
 namespace Nodexr.Shared.Services
 {
-    public class ZoomHandler
+    public static class ZoomHandler
     {
         public static double Zoom { get; set; } = 1d;
 

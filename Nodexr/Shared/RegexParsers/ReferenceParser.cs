@@ -10,7 +10,7 @@ using static Nodexr.Shared.RegexParsers.ParsersShared;
 
 namespace Nodexr.Shared.RegexParsers
 {
-    public class ReferenceParser
+    public static class ReferenceParser
     {
         public static Parser<char, ReferenceNode> ParseReference =>
             IndexReference

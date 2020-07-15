@@ -9,6 +9,7 @@ namespace Nodexr.Shared.NodeTypes
     public class AnchorNode : Node
     {
         public override string Title => "Anchor";
+
         public override string NodeInfo => "Inserts a start-of-line or end-of-line character. " +
             "Useful for ensuring that your regex only matches if it's at a specific position in a line." +
             "\nNote: The \"Start/End of string\" options will match the starts and ends of individual lines when in Multiline mode.";

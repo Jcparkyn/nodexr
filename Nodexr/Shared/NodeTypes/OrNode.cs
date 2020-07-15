@@ -18,7 +18,7 @@ namespace Nodexr.Shared.NodeTypes
         {
             var builder = new NodeResultBuilder();
             var inputs = Inputs.Inputs.Where(input => input.IsConnected);
-            builder.Append(@"(?:", this);
+            builder.Append("(?:", this);
 
             if (inputs.Any())
             {
@@ -27,7 +27,7 @@ namespace Nodexr.Shared.NodeTypes
                 {
                     builder.Append("|", this);
                     builder.Append(input.Value);
-                } 
+                }
             }
             builder.Append(")", this);
 

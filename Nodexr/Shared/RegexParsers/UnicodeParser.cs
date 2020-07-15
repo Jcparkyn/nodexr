@@ -10,9 +10,9 @@ using static Nodexr.Shared.RegexParsers.ParsersShared;
 
 namespace Nodexr.Shared.RegexParsers
 {
-    public class UnicodeParser
+    public static class UnicodeParser
     {
-        public static Parser<char, UnicodeNode> ParseUnicode => 
+        public static Parser<char, UnicodeNode> ParseUnicode =>
             OneOf(
                 HexX,
                 HexU,
@@ -33,7 +33,6 @@ namespace Nodexr.Shared.RegexParsers
             Char('p')
             .Then(UnicodeClassContents);
 
-
         private static Parser<char, UnicodeNode> UnicodeClassInverted =>
             Char('P')
             .Then(UnicodeClassContents)
@@ -48,7 +47,6 @@ namespace Nodexr.Shared.RegexParsers
             .AtLeastOnceString()
             .Between(Char('{'), Char('}'))
             .Select(str => CreateWithCategory(str));
-
 
         private static Parser<char, string> HexString(int length) =>
             LetterOrDigit
