@@ -17,19 +17,34 @@ namespace Nodexr.Shared.NodeTypes
             "by atomic groups (which are functionally identical).";
 
         [NodeInput]
-        public InputProcedural InputContents { get; } = new InputProcedural() { Title = "Input" };
+        public InputProcedural InputContents { get; } = new InputProcedural()
+        {
+            Title = "Input",
+            Description = "The node or set of nodes that will be matched the chosen number of times.",
+        };
+
         [NodeInput]
         public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNamesExcludingOne)
-        { Title = "Repetitions:" };
+        {
+            Title = "Repetitions:",
+            Description = "The number of times to match the input.",
+        };
+
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
+
         [NodeInput]
         public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
+
         [NodeInput]
         public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+
         [NodeInput]
         public InputDropdown<SearchMode> InputSearchType { get; } = new InputDropdown<SearchMode>()
-        { Title = "Search type:" };
+        {
+            Title = "Search type:",
+            Description = "Changes the way that the Regex engine tries to match the repetition."
+        };
 
         public enum SearchMode
         {
@@ -52,38 +67,46 @@ namespace Nodexr.Shared.NodeTypes
             InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
             InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
             InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputSearchType.IsEnabled = () => InputCount.Value != Reps.Number;
         }
 
         protected override NodeResultBuilder GetValue()
         {
             var builder = new NodeResultBuilder(InputContents.Value);
 
-            string suffix = GetSuffix(
+            string suffix = "";
+            string prefix = "";
+
+            //Surround with non-capturing group if necessary
+            if (InputContents.ConnectedNode is Node _node
+                && RequiresGroupToQuantify(_node))
+            {
+                prefix += "(?:";
+                suffix += ")";
+            }
+
+            //Add quantifier
+            suffix += GetSuffix(
                 InputCount.Value,
                 InputNumber.InputContents,
                 InputMin.GetValue(),
                 InputMax.GetValue());
 
-            if (InputSearchType.Value == SearchMode.Lazy)
+            //Add modifier
+            if (InputCount.Value != Reps.Number)
             {
-                suffix += "?";
-            }
-            else if (InputSearchType.Value == SearchMode.Possessive)
-            {
-                suffix += ")";
-                builder.Prepend("(?>", this);
-            }
-
-            //TODO: remove uneccessary groups
-            //string contents = InputContents.GetValue();
-            if (InputContents.ConnectedNode is Node _node
-                && RequiresGroupToQuantify(_node))
-            {
-                //contents = contents.InNonCapturingGroup();
-                builder.Prepend("(?:", this);
-                builder.Append(")", this);
+                if (InputSearchType.Value == SearchMode.Lazy)
+                {
+                    suffix += "?";
+                }
+                else if (InputSearchType.Value == SearchMode.Possessive)
+                {
+                    suffix += ")";
+                    prefix = "(?>" + prefix;
+                }
             }
 
+            builder.Prepend(prefix, this);
             builder.Append(suffix, this);
             return builder;
         }
