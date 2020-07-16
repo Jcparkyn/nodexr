@@ -116,7 +116,7 @@ namespace Nodexr.Shared.Nodes
         }
 
         /// <summary>
-        /// Set the position of each input based on the position of the node
+        /// Set the position of each input based on the position of the node.
         /// </summary>
         public void CalculateInputsPos()
         {
@@ -124,7 +124,7 @@ namespace Nodexr.Shared.Nodes
             Previous.Pos = new Vector2L(Pos.x + 2, Pos.y + 13);
             if (IsCollapsed)
             {
-                int startHeight = 13;
+                const int startHeight = 13;
                 foreach (var input in NodeInputs)
                 {
                     switch (input)
@@ -150,10 +150,6 @@ namespace Nodexr.Shared.Nodes
                 {
                     switch (input)
                     {
-                        case InputProcedural inputProc:
-                            inputProc.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
-                            startHeight += inputProc.Height;
-                            break;
                         case InputCollection inputColl:
                             startHeight += 28;
                             inputColl.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
@@ -164,7 +160,8 @@ namespace Nodexr.Shared.Nodes
                             }
                             break;
                         default:
-                            startHeight += 50;
+                            input.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
+                            startHeight += input.Height;
                             break;
                     }
                 }

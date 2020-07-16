@@ -68,16 +68,21 @@ namespace Nodexr.Shared.RegexParsers
         {
             //This group is not needed if it is actually part of an OrNode
             if(contents is OrNode orNode
-                && !orNode.Previous.IsConnected
-                && node.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing)
+                && !orNode.Previous.IsConnected)
             {
-                return orNode;
+                if (node.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing)
+                {
+                    return orNode;
+                }
+                else if (node.InputGroupType.Value == GroupNode.GroupTypes.capturing)
+                {
+                    orNode.InputCapture.IsChecked = true;
+                    return orNode;
+                }
             }
-            else
-            {
-                node.Input.ConnectedNode = contents;
-                return node; 
-            }
+            //Otherwise, connect to the previous node.
+            node.Input.ConnectedNode = contents;
+            return node;
         }
     }
 }

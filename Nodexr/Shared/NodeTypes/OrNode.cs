@@ -13,6 +13,9 @@ namespace Nodexr.Shared.NodeTypes
         public override string NodeInfo => "Outputs a Regex that will accept any of the given inputs.";
 
         [NodeInput]
+        public InputCheckbox InputCapture { get; } = new InputCheckbox(false) { Title = "Capture" };
+
+        [NodeInput]
         public InputCollection Inputs { get; } = new InputCollection("Option");
 
         public OrNode()
@@ -42,7 +45,8 @@ namespace Nodexr.Shared.NodeTypes
         {
             var builder = new NodeResultBuilder();
             var inputs = Inputs.Inputs;
-            builder.Append("(?:", this);
+            string prefix = InputCapture.IsChecked ? "(" : "(?:";
+            builder.Append(prefix, this);
 
             if (inputs.Count > 0)
             {

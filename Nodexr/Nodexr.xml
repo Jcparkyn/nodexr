@@ -17,7 +17,7 @@
         </member>
         <member name="M:Nodexr.Shared.Nodes.Node.CalculateInputsPos">
             <summary>
-            Set the position of each input based on the position of the node
+            Set the position of each input based on the position of the node.
             </summary>
         </member>
         <member name="M:Nodexr.Shared.Nodes.Node.GetInputsRecursive">
