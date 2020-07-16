@@ -7,6 +7,7 @@ namespace Nodexr.Shared.NodeTypes
     public class OutputNode : Node
     {
         public override string Title => "Output";
+
         public override string NodeInfo => "The final output of your Regex. " +
             "Use the \"Starts at\" and \"Ends at\" options to only include matches in a certain position" +
             "(This is equivalent to using the Anchor node)." +
@@ -20,7 +21,10 @@ namespace Nodexr.Shared.NodeTypes
                 {Mode.StartLine, "Start of string"},
                 {Mode.WordBound, "Word boundary"},
             })
-        { Title="Starts at:"};
+        {
+            Title = "Starts at:",
+            Description = "Only accept matches that start at this location."
+        };
 
         [NodeInput]
         public InputDropdown<Mode> InputEndsAt { get; } = new InputDropdown<Mode>(
@@ -30,7 +34,10 @@ namespace Nodexr.Shared.NodeTypes
                 {Mode.EndLine, "End of string"},
                 {Mode.WordBound, "Word boundary"},
             })
-        { Title = "Ends at:" };
+        {
+            Title = "Ends at:",
+            Description = "Only accept matches that end at this location."
+        };
 
         public enum Mode
         {
@@ -62,13 +69,14 @@ namespace Nodexr.Shared.NodeTypes
             {
                 case Mode.StartLine: builder.Prepend("^", this); break;
                 case Mode.WordBound: builder.Prepend("\\b", this); break;
-            };
+            }
+
             //Suffix
             switch (InputEndsAt.Value)
             {
                 case Mode.EndLine: builder.Append("$", this); break;
                 case Mode.WordBound: builder.Append("\\b", this); break;
-            };
+            }
 
             if (PreviousNode is OrNode)
                 builder.StripNonCaptureGroup();

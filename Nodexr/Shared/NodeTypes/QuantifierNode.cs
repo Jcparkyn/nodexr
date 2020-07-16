@@ -10,6 +10,7 @@ namespace Nodexr.Shared.NodeTypes
     public class QuantifierNode : Node, IQuantifiableNode
     {
         public override string Title => "Quantifier";
+
         public override string NodeInfo => "Inserts a quantifier to set the minimum and maximum number " +
             "of 'repeats' for the inputted node. Leave the 'max' option blank to allow unlimited repeats." +
             "\n'Greedy' and 'Lazy' search type will attempt to match as many or as few times as possible respectively." +
@@ -53,7 +54,7 @@ namespace Nodexr.Shared.NodeTypes
             Possessive,
         }
 
-        static readonly Dictionary<Reps, string> displayNamesExcludingOne = new Dictionary<Reps, string>()
+        private static readonly Dictionary<Reps, string> displayNamesExcludingOne = new Dictionary<Reps, string>()
         {
             {Reps.ZeroOrMore, "Zero or more"},
             {Reps.OneOrMore, "One or more"},
@@ -114,7 +115,7 @@ namespace Nodexr.Shared.NodeTypes
         private bool RequiresGroupToQuantify(Node val)
         {
             if (val is null) throw new ArgumentNullException(nameof(val));
-            
+
             //Any chain of 2 or more nodes will always need to be wrapped in a group to quantify properly.
             if (!(val.PreviousNode is null))
                 return true;

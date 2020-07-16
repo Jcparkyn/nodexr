@@ -8,11 +8,16 @@ namespace Nodexr.Shared.NodeTypes
     public class IfElseNode : Node
     {
         public override string Title => "If-Else";
+
         public override string NodeInfo => "Matches either of two expressions, depending on whether the 'Condition' expression has matched. " +
             "\nIf the name or number of a captured group is used as the 'Condition' expression, it will be considered to have matched if the group it references was matched.";
 
         [NodeInput]
-        public InputString InputCondition { get; } = new InputString("") { Title = "Condition:" };
+        public InputString InputCondition { get; } = new InputString("")
+        {
+            Title = "Condition:",
+            Description = "The lookahead or group name/number that determines whether to match the first or second option."
+        };
 
         [NodeInput]
         public InputProcedural InputThen { get; set; } = new InputProcedural() { Title = "Match if true" };
