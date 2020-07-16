@@ -13,7 +13,11 @@ namespace Nodexr.Shared.NodeTypes
         public override string NodeInfo => "Outputs a Regex that will accept any of the given inputs.";
 
         [NodeInput]
-        public InputCheckbox InputCapture { get; } = new InputCheckbox(false) { Title = "Capture" };
+        public InputCheckbox InputCapture { get; } = new InputCheckbox(false)
+        {
+            Title = "Capture",
+            Description = "Store the result using a capturing group."
+        };
 
         [NodeInput]
         public InputCollection Inputs { get; } = new InputCollection("Option");

@@ -11,6 +11,7 @@ namespace Nodexr.Shared.NodeTypes
     public class WildcardNode : Node, IQuantifiableNode
     {
         public override string Title => "Wildcard";
+
         public override string NodeInfo => "Matches any of the specified types of character. " +
             "Note: the 'Everything' option will only match newlines if the Regex is in singleline mode. " +
             "\nUse the 'Repetitions' option to add a quantifier with the selected number or range of repetitions " +
@@ -18,28 +19,49 @@ namespace Nodexr.Shared.NodeTypes
 
         [NodeInput]
         public InputDropdown<WildcardType> InputType { get; } = new InputDropdown<WildcardType>(presetDisplayNames) { Title = "Type:" };
+
         [NodeInput]
-        public InputCheckbox InputMatchNewline { get; } = new InputCheckbox(false) { Title = "Match newlines" };
+        public InputCheckbox InputMatchNewline { get; } = new InputCheckbox(false)
+        {
+            Title = "Match newlines",
+            Description = "Also match newline (\\n) characters"
+        };
+
         [NodeInput]
-        public InputCheckbox InputInvert { get; } = new InputCheckbox(false) { Title = "Invert" };
+        public InputCheckbox InputInvert { get; } = new InputCheckbox(false)
+        {
+            Title = "Invert",
+            Description = "Match everything except the specified characters."
+        };
+
         [NodeInput]
         public InputCheckbox InputAllowWhitespace { get; } = new InputCheckbox(false) { Title = "Whitespace" };
+
         [NodeInput]
         public InputCheckbox InputAllowUppercase { get; } = new InputCheckbox(true) { Title = "Uppercase Letters" };
+
         [NodeInput]
         public InputCheckbox InputAllowLowercase { get; } = new InputCheckbox(true) { Title = "Lowercase Letters" };
+
         [NodeInput]
         public InputCheckbox InputAllowDigits { get; } = new InputCheckbox(true) { Title = "Digits" };
+
         [NodeInput]
         public InputCheckbox InputAllowUnderscore { get; } = new InputCheckbox(true) { Title = "Underscore" };
 
         [NodeInput]
         public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNames)
-        { Title = "Repetitions:" };
+        {
+            Title = "Repetitions:",
+            Description = "Apply a quantifier to this node."
+        };
+
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
+
         [NodeInput]
         public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
+
         [NodeInput]
         public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
 
@@ -110,8 +132,6 @@ namespace Nodexr.Shared.NodeTypes
 
         private string GetContentsCustom(bool invert)
         {
-            string result;
-
             var inputs = (
                 i: invert,
                 w: InputAllowWhitespace.IsChecked,
@@ -121,17 +141,17 @@ namespace Nodexr.Shared.NodeTypes
                 u: InputAllowUnderscore.IsChecked
                 );
 
-            result = inputs switch
+            return inputs switch
             {
                 //Handle special cases where simplification is possible - when 'invert' is ticked
-                (true, false, false, false, false, false) => @"[]",
+                (true, false, false, false, false, false) => "[]",
                 (true, false, false, false, true, false) => @"\D",
                 (true, true, false, false, false, false) => @"\S",
                 (true, false, true, true, true, true) => @"\W",
 
                 //Handle special cases where simplification is possible - when 'invert' is not ticked
                 (false, true, true, true, true, true) => ".",
-                (false, false, false, false, false, true) => @"_",
+                (false, false, false, false, false, true) => "_",
                 (false, false, false, false, true, false) => @"\d",
                 (false, true, false, false, false, false) => @"\s",
                 (false, false, true, true, true, true) => @"\w",
@@ -139,8 +159,6 @@ namespace Nodexr.Shared.NodeTypes
                 //Handle general case
                 _ => GetClassContents(invert: invert, w: inputs.w, L: inputs.L, l: inputs.l, d: inputs.d, u: inputs.u),
             };
-
-            return result;
         }
 
         private string GetClassContents(bool invert, bool w, bool L, bool l, bool d, bool u)
