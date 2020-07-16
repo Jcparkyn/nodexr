@@ -7,20 +7,17 @@ namespace Nodexr.Shared.NodeInputs
         string Title { get; set; }
         event EventHandler ValueChanged;
         Func<bool> IsEnabled { get; }
-        string Description { get; }
-        Func<string> DescriptionFunc { get; set; }
+        string Description { get; set; }
     }
 
     public abstract class NodeInput : INodeInput
     {
         public string Title { get; set; }
 
-        public string Description => DescriptionFunc?.Invoke();
-
         /// <summary>
-        /// A function that returns the description for this input.
+        /// The description for this input. Displayed as a tooltip for most types of inputs.
         /// </summary>
-        public Func<string> DescriptionFunc { get; set; }
+        public string Description { get; set; }
 
         public event EventHandler ValueChanged;
 

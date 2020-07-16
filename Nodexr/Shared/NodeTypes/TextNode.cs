@@ -17,20 +17,24 @@ namespace Nodexr.Shared.NodeTypes
             "\nTo insert a string with no escaping, turn off the 'Escape' option. Warning: this may create an invalid or unexpected output.";
 
         [NodeInput]
-        public InputString Input { get; } = new InputString("") { Title = "Text:"};
+        public InputString Input { get; } = new InputString("")
+        {
+            Title = "Text:",
+            Description = "The text to match."
+        };
 
         [NodeInput]
         public InputCheckbox InputEscapeSpecials { get; } = new InputCheckbox(true)
         {
             Title = "Escape Specials",
-            DescriptionFunc = () => "Should special characters (e.g. ^$?+) be escaped automatically?"
+            Description = "Should special characters (e.g. ^$?+) be escaped automatically?"
         };
 
         [NodeInput]
         public InputCheckbox InputEscapeBackslash { get; } = new InputCheckbox(false)
         {
             Title = "Escape Backslash",
-            DescriptionFunc = () => "Should backslashes also be escaped automatically?"
+            Description = "Should backslashes also be escaped automatically?"
         };
 
         private static readonly HashSet<char> charsToEscape = new HashSet<char> ("()[]{}$^?.+*|");

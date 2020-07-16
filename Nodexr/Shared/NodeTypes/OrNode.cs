@@ -16,7 +16,7 @@ namespace Nodexr.Shared.NodeTypes
         public InputCheckbox InputCapture { get; } = new InputCheckbox(false)
         {
             Title = "Capture",
-            DescriptionFunc = () => "Store the result using a capturing group."
+            Description = "Store the result using a capturing group."
         };
 
         [NodeInput]

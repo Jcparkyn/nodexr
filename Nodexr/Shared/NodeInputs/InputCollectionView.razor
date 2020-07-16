@@ -5,9 +5,9 @@
 {
     <div style="display:flex;">
         <InputProceduralView Input="@input"/>
-        <button @onclick="@(() => MoveUp(input))" class="item-button"><i class="fas fa-chevron-up"></i></button>
-        <button @onclick="@(() => MoveDown(input))" class="item-button"><i class="fas fa-chevron-down"></i></button>
-        <button @onclick="@(() => RemoveItem(input))" class="item-button"><i class="fas fa-times"></i></button>
+        <button title="Move up" @onclick="@(() => MoveUp(input))" class="item-button"><i class="fas fa-chevron-up"></i></button>
+        <button title="Move down" @onclick="@(() => MoveDown(input))" class="item-button"><i class="fas fa-chevron-down"></i></button>
+        <button title="Delete input" @onclick="@(() => RemoveItem(input))" class="item-button"><i class="fas fa-times"></i></button>
     </div>
 }
 

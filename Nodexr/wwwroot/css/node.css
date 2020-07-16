@@ -50,7 +50,7 @@
         padding: 0px 4px 4px 4px;
     }
 
-    .node .node-input {
+    .node .node-input-filled {
         width: 100%;
         background-color: var(--col-field);
         padding: 1px 4px;
@@ -60,7 +60,7 @@
         height: 27px;
     }
 
-        .node .node-input.procedural {
+        .node .node-input-filled.procedural {
             padding-left: 10px;
         }
 
