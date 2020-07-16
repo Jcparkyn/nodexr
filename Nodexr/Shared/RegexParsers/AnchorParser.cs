@@ -10,7 +10,7 @@ using static Nodexr.Shared.RegexParsers.ParsersShared;
 
 namespace Nodexr.Shared.RegexParsers
 {
-    public class AnchorParser
+    public static class AnchorParser
     {
         public static Parser<char, AnchorNode> ParseAnchor =>
             OneOf(

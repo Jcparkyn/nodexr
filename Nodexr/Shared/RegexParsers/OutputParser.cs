@@ -12,37 +12,11 @@ using static Nodexr.Shared.RegexParsers.ParsersShared;
 
 namespace Nodexr.Shared.RegexParsers
 {
-    public class OutputParser
+    public static class OutputParser
     {
         public static Parser<char, OutputNode> ParseOutputNode =>
             RegexParser.ParseRegex
             .Select(contents => AttachOutputToContents(new OutputNode(), contents));
-            //OneOf(
-            //    StartsAtWordBoundary,
-            //    StartsAtStartOfLine,
-            //    StartsAnywhere
-            //    )
-            //.Then(RegexParser.ParseRegex,
-            //    (output, main) => AttachOutputToContents(output, main)
-            //    );
-
-        private static Parser<char, OutputNode> StartsAtWordBoundary =>
-            Try(String("\\b"))
-            .Select(_ => CreateWithStartsAt(OutputNode.Mode.WordBound));
-
-        private static Parser<char, OutputNode> StartsAtStartOfLine =>
-            Char('^')
-            .Select(_ => CreateWithStartsAt(OutputNode.Mode.StartLine));
-
-        private static Parser<char, OutputNode> StartsAnywhere =>
-            ReturnLazy(() => CreateWithStartsAt(OutputNode.Mode.Anywhere));
-
-        private static OutputNode CreateWithStartsAt(OutputNode.Mode startsAt)
-        {
-            var node = new OutputNode();
-            node.InputStartsAt.Value = startsAt;
-            return node;
-        }
 
         private static OutputNode AttachOutputToContents(OutputNode output, Node contents)
         {
@@ -66,7 +40,7 @@ namespace Nodexr.Shared.RegexParsers
             }
 
             var previousNodes = GetPreviousNodes(output).ToList();
-            if(previousNodes.Last() is AnchorNode anchorStart)
+            if(previousNodes.LastOrDefault() is AnchorNode anchorStart)
             {
                 var anchorParent = previousNodes[^2];
                 switch (anchorStart.InputAnchorType.Value)
@@ -92,16 +66,6 @@ namespace Nodexr.Shared.RegexParsers
                 yield return previous;
                 currentNode = previous;
             }
-        }
-
-        private static Node GetEarliestPreviousNode(Node parent)
-        {
-            var currentNode = parent;
-            while (currentNode.PreviousNode is Node previous)
-            {
-                currentNode = previous;
-            }
-            return currentNode;
         }
     }
 }

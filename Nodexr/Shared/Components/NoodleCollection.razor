@@ -7,7 +7,7 @@
 
 @foreach (var node in Nodes)
 {
-    var inputsWithNoodles = node.GetInputsRecursive()
+    var inputsWithNoodles = node.GetAllInputs()
         .OfType<InputProcedural>()
         .Where(input => input.ConnectedNode != null);
 

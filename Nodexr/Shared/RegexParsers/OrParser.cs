@@ -26,7 +26,7 @@ namespace Nodexr.Shared.RegexParsers
             var nodesList = nodes.ToList();
             if(nodesList.Count == 1)
             {
-                return nodesList.First();
+                return nodesList[0];
             }
 
             var node = new OrNode();

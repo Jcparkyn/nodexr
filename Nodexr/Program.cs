@@ -17,7 +17,7 @@ using Blazored.Modal.Services;
 
 namespace Nodexr
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {
@@ -25,14 +25,14 @@ namespace Nodexr
             builder.RootComponents.Add<App>("app");
 
             builder.Services.AddBlazoredToast();
-            builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddTransient(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             builder.Services.AddScoped<INodeDragService, NodeDragService>();
             builder.Services.AddScoped<INoodleDragService, NoodleDragService>();
             builder.Services.AddScoped<INodeHandler, NodeHandler>();
             builder.Services.AddScoped<RegexReplaceHandler>();
             builder.Services.AddBlazoredModal();
 
-            await builder.Build().RunAsync();
+            await builder.Build().RunAsync().ConfigureAwait(false);
         }
     }
 }

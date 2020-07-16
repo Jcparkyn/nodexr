@@ -33,3 +33,9 @@ To use any Regex functionality that cannot be implemented with the provided node
 
 ## Replacement
 Use the bottom 3 panels to test a string for searching and/or replacement. Any valid .NET Regex replacement string can be used here, including named and/or numbered group references. The bottom right panel shows the result after replacement.
+
+## Contributing
+Any contributions are welcome, but ideally start by creating an [issue](https://github.com/Jcparkyn/nodexr/issues).
+
+## Also check out
+A very similar tool called [Regex Nodes](https://github.com/johannesvollmer/regex-nodes) has been made by Johannes Vollmer. There is no connection between Nodexr and Regex Nodes (in fact I didn't even know it existed until after I'd released v1.0.0), but it is a very polished alternative for those that need JavaScript regular expressions.

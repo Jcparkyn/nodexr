@@ -8,6 +8,7 @@ using Nodexr.Shared.NodeInputs;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using Blazored.Toast.Services;
 
 namespace Nodexr.Shared.Services
 {
@@ -24,13 +25,14 @@ namespace Nodexr.Shared.Services
     public class NoodleDragService : INoodleDragService
     {
         public INode NodeToDrag { get; set; }
-        public NoodleDataCustom TempNoodle { get; private set; } = new NoodleDataCustom() { Enabled = false };
+        public NoodleDataCustom TempNoodle { get; } = new NoodleDataCustom() { Enabled = false };
 
-        readonly INodeHandler nodeHandler;
-        readonly IJSRuntime jsRuntime;
-        public NoodleDragService(INodeHandler nodeHandler, IJSRuntime jsRuntime)
+        private readonly IToastService toastService;
+        private readonly IJSRuntime jsRuntime;
+
+        public NoodleDragService(IToastService toastService, IJSRuntime jsRuntime)
         {
-            this.nodeHandler = nodeHandler;
+            this.toastService = toastService;
             this.jsRuntime = jsRuntime;
         }
 
@@ -46,9 +48,7 @@ namespace Nodexr.Shared.Services
             {
                 NodeToDrag = node;
                 TempNoodle.Enabled = true;
-                //nodeHandler.OnRequireNoodleRefresh?.Invoke();
 
-                //Console.WriteLine("Start Noodle Drag");
                 jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
                     nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y,
                     noodleEndPos.x, noodleEndPos.y);
@@ -59,14 +59,20 @@ namespace Nodexr.Shared.Services
 
         public void OnDropNoodle(InputProcedural nodeInput)
         {
-            Console.WriteLine("Drop noodle");
             TempNoodle.Enabled = false;
 
-            //TODO: Properly check for cyclic dependencies
-            if (NodeToDrag != null && !NodeToDrag.GetInputsRecursive().Contains(nodeInput))
+            if (NodeToDrag is null) return;
+
+            if (NodeToDrag.IsDependentOn(nodeInput))
+            {
+                toastService.ShowError(
+                    "Cyclical dependencies would create a rift in the space-time continuum and are therefore not allowed. " +
+                    "If you want to use the same node multiple times in a row, connect it to multiple inputs of a 'Concatenate' node.",
+                    "Can't connect these nodes");
+            }
+            else
             {
                 nodeInput.ConnectedNode = NodeToDrag;
-                //nodeHandler.OnRequireNodeGraphRefresh?.Invoke();
             }
 
             NodeToDrag = null;

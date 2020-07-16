@@ -13,42 +13,13 @@ namespace Nodexr.Tests.RegexParserTests
 {
     class RegexParserTests
     {
-
-
-/*        [TestCase(@"a", @"a")]
-        public void TextNode_BasicString_ReturnsContents(string input, string expectedContents)
-        {
-            var result = TextParser.ParseTextWithOptionalQuantifier.ParseOrThrow(input);
-            Assert.AreEqual(expectedContents, result.Input.Contents);
-        }
-
-        [TestCase(@"a")]
-        [TestCase(@"abc")]
-        [TestCase(@"ab\tc")]
-        [TestCase(@"ab\\c")]
-        [TestCase(@"ab\\\c")]
-        [TestCase(@"\\\*c", Ignore = "Low priority, will fix later")]
-        public void TextNode_ValidStrings_OutputsSame(string input)
-        {
-            var result = RegexParser.ParseTextNode.ParseOrThrow(input);
-            Assert.AreEqual(input, result.CachedOutput);
-        }
-
-        [TestCase(@"\")]
-        [TestCase(@"\\\")]
-        [TestCase(@"*")]
-        public void TextNode_InvalidStrings_Fails(string input)
-        {
-            TestDelegate getResult = () => RegexParser.ParseTextNode.ParseOrThrow(input);
-            Assert.Throws<ParseException>(getResult);
-        }*/
-
         [TestCase(@"abc")]
         [TestCase(@"abc[abc]")]
         [TestCase(@"[abc]+")]
         [TestCase(@"(a[bc])+")]
         [TestCase(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$")] //Email address
         [TestCase(@"^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$")] //Floating point
+        [TestCase(@"^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4}$")] //IPv4. Contains empty group option.
         public void ParseRegex_OutputIsSameAsInput(string input)
         {
             var outputNode = RegexParser.ParseRegex.ParseOrThrow(input);

@@ -9,6 +9,7 @@ namespace Nodexr.Shared.NodeTypes
     public class CharSetNode : Node, IQuantifiableNode
     {
         public override string Title => "Character Set";
+
         public override string NodeInfo => "Inserts a character class containing the characters you specify. "
             + "You can enter these the same way you would in a normal regex, including ranges (e.g. A-Z).\n"
             + "The 'Invert' option creates a negated class by adding a ^ character at the start.";
@@ -33,7 +34,7 @@ namespace Nodexr.Shared.NodeTypes
             SetupInputEnables();
         }
 
-        void SetupInputEnables()
+        private void SetupInputEnables()
         {
             InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
             InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
@@ -42,7 +43,6 @@ namespace Nodexr.Shared.NodeTypes
 
         protected override NodeResultBuilder GetValue()
         {
-
             string charSet = InputCharacters.GetValue();
 
             string prefix = InputDoInvert.IsChecked ? "^" : "";

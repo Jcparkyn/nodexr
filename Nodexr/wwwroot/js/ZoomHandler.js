@@ -36,7 +36,7 @@ window.panzoom = {
             amount = minZoom / (zoomLvl / amount);
             zoomLvl = minZoom;
         }
-        DotNet.invokeMethodAsync('RegexNodes', 'SetZoom', zoomLvl)
+        DotNet.invokeMethodAsync('Nodexr', 'SetZoom', zoomLvl)
         var dX = (x - posX) * (1 - amount);
         var dY = (y - posY) * (1 - amount);
         //var dX = x * (1 - amount) * zoomLvl;

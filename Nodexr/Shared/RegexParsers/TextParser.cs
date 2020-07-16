@@ -12,7 +12,7 @@ using static Nodexr.Shared.RegexParsers.ParsersShared;
 
 namespace Nodexr.Shared.RegexParsers
 {
-    public class TextParser
+    public static class TextParser
     {
         public static Parser<char, Node> ParseTextWithOptionalQuantifier =>
             Map(CreateTextWithQuantifier,

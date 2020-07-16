@@ -12,7 +12,7 @@ using static Nodexr.Shared.RegexParsers.ParsersShared;
 
 namespace Nodexr.Shared.RegexParsers
 {
-    public class IfElseParser
+    public static class IfElseParser
     {
         public static Parser<char, IfElseNode> ParseIfElse =>
             Map((cond, in1, _, in2) => CreateIfElse(cond, in1, in2),
@@ -24,7 +24,7 @@ namespace Nodexr.Shared.RegexParsers
 
         private static Parser<char, string> ParseIfElseCondition =>
             Rec(() => RegexParser.ParseRegex)
-                .Slice((span, param) => span.ToString())
+                .Slice((span, _) => span.ToString())
             .Between(OpenPar, ClosePar);
 
         //private static Parser<char, string> ParseIfElseCondition =>
