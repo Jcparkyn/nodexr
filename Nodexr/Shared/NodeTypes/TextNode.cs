@@ -10,20 +10,34 @@ namespace Nodexr.Shared.NodeTypes
     public class TextNode : Node
     {
         public override string Title => "Text";
+
         public override string NodeInfo => "Inserts text into your Regex which will be interpreted literally, " +
             "so all special characters are escaped with a backslash. E.g. $25.99? becomes \\$25\\.99\\?" +
             "\nNote: Backslash characters (\\), and the character immediately following them, are not escaped." +
             "\nTo insert a string with no escaping, turn off the 'Escape' option. Warning: this may create an invalid or unexpected output.";
 
         [NodeInput]
-        public InputString Input { get; } = new InputString("") { Title = "Text:"};
-        [NodeInput]
-        public InputCheckbox InputEscapeSpecials { get; } = new InputCheckbox(true) { Title = "Escape Specials" };
-        [NodeInput]
-        public InputCheckbox InputEscapeBackslash { get; } = new InputCheckbox(false) { Title = "Escape Backslash" };
+        public InputString Input { get; } = new InputString("")
+        {
+            Title = "Text:",
+            Description = "The text to match."
+        };
 
+        [NodeInput]
+        public InputCheckbox InputEscapeSpecials { get; } = new InputCheckbox(true)
+        {
+            Title = "Escape Specials",
+            Description = "Should special characters (e.g. ^$?+) be escaped automatically?"
+        };
 
-        static readonly HashSet<char> charsToEscape = new HashSet<char> ("()[]{}$^?.+*|");
+        [NodeInput]
+        public InputCheckbox InputEscapeBackslash { get; } = new InputCheckbox(false)
+        {
+            Title = "Escape Backslash",
+            Description = "Should backslashes also be escaped automatically?"
+        };
+
+        private static readonly HashSet<char> charsToEscape = new HashSet<char> ("()[]{}$^?.+*|");
 
         protected override NodeResultBuilder GetValue()
         {

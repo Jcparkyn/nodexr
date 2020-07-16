@@ -12,10 +12,20 @@ namespace Nodexr.Shared.NodeTypes
         [NodeInput]
         public InputDropdown<InputTypes> InputType { get; } = new InputDropdown<InputTypes>()
         { Title = "Type:" };
+
         [NodeInput]
-        public InputNumber InputIndex { get; } = new InputNumber(1, min: 1) { Title = "Index:" };
+        public InputNumber InputIndex { get; } = new InputNumber(1, min: 1)
+        {
+            Title = "Index:",
+            Description = "The index (number) of the group to reference."
+        };
+
         [NodeInput]
-        public InputString InputName { get; } = new InputString("") { Title = "Name:" };
+        public InputString InputName { get; } = new InputString("")
+        {
+            Title = "Name:",
+            Description = "The name of the group to reference (only works for named groups)."
+        };
 
         public enum InputTypes
         {

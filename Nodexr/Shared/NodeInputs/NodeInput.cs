@@ -7,13 +7,22 @@ namespace Nodexr.Shared.NodeInputs
         string Title { get; set; }
         event EventHandler ValueChanged;
         Func<bool> IsEnabled { get; }
+        string Description { get; set; }
     }
 
     public abstract class NodeInput : INodeInput
     {
         public string Title { get; set; }
+
+        /// <summary>
+        /// The description for this input. Displayed as a tooltip for most types of inputs.
+        /// </summary>
+        public string Description { get; set; }
+
         public event EventHandler ValueChanged;
+
         public Vector2L Pos { get; set; }
+
         public Func<bool> IsEnabled { get; set; } = (() => true);
 
         public virtual int Height { get; } = 32;

@@ -50,7 +50,7 @@
         padding: 0px 4px 4px 4px;
     }
 
-    .node .node-input {
+    .node .node-input-filled {
         width: 100%;
         background-color: var(--col-field);
         padding: 1px 4px;
@@ -60,7 +60,7 @@
         height: 27px;
     }
 
-        .node .node-input.procedural {
+        .node .node-input-filled.procedural {
             padding-left: 10px;
         }
 
@@ -68,8 +68,9 @@
     .node .input-checkbox {
         position: relative;
         font-size: 0.9rem;
-        margin-top: 2px;
+        margin-top: 1px;
         margin-left: 2px;
+        margin-bottom: -3px;
     }
 
     .node .input-checkbox input, .node .input-checkbox button {
@@ -79,10 +80,6 @@
 
     .node .input-checkbox label {
         margin-bottom: 0;
-    }
-
-    .input-checkbox ~ .input-checkbox {
-        margin-top: -2px;
     }
 
     .input-field {

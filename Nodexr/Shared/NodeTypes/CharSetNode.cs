@@ -15,17 +15,32 @@ namespace Nodexr.Shared.NodeTypes
             + "The 'Invert' option creates a negated class by adding a ^ character at the start.";
 
         [NodeInput]
-        public InputString InputCharacters { get; } = new InputString("a-z") { Title = "Characters:" };
+        public InputString InputCharacters { get; } = new InputString("a-z")
+        {
+            Title = "Characters:",
+            Description = "The list of characters or character ranges to match."
+        };
+
         [NodeInput]
-        public InputCheckbox InputDoInvert { get; } = new InputCheckbox(false) { Title = "Invert"};
+        public InputCheckbox InputDoInvert { get; } = new InputCheckbox(false)
+        {
+            Title = "Invert",
+            Description = "Match everything except the specified characters."
+        };
 
         [NodeInput]
         public InputDropdown<Reps> InputCount { get; } = new InputDropdown<Reps>(displayNames)
-        { Title = "Repetitions:" };
+        {
+            Title = "Repetitions:",
+            Description = "Apply a quantifier to this node."
+        };
+
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
+
         [NodeInput]
         public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
+
         [NodeInput]
         public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
 
