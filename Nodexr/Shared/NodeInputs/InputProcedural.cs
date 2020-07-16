@@ -7,6 +7,7 @@ namespace Nodexr.Shared.NodeInputs
     public class InputProcedural : NodeInput, INoodleData
     {
         private INodeOutput connectedNode;
+
         public INodeOutput ConnectedNode
         {
             get => connectedNode;

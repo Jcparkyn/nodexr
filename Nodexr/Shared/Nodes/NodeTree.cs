@@ -77,7 +77,7 @@ namespace Nodexr.Shared.Nodes
         {
             foreach (var node in nodes)
             {
-                foreach (var input in node.GetInputsRecursive().OfType<InputProcedural>())
+                foreach (var input in node.GetAllInputs().OfType<InputProcedural>())
                 {
                     DeleteNoodlesBetween(nodeToRemove, input);
                 }

@@ -43,7 +43,7 @@ namespace Nodexr.Shared.RegexParsers
 
         private static List<Node> GetChildren(Node node)
         {
-            var inputs = node.GetInputsRecursive().OfType<InputProcedural>();
+            var inputs = node.GetAllInputs().OfType<InputProcedural>();
             var children = inputs.Select(input => input.ConnectedNode).OfType<Node>().ToList();
             return children;
         }

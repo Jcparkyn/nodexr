@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Nodexr.Shared.NodeInputs;
 using Nodexr.Shared;
 
-
 namespace Nodexr.Shared.Nodes
 {
     public interface INodeOutput
@@ -27,12 +26,27 @@ namespace Nodexr.Shared.Nodes
 
         IEnumerable<NodeInput> NodeInputs { get; }
         InputProcedural Previous { get; }
+
+        /// <summary>
+        /// The node connected to the 'Previous' input.
+        /// </summary>
         INodeOutput PreviousNode { get; set; }
 
         void CalculateInputsPos();
+
+        /// <summary>
+        /// Get the height of the node, in pixels. Disabled inputs do not contribute to the height.
+        /// </summary>
         int GetHeight();
-        IEnumerable<NodeInput> GetInputsRecursive();
+
+        /// <summary>
+        /// Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
+        /// InputCollections themselves are not returned.
+        /// </summary>
+        IEnumerable<NodeInput> GetAllInputs();
         void OnLayoutChanged(object sender, EventArgs e);
+        bool IsDependentOn(INodeInput childInput);
+
         event EventHandler LayoutChanged;
     }
 
@@ -49,14 +63,16 @@ namespace Nodexr.Shared.Nodes
                 CalculateInputsPos();
             }
         }
+
         public InputProcedural Previous { get; } = new InputProcedural();
+
         public INodeOutput PreviousNode
         {
             get => Previous.ConnectedNode;
             set => Previous.ConnectedNode = value;
         }
 
-        public IEnumerable<NodeInput> NodeInputs { get; private set; }
+        public IEnumerable<NodeInput> NodeInputs { get; }
         public abstract string Title { get; }
         public abstract string NodeInfo { get; }
 
@@ -77,7 +93,7 @@ namespace Nodexr.Shared.Nodes
         public void OnLayoutChanged(object sender, EventArgs e)
         {
             CalculateInputsPos();
-            foreach(var input in GetInputsRecursive().OfType<InputProcedural>())
+            foreach(var input in GetAllInputs().OfType<InputProcedural>())
             {
                 input.Refresh();
             }
@@ -168,11 +184,8 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        /// <summary>
-        /// Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
-        /// InputCollections themselves are not returned.
-        /// </summary>
-        public IEnumerable<NodeInput> GetInputsRecursive()
+        /// <inheritdoc/>
+        public IEnumerable<NodeInput> GetAllInputs()
         {
             yield return Previous;
             foreach(var input in NodeInputs)
@@ -189,9 +202,28 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
+        public bool IsDependentOn(INodeInput childInput)
+        {
+            return GetAllProceduralInputsRecursive(this).Any(input => input == childInput);
+
+            static IEnumerable<InputProcedural> GetAllProceduralInputsRecursive(INode parent)
+            {
+                foreach(var input in parent.GetAllInputs().OfType<InputProcedural>())
+                {
+                    yield return input;
+
+                    if (input.ConnectedNode is INode childNode)
+                    {
+                        foreach (var input2 in GetAllProceduralInputsRecursive(childNode))
+                            yield return input2;
+                    }
+                }
+            }
+        }
+
         public int GetHeight()
         {
-            int baseHeight = 28;
+            const int baseHeight = 28;
 
             int inputHeight = NodeInputs
                 .Where(input => input.IsEnabled())
