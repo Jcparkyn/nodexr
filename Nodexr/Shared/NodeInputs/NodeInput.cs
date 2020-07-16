@@ -7,13 +7,25 @@ namespace Nodexr.Shared.NodeInputs
         string Title { get; set; }
         event EventHandler ValueChanged;
         Func<bool> IsEnabled { get; }
+        string Description { get; }
+        Func<string> DescriptionFunc { get; set; }
     }
 
     public abstract class NodeInput : INodeInput
     {
         public string Title { get; set; }
+
+        public string Description => DescriptionFunc?.Invoke();
+
+        /// <summary>
+        /// A function that returns the description for this input.
+        /// </summary>
+        public Func<string> DescriptionFunc { get; set; }
+
         public event EventHandler ValueChanged;
+
         public Vector2L Pos { get; set; }
+
         public Func<bool> IsEnabled { get; set; } = (() => true);
 
         public virtual int Height { get; } = 32;

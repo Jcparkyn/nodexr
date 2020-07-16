@@ -9,6 +9,11 @@
             Causes the connected noodle to be re-rendered
             </summary>
         </member>
+        <member name="P:Nodexr.Shared.NodeInputs.NodeInput.DescriptionFunc">
+            <summary>
+            A function that returns the description for this input.
+            </summary>
+        </member>
         <member name="P:Nodexr.Shared.NodeInputs.NodeInput.AffectsLayout">
             <summary>
             Determines whether a change from this input should trigger a

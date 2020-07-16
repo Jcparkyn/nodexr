@@ -1,51 +1,46 @@
-﻿@inject INoodleDragService NoodleDragService
-
-@switch (Data)
-{
-    case InputString input:
-        @if (!String.IsNullOrEmpty(input.Title))
-        {
-            <div class="node-input-heading">@input.Title</div>
-        }
-        <div class="node-input">
-            <input type="text" class="input-field" @bind-value="@input.Contents" @bind-value:event="oninput" />
-        </div>
-        break;
-    case InputNumber input:
-        @if (!String.IsNullOrEmpty(input.Title))
-        {
-            <div class="node-input-heading">@input.Title</div>
-        }
-        <div class="node-input">
-            <input type="number" class="input-field" min="@("" + input.Min)" max="@("" + input.Max)" @bind-value="@input.InputContents" @bind-value:event="oninput"/>
-        </div>
-        break;
-    case InputProcedural input:
-        <div class="node-input procedural" style="font-size:15px; font-style:italic"
-             @ondrop="@(() => NoodleDragService.OnDropNoodle(input))"
-             ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault(); tempNoodle.setValid();">
-            <NodeInputDot Input="@input"/>
-            @input.Title
-        </div>
-        break;
-    case InputCheckbox input:
-        <div class="input-checkbox">
-            <label><input type="checkbox" @bind="@input.IsChecked" />@input.Title</label>
-        </div>
-        break;
-    case InputCheckboxNullable input:
-        <div class="input-checkbox">
-            <label><ThreeStateToggle @bind-ButtonState="@input.CheckedState" />@input.Title</label>
-        </div>
-        break;
-    case InputDropdown input:
-        <InputDropdownView Input="@input" />
-        break;
-    case InputCollection input:
-        <InputCollectionView Data="@input" />
-        break;
-}
-
+﻿
+<div title="@Data.Description">
+    @switch (Data)
+    {
+        case InputString input:
+            @if (!String.IsNullOrEmpty(input.Title))
+            {
+                <div class="node-input-heading">@input.Title</div>
+            }
+            <div class="node-input">
+                <input type="text" class="input-field" @bind-value="@input.Contents" @bind-value:event="oninput" />
+            </div>
+            break;
+        case InputNumber input:
+            @if (!String.IsNullOrEmpty(input.Title))
+            {
+                <div class="node-input-heading">@input.Title</div>
+            }
+            <div class="node-input">
+                <input type="number" class="input-field" min="@("" + input.Min)" max="@("" + input.Max)" @bind-value="@input.InputContents" @bind-value:event="oninput"/>
+            </div>
+            break;
+        case InputProcedural input:
+            <InputProceduralView Input="@input"/>
+            break;
+        case InputCheckbox input:
+            <div class="input-checkbox">
+                <label><input type="checkbox" @bind="@input.IsChecked" />@input.Title</label>
+            </div>
+            break;
+        case InputCheckboxNullable input:
+            <div class="input-checkbox">
+                <label><ThreeStateToggle @bind-ButtonState="@input.CheckedState" />@input.Title</label>
+            </div>
+            break;
+        case InputDropdown input:
+            <InputDropdownView Input="@input" />
+            break;
+        case InputCollection input:
+            <InputCollectionView Data="@input" />
+            break;
+    }
+</div>
 
 @functions{
     [Parameter] public INodeInput Data { get; set; }

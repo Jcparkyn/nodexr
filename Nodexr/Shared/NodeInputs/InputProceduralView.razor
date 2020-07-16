@@ -1,0 +1,12 @@
+﻿@inject INoodleDragService NoodleDragService
+
+<div class="node-input procedural" style="font-size:15px; font-style:italic"
+     @ondrop="@(() => NoodleDragService.OnDropNoodle(Input))"
+     ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault(); tempNoodle.setValid();">
+    <NodeInputDot Input="@Input" />
+    @Input.Title
+</div>
+
+@code {
+    [Parameter] public InputProcedural Input { get; set; }
+}

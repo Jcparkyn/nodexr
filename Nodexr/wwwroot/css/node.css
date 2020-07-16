@@ -68,8 +68,9 @@
     .node .input-checkbox {
         position: relative;
         font-size: 0.9rem;
-        margin-top: 2px;
+        margin-top: 1px;
         margin-left: 2px;
+        margin-bottom: -3px;
     }
 
     .node .input-checkbox input, .node .input-checkbox button {
@@ -79,10 +80,6 @@
 
     .node .input-checkbox label {
         margin-bottom: 0;
-    }
-
-    .input-checkbox ~ .input-checkbox {
-        margin-top: -2px;
     }
 
     .input-field {
