@@ -42,5 +42,37 @@
             Parse any type of group. This includes anything in (non-escaped) parentheses.
             </summary>
         </member>
+        <member name="P:Nodexr.Shared.Services.NodeHandler.Tree">
+            <summary>
+            The <c>NodeTree</c> containing the collection of nodes in the current expression.
+            </summary>
+        </member>
+        <member name="P:Nodexr.Shared.Services.NodeHandler.SelectedNode">
+            <summary>
+            The currently selected node.
+            </summary>
+        </member>
+        <member name="E:Nodexr.Shared.Services.NodeHandler.OutputChanged">
+            <summary>
+            Called when the output of the node graph has changed.
+            </summary>
+        </member>
+        <member name="E:Nodexr.Shared.Services.NodeHandler.OnRequireNoodleRefresh">
+            <summary>
+            Called when the state of the noodles has changed, but the noodles have not been re-rendered automatically.
+            </summary>
+        </member>
+        <member name="E:Nodexr.Shared.Services.NodeHandler.OnRequireNodeGraphRefresh">
+            <summary>
+            Called when the state of the node graph has changed, but the node graph has not been re-rendered automatically.
+            </summary>
+        </member>
+        <member name="M:Nodexr.Shared.Services.NodeHandler.TryCreateTreeFromRegex(System.String)">
+            <summary>
+            Parses a Regular Expression and creates a node tree from it. The previous <c>Tree</c> is then overwritten by the new one.
+            </summary>
+            <param name="regex">The regular expression to parse, in string format</param>
+            <returns>Whether or not the parse attempt succeeded</returns>
+        </member>
     </members>
 </doc>

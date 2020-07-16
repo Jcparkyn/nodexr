@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Nodexr.Shared.Services
 {
     public class RegexReplaceHandler
     {
-        readonly INodeHandler nodeHandler;
+        private readonly INodeHandler nodeHandler;
         private RegexOptions options = RegexOptions.None;
 
-        public RegexReplaceHandler(INodeHandler NodeHandler)
-        {
-            this.nodeHandler = NodeHandler;
-        }
+        public const string DefaultReplacementRegex = "animal";
 
-        public string ReplacementRegex { get; set; } = "animal";
+        public string ReplacementRegex { get; set; } = DefaultReplacementRegex;
 
-        public string SearchText { get; set; } =
-            "The quick brown fox jumped over the lazy dog.";
+        public const string DefaultSearchText = "The quick brown fox jumped over the lazy dog.";
+
+        public string SearchText { get; set; } = DefaultSearchText;
 
         public RegexOptions Options
         {
@@ -30,7 +30,23 @@ namespace Nodexr.Shared.Services
                 RegexOptionsChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler RegexOptionsChanged;
+
+        public RegexReplaceHandler(INodeHandler NodeHandler, NavigationManager navManager)
+        {
+            this.nodeHandler = NodeHandler;
+
+            var uriParams = QueryHelpers.ParseQuery(navManager.ToAbsoluteUri(navManager.Uri).Query);
+            if (uriParams.TryGetValue("search", out var searchString))
+            {
+                SearchText = searchString[0];
+            }
+            if (uriParams.TryGetValue("replace", out var replaceString))
+            {
+                ReplacementRegex = replaceString[0];
+            }
+        }
 
         public MatchCollection GetAllMatches()
         {
@@ -57,7 +73,7 @@ namespace Nodexr.Shared.Services
             {
                 return "ECMAScript mode must only be used with Multiline and Ignore Case flags";
             }
-            
+
             string result;
             try
             {
@@ -74,22 +90,17 @@ namespace Nodexr.Shared.Services
             return result;
         }
 
-        bool IsRegexOptionsValid(RegexOptions options)
+        private bool IsRegexOptionsValid(RegexOptions options)
         {
             //Options can only be invalid in ECMAScript mode
             if (!options.HasFlag(RegexOptions.ECMAScript)) return true;
 
-            RegexOptions disallowedFlags = ~(
+            const RegexOptions disallowedFlags = ~(
                 RegexOptions.Multiline |
                 RegexOptions.IgnoreCase);
 
             //Regex is only allowed to have multiline or ignoreCase flags when in ECMAScript mode
-            if ((options & disallowedFlags & ~RegexOptions.ECMAScript) != 0)
-            {
-                return false;
-            }
-
-            return true;
+            return (options & disallowedFlags & ~RegexOptions.ECMAScript) == 0;
         }
     }
 }
