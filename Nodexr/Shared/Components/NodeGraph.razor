@@ -16,8 +16,10 @@
         {
             <NodeView @key="node" Data="node" />
         }
-        <svg style="overflow:visible;">
+        <svg style="overflow:visible; position:absolute;">
             <NoodleSvg Noodle="NoodleDragService.TempNoodle" DomId="tempNoodle" />
+        </svg>
+        <svg style="overflow:visible; position:absolute;">
             <NoodleCollection Nodes="@NodeHandler.Tree.Nodes"/>
         </svg>
     </div>
