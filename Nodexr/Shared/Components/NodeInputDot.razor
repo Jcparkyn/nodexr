@@ -1,7 +1,9 @@
 ﻿@inject INoodleDragService NoodleDragService
 
-<div draggable="true" onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)" @ondragstart="OnDragStart"
-     class="@CssClass" @ondrop="@(() => NoodleDragService.OnDropNoodle(Input))" @ondragend="OnDragEnd"
+<div draggable="true" class="@CssClass"
+     onmousedown="event.stopPropagation()" ondrag="tempNoodle.dragNoodle(event)"
+     @ondragstart="OnDragStart" @ondragstart:stopPropagation
+     @ondrop="@(() => NoodleDragService.OnDropNoodle(Input))" @ondragend="OnDragEnd"
      ondragover="event.preventDefault()">
     @if (IsPrevious)
     {

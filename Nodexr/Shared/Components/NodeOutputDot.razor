@@ -4,7 +4,8 @@
 
 
 <div draggable="true" onmousedown="event.stopPropagation()" class="node-output-dot-parent"
-     @ondragstart="OnDragStart" @ondragend="OnDragEnd">
+     @ondragstart="OnDragStart"
+     @ondragend="OnDragEnd">
     <div class="node-output-dot">
         <span class="outputtooltip">
             Output:<br />
@@ -17,11 +18,6 @@
 @functions
 {
     [Parameter] public INode Data { get; set; }
-
-    //protected override void OnInitialized()
-    //{
-    //    Data.OutputChanged += (sender, e) => StateHasChanged();
-    //}
 
     void OnDragStart(DragEventArgs e)
     {
