@@ -1,6 +1,6 @@
 ﻿var prevX = 0;
 var prevY = 0;
-var startX, startY, endX, endY = 0;
+var startX, startY = 0;
 var noodleElement = null;
 var isValid = false;
 
@@ -10,8 +10,6 @@ window.tempNoodle = {
         noodleElement = document.getElementById("tempNoodle");
         startX = _startX;
         startY = _startY;
-        endX = _endX - 6;
-        endY = _endY - 6;
         this.setInvalid();
         this.updatePath();
     },
@@ -22,7 +20,8 @@ window.tempNoodle = {
 
     updatePath: function () {
         if (noodleElement != null) {
-            this.setPath(this.getNoodlePath(startX, startY, endX + event.offsetX, endY + event.offsetY));
+            let [endX, endY] = window.panzoom.clientToGraphPos(event.clientX, event.clientY);
+            this.setPath(this.getNoodlePath(startX, startY, endX, endY));
         }
     },
 
