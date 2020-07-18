@@ -85,6 +85,7 @@ namespace Nodexr.Shared.Services
             //Hack to stop the noodle from being visible for a frame when a drag starts
             //TempNoodle.StartPos = (10000, 10000);
             //TempNoodle.EndPos = (10000, 10000);
+            jsRuntime.InvokeVoidAsync("tempNoodle.endDrag");
 
             TempNoodle.Refresh();
         }

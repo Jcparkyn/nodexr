@@ -1,6 +1,6 @@
 ﻿var prevX = 0;
 var prevY = 0;
-var startX, startY = 0;
+var startX, startY, endX, endY = 0;
 var noodleElement = null;
 var isValid = false;
 
@@ -8,24 +8,31 @@ window.tempNoodle = {
 
     startNoodleDrag: function (_startX, _startY, _endX, _endY) {
         noodleElement = document.getElementById("tempNoodle");
-        startX = _startX;
-        startY = _startY;
-        this.setInvalid();
-        this.updatePath();
+        startX = endX = _startX;
+        startY = endY = _startY;
+        window.addEventListener("dragover", tempNoodle.dragNoodle);
+        
+        tempNoodle.updatePath()
+        tempNoodle.setInvalid();
     },
 
     dragNoodle: function (event) {
-        this.updatePath();
+        [endX, endY] = window.panzoom.clientToGraphPos(event.clientX, event.clientY);
+        tempNoodle.updatePath();
+    },
+
+    endDrag: function () {
+        window.removeEventListener("dragover", tempNoodle.dragNoodle);
     },
 
     updatePath: function () {
         if (noodleElement != null) {
-            let [endX, endY] = window.panzoom.clientToGraphPos(event.clientX, event.clientY);
-            this.setPath(this.getNoodlePath(startX, startY, endX, endY));
+            tempNoodle.setPath(startX, startY, endX, endY);
         }
     },
 
-    setPath: function (path) {
+    setPath: function (startX, startY, endX, endY) {
+        let path = tempNoodle.getNoodlePath(startX, startY, endX, endY);
         if (noodleElement != null) {
             noodleElement.setAttribute("d", path);
         }

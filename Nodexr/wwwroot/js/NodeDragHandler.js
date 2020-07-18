@@ -16,9 +16,9 @@ function startNodeDrag(e) {
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
-    document.onmouseup = endNodeDrag;
+    //document.onmouseup = endNodeDrag;
     // call a function whenever the cursor moves:
-    document.onmousemove = dragNode;
+    //document.onmousemove = dragNode;
 }
 
 function dragNode(e) {
