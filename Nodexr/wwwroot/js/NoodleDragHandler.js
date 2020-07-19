@@ -1,50 +1,63 @@
-﻿var prevX = 0;
-var prevY = 0;
-var startX, startY, endX, endY = 0;
-var noodleElement = null;
-var isValid = false;
+﻿window.tempNoodle = {
 
-window.tempNoodle = {
+    prevX: 0,
+    prevY: 0,
+    startX: 0,
+    startY: 0,
+    endX: 0,
+    endY: 0,
+    noodleElement: null,
+    isValid: false,
 
     startNoodleDrag: function (_startX, _startY, _endX, _endY) {
-        noodleElement = document.getElementById("tempNoodle");
-        startX = _startX;
-        startY = _startY;
-        endX = _endX - 6;
-        endY = _endY - 6;
-        this.setInvalid();
-        this.updatePath();
+        tempNoodle.noodleElement = document.getElementById("tempNoodle");
+        tempNoodle.startX = tempNoodle.endX = _startX;
+        tempNoodle.startY = tempNoodle.endY = _startY;
+        window.addEventListener("dragover", tempNoodle.dragNoodle);
+        
+        tempNoodle.updatePath()
+        tempNoodle.setInvalid();
     },
 
     dragNoodle: function (event) {
-        this.updatePath();
+        [tempNoodle.endX, tempNoodle.endY] = window.panzoom.clientToGraphPos(event.clientX, event.clientY);
+        tempNoodle.updatePath();
+    },
+
+    endDrag: function () {
+        window.removeEventListener("dragover", tempNoodle.dragNoodle);
     },
 
     updatePath: function () {
-        if (noodleElement != null) {
-            this.setPath(this.getNoodlePath(startX, startY, endX + event.offsetX, endY + event.offsetY));
+        if (tempNoodle.noodleElement != null) {
+            tempNoodle.setPath(
+                tempNoodle.startX,
+                tempNoodle.startY,
+                tempNoodle.endX,
+                tempNoodle.endY);
         }
     },
 
-    setPath: function (path) {
-        if (noodleElement != null) {
-            noodleElement.setAttribute("d", path);
+    setPath: function (_startX, _startY, _endX, _endY) {
+        let path = tempNoodle.getNoodlePath(_startX, _startY, _endX, _endY);
+        if (tempNoodle.noodleElement != null) {
+            tempNoodle.noodleElement.setAttribute("d", path);
         }
     },
 
     setValid: function () {
-        if (!isValid) {
-            isValid = true;
-            if (noodleElement != null) {
-                noodleElement.classList.remove("noodle-invalid");
+        if (!tempNoodle.isValid) {
+            tempNoodle.isValid = true;
+            if (tempNoodle.noodleElement != null) {
+                tempNoodle.noodleElement.classList.remove("noodle-invalid");
             }
         }
     },
 
     setInvalid: function () {
-        isValid = false;
-        if (noodleElement != null) {
-            noodleElement.classList.add("noodle-invalid");
+        tempNoodle.isValid = false;
+        if (tempNoodle.noodleElement != null) {
+            tempNoodle.noodleElement.classList.add("noodle-invalid");
         }
     },
 

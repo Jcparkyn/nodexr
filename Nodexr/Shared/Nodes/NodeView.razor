@@ -6,51 +6,55 @@
 
 @implements IDisposable
 
-<div class="@CssClass" style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Data.CssColor;"
-        onmousedown="event.stopPropagation()" @onfocusin="Deselect"
-        @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.Previous))"
-             ondragleave="tempNoodle.setInvalid()" ondragover="event.preventDefault(); tempNoodle.setValid();">
+    <div class="@CssClass"
+         style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Data.CssColor;"
+         onmousedown="event.stopPropagation()" ondragleave="tempNoodle.setInvalid()"
+         ondragover="event.preventDefault(); tempNoodle.setValid();"
+         @onfocusin="Deselect"
+         @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.Previous))">
 
-    <div draggable="true" @ondragstart="@(e => NodeDragService.OnStartNodeDrag(Data, e))" @onclick="Select" class="node-drag-region"></div>
-    @if (!Data.IsCollapsed)
-    {
-        <div class="node-title" style="background-color: var(--col-node-accent)">
-            <button @onclick="ToggleCollapsed" class="collapse-button"><i class="fas fa-chevron-down"></i></button>
+        <div draggable="true" @ondragstart="StartDrag" @onclick="Select" class="node-drag-region"></div>
+
+        <div class="node-title @(Data.IsCollapsed ? "collapsed" : "")"
+             style="background-color: var(--col-node-accent);">
+            @if (!Data.IsCollapsed)
+            {
+                <button @onclick="ToggleCollapsed" class="collapse-button"><i class="fas fa-chevron-down"></i></button>
+            }
+            else
+            {
+                <button @onclick="ToggleCollapsed" class="collapse-button" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
+            }
+
             <b>@Data.Title</b>
             <button class="icon-button info-button"
                     @onclick="ShowModal">
                 <i class="fas fa-info-circle"></i>
             </button>
         </div>
-        <div class="node-content">
-            @foreach(INodeInput nodeInput in Data.NodeInputs)
-            {
-                if (nodeInput.IsEnabled())
-                {
-                    <NodeInputView Data="nodeInput" />
-                }
-            }
-        </div>
-    }
-    else
-    {
-        <div class="node-title collapsed" style="background-color: var(--col-node-accent); height:100%;">
-            <button @onclick="ToggleCollapsed" class="collapse-button" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
-            <b> @Data.Title</b>
-            <button class="icon-button info-button"
-                    @onclick="ShowModal">
-                <i class="fas fa-info-circle"></i>
-            </button>
-        </div>
-    }
-    <NodeInputDot Input="Data.Previous" IsPrevious="true"/>
 
-    @*Output dot*@
-    @if (!(Data is OutputNode))
-    {
-        <NodeOutputDot Data="Data" />
-    }
-</div>
+        @if (!Data.IsCollapsed)
+        {
+            <div class="node-content"
+                 @onclick:stopPropagation>
+                @foreach (INodeInput nodeInput in Data.NodeInputs)
+                {
+                    if (nodeInput.IsEnabled())
+                    {
+                        <NodeInputView Data="nodeInput" />
+                    }
+                }
+            </div>
+        }
+
+        <NodeInputDot Input="Data.Previous" IsPrevious="true" />
+
+        @*Output dot*@
+        @if (!(Data is OutputNode))
+        {
+            <NodeOutputDot Data="Data" />
+        }
+    </div>
 
 
 @functions{
@@ -70,9 +74,13 @@
         Data.OnLayoutChanged(this, EventArgs.Empty);
     }
 
+    void StartDrag(DragEventArgs e)
+    {
+        NodeDragService.OnStartNodeDrag(Data, e);
+    }
+
     void ShowModal()
     {
-        //Console.WriteLine("Showing Modal");
         var modalParameters = new ModalParameters();
         modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
         Modal.Show(typeof(NodeInfo), Data.Title, modalParameters);

@@ -46,19 +46,14 @@ window.panzoom = {
     },
 
     startPan: function (event) {
-        //console.log("start pan");
         event.preventDefault();
-        //var element = document.getElementById("nodegraph").parentElement;
-        window.onmousemove = this.pan;
-        window.onmouseup = function () {
-            panzoom.endPan(targetDiv);
-        };
+        window.addEventListener("mousemove", panzoom.pan);
+        window.addEventListener("mouseup", panzoom.endPan);
     },
 
-    endPan: function (element) {
-        //console.log("end pan");
-        window.onmouseup = null;
-        window.onmousemove = null;
+    endPan: function () {
+        window.removeEventListener("mousemove", panzoom.pan);
+        window.removeEventListener("mouseup", panzoom.endPan);
     },
 
     pan: function (event) {
