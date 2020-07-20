@@ -44,10 +44,9 @@
         <member name="M:Nodexr.Shared.Nodes.NodeExtensionMethods.IsDependentOn(Nodexr.Shared.Nodes.INode,Nodexr.Shared.NodeInputs.INodeInput)">
             <summary>
             Checks whether the output of the node is dependent on the value of the given input.
+            Used for finding cyclic dependencies.
             </summary>
-            <param name="that"></param>
-            <param name="childInput"></param>
-            <returns>True if there is a dependency</returns>
+            <returns>True if there is a dependency, false otherwise</returns>
         </member>
         <member name="M:Nodexr.Shared.NodeTypes.OrNode.#ctor(System.Collections.Generic.IEnumerable{Nodexr.Shared.Nodes.INodeOutput})">
             <summary>
