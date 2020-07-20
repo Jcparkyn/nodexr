@@ -257,11 +257,11 @@ input {
     margin: 5px;
 }
 
-    .output-regex-container :first-child {
+    .output-regex-container:first-child {
         border-radius: 5px 0 0 5px;
     }
 
-    .output-regex-container :last-child {
+    .output-regex-container:last-child {
         border-radius: 0 5px 5px 0;
     }
 
@@ -279,8 +279,16 @@ input {
     height: auto;
 }
 
+.output-segment {
+    border-radius: 5px;
+}
+
 .output-segment:hover {
     background-color: rgba(255, 255, 255, 0.16);
+}
+
+.output-segment-selected {
+    outline: 1px solid white;
 }
 
 .output-regex-button {

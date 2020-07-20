@@ -10,7 +10,7 @@
 
 <div class="output-regex-container">
     <div class="output-regex">@foreach (var segment in @NodeHandler.CachedOutput)
-        {<OutputDisplaySegment Segment="segment" />@*This must not be surrounded by whitespace*@}</div>
+        {<OutputDisplaySegment Segment="segment" @key="segment"/>@*This must not be surrounded by whitespace*@}</div>
 
     <button title="Copy to clipboard" class="output-regex output-regex-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>
     <button title="Edit" class="output-regex output-regex-button" @onclick="OnEditButtonClick"><i class="fas fa-pencil-alt"></i></button>

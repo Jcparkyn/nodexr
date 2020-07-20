@@ -20,7 +20,8 @@ namespace Nodexr.Shared.Nodes
         {
             this.contents = new ReadOnlyCollection<RegexSegment>(contents);
         }
-        public NodeResult(string expression, INodeOutput node)
+
+        public NodeResult(string expression, INode node)
         {
             var segment = new RegexSegment(expression, node);
             var segments = new List<RegexSegment> (){ segment };
@@ -40,7 +41,7 @@ namespace Nodexr.Shared.Nodes
             this.contents = new List<RegexSegment>();
         }
 
-        public NodeResultBuilder(string expression, INodeOutput node)
+        public NodeResultBuilder(string expression, INode node)
         {
             contents = new List<RegexSegment>
             {
@@ -60,7 +61,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        public void Prepend(string expr, INodeOutput node)
+        public void Prepend(string expr, INode node)
         {
             var segment = new RegexSegment(expr, node);
             contents.Insert(0, segment);
@@ -71,7 +72,7 @@ namespace Nodexr.Shared.Nodes
             contents.InsertRange(0, segments);
         }
 
-        public void Append(string expr, INodeOutput node)
+        public void Append(string expr, INode node)
         {
             var segment = new RegexSegment(expr, node);
             contents.Add(segment);
@@ -87,11 +88,11 @@ namespace Nodexr.Shared.Nodes
 
         public void StripNonCaptureGroup()
         {
-            if (contents is null || !contents.Any())
+            if (contents is null || contents.Count == 0)
             {
                 return;
             }
-            var first = contents.First();
+            var first = contents[0];
             var last = contents.Last();
             if (first.Expression == "(?:"
                 && last.Expression == ")"
@@ -108,12 +109,12 @@ namespace Nodexr.Shared.Nodes
         }
     }
 
-    public readonly struct RegexSegment
+    public class RegexSegment
     {
-        public readonly string Expression { get; }
-        public readonly INodeOutput Node { get; }
+        public string Expression { get; }
+        public INode Node { get; }
 
-        public RegexSegment(string expression, INodeOutput node)
+        public RegexSegment(string expression, INode node)
         {
             Expression = expression;
             Node = node;

@@ -8,7 +8,7 @@
     user-select: none;
 }
 
-    .node.selected {
+    .node-selected {
         box-shadow: 0 0 0px 2px #ffffffa3;
     }
 

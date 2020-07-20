@@ -46,8 +46,12 @@ namespace Nodexr.Shared.Nodes
         IEnumerable<NodeInput> GetAllInputs();
         void OnLayoutChanged(object sender, EventArgs e);
         bool IsDependentOn(INodeInput childInput);
+        void OnSelected(EventArgs e);
+        void OnDeselected(EventArgs e);
 
         event EventHandler LayoutChanged;
+        event EventHandler Selected;
+        event EventHandler Deselected;
     }
 
     public abstract class Node : INode
@@ -84,11 +88,10 @@ namespace Nodexr.Shared.Nodes
 
         public event EventHandler OutputChanged;
         public event EventHandler LayoutChanged;
+        public event EventHandler Selected;
+        public event EventHandler Deselected;
 
-        protected virtual void OnOutputChanged(EventArgs e)
-        {
-            OutputChanged?.Invoke(this, e);
-        }
+        protected virtual void OnOutputChanged(EventArgs e) => OutputChanged?.Invoke(this, e);
 
         public void OnLayoutChanged(object sender, EventArgs e)
         {
@@ -100,10 +103,13 @@ namespace Nodexr.Shared.Nodes
             LayoutChanged?.Invoke(this, e);
         }
 
+        public void OnSelected(EventArgs e) => Selected?.Invoke(this, e);
+
+        public void OnDeselected(EventArgs e) => Deselected?.Invoke(this, e);
+
         protected void OnInputsChanged(object sender, EventArgs e)
         {
-            var newOutput = GetOutput();
-            CachedOutput = newOutput;
+            CachedOutput = GetOutput();
             OnOutputChanged(EventArgs.Empty);
         }
 

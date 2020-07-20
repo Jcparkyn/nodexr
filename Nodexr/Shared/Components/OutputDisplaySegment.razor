@@ -1,10 +1,28 @@
-﻿@inject INodeHandler NodeHandler
+﻿@implements IDisposable
+@inject INodeHandler NodeHandler
 
-<span class="output-segment"
+<span class="output-segment @(NodeHandler.IsNodeSelected(Segment.Node) ? "output-segment-selected" : "")"
       style="color:@(Segment.Node?.CssColor ?? "inherit")"
-       @onmouseover="@(() => NodeHandler.SelectNode(Segment.Node as INode))"
+       @onmouseover="@(() => NodeHandler.SelectNode(Segment.Node))"
       >@Segment.Expression</span>
 
 @code {
     [Parameter] public RegexSegment Segment { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Segment.Node.Selected += Refresh;
+        Segment.Node.Deselected += Refresh;
+    }
+
+    private void Refresh(object sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Segment.Node.Selected -= Refresh;
+        Segment.Node.Deselected -= Refresh;
+    }
 }
