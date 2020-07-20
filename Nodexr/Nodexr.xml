@@ -30,19 +30,24 @@
             Get the height of the node, in pixels. Disabled inputs do not contribute to the height.
             </summary>
         </member>
-        <member name="M:Nodexr.Shared.Nodes.INode.GetAllInputs">
-            <summary>
-            Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
-            InputCollections themselves are not returned.
-            </summary>
-        </member>
         <member name="M:Nodexr.Shared.Nodes.Node.CalculateInputsPos">
             <summary>
             Set the position of each input based on the position of the node.
             </summary>
         </member>
-        <member name="M:Nodexr.Shared.Nodes.Node.GetAllInputs">
-            <inheritdoc/>
+        <member name="M:Nodexr.Shared.Nodes.NodeExtensionMethods.GetAllInputs(Nodexr.Shared.Nodes.INode)">
+            <summary>
+            Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
+            InputCollections themselves are not returned.
+            </summary>
+        </member>
+        <member name="M:Nodexr.Shared.Nodes.NodeExtensionMethods.IsDependentOn(Nodexr.Shared.Nodes.INode,Nodexr.Shared.NodeInputs.INodeInput)">
+            <summary>
+            Checks whether the output of the node is dependent on the value of the given input.
+            </summary>
+            <param name="that"></param>
+            <param name="childInput"></param>
+            <returns>True if there is a dependency</returns>
         </member>
         <member name="M:Nodexr.Shared.NodeTypes.OrNode.#ctor(System.Collections.Generic.IEnumerable{Nodexr.Shared.Nodes.INodeOutput})">
             <summary>

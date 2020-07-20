@@ -9,7 +9,7 @@
 <h3 style="margin:6px 10px 7px 7px; display:inline-block;">Output:</h3>
 
 <div class="output-regex-container">
-    <div class="output-regex">@foreach (var segment in @NodeHandler.CachedOutput)
+    <div class="output-regex">@foreach (var segment in @NodeHandler.CachedOutput.Contents)
         {<OutputDisplaySegment Segment="segment" @key="segment"/>@*This must not be surrounded by whitespace*@}</div>
 
     <button title="Copy to clipboard" class="output-regex output-regex-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>

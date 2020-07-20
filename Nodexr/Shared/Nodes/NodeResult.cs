@@ -10,26 +10,26 @@ namespace Nodexr.Shared.Nodes
 {
     public class NodeResult : IEnumerable<RegexSegment>
     {
-        private readonly ReadOnlyCollection<RegexSegment> contents;
+        public ReadOnlyCollection<RegexSegment> Contents { get; }
 
         public string Expression =>
             string.Concat(
-                contents.Select(segment => segment.Expression));
+                Contents.Select(segment => segment.Expression));
 
         public NodeResult(IList<RegexSegment> contents)
         {
-            this.contents = new ReadOnlyCollection<RegexSegment>(contents);
+            this.Contents = new ReadOnlyCollection<RegexSegment>(contents);
         }
 
         public NodeResult(string expression, INode node)
         {
             var segment = new RegexSegment(expression, node);
-            var segments = new List<RegexSegment> (){ segment };
-            contents = new ReadOnlyCollection<RegexSegment>(segments);
+            var segments = new List<RegexSegment>() { segment };
+            Contents = new ReadOnlyCollection<RegexSegment>(segments);
         }
 
-        public IEnumerator<RegexSegment> GetEnumerator() => contents.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => contents.GetEnumerator();
+        public IEnumerator<RegexSegment> GetEnumerator() => Contents.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => Contents.GetEnumerator();
     }
 
     public class NodeResultBuilder

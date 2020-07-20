@@ -19,7 +19,7 @@ namespace Nodexr.Tests
 
         public string CssColor => throw new NotImplementedException();
 
-        public NodeResult CachedOutput => new NodeResult(output, this);
+        public NodeResult CachedOutput => new NodeResult(output, null);
 
         public FakeNodeOutput(string output) => this.output = output;
     }
