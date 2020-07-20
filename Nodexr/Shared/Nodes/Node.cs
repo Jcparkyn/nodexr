@@ -38,16 +38,14 @@ namespace Nodexr.Shared.Nodes
         /// Get the height of the node, in pixels. Disabled inputs do not contribute to the height.
         /// </summary>
         int GetHeight();
-
-        /// <summary>
-        /// Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
-        /// InputCollections themselves are not returned.
-        /// </summary>
-        IEnumerable<NodeInput> GetAllInputs();
+        
         void OnLayoutChanged(object sender, EventArgs e);
-        bool IsDependentOn(INodeInput childInput);
+        void OnSelected(EventArgs e);
+        void OnDeselected(EventArgs e);
 
         event EventHandler LayoutChanged;
+        event EventHandler Selected;
+        event EventHandler Deselected;
     }
 
     public abstract class Node : INode
@@ -84,30 +82,32 @@ namespace Nodexr.Shared.Nodes
 
         public event EventHandler OutputChanged;
         public event EventHandler LayoutChanged;
+        public event EventHandler Selected;
+        public event EventHandler Deselected;
 
-        protected virtual void OnOutputChanged(EventArgs e)
-        {
-            OutputChanged?.Invoke(this, e);
-        }
+        protected virtual void OnOutputChanged(EventArgs e) => OutputChanged?.Invoke(this, e);
 
         public void OnLayoutChanged(object sender, EventArgs e)
         {
             CalculateInputsPos();
-            foreach(var input in GetAllInputs().OfType<InputProcedural>())
+            foreach(var input in this.GetAllInputs().OfType<InputProcedural>())
             {
                 input.Refresh();
             }
             LayoutChanged?.Invoke(this, e);
         }
 
+        public void OnSelected(EventArgs e) => Selected?.Invoke(this, e);
+
+        public void OnDeselected(EventArgs e) => Deselected?.Invoke(this, e);
+
         protected void OnInputsChanged(object sender, EventArgs e)
         {
-            var newOutput = GetOutput();
-            CachedOutput = newOutput;
+            CachedOutput = GetOutput();
             OnOutputChanged(EventArgs.Empty);
         }
 
-        public Node()
+        protected Node()
         {
             var inputProperties = GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
@@ -184,43 +184,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        /// <inheritdoc/>
-        public IEnumerable<NodeInput> GetAllInputs()
-        {
-            yield return Previous;
-            foreach(var input in NodeInputs)
-            {
-                if(input is InputCollection coll)
-                {
-                    foreach (var subInput in coll.Inputs)
-                        yield return subInput;
-                }
-                else
-                {
-                    yield return input;
-                }
-            }
-        }
-
-        public bool IsDependentOn(INodeInput childInput)
-        {
-            return GetAllProceduralInputsRecursive(this).Any(input => input == childInput);
-
-            static IEnumerable<InputProcedural> GetAllProceduralInputsRecursive(INode parent)
-            {
-                foreach(var input in parent.GetAllInputs().OfType<InputProcedural>())
-                {
-                    yield return input;
-
-                    if (input.ConnectedNode is INode childNode)
-                    {
-                        foreach (var input2 in GetAllProceduralInputsRecursive(childNode))
-                            yield return input2;
-                    }
-                }
-            }
-        }
-
+        
         public int GetHeight()
         {
             const int baseHeight = 28;

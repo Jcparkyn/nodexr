@@ -6,7 +6,7 @@
 
 @implements IDisposable
 
-    <div class="@CssClass"
+    <div class="node @CssClass"
          style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Data.CssColor;"
          onmousedown="event.stopPropagation()" ondragleave="tempNoodle.setInvalid()"
          ondragover="event.preventDefault(); tempNoodle.setValid();"
@@ -60,12 +60,14 @@
 @functions{
     [Parameter] public INode Data { get; set; }
 
-    string CssClass => "node " + (NodeHandler.SelectedNode == Data ? "selected" : "");
+    string CssClass => NodeHandler.IsNodeSelected(Data) ? "node-selected" : "";
 
     protected override void OnInitialized()
     {
         Data.OutputChanged += Refresh;
         Data.LayoutChanged += Refresh;
+        Data.Selected += Refresh;
+        Data.Deselected += Refresh;
     }
 
     void ToggleCollapsed()
@@ -105,5 +107,7 @@
     {
         Data.OutputChanged -= Refresh;
         Data.LayoutChanged -= Refresh;
+        Data.Selected -= Refresh;
+        Data.Deselected -= Refresh;
     }
 }

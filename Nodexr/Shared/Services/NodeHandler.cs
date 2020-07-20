@@ -29,6 +29,7 @@ namespace Nodexr.Shared.Services
         void SelectNode(INode node);
         void DeselectAllNodes();
         bool TryCreateTreeFromRegex(string regex);
+        bool IsNodeSelected(INode node);
     }
 
     public class NodeHandler : INodeHandler
@@ -130,9 +131,8 @@ namespace Nodexr.Shared.Services
         {
             var selectedNodePrevious = SelectedNode;
             SelectedNode = node;
-            selectedNodePrevious?.OnLayoutChanged(this, EventArgs.Empty);
-            node.OnLayoutChanged(this, EventArgs.Empty);
-            //ForceRefreshNodeGraph();
+            selectedNodePrevious?.OnDeselected(EventArgs.Empty);
+            node.OnSelected(EventArgs.Empty);
         }
 
         public void DeselectAllNodes()
@@ -140,9 +140,16 @@ namespace Nodexr.Shared.Services
             if (SelectedNode != null)
             {
                 SelectedNode.OnLayoutChanged(this, EventArgs.Empty);
+                var previousSelectedNode = SelectedNode;
                 SelectedNode = null;
-                ForceRefreshNodeGraph();
+                previousSelectedNode.OnDeselected(EventArgs.Empty);
+                //ForceRefreshNodeGraph();
             }
+        }
+
+        public bool IsNodeSelected(INode node)
+        {
+            return ReferenceEquals(SelectedNode, node);
         }
 
         public void DeleteSelectedNode()
@@ -150,6 +157,7 @@ namespace Nodexr.Shared.Services
             if (SelectedNode != null)
             {
                 Tree.DeleteNode(SelectedNode, false);
+                SelectedNode = null;
                 ForceRefreshNodeGraph();
             }
         }

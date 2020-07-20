@@ -279,8 +279,16 @@ input {
     height: auto;
 }
 
+.output-segment {
+    border-radius: 5px;
+}
+
 .output-segment:hover {
     background-color: rgba(255, 255, 255, 0.16);
+}
+
+.output-segment-selected {
+    outline: 1px solid white;
 }
 
 .output-regex-button {

@@ -75,7 +75,9 @@ namespace Nodexr.Shared.NodeTypes
                 InputMin.GetValue(),
                 InputMax.GetValue());
 
-            return new NodeResultBuilder(ValueString() + suffix, this);
+            var builder = new NodeResultBuilder(ValueString(), this);
+            builder.Append(suffix, this);
+            return builder;
         }
 
         private string ValueString()

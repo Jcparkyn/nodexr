@@ -127,7 +127,10 @@ namespace Nodexr.Shared.NodeTypes
                 (WildcardType.Custom, _) => GetContentsCustom(invert),
                 _ => ".",
             };
-            return new NodeResultBuilder(contents + suffix, this);
+
+            var builder = new NodeResultBuilder(contents, this);
+            builder.Append(suffix, this);
+            return builder;
         }
 
         private string GetContentsCustom(bool invert)

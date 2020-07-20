@@ -10,25 +10,26 @@ namespace Nodexr.Shared.Nodes
 {
     public class NodeResult : IEnumerable<RegexSegment>
     {
-        private readonly ReadOnlyCollection<RegexSegment> contents;
+        public ReadOnlyCollection<RegexSegment> Contents { get; }
 
         public string Expression =>
             string.Concat(
-                contents.Select(segment => segment.Expression));
+                Contents.Select(segment => segment.Expression));
 
         public NodeResult(IList<RegexSegment> contents)
         {
-            this.contents = new ReadOnlyCollection<RegexSegment>(contents);
-        }
-        public NodeResult(string expression, INodeOutput node)
-        {
-            var segment = new RegexSegment(expression, node);
-            var segments = new List<RegexSegment> (){ segment };
-            contents = new ReadOnlyCollection<RegexSegment>(segments);
+            this.Contents = new ReadOnlyCollection<RegexSegment>(contents);
         }
 
-        public IEnumerator<RegexSegment> GetEnumerator() => contents.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => contents.GetEnumerator();
+        public NodeResult(string expression, INode node)
+        {
+            var segment = new RegexSegment(expression, node);
+            var segments = new List<RegexSegment>() { segment };
+            Contents = new ReadOnlyCollection<RegexSegment>(segments);
+        }
+
+        public IEnumerator<RegexSegment> GetEnumerator() => Contents.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => Contents.GetEnumerator();
     }
 
     public class NodeResultBuilder
@@ -40,7 +41,7 @@ namespace Nodexr.Shared.Nodes
             this.contents = new List<RegexSegment>();
         }
 
-        public NodeResultBuilder(string expression, INodeOutput node)
+        public NodeResultBuilder(string expression, INode node)
         {
             contents = new List<RegexSegment>
             {
@@ -60,7 +61,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        public void Prepend(string expr, INodeOutput node)
+        public void Prepend(string expr, INode node)
         {
             var segment = new RegexSegment(expr, node);
             contents.Insert(0, segment);
@@ -71,7 +72,7 @@ namespace Nodexr.Shared.Nodes
             contents.InsertRange(0, segments);
         }
 
-        public void Append(string expr, INodeOutput node)
+        public void Append(string expr, INode node)
         {
             var segment = new RegexSegment(expr, node);
             contents.Add(segment);
@@ -87,11 +88,11 @@ namespace Nodexr.Shared.Nodes
 
         public void StripNonCaptureGroup()
         {
-            if (contents is null || !contents.Any())
+            if (contents is null || contents.Count == 0)
             {
                 return;
             }
-            var first = contents.First();
+            var first = contents[0];
             var last = contents.Last();
             if (first.Expression == "(?:"
                 && last.Expression == ")"
@@ -108,12 +109,12 @@ namespace Nodexr.Shared.Nodes
         }
     }
 
-    public readonly struct RegexSegment
+    public class RegexSegment
     {
-        public readonly string Expression { get; }
-        public readonly INodeOutput Node { get; }
+        public string Expression { get; }
+        public INode Node { get; }
 
-        public RegexSegment(string expression, INodeOutput node)
+        public RegexSegment(string expression, INode node)
         {
             Expression = expression;
             Node = node;
