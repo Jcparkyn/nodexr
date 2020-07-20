@@ -70,7 +70,8 @@ namespace Nodexr.Shared.NodeTypes
                 InputMax.GetValue());
 
             var builder = new NodeResultBuilder();
-            builder.Append(result + suffix, this);
+            builder.Append(result, this);
+            builder.Append(suffix, this);
             return builder;
         }
     }
