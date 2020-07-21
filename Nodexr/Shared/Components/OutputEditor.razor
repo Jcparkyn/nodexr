@@ -1,0 +1,25 @@
+﻿
+<div @onkeypress="OnKeyPress">
+    <ContentEditableDiv @bind-Text="expression"
+                        CssClass="output-regex-text"/>
+</div>
+
+@code {
+
+    string expression;
+
+    [Parameter] public string StartExpression
+    {
+        set => expression = value;
+    }
+
+    [Parameter] public EventCallback<string> OnSubmitted { get; set; }
+
+    protected async Task OnKeyPress(KeyboardEventArgs e)
+    {
+        if(e.Key == "Enter")
+        {
+            await OnSubmitted.InvokeAsync(expression);
+        }
+    }
+}

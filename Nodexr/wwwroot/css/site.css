@@ -266,17 +266,20 @@ input {
     }
 
 .output-regex {
+    border: none;
     background-color: var(--col-field);
     color: var(--col-text-medium);
-    border: none;
+    min-width: 250px;
+    padding: 0px 5px;
+    height: auto;
+}
+
+.output-regex-text {
     font-size: 30px;
     font-family: Consolas, monospace;
     line-height: 34px;
-    min-width: 250px;
-    padding: 0px 5px;
     white-space: pre-wrap;
     word-break: break-all;
-    height: auto;
 }
 
 .output-segment {
@@ -301,6 +304,18 @@ input {
     .output-regex-button:hover {
         background-color: hsl(222, 14%, 22%);
     }
+
+.output-edit-textarea {
+    position: absolute;
+    resize: none;
+    background-color: transparent;
+    color: inherit;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+    width: 100%;
+/*    height: 100%;*/
+}
 
 .search-text-highlight, .search-textarea {
     padding: 3px;

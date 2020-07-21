@@ -9,8 +9,15 @@
 <h3 style="margin:6px 10px 7px 7px; display:inline-block;">Output:</h3>
 
 <div class="output-regex-container">
-    <div class="output-regex">@foreach (var segment in @NodeHandler.CachedOutput.Contents)
-        {<OutputDisplaySegment Segment="segment" @key="segment"/>@*This must not be surrounded by whitespace*@}</div>
+    <div class="output-regex">@if (isEditing)
+    {<OutputEditor StartExpression="@NodeHandler.CachedOutput.Expression"
+                   OnSubmitted="@OnEditSubmitted"/>}
+    else
+    {
+        @foreach (var segment in @NodeHandler.CachedOutput.Contents)
+        {<OutputDisplaySegment Segment="segment" @key="segment"/>@*This must not be surrounded by whitespace*@}
+    }
+    </div>
 
     <button title="Copy to clipboard" class="output-regex output-regex-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>
     <button title="Edit" class="output-regex output-regex-button" @onclick="OnEditButtonClick"><i class="fas fa-pencil-alt"></i></button>
@@ -20,12 +27,26 @@
 
 @functions{
 
+    bool isEditing = false;
+
     protected override void OnInitialized()
     {
         NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
     }
 
-    private async Task OnEditButtonClick()
+    private void OnEditButtonClick()
+    {
+        isEditing = !isEditing;
+    }
+
+    private void OnEditSubmitted(string newExpression)
+    {
+        isEditing = false;
+        Console.WriteLine("Submitted: " + newExpression);
+        NodeHandler.TryCreateTreeFromRegex(newExpression);
+    }
+
+    @*private async Task OnEditButtonClick()
     {
         var modalParameters = new ModalParameters();
         modalParameters.Add(nameof(EditRegexDialog.previousRegex), NodeHandler.CachedOutput.Expression);
@@ -41,7 +62,7 @@
             Console.WriteLine("Custom Regex: " + customRegex);
             NodeHandler.TryCreateTreeFromRegex(customRegex);
         }
-    }
+    }*@
 
     private async Task OnCreateLinkButtonClick()
     {
