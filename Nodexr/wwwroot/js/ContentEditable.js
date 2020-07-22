@@ -7,8 +7,7 @@ window.contentEditable = {
     initContentEditable: function (div, instance, textToDisplay) {
         div.innerText = textToDisplay;
         div.addEventListener("input", function () {
-            let text = div.innerText;//contentEditable.strip(div.innerText);
-            instance.invokeMethodAsync("GetUpdatedTextFromJavascript", text);
+            instance.invokeMethodAsync("GetUpdatedTextFromJavascript", div.innerText);
         });
 
         try {
@@ -17,6 +16,16 @@ window.contentEditable = {
         catch (e) {
             contentEditable.setupFallbackPlaintextOnly(div);
         }
+        contentEditable.moveCursorToEnd(div);
+    },
+
+    moveCursorToEnd: function (elem) {
+        let s = window.getSelection();
+        let r = document.createRange();
+        r.setStart(elem, 1);
+        r.setEnd(elem, 1);
+        s.removeAllRanges();
+        s.addRange(r);
     },
 
     setupFallbackPlaintextOnly: function (elem) {
@@ -55,12 +64,4 @@ window.contentEditable = {
             document.selection.createRange().text = text;
         }
     },
-
-    strip: function(html) {
-        let tempDiv = document.createElement("div");
-        tempDiv.innerText = html;
-        let text = tempDiv.innerText;
-        tempDiv.remove();
-        return text;
-    }
 }
