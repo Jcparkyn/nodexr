@@ -36,6 +36,7 @@
     --col-text-strong2: #eaeaea;
     --col-text-medium: #d0d0d0;
     --col-text-subtle: #acacac;
+    --col-text-invert: #262626;
     --col-field: hsl(218, 12%, 28%);
     --col-field-editable: hsl(218, 10%, 28%);
     /**/
@@ -257,11 +258,11 @@ input {
     margin: 5px;
 }
 
-    .output-regex-container :first-child {
+    .output-regex-container > *:first-child {
         border-radius: 5px 0 0 5px;
     }
 
-    .output-regex-container :last-child {
+    .output-regex-container > *:last-child {
         border-radius: 0 5px 5px 0;
     }
 
@@ -299,6 +300,7 @@ input {
     min-width: unset;
     background-color: hsl(223, 13%, 44%);
     font-size: 24px;
+    border-radius: 0;
 }
 
     .output-regex-button:hover {
@@ -316,6 +318,25 @@ input {
     width: 100%;
 /*    height: 100%;*/
 }
+
+.output-edit-prompt {
+    font-size: 1.1em;
+    position: absolute;
+    width: 20em;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    padding: 0.2em 0.2em 0.2em 0.5em;
+    margin-top: 6px;
+    margin-left: -5px;
+}
+
+    .output-edit-prompt button {
+        margin: 2px;
+        float: right;
+    }
+    .output-edit-prompt button:hover {
+        background-color: #c0c0ff60;
+    }
 
 .search-text-highlight, .search-textarea {
     padding: 3px;
@@ -376,6 +397,13 @@ mark {
     background-color: #065e61;
     color: transparent;
     padding: 0;
+}
+
+button {
+    background-color: rgba(200,200,256,0.2);
+    border: none;
+    border-radius: 6px;
+    color: var(--col-text-medium);
 }
 
 button:focus {
