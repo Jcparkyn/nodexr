@@ -20,9 +20,9 @@
     }
     </div>
 
-    <button title="Edit" class="output-regex output-regex-button" @onclick="OnEditButtonClick"><i class="fas fa-pencil-alt"></i></button>
-    <button title="Copy to clipboard" class="output-regex output-regex-button" @onclick="CopyTextToClipboard"><i class="far fa-clipboard"></i></button>
-    <button title="Create shareable link" class="output-regex output-regex-button" @onclick="OnCreateLinkButtonClick"><i class="fas fa-link"></i></button>
+    <button class="output-regex-button" @onclick="OnEditButtonClick" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+    <button class="output-regex-button" @onclick="CopyTextToClipboard" title="Copy to clipboard"><i class="far fa-clipboard"></i></button>
+    <button class="output-regex-button" @onclick="OnCreateLinkButtonClick" title="Create shareable link"><i class="fas fa-link"></i></button>
 </div>
 
 
@@ -52,50 +52,32 @@
         StateHasChanged();
     }
 
-    @*private async Task OnEditButtonClick()
+    private async Task OnCreateLinkButtonClick()
     {
-        var modalParameters = new ModalParameters();
-        modalParameters.Add(nameof(EditRegexDialog.previousRegex), NodeHandler.CachedOutput.Expression);
+        var urlParams = new Dictionary<string, string>
+            {
+                { "parse", NodeHandler.CachedOutput.Expression }
+            };
 
-        var modal = ModalService.Show<EditRegexDialog>("Custom Expression", modalParameters);
-        var result = await modal.Result;
-        if (result.Cancelled)
+        if (RegexReplaceHandler.SearchText != RegexReplaceHandler.DefaultSearchText)
         {
-            Console.WriteLine("Modal was cancelled");
+            urlParams.Add("search", RegexReplaceHandler.SearchText);
         }
-        else if (result.Data is string customRegex)
+
+        if (RegexReplaceHandler.ReplacementRegex != RegexReplaceHandler.DefaultReplacementRegex)
         {
-            Console.WriteLine("Custom Regex: " + customRegex);
-            NodeHandler.TryCreateTreeFromRegex(customRegex);
+            urlParams.Add("replace", RegexReplaceHandler.ReplacementRegex);
         }
-    }*@
 
-private async Task OnCreateLinkButtonClick()
-{
-    var urlParams = new Dictionary<string, string>
-        {
-            { "parse", NodeHandler.CachedOutput.Expression }
-        };
-
-    if (RegexReplaceHandler.SearchText != RegexReplaceHandler.DefaultSearchText)
-    {
-        urlParams.Add("search", RegexReplaceHandler.SearchText);
+        string url = QueryHelpers.AddQueryString(NavManager.BaseUri, urlParams);
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url, "");
+        ToastService.ShowInfo("", "Link copied to clipboard");
     }
 
-    if (RegexReplaceHandler.ReplacementRegex != RegexReplaceHandler.DefaultReplacementRegex)
+    private async Task CopyTextToClipboard()
     {
-        urlParams.Add("replace", RegexReplaceHandler.ReplacementRegex);
+        string regex = NodeHandler.CachedOutput.Expression;
+        await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", regex, "");
+        ToastService.ShowInfo(regex, "Copied to clipboard");
     }
-
-    string url = QueryHelpers.AddQueryString(NavManager.BaseUri, urlParams);
-    await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", url, "");
-    ToastService.ShowInfo("", "Link copied to clipboard");
-}
-
-private async Task CopyTextToClipboard()
-{
-    string regex = NodeHandler.CachedOutput.Expression;
-    await JSRuntime.InvokeVoidAsync("clipboardCopy.copyText", regex, "");
-    ToastService.ShowInfo(regex, "Copied to clipboard");
-}
 }
