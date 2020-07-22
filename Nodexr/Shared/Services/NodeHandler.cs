@@ -28,7 +28,7 @@ namespace Nodexr.Shared.Services
         void ForceRefreshNoodles();
         void SelectNode(INode node);
         void DeselectAllNodes();
-        bool TryCreateTreeFromRegex(string regex);
+        void TryCreateTreeFromRegex(string regex);
         bool IsNodeSelected(INode node);
         void RevertPreviousParse();
     }
@@ -102,7 +102,7 @@ namespace Nodexr.Shared.Services
         /// </summary>
         /// <param name="regex">The regular expression to parse, in string format</param>
         /// <returns>Whether or not the parse attempt succeeded</returns>
-        public bool TryCreateTreeFromRegex(string regex)
+        public void TryCreateTreeFromRegex(string regex)
         {
             var parseResult = RegexParser.Parse(regex);
 
@@ -112,15 +112,26 @@ namespace Nodexr.Shared.Services
                 Tree = parseResult.Value;
                 ForceRefreshNodeGraph();
                 OnOutputChanged(this, EventArgs.Empty);
-                var fragment = Components.RevertParseDialog.GetRenderFragment();
-                toastService.ShowSuccess(fragment, "Parsed successfully");
-                return true;
+
+                if(CachedOutput.Expression == regex)
+                {
+                    var fragment = Components.ToastButton.GetRenderFragment(RevertPreviousParse, "Revert to previous");
+                    toastService.ShowSuccess(fragment, "Converted to node tree successfully");
+                }
+                else
+                {
+                    var fragment = Components.ToastButton.GetRenderFragment(
+                        RevertPreviousParse,
+                        "Revert to previous",
+                        "Your expression was parsed, but the resulting output is slighty different to your input. " +
+                            "This is most likely due to a simplification that has been performed automatically.\n");
+                    toastService.ShowInfo(fragment, "Converted to node tree");
+                }
             }
             else
             {
                 toastService.ShowError(parseResult.Error.ToString(), "Couldn't parse input");
                 Console.WriteLine("Couldn't parse input: " + parseResult.Error);
-                return false;
             }
         }
 

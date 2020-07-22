@@ -399,6 +399,21 @@ mark {
     padding: 0;
 }
 
+.toast-button {
+    background-color: transparent;
+    font-size: large;
+    border: 1px solid white;
+    color: white;
+}
+
+.toast-button:hover:enabled {
+    background-color: #ffffff44;
+}
+
+.toast-button[disabled] {
+    color: #ffffffAA;
+}
+
 button {
     background-color: rgba(200,200,256,0.2);
     border: none;
