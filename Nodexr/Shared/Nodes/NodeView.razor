@@ -19,15 +19,15 @@
              style="background-color: var(--col-node-accent);">
             @if (!Data.IsCollapsed)
             {
-                <button @onclick="ToggleCollapsed" class="collapse-button"><i class="fas fa-chevron-down"></i></button>
+                <button @onclick="ToggleCollapsed" class="collapse-button" title="Collapse"><i class="fas fa-chevron-down"></i></button>
             }
             else
             {
-                <button @onclick="ToggleCollapsed" class="collapse-button" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
+                <button @onclick="ToggleCollapsed" class="collapse-button" title="Uncollapse" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
             }
 
             <b>@Data.Title</b>
-            <button class="icon-button info-button"
+            <button class="icon-button info-button" title="About this node"
                     @onclick="ShowModal">
                 <i class="fas fa-info-circle"></i>
             </button>
