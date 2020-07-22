@@ -30,6 +30,7 @@ namespace Nodexr.Shared.Services
         void DeselectAllNodes();
         bool TryCreateTreeFromRegex(string regex);
         bool IsNodeSelected(INode node);
+        void RevertPreviousParse();
     }
 
     public class NodeHandler : INodeHandler
@@ -74,6 +75,9 @@ namespace Nodexr.Shared.Services
 
         private readonly IToastService toastService;
 
+        //Stores the previous tree from before the most recent parse, so that the parse can be reverted.
+        private NodeTree treePrevious;
+
         public NodeHandler(NavigationManager navManager, IToastService toastService)
         {
             this.toastService = toastService;
@@ -104,9 +108,12 @@ namespace Nodexr.Shared.Services
 
             if (parseResult.Success)
             {
+                treePrevious = tree;
                 Tree = parseResult.Value;
                 ForceRefreshNodeGraph();
                 OnOutputChanged(this, EventArgs.Empty);
+                var fragment = Components.RevertParseDialog.GetRenderFragment();
+                toastService.ShowSuccess(fragment, "Parsed successfully");
                 return true;
             }
             else
@@ -115,6 +122,13 @@ namespace Nodexr.Shared.Services
                 Console.WriteLine("Couldn't parse input: " + parseResult.Error);
                 return false;
             }
+        }
+
+        public void RevertPreviousParse()
+        {
+            Tree = treePrevious;
+            ForceRefreshNodeGraph();
+            OnOutputChanged(this, EventArgs.Empty);
         }
 
         public void ForceRefreshNodeGraph()
