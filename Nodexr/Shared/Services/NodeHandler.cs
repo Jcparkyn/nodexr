@@ -28,8 +28,9 @@ namespace Nodexr.Shared.Services
         void ForceRefreshNoodles();
         void SelectNode(INode node);
         void DeselectAllNodes();
-        bool TryCreateTreeFromRegex(string regex);
+        void TryCreateTreeFromRegex(string regex);
         bool IsNodeSelected(INode node);
+        void RevertPreviousParse();
     }
 
     public class NodeHandler : INodeHandler
@@ -74,6 +75,9 @@ namespace Nodexr.Shared.Services
 
         private readonly IToastService toastService;
 
+        //Stores the previous tree from before the most recent parse, so that the parse can be reverted.
+        private NodeTree treePrevious;
+
         public NodeHandler(NavigationManager navManager, IToastService toastService)
         {
             this.toastService = toastService;
@@ -98,23 +102,44 @@ namespace Nodexr.Shared.Services
         /// </summary>
         /// <param name="regex">The regular expression to parse, in string format</param>
         /// <returns>Whether or not the parse attempt succeeded</returns>
-        public bool TryCreateTreeFromRegex(string regex)
+        public void TryCreateTreeFromRegex(string regex)
         {
             var parseResult = RegexParser.Parse(regex);
 
             if (parseResult.Success)
             {
+                treePrevious = tree;
                 Tree = parseResult.Value;
                 ForceRefreshNodeGraph();
                 OnOutputChanged(this, EventArgs.Empty);
-                return true;
+
+                if(CachedOutput.Expression == regex)
+                {
+                    var fragment = Components.ToastButton.GetRenderFragment(RevertPreviousParse, "Revert to previous");
+                    toastService.ShowSuccess(fragment, "Converted to node tree successfully");
+                }
+                else
+                {
+                    var fragment = Components.ToastButton.GetRenderFragment(
+                        RevertPreviousParse,
+                        "Revert to previous",
+                        "Your expression was parsed, but the resulting output is slighty different to your input. " +
+                            "This is most likely due to a simplification that has been performed automatically.\n");
+                    toastService.ShowInfo(fragment, "Converted to node tree");
+                }
             }
             else
             {
                 toastService.ShowError(parseResult.Error.ToString(), "Couldn't parse input");
                 Console.WriteLine("Couldn't parse input: " + parseResult.Error);
-                return false;
             }
+        }
+
+        public void RevertPreviousParse()
+        {
+            Tree = treePrevious;
+            ForceRefreshNodeGraph();
+            OnOutputChanged(this, EventArgs.Empty);
         }
 
         public void ForceRefreshNodeGraph()

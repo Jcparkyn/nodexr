@@ -36,6 +36,7 @@
     --col-text-strong2: #eaeaea;
     --col-text-medium: #d0d0d0;
     --col-text-subtle: #acacac;
+    --col-text-invert: #262626;
     --col-field: hsl(218, 12%, 28%);
     --col-field-editable: hsl(218, 10%, 28%);
     /**/
@@ -257,26 +258,34 @@ input {
     margin: 5px;
 }
 
-    .output-regex-container :first-child {
+    .output-regex-container > *:first-child {
         border-radius: 5px 0 0 5px;
     }
 
-    .output-regex-container :last-child {
+    .output-regex-container > *:last-child {
         border-radius: 0 5px 5px 0;
     }
 
 .output-regex {
+    border: none;
     background-color: var(--col-field);
     color: var(--col-text-medium);
-    border: none;
+    min-width: 250px;
+    padding: 0px 5px;
+    height: auto;
+}
+
+.output-regex-container > .output-regex:focus-within {
+    box-shadow: inset 0 0 4px 1px #0078f5;
+}
+
+.output-regex-text {
     font-size: 30px;
     font-family: Consolas, monospace;
     line-height: 34px;
-    min-width: 250px;
-    padding: 0px 5px;
     white-space: pre-wrap;
     word-break: break-all;
-    height: auto;
+    outline: 0;
 }
 
 .output-segment {
@@ -296,10 +305,42 @@ input {
     min-width: unset;
     background-color: hsl(223, 13%, 44%);
     font-size: 24px;
+    border-radius: 0;
 }
 
     .output-regex-button:hover {
         background-color: hsl(222, 14%, 22%);
+    }
+
+.output-edit-textarea {
+    position: absolute;
+    resize: none;
+    background-color: transparent;
+    color: inherit;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+    width: 100%;
+/*    height: 100%;*/
+}
+
+.output-edit-prompt {
+    font-size: 1.1em;
+    position: absolute;
+    width: 20em;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    padding: 0.2em 0.2em 0.2em 0.5em;
+    margin-top: 6px;
+    margin-left: -5px;
+}
+
+    .output-edit-prompt button {
+        margin: 2px;
+        float: right;
+    }
+    .output-edit-prompt button:hover {
+        background-color: #c0c0ff60;
     }
 
 .search-text-highlight, .search-textarea {
@@ -361,6 +402,28 @@ mark {
     background-color: #065e61;
     color: transparent;
     padding: 0;
+}
+
+.toast-button {
+    background-color: transparent;
+    font-size: large;
+    border: 1px solid white;
+    color: white;
+}
+
+.toast-button:hover:enabled {
+    background-color: #ffffff44;
+}
+
+.toast-button[disabled] {
+    color: #ffffffAA;
+}
+
+button {
+    background-color: rgba(200,200,256,0.2);
+    border: none;
+    border-radius: 6px;
+    color: var(--col-text-medium);
 }
 
 button:focus {

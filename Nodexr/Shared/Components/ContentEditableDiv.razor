@@ -1,0 +1,42 @@
+﻿@inject IJSRuntime JS;
+
+<div @ref="divElement"
+     class="@CssClass"></div>
+
+@code {
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string CssClass { get; set; }
+
+    [Parameter]
+    public EventCallback<string> TextChanged { get; set; }
+
+    ElementReference divElement;
+
+    protected string textToDisplay;
+
+    protected override void OnInitialized()
+    {
+        //Text = Text.Replace(Environment.NewLine, "<br />");
+    }
+
+    //send initial text (if any) to javascript to place in the div
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("contentEditable.initContentEditable", divElement, DotNetObjectReference.Create(this), Text);
+        }
+    }
+
+    //receive input text from javascript and invoke callback to parent component
+    [JSInvokable]
+    public async Task GetUpdatedTextFromJavascript(string textFromJavascript)
+    {
+        Text = textFromJavascript;
+        await TextChanged.InvokeAsync(textFromJavascript);
+    }
+}

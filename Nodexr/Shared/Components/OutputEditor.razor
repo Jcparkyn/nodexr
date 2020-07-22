@@ -1,0 +1,50 @@
+﻿
+<div @onkeypress="OnKeyPress"
+     @onkeyup="OnKeyUp">
+    <ContentEditableDiv @bind-Text="expression"
+                        CssClass="output-regex-text"/>
+    <div class="output-edit-prompt">
+        Input your own regular expression here to convert it to a node tree.<br />
+        <button @onclick="Submit">Confirm (Enter)</button>
+        <button @onclick="Cancel">Cancel</button>
+    </div>
+</div>
+
+@code {
+
+    string expression;
+
+    [Parameter] public string StartExpression
+    {
+        set => expression = value;
+    }
+
+    [Parameter] public EventCallback<string> OnSubmitted { get; set; }
+    [Parameter] public EventCallback OnCanceled { get; set; }
+
+    protected async Task OnKeyPress(KeyboardEventArgs e)
+    {
+        if(e.Key == "Enter" && !e.ShiftKey)
+        {
+            await Submit();
+        }
+    }
+
+    protected async Task OnKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            await Cancel();
+        }
+    }
+
+    protected async Task Submit()
+    {
+        await OnSubmitted.InvokeAsync(expression);
+    }
+
+    protected async Task Cancel()
+    {
+        await OnCanceled.InvokeAsync(null);
+    }
+}
