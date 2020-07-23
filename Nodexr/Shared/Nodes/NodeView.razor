@@ -66,8 +66,7 @@
     {
         Data.OutputChanged += Refresh;
         Data.LayoutChanged += Refresh;
-        Data.Selected += Refresh;
-        Data.Deselected += Refresh;
+        Data.SelectionChanged += Refresh;
     }
 
     void ToggleCollapsed()
@@ -107,7 +106,6 @@
     {
         Data.OutputChanged -= Refresh;
         Data.LayoutChanged -= Refresh;
-        Data.Selected -= Refresh;
-        Data.Deselected -= Refresh;
+        Data.SelectionChanged -= Refresh;
     }
 }

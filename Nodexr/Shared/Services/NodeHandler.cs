@@ -156,8 +156,8 @@ namespace Nodexr.Shared.Services
         {
             var selectedNodePrevious = SelectedNode;
             SelectedNode = node;
-            selectedNodePrevious?.OnDeselected(EventArgs.Empty);
-            node.OnSelected(EventArgs.Empty);
+            selectedNodePrevious?.OnSelectionChanged(EventArgs.Empty);
+            node.OnSelectionChanged(EventArgs.Empty);
         }
 
         public void DeselectAllNodes()
@@ -167,7 +167,7 @@ namespace Nodexr.Shared.Services
                 SelectedNode.OnLayoutChanged(this, EventArgs.Empty);
                 var previousSelectedNode = SelectedNode;
                 SelectedNode = null;
-                previousSelectedNode.OnDeselected(EventArgs.Empty);
+                previousSelectedNode.OnSelectionChanged(EventArgs.Empty);
                 //ForceRefreshNodeGraph();
             }
         }

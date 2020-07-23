@@ -40,12 +40,11 @@ namespace Nodexr.Shared.Nodes
         int GetHeight();
         
         void OnLayoutChanged(object sender, EventArgs e);
-        void OnSelected(EventArgs e);
+        void OnSelectionChanged(EventArgs e);
         void OnDeselected(EventArgs e);
 
         event EventHandler LayoutChanged;
-        event EventHandler Selected;
-        event EventHandler Deselected;
+        event EventHandler SelectionChanged;
     }
 
     public abstract class Node : INode
@@ -82,8 +81,7 @@ namespace Nodexr.Shared.Nodes
 
         public event EventHandler OutputChanged;
         public event EventHandler LayoutChanged;
-        public event EventHandler Selected;
-        public event EventHandler Deselected;
+        public event EventHandler SelectionChanged;
 
         protected virtual void OnOutputChanged(EventArgs e) => OutputChanged?.Invoke(this, e);
 
@@ -97,9 +95,9 @@ namespace Nodexr.Shared.Nodes
             LayoutChanged?.Invoke(this, e);
         }
 
-        public void OnSelected(EventArgs e) => Selected?.Invoke(this, e);
+        public void OnSelectionChanged(EventArgs e) => SelectionChanged?.Invoke(this, e);
 
-        public void OnDeselected(EventArgs e) => Deselected?.Invoke(this, e);
+        public void OnDeselected(EventArgs e) => SelectionChanged?.Invoke(this, e);
 
         protected void OnInputsChanged(object sender, EventArgs e)
         {
