@@ -8,12 +8,19 @@
       >@Segment.Expression</span>
 
 @code {
-    [Parameter] public RegexSegment Segment { get; set; }
-
-    protected override void OnInitialized()
+    private RegexSegment segment { get; set; }
+    [Parameter] public RegexSegment Segment
     {
-        Segment.Node.Selected += Refresh;
-        Segment.Node.Deselected += Refresh;
+        get => segment;
+        set
+        {
+            if(segment != null)
+            {
+                segment.Node.SelectionChanged -= Refresh;
+            }
+            segment = value;
+            segment.Node.SelectionChanged += Refresh;
+        }
     }
 
     private void Refresh(object sender, EventArgs e)
@@ -23,7 +30,6 @@
 
     public void Dispose()
     {
-        Segment.Node.Selected -= Refresh;
-        Segment.Node.Deselected -= Refresh;
+        segment.Node.SelectionChanged -= Refresh;
     }
 }

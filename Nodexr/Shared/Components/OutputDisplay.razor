@@ -16,7 +16,7 @@
     else
     {
         @foreach (var segment in @NodeHandler.CachedOutput.Contents)
-        {<OutputDisplaySegment Segment="segment" @key="segment"/>@*This must not be surrounded by whitespace*@}
+        {<OutputDisplaySegment Segment="segment"/>@*This must not be surrounded by whitespace*@}
     }
     </div>
 
