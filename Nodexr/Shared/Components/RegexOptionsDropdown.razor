@@ -2,7 +2,9 @@
 @inject RegexReplaceHandler RegexReplaceHandler
 
 <div class="options-dropdown-parent">
-    <button type="button" class="input-field options-dropdown-button" @onclick="ToggleDropdown" @onfocusout:stopPropagation>
+    <button type="button" class="options-dropdown-button"
+            @onclick="ToggleDropdown" @onfocusout:stopPropagation
+            style="color: inherit;">
         <i class="@chevronClass" style="font-size: small" />
         Regex Options
     </button>

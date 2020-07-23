@@ -271,8 +271,10 @@ input {
     background-color: var(--col-field);
     color: var(--col-text-medium);
     min-width: 250px;
-    padding: 0px 5px;
+    padding: 2px 5px;
     height: auto;
+    word-break: break-all;
+    line-height: 1.2;
 }
 
 .output-regex-container > .output-regex:focus-within {
@@ -280,11 +282,9 @@ input {
 }
 
 .output-regex-text {
-    font-size: 30px;
+    font-size: 1.5em;
     font-family: Consolas, monospace;
-    line-height: 34px;
     white-space: pre-wrap;
-    word-break: break-all;
     outline: 0;
 }
 
@@ -304,8 +304,9 @@ input {
     width: 42px;
     min-width: unset;
     background-color: hsl(223, 13%, 44%);
-    font-size: 24px;
+    font-size: 22px;
     border-radius: 0;
+    padding: 0 6px;
 }
 
     .output-regex-button:hover {
@@ -325,7 +326,7 @@ input {
 }
 
 .output-edit-prompt {
-    font-size: 1.1em;
+    font-size: 17px;
     position: absolute;
     width: 20em;
     background-color: rgba(0, 0, 0, 0.8);
@@ -333,6 +334,7 @@ input {
     padding: 0.2em 0.2em 0.2em 0.5em;
     margin-top: 6px;
     margin-left: -5px;
+    word-break: normal;
 }
 
     .output-edit-prompt button {
@@ -395,6 +397,12 @@ input {
     position: absolute;
     /*overflow: auto;*/
     pointer-events: none;
+}
+
+.top-row-link {
+    margin: 9px;
+    color: #056fe1;
+    font-size: 1em;
 }
 
 mark {
