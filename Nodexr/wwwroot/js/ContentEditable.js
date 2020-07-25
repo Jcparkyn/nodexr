@@ -43,7 +43,7 @@ window.contentEditable = {
             e.preventDefault();
             if (e.clipboardData && e.clipboardData.getData) {
                 var text = e.clipboardData.getData("text/plain");
-                document.execCommand("insertHTML", false, text);
+                document.execCommand("insertText", false, text);
             } else if (window.clipboardData && window.clipboardData.getData) {
                 var text = window.clipboardData.getData("Text");
                 contentEditable.insertTextAtCursor(text);
