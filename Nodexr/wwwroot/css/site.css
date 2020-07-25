@@ -326,7 +326,7 @@ input {
 }
 
 .output-edit-prompt {
-    font-size: 17px;
+    font-size: 18px;
     position: absolute;
     width: 20em;
     background-color: rgba(0, 0, 0, 0.8);
@@ -340,9 +340,26 @@ input {
     .output-edit-prompt button {
         margin: 2px;
         float: right;
+        padding: 3px 6px 2px;
+        margin-top: 2px;
+        color: black;
     }
-    .output-edit-prompt button:hover {
-        background-color: #c0c0ff60;
+
+.btn-confirm {
+    background-color: #46e276;
+    color: black;
+}
+    .btn-confirm:hover {
+        background-color: #47ff61;
+    }
+
+.btn-cancel {
+    background-color: #ef5353;
+    color: black;
+}
+
+    .btn-cancel:hover {
+        background-color: #ff402d;
     }
 
 .search-text-highlight, .search-textarea {
