@@ -11,6 +11,7 @@
         width: 11em;
         background-color: rgba(0, 0, 0, 0.8);
         border-radius: 5px;
+        color: var(--col-text-medium);
     }
 
     .options-dropdown-button {
@@ -20,7 +21,7 @@
         border-radius: 5px;
         white-space: nowrap;
         background-color: transparent;
-        padding: 0;
+        padding: 0 4px;
     }
 
     .options-dropdown-button:hover {
