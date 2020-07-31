@@ -7,26 +7,27 @@
 @inject IJSRuntime JSRuntime
 @inject IModalService ModalService
 
-@{Console.WriteLine("Updating Index"); }
-
-<div style="background-color: hsl(218, 18%, 18%);
-    box-shadow: 0px 4px 7px #00000033;
-    z-index: 10;
-    display: flex;">
-    <OutputDisplay />
-    <div style="margin:12px 6px 0 auto">
-        <RegexOptionsDropdown />
+<div id="mainpanels">
+    <div style="
+        background-color: hsl(218, 18%, 18%);
+        box-shadow: 0px 4px 7px #00000033;
+        z-index: 10;
+        display: flex;">
+        <OutputDisplay />
+        <div style="margin-left: auto;" class="top-row-link">
+            <RegexOptionsDropdown />
+        </div>
+        <a @onclick="ShowHelpInfo" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
+           class="top-row-link">Help</a>
+        <a href="http://github.com/jcparkyn/nodexr/" target="_blank"
+           class="top-row-link">GitHub</a>
     </div>
-    <a @onclick="ShowHelpInfo" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
-       style="float:right; color:#0469d4; margin:12px 6px 12px 6px">Help</a>
-    <a href="http://github.com/jcparkyn/nodexr/" target="_blank"
-       style="float:right; color:#0469d4; margin:12px">GitHub</a>
-</div>
 
-<div id="mainpanels" style="display:flex; flex-direction:row;">
-    <NodeList />
-    @*<div style="width:6px; height:100%;"></div>*@
-    <NodeGraph />
+    <div style="display:flex; flex-direction:row; flex:1; min-height:0;">
+        <NodeList />
+        @*<div style="width:6px; height:100%;"></div>*@
+        <NodeGraph />
+    </div>
 </div>
 
 <BottomPanels />

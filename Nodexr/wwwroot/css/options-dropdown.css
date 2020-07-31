@@ -19,6 +19,8 @@
         color: #0469d4;
         border-radius: 5px;
         white-space: nowrap;
+        background-color: transparent;
+        padding: 0;
     }
 
     .options-dropdown-button:hover {

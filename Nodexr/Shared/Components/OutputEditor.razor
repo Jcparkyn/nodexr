@@ -5,8 +5,12 @@
                         CssClass="output-regex-text"/>
     <div class="output-edit-prompt">
         Input your own regular expression here to convert it to a node tree.<br />
-        <button @onclick="Submit">Confirm (Enter)</button>
-        <button @onclick="Cancel">Cancel</button>
+        <button @onclick="Submit" class="btn-confirm">
+            <i class="fas fa-check" style="font-size: 0.87em;" aria-hidden="true"></i> Confirm [Enter]
+        </button>
+        <button @onclick="Cancel" class="btn-cancel">
+            <i class="fas fa-times" style="font-size: 0.95em;" aria-hidden="true"></i> Cancel [Esc]
+        </button>
     </div>
 </div>
 

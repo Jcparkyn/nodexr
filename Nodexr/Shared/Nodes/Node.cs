@@ -1,10 +1,8 @@
-﻿using System;
+﻿using Nodexr.Shared.NodeInputs;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Nodexr.Shared.NodeInputs;
-using Nodexr.Shared;
 
 namespace Nodexr.Shared.Nodes
 {
@@ -38,7 +36,7 @@ namespace Nodexr.Shared.Nodes
         /// Get the height of the node, in pixels. Disabled inputs do not contribute to the height.
         /// </summary>
         int GetHeight();
-        
+
         void OnLayoutChanged(object sender, EventArgs e);
         void OnSelectionChanged(EventArgs e);
         void OnDeselected(EventArgs e);
@@ -88,7 +86,7 @@ namespace Nodexr.Shared.Nodes
         public void OnLayoutChanged(object sender, EventArgs e)
         {
             CalculateInputsPos();
-            foreach(var input in this.GetAllInputs().OfType<InputProcedural>())
+            foreach (var input in this.GetAllInputs().OfType<InputProcedural>())
             {
                 input.Refresh();
             }
@@ -162,27 +160,25 @@ namespace Nodexr.Shared.Nodes
                 //TODO: Support disabled inputs
                 foreach (var input in NodeInputs)
                 {
-                    switch (input)
+                    if (input is InputCollection inputColl)
                     {
-                        case InputCollection inputColl:
-                            startHeight += 28;
-                            inputColl.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
-                            foreach (var input2 in inputColl.Inputs)
-                            {
-                                input2.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
-                                startHeight += input2.Height;
-                            }
-                            break;
-                        default:
-                            input.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
-                            startHeight += input.Height;
-                            break;
+                        startHeight += 28;
+                        inputColl.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
+                        foreach (var input2 in inputColl.Inputs)
+                        {
+                            input2.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
+                            startHeight += input2.Height;
+                        }
+                    }
+                    else
+                    {
+                        input.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
+                        startHeight += input.Height;
                     }
                 }
             }
         }
 
-        
         public int GetHeight()
         {
             const int baseHeight = 28;
@@ -201,7 +197,7 @@ namespace Nodexr.Shared.Nodes
         protected virtual NodeResult GetOutput()
         {
             var builder = GetValue() ?? new NodeResultBuilder();
-            if(Previous.Value != null)
+            if (Previous.Value != null)
             {
                 builder.Prepend(Previous.Value);
             }
