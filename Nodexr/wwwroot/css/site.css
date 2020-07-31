@@ -210,6 +210,14 @@ app {
             color: white;
         }
 
+#mainpanels {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+}
+
 .content {
     padding: var(--padding-main);
     height: 100%;
