@@ -50,8 +50,7 @@ namespace Nodexr.Shared.Services
                 TempNoodle.Enabled = true;
 
                 jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
-                    nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y,
-                    noodleEndPos.x, noodleEndPos.y);
+                    nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y);
 
                 TempNoodle.Refresh();
             }
