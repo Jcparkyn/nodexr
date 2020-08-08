@@ -83,7 +83,6 @@
     {
         NodeDragService.OnStartNodeDrag(Data, e);
         await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
-
     }
 
     [JSInvokable]
@@ -109,9 +108,12 @@
         StateHasChanged();
     }
 
-    void Select()
+    void Select(MouseEventArgs e)
     {
-        NodeHandler.SelectNode(Data);
+        if (!NodeDragService.IsDrag(e))
+        {
+            NodeHandler.SelectNode(Data);
+        }
     }
 
     void Deselect()

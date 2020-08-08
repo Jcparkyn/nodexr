@@ -16,6 +16,7 @@ namespace Nodexr.Shared.Services
         void OnDrop(MouseEventArgs e);
         Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e);
         void CancelDrag();
+        bool IsDrag(MouseEventArgs e);
     }
 
     public class NodeDragService : INodeDragService
@@ -23,18 +24,18 @@ namespace Nodexr.Shared.Services
         private readonly INodeHandler nodeHandler;
         private readonly IJSRuntime jsRuntime;
 
+        private INode nodeToDrag;
+        private List<InputProcedural> nodeToDragOutputs;
+
+        private Vector2 cursorStartPos;
+        private Vector2 nodeStartPos;
+
         public NodeDragService(INodeHandler nodeHandler, IJSRuntime jsRuntime)
         {
             this.nodeHandler = nodeHandler;
             this.jsRuntime = jsRuntime;
             jsRuntime.InvokeVoidAsync("addDotNetSingletonService", "DotNetNodeDragService", DotNetObjectReference.Create(this));
         }
-
-        private INode nodeToDrag;
-        private List<InputProcedural> nodeToDragOutputs;
-
-        private Vector2 cursorStartPos;
-        private Vector2 nodeStartPos;
 
         public void OnStartNodeDrag(INode nodeToDrag, MouseEventArgs e)
         {
@@ -47,6 +48,13 @@ namespace Nodexr.Shared.Services
 
             cursorStartPos = e.GetClientPos();
             nodeStartPos = nodeToDrag.Pos;
+        }
+
+        public bool IsDrag(MouseEventArgs e)
+        {
+            const int dragThreshold = 4; //Length in px to consider a drag (instead of a click)
+            var mouseOffset = e.GetClientPos() - cursorStartPos;
+            return mouseOffset.GetLength() > dragThreshold;
         }
 
         public async Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e)
