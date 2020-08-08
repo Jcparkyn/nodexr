@@ -5,7 +5,7 @@ namespace Nodexr.Shared
 {
     public static class ExtensionMethods
     {
-        public static Vector2L GetClientPos(this Microsoft.AspNetCore.Components.Web.DragEventArgs e)
+        public static Vector2L GetClientPos(this Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
         {
             return new Vector2L((long)e.ClientX, (long)e.ClientY);
         }

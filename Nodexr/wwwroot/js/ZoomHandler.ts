@@ -40,8 +40,7 @@ class PanZoom {
         this.posY += dY;
     }
 
-    startPan = (event: Event) => {
-        event.preventDefault();
+    startPan = () => {
         window.addEventListener("mousemove", this.pan);
         window.addEventListener("mouseup", this.endPan);
     }

@@ -3,17 +3,21 @@
 @inject INodeHandler  NodeHandler
 @inject IModalService Modal
 @inject INoodleDragService NoodleDragService
+@inject IJSRuntime JSRuntime
 
 @implements IDisposable
 
     <div class="node @CssClass"
-         style="top: @(Data.Pos.y)px; left: @(Data.Pos.x)px; --col-node-accent:@Data.CssColor;"
-         onmousedown="event.stopPropagation()" ondragleave="tempNoodle.setInvalid()"
+         style="transform: translate(@(Data.Pos.x)px, @(Data.Pos.y)px); --col-node-accent:@Data.CssColor;"
+         @ref="NodeDiv"
+         ondragleave="tempNoodle.setInvalid()"
          ondragover="event.preventDefault(); tempNoodle.setValid();"
+         @onmousedown="StartDrag" @onmousedown:stopPropagation
+         @onclick="Select"
          @onfocusin="Deselect"
          @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.Previous))">
 
-        <div draggable="true" @ondragstart="StartDrag" @onclick="Select" class="node-drag-region"></div>
+        @*<div @onclick="Select" class="node-drag-region"></div>*@
 
         <div class="node-title @(Data.IsCollapsed ? "collapsed" : "")"
              style="background-color: var(--col-node-accent);">
@@ -36,7 +40,8 @@
         @if (!Data.IsCollapsed)
         {
             <div class="node-content"
-                 @onclick:stopPropagation>
+                @onclick:stopPropagation
+                @onmousedown:stopPropagation>
                 @foreach (INodeInput nodeInput in Data.NodeInputs)
                 {
                     if (nodeInput.IsEnabled())
@@ -59,6 +64,7 @@
 
 @functions{
     [Parameter] public INode Data { get; set; }
+    ElementReference NodeDiv { get; set; }
 
     string CssClass => NodeHandler.IsNodeSelected(Data) ? "node-selected" : "";
 
@@ -75,9 +81,22 @@
         Data.OnLayoutChanged(this, EventArgs.Empty);
     }
 
-    void StartDrag(DragEventArgs e)
+    async Task StartDrag(MouseEventArgs e)
     {
         NodeDragService.OnStartNodeDrag(Data, e);
+        await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
+
+    }
+
+    [JSInvokable]
+    public void UpdateNodePosition(double x, double y)
+    {
+        Data.Pos = new Vector2L((long)x, (long)y);
+        StateHasChanged();
+        foreach(var input in Data.GetAllInputs().OfType<InputProcedural>())
+        {
+            input.Refresh();
+        }
     }
 
     void ShowModal()

@@ -18,7 +18,7 @@
     }
 
     dragNoodle = (event) => {
-        [this.endX, this.endY] = (<any>window).panzoom.clientToGraphPos(event.clientX, event.clientY);
+        [this.endX, this.endY] = (window['panzoom'] as PanZoom).clientToGraphPos(event.clientX, event.clientY);
         this.updatePath();
     }
 

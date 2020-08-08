@@ -2,15 +2,12 @@
 //From https://chrissainty.com/copy-to-clipboard-in-blazor/
 
 (<any>window).clipboardCopy = {
-    copyText: async function (text, message) {
-        try {
-            await navigator.clipboard.writeText(text);
+    copyText: function (text, message) {
+        navigator.clipboard.writeText(text).then(() => {
             if (!!message) {
                 alert(message);
             }
-        }
-        catch (ex) {
-            alert(ex);
-        }
+        })
+            .catch(ex => alert(ex));
     }
 };

@@ -15,7 +15,7 @@ class NoodleDragHandler {
             this.setInvalid();
         };
         this.dragNoodle = (event) => {
-            [this.endX, this.endY] = window.panzoom.clientToGraphPos(event.clientX, event.clientY);
+            [this.endX, this.endY] = window['panzoom'].clientToGraphPos(event.clientX, event.clientY);
             this.updatePath();
         };
         this.endDrag = () => {
