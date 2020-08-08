@@ -19,7 +19,7 @@ namespace Nodexr.Shared.Services
         void CancelDrag();
         void OnDropNoodle(InputProcedural nodeInput);
         void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e);
-        void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2L noodleEndPos);
+        void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2 noodleEndPos);
     }
 
     public class NoodleDragService : INoodleDragService
@@ -41,7 +41,7 @@ namespace Nodexr.Shared.Services
             OnStartNoodleDrag(nodeToDrag, e, nodeToDrag.OutputPos);
         }
 
-        public void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2L noodleEndPos)
+        public void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2 noodleEndPos)
         {
             NodeToDrag = nodeToDrag as Node;
             if(nodeToDrag is Node node)
@@ -91,8 +91,8 @@ namespace Nodexr.Shared.Services
 
         public class NoodleDataCustom : INoodleData
         {
-            public Vector2L StartPos { get; set; }
-            public Vector2L EndPos { get; set; }
+            public Vector2 StartPos { get; set; }
+            public Vector2 EndPos { get; set; }
             public bool Enabled { get; set; }
 
             public event EventHandler NoodleChanged;

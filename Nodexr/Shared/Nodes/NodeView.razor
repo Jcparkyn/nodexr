@@ -8,7 +8,7 @@
 @implements IDisposable
 
     <div class="node @CssClass"
-         style="transform: translate(@(Data.Pos.x)px, @(Data.Pos.y)px); --col-node-accent:@Data.CssColor;"
+         style="transform: translate(@((long)Data.Pos.x)px, @((long)Data.Pos.y)px); --col-node-accent:@Data.CssColor;"
          @ref="NodeDiv"
          ondragleave="tempNoodle.setInvalid()"
          ondragover="event.preventDefault(); tempNoodle.setValid();"
@@ -91,7 +91,7 @@
     [JSInvokable]
     public void UpdateNodePosition(double x, double y)
     {
-        Data.Pos = new Vector2L((long)x, (long)y);
+        Data.Pos = new Vector2(x, y);
         StateHasChanged();
         foreach(var input in Data.GetAllInputs().OfType<InputProcedural>())
         {

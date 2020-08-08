@@ -8,7 +8,7 @@ namespace Nodexr.Shared.Nodes
 {
     public interface INodeOutput
     {
-        Vector2L OutputPos { get; }
+        Vector2 OutputPos { get; }
         string CssName { get; }
         string CssColor { get; }
         NodeResult CachedOutput { get; }
@@ -47,9 +47,9 @@ namespace Nodexr.Shared.Nodes
 
     public abstract class Node : INode
     {
-        private Vector2L pos;
+        private Vector2 pos;
 
-        public Vector2L Pos
+        public Vector2 Pos
         {
             get => pos;
             set
@@ -73,7 +73,7 @@ namespace Nodexr.Shared.Nodes
 
         public NodeResult CachedOutput { get; private set; }
 
-        public Vector2L OutputPos => Pos + new Vector2L(150, 14);
+        public Vector2 OutputPos => Pos + new Vector2(150, 14);
 
         public bool IsCollapsed { get; set; }
 
@@ -133,7 +133,7 @@ namespace Nodexr.Shared.Nodes
         public void CalculateInputsPos()
         {
             //TODO: refactor using GetHeight() on each input
-            Previous.Pos = new Vector2L(Pos.x + 2, Pos.y + 13);
+            Previous.Pos = new Vector2(Pos.x + 2, Pos.y + 13);
             if (IsCollapsed)
             {
                 const int startHeight = 13;
@@ -142,13 +142,13 @@ namespace Nodexr.Shared.Nodes
                     switch (input)
                     {
                         case InputProcedural input1:
-                            input1.Pos = new Vector2L(Pos.x + 2, Pos.y + startHeight);
+                            input1.Pos = new Vector2(Pos.x + 2, Pos.y + startHeight);
                             break;
                         case InputCollection input1:
-                            input1.Pos = new Vector2L(Pos.x + 2, Pos.y + startHeight);
+                            input1.Pos = new Vector2(Pos.x + 2, Pos.y + startHeight);
                             foreach (var input2 in input1.Inputs)
                             {
-                                input2.Pos = new Vector2L(Pos.x + 2, Pos.y + startHeight);
+                                input2.Pos = new Vector2(Pos.x + 2, Pos.y + startHeight);
                             }
                             break;
                     }
@@ -163,16 +163,16 @@ namespace Nodexr.Shared.Nodes
                     if (input is InputCollection inputColl)
                     {
                         startHeight += 28;
-                        inputColl.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
+                        inputColl.Pos = new Vector2(Pos.x, Pos.y + startHeight);
                         foreach (var input2 in inputColl.Inputs)
                         {
-                            input2.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
+                            input2.Pos = new Vector2(Pos.x, Pos.y + startHeight);
                             startHeight += input2.Height;
                         }
                     }
                     else
                     {
-                        input.Pos = new Vector2L(Pos.x, Pos.y + startHeight);
+                        input.Pos = new Vector2(Pos.x, Pos.y + startHeight);
                         startHeight += input.Height;
                     }
                 }

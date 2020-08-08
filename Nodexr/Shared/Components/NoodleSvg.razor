@@ -1,10 +1,8 @@
 ﻿@inject INodeHandler NodeHandler;
 @implements IDisposable
 
-
-    <path id="@DomId" class="noodle" d="@PathInstructions"
-          style="display:@(Noodle.Enabled ? "default" : "none"); @CssStrokeStyle"/>
-
+<path id="@DomId" class="noodle" d="@PathInstructions"
+        style="display:@(Noodle.Enabled ? "default" : "none"); @CssStrokeStyle"/>
 
 
 @functions{
@@ -20,10 +18,11 @@
     protected string PathInstructions {
         get
         {
-            long startX = Noodle.StartPos.x;
-            double startY = Noodle.StartPos.y + 0.01d;
-            long endX = Noodle.EndPos.x, endY = Noodle.EndPos.y;
-            long ctrlLength = (long)(5 + 0.4*Math.Abs(endX-startX) + 0.2*Math.Abs(endY-startY));
+            var startX = Noodle.StartPos.x;
+            var startY = Noodle.StartPos.y + 0.01d;
+            var endX = Noodle.EndPos.x;
+            var endY = Noodle.EndPos.y;
+            double ctrlLength = 5 + 0.4*Math.Abs(endX-startX) + 0.2*Math.Abs(endY-startY);
             return FormattableString.Invariant(
                 $"M {startX} {startY} C {startX + ctrlLength} {startY} {endX - ctrlLength} {endY} {endX} {endY}");
         }

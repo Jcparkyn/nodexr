@@ -20,8 +20,8 @@ namespace Nodexr.Shared.Services
 
     public class NodeDragService : INodeDragService
     {
-        readonly INodeHandler nodeHandler;
-        readonly IJSRuntime jsRuntime;
+        private readonly INodeHandler nodeHandler;
+        private readonly IJSRuntime jsRuntime;
 
         public NodeDragService(INodeHandler nodeHandler, IJSRuntime jsRuntime)
         {
@@ -33,8 +33,8 @@ namespace Nodexr.Shared.Services
         private INode nodeToDrag;
         private List<InputProcedural> nodeToDragOutputs;
 
-        private Vector2L cursorStartPos;
-        private Vector2L nodeStartPos;
+        private Vector2 cursorStartPos;
+        private Vector2 nodeStartPos;
 
         public void OnStartNodeDrag(INode nodeToDrag, MouseEventArgs e)
         {
@@ -53,17 +53,18 @@ namespace Nodexr.Shared.Services
         {
             this.nodeToDrag = nodeToDrag;
             cursorStartPos = e.GetClientPos();
-            var scaledPos = await jsRuntime.InvokeAsync<float[]>("panzoom.clientToGraphPos", e.ClientX, e.ClientY);
+            var scaledPos = await jsRuntime.InvokeAsync<float[]>("panzoom.clientToGraphPos", e.ClientX, e.ClientY)
+                .ConfigureAwait(false);
             int x = (int)scaledPos[0];
             int y = (int)scaledPos[1];
-            
-            this.nodeToDrag.Pos = new Vector2L(x - 75, y - 15);
+
+            this.nodeToDrag.Pos = new Vector2(x - 75, y - 15);
         }
 
         [JSInvokable]
         public void DragNode(double posX, double posY)
         {
-            var dragOffset = (new Vector2L((long)posX, (long)posY) - cursorStartPos) / ZoomHandler.Zoom;
+            var dragOffset = (new Vector2(posX, posY) - cursorStartPos) / ZoomHandler.Zoom;
             nodeToDrag.Pos = nodeStartPos + dragOffset;
             nodeToDrag.OnLayoutChanged(this, EventArgs.Empty);
             foreach (var input in nodeToDrag.GetAllInputs().OfType<InputProcedural>())
