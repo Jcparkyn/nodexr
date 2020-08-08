@@ -17,8 +17,6 @@
          @onfocusin="Deselect"
          @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.Previous))">
 
-        @*<div @onclick="Select" class="node-drag-region"></div>*@
-
         <div class="node-title @(Data.IsCollapsed ? "collapsed" : "")"
              style="background-color: var(--col-node-accent);">
             @if (!Data.IsCollapsed)
