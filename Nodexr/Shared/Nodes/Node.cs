@@ -73,7 +73,7 @@ namespace Nodexr.Shared.Nodes
 
         public NodeResult CachedOutput { get; private set; }
 
-        public Vector2 OutputPos => Pos + new Vector2(150, 14);
+        public Vector2 OutputPos => Pos + new Vector2(154, 13);
 
         public bool IsCollapsed { get; set; }
 

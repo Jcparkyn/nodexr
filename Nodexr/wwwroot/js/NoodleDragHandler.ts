@@ -60,7 +60,7 @@
     }
 
     static getNoodlePath = (startX: number, startY: number, endX: number, endY: number) => {
-        var ctrlLength = (5 + 0.4 * Math.abs(endX - startX) + 0.2 * Math.abs(endY - startY));
+        var ctrlLength = (5 + 0.4 * Math.abs(endX - startX) + Math.min(0.2 * Math.abs(endY - startY), 40));
         var result = `M ${startX} ${startY} C ${startX + ctrlLength} ${startY} ${endX - ctrlLength} ${endY} ${endX} ${endY}`;
         return result;
     }

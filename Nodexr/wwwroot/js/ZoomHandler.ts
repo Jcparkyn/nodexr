@@ -21,8 +21,8 @@ class PanZoom {
     }
 
     zoomAt = (x: number, y: number, amount: number) => {
-        let maxZoom = 3;
-        let minZoom = 0.3;
+        const maxZoom = 3;
+        const minZoom = 0.2;
         this.zoomLvl *= amount;
         if (this.zoomLvl > maxZoom) {
             amount = maxZoom / (this.zoomLvl / amount);
