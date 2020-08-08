@@ -18,8 +18,8 @@ namespace Nodexr.Shared.Services
 
         void CancelDrag();
         void OnDropNoodle(InputProcedural nodeInput);
-        void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e);
-        void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2 noodleEndPos);
+        void OnStartNoodleDrag(INodeOutput nodeToDrag);
+        void OnStartNoodleDrag(INodeOutput nodeToDrag, Vector2 noodleEndPos);
     }
 
     public class NoodleDragService : INoodleDragService
@@ -36,12 +36,12 @@ namespace Nodexr.Shared.Services
             this.jsRuntime = jsRuntime;
         }
 
-        public void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e)
+        public void OnStartNoodleDrag(INodeOutput nodeToDrag)
         {
-            OnStartNoodleDrag(nodeToDrag, e, nodeToDrag.OutputPos);
+            OnStartNoodleDrag(nodeToDrag, nodeToDrag.OutputPos);
         }
 
-        public void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2 noodleEndPos)
+        public void OnStartNoodleDrag(INodeOutput nodeToDrag, Vector2 noodleEndPos)
         {
             NodeToDrag = nodeToDrag as Node;
             if(nodeToDrag is Node node)

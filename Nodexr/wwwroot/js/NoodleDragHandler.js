@@ -46,6 +46,11 @@ class NoodleDragHandler {
                 this.noodleElement.classList.add("noodle-invalid");
             }
         };
+        this.clearDragImage = (event) => {
+            let img = new Image();
+            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='; //A transparent image
+            event.dataTransfer.setDragImage(img, 0, 0);
+        };
     }
 }
 NoodleDragHandler.getNoodlePath = (startX, startY, endX, endY) => {
