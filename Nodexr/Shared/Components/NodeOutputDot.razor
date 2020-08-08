@@ -3,8 +3,9 @@
 @inject IJSRuntime  JSRuntime;
 
 
-<div draggable="true" onmousedown="event.stopPropagation()" class="node-output-dot-parent"
-     @ondragstart="OnDragStart"
+<div draggable="true" class="node-output-dot-parent"
+     ondragstart="tempNoodle.clearDragImage(event)"
+     @onmousedown="OnDragStart" @onmousedown:stopPropagation
      @ondragend="OnDragEnd">
     <div class="node-output-dot">
         <span class="outputtooltip">
@@ -19,10 +20,9 @@
 {
     [Parameter] public INode Data { get; set; }
 
-    void OnDragStart(DragEventArgs e)
+    void OnDragStart()
     {
-        //TODO: Set drag image
-        NoodleDragService.OnStartNoodleDrag(Data, e);
+        NoodleDragService.OnStartNoodleDrag(Data);
     }
 
     void OnDragEnd(DragEventArgs e)

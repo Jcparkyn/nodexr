@@ -16,8 +16,8 @@ class PanZoom {
             this.setZoom();
         };
         this.zoomAt = (x, y, amount) => {
-            let maxZoom = 3;
-            let minZoom = 0.3;
+            const maxZoom = 3;
+            const minZoom = 0.2;
             this.zoomLvl *= amount;
             if (this.zoomLvl > maxZoom) {
                 amount = maxZoom / (this.zoomLvl / amount);
@@ -33,8 +33,7 @@ class PanZoom {
             this.posX += dX;
             this.posY += dY;
         };
-        this.startPan = (event) => {
-            event.preventDefault();
+        this.startPan = () => {
             window.addEventListener("mousemove", this.pan);
             window.addEventListener("mouseup", this.endPan);
         };

@@ -13,7 +13,7 @@ namespace Nodexr.Tests
 
         public event EventHandler OutputChanged;
 
-        public Vector2L OutputPos => throw new NotImplementedException();
+        public Vector2 OutputPos => throw new NotImplementedException();
 
         public string CssName => throw new NotImplementedException();
 

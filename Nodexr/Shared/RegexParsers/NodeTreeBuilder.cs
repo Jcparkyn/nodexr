@@ -13,11 +13,11 @@ namespace Nodexr.Shared.RegexParsers
     {
         private readonly NodeTree tree;
         private readonly Node endNode;
-        //private readonly List<List<(Node node, double pos)>> columns;
         private readonly List<int> columnHeights = new List<int>();
-        const int spacingX = 250;
-        const int spacingY =20;
-        static readonly Vector2L outputPos = new Vector2L(1000, 300);
+        private const int spacingX = 250;
+        private const int spacingY =20;
+        private static readonly Vector2 outputPos = new Vector2(1000, 300);
+
         public NodeTreeBuilder(Node endNode)
         {
             this.endNode = endNode;
@@ -30,7 +30,7 @@ namespace Nodexr.Shared.RegexParsers
             return tree;
         }
 
-        void FillColumns(Node endNode)
+        private void FillColumns(Node endNode)
         {
             //var outputPos = new Vector2L(1200, 300);
             //var output = new OutputNode();// { Pos = outputPos };
@@ -48,11 +48,11 @@ namespace Nodexr.Shared.RegexParsers
             return children;
         }
 
-        void AddNodeChildren(Node parent, int pos, int column)
+        private void AddNodeChildren(Node parent, int pos, int column)
         {
             var children = GetChildren(parent);
             int childrenHeight = children.Skip(1).Select(node => node.GetHeight() + spacingY).Sum();
-            int startPos = pos - childrenHeight / 2;
+            int startPos = pos - (childrenHeight / 2);
             foreach (var child in children)
             {
                 tree.AddNode(child);
@@ -61,9 +61,8 @@ namespace Nodexr.Shared.RegexParsers
             }
         }
 
-        int AddToColumn (Node node, int pos, int column)
+        private int AddToColumn (Node node, int pos, int column)
         {
-            
             if(columnHeights.Count <= column)
             {
                 //Assumes that no columns are skipped
@@ -76,11 +75,11 @@ namespace Nodexr.Shared.RegexParsers
                 columnHeights[column] = pos;
             }
 
-            long xPos = outputPos.x - column * spacingX;
-            int yPos = columnHeights[column];
+            var xPos = outputPos.x - (column * spacingX);
+            var yPos = columnHeights[column];
             columnHeights[column] += node.GetHeight() + spacingY;
 
-            node.Pos = new Vector2L(xPos, yPos);
+            node.Pos = new Vector2(xPos, yPos);
             return yPos;
         }
     }

@@ -26,9 +26,9 @@ namespace Nodexr.Shared.NodeInputs
             }
         }
 
-        public Vector2L StartPos => connectedNode.OutputPos;
+        public Vector2 StartPos => connectedNode.OutputPos;
 
-        public Vector2L EndPos => Pos;
+        public Vector2 EndPos => Pos;
 
         public bool Enabled => connectedNode != null;
 
@@ -56,8 +56,8 @@ namespace Nodexr.Shared.NodeInputs
 
     public interface INoodleData
     {
-        Vector2L StartPos { get; }
-        Vector2L EndPos { get; }
+        Vector2 StartPos { get; }
+        Vector2 EndPos { get; }
         bool Enabled { get; }
         void Refresh();
 

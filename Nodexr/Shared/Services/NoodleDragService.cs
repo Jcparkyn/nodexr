@@ -18,8 +18,8 @@ namespace Nodexr.Shared.Services
 
         void CancelDrag();
         void OnDropNoodle(InputProcedural nodeInput);
-        void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e);
-        void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2L noodleEndPos);
+        void OnStartNoodleDrag(INodeOutput nodeToDrag);
+        void OnStartNoodleDrag(INodeOutput nodeToDrag, Vector2 noodleEndPos);
     }
 
     public class NoodleDragService : INoodleDragService
@@ -36,12 +36,12 @@ namespace Nodexr.Shared.Services
             this.jsRuntime = jsRuntime;
         }
 
-        public void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e)
+        public void OnStartNoodleDrag(INodeOutput nodeToDrag)
         {
-            OnStartNoodleDrag(nodeToDrag, e, nodeToDrag.OutputPos);
+            OnStartNoodleDrag(nodeToDrag, nodeToDrag.OutputPos);
         }
 
-        public void OnStartNoodleDrag(INodeOutput nodeToDrag, DragEventArgs e, Vector2L noodleEndPos)
+        public void OnStartNoodleDrag(INodeOutput nodeToDrag, Vector2 noodleEndPos)
         {
             NodeToDrag = nodeToDrag as Node;
             if(nodeToDrag is Node node)
@@ -81,9 +81,7 @@ namespace Nodexr.Shared.Services
         {
             NodeToDrag = null;
             TempNoodle.Enabled = false;
-            //Hack to stop the noodle from being visible for a frame when a drag starts
-            //TempNoodle.StartPos = (10000, 10000);
-            //TempNoodle.EndPos = (10000, 10000);
+
             jsRuntime.InvokeVoidAsync("tempNoodle.endDrag");
 
             TempNoodle.Refresh();
@@ -91,8 +89,8 @@ namespace Nodexr.Shared.Services
 
         public class NoodleDataCustom : INoodleData
         {
-            public Vector2L StartPos { get; set; }
-            public Vector2L EndPos { get; set; }
+            public Vector2 StartPos { get; set; }
+            public Vector2 EndPos { get; set; }
             public bool Enabled { get; set; }
 
             public event EventHandler NoodleChanged;

@@ -21,7 +21,7 @@ namespace Nodexr.Shared.NodeInputs
 
         public event EventHandler ValueChanged;
 
-        public Vector2L Pos { get; set; }
+        public Vector2 Pos { get; set; }
 
         public Func<bool> IsEnabled { get; set; } = (() => true);
 
