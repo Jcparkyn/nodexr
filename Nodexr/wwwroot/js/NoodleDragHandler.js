@@ -1,70 +1,62 @@
-﻿window.tempNoodle = {
-
-    prevX: 0,
-    prevY: 0,
-    startX: 0,
-    startY: 0,
-    endX: 0,
-    endY: 0,
-    noodleElement: null,
-    isValid: false,
-
-    startNoodleDrag: function (_startX, _startY, _endX, _endY) {
-        tempNoodle.noodleElement = document.getElementById("tempNoodle");
-        tempNoodle.startX = tempNoodle.endX = _startX;
-        tempNoodle.startY = tempNoodle.endY = _startY;
-        window.addEventListener("dragover", tempNoodle.dragNoodle);
-        
-        tempNoodle.updatePath()
-        tempNoodle.setInvalid();
-    },
-
-    dragNoodle: function (event) {
-        [tempNoodle.endX, tempNoodle.endY] = window.panzoom.clientToGraphPos(event.clientX, event.clientY);
-        tempNoodle.updatePath();
-    },
-
-    endDrag: function () {
-        window.removeEventListener("dragover", tempNoodle.dragNoodle);
-    },
-
-    updatePath: function () {
-        if (tempNoodle.noodleElement != null) {
-            tempNoodle.setPath(
-                tempNoodle.startX,
-                tempNoodle.startY,
-                tempNoodle.endX,
-                tempNoodle.endY);
-        }
-    },
-
-    setPath: function (_startX, _startY, _endX, _endY) {
-        let path = tempNoodle.getNoodlePath(_startX, _startY, _endX, _endY);
-        if (tempNoodle.noodleElement != null) {
-            tempNoodle.noodleElement.setAttribute("d", path);
-        }
-    },
-
-    setValid: function () {
-        if (!tempNoodle.isValid) {
-            tempNoodle.isValid = true;
-            if (tempNoodle.noodleElement != null) {
-                tempNoodle.noodleElement.classList.remove("noodle-invalid");
+class NoodleDragHandler {
+    constructor() {
+        this.noodleElement = null;
+        this.isValid = false;
+        this.startX = 0;
+        this.startY = 0;
+        this.endX = 0;
+        this.endY = 0;
+        this.startNoodleDrag = (startX, startY) => {
+            this.noodleElement = document.getElementById("tempNoodle");
+            this.startX = this.endX = startX;
+            this.startY = this.endY = startY;
+            window.addEventListener("dragover", this.dragNoodle);
+            this.updatePath();
+            this.setInvalid();
+        };
+        this.dragNoodle = (event) => {
+            [this.endX, this.endY] = window['panzoom'].clientToGraphPos(event.clientX, event.clientY);
+            this.updatePath();
+        };
+        this.endDrag = () => {
+            window.removeEventListener("dragover", this.dragNoodle);
+        };
+        this.updatePath = () => {
+            if (this.noodleElement != null) {
+                this.setPath(this.startX, this.startY, this.endX, this.endY);
             }
-        }
-    },
-
-    setInvalid: function () {
-        tempNoodle.isValid = false;
-        if (tempNoodle.noodleElement != null) {
-            tempNoodle.noodleElement.classList.add("noodle-invalid");
-        }
-    },
-
-    getNoodlePath: function (startX, startY, endX, endY) {
-        var ctrlLength = (5 + 0.4 * Math.abs(endX - startX) + 0.2 * Math.abs(endY - startY));
-        var result = `M ${startX} ${startY} C ${startX + ctrlLength} ${startY} ${endX - ctrlLength} ${endY} ${endX} ${endY}`;
-        //console.log(result);
-        return result;
+        };
+        this.setPath = (startX, startY, endX, endY) => {
+            let path = NoodleDragHandler.getNoodlePath(startX, startY, endX, endY);
+            if (this.noodleElement != null) {
+                this.noodleElement.setAttribute("d", path);
+            }
+        };
+        this.setValid = () => {
+            if (!this.isValid) {
+                this.isValid = true;
+                if (this.noodleElement != null) {
+                    this.noodleElement.classList.remove("noodle-invalid");
+                }
+            }
+        };
+        this.setInvalid = () => {
+            this.isValid = false;
+            if (this.noodleElement != null) {
+                this.noodleElement.classList.add("noodle-invalid");
+            }
+        };
+        this.clearDragImage = (event) => {
+            let img = new Image();
+            img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='; //A transparent image
+            event.dataTransfer.setDragImage(img, 0, 0);
+        };
     }
 }
+NoodleDragHandler.getNoodlePath = (startX, startY, endX, endY) => {
+    var ctrlLength = (5 + 0.4 * Math.abs(endX - startX) + Math.min(0.2 * Math.abs(endY - startY), 40));
+    var result = `M ${startX} ${startY} C ${startX + ctrlLength} ${startY} ${endX - ctrlLength} ${endY} ${endX} ${endY}`;
+    return result;
+};
+window['tempNoodle'] = new NoodleDragHandler();
+//# sourceMappingURL=NoodleDragHandler.js.map

@@ -14,7 +14,7 @@ namespace Nodexr.Shared.Services
         }
 
         [JSInvokable]
-        public static void SetZoom(float zoom)
+        public static void SetZoom(double zoom)
         {
             Zoom = zoom;
         }

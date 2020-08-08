@@ -14,11 +14,10 @@
 
     .node .node-title {
         background-color: var(--col-node-default);
-        /*margin: -4px;*/
         padding: 2px 4px 0px 4px;
-        /*margin-bottom: 0px;*/
         border-radius: 8px 8px 0px 0px;
         color: var(--col-text-invert);
+        cursor: pointer;
     }
         .node .node-title.collapsed {
             border-radius: 8px
@@ -29,13 +28,19 @@
             font-weight: 500;
         }
 
-        .node .node-title .collapse-button {
+        .node .collapse-button {
             position: relative;
             background: none;
             border: none;
             font-size: 0.8rem;
             padding: 0 0 0 7px;
             color: inherit;
+            transform-origin: 61% 54%; /*for scaling on hover*/
+            transition: transform 0.2s;
+        }
+
+        .node .collapse-button:hover {
+            transform: scale(1.2);
         }
 
     .node .icon-button {

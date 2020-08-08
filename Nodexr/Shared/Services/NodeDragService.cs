@@ -6,65 +6,104 @@ using System.Threading.Tasks;
 using System.Linq;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
+using System.Collections.Generic;
 
 namespace Nodexr.Shared.Services
 {
     public interface INodeDragService
     {
-        INode NodeToDrag { get; set; }
-        void OnStartNodeDrag(INode nodeToDrag, DragEventArgs e);
-        void OnDrop(DragEventArgs e);
+        void OnStartNodeDrag(INode nodeToDrag, MouseEventArgs e);
+        void OnDrop(MouseEventArgs e);
         Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e);
         void CancelDrag();
+        bool IsDrag(MouseEventArgs e);
     }
 
     public class NodeDragService : INodeDragService
     {
-        readonly INodeHandler nodeHandler;
-        readonly IJSRuntime jsRuntime;
+        private readonly INodeHandler nodeHandler;
+        private readonly IJSRuntime jsRuntime;
+
+        private INode nodeToDrag;
+        private List<InputProcedural> nodeToDragOutputs;
+
+        private Vector2 cursorStartPos;
+        private Vector2 nodeStartPos;
+
         public NodeDragService(INodeHandler nodeHandler, IJSRuntime jsRuntime)
         {
             this.nodeHandler = nodeHandler;
             this.jsRuntime = jsRuntime;
+            jsRuntime.InvokeVoidAsync("addDotNetSingletonService", "DotNetNodeDragService", DotNetObjectReference.Create(this));
         }
 
-        public INode NodeToDrag { get; set; }
-
-        Vector2L cursorStartPos;
-
-        public void OnStartNodeDrag(INode nodeToDrag, DragEventArgs e)
+        public void OnStartNodeDrag(INode nodeToDrag, MouseEventArgs e)
         {
-            NodeToDrag = nodeToDrag;
+            this.nodeToDrag = nodeToDrag;
+
+            this.nodeToDragOutputs = nodeHandler.Tree.Nodes
+                .SelectMany(node => node.GetAllInputs()
+                    .OfType<InputProcedural>()
+                    .Where(input => input.ConnectedNode == nodeToDrag)).ToList();
+
             cursorStartPos = e.GetClientPos();
+            nodeStartPos = nodeToDrag.Pos;
+        }
+
+        public bool IsDrag(MouseEventArgs e)
+        {
+            const int dragThreshold = 4; //Length in px to consider a drag (instead of a click)
+            var mouseOffset = e.GetClientPos() - cursorStartPos;
+            return mouseOffset.GetLength() > dragThreshold;
         }
 
         public async Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e)
         {
-            NodeToDrag = nodeToDrag;
+            this.nodeToDrag = nodeToDrag;
             cursorStartPos = e.GetClientPos();
-            var scaledPos = await jsRuntime.InvokeAsync<float[]>("panzoom.clientToGraphPos", e.ClientX, e.ClientY);
+            var scaledPos = await jsRuntime.InvokeAsync<float[]>("panzoom.clientToGraphPos", e.ClientX, e.ClientY)
+                .ConfigureAwait(false);
             int x = (int)scaledPos[0];
             int y = (int)scaledPos[1];
-            
-            NodeToDrag.Pos = new Vector2L(x - 75, y - 15);
+
+            this.nodeToDrag.Pos = new Vector2(x - 75, y - 15);
         }
 
-        public void OnDrop(DragEventArgs e)
+        [JSInvokable]
+        public void DragNode(double posX, double posY)
         {
-            if (NodeToDrag != null)
+            var dragOffset = (new Vector2(posX, posY) - cursorStartPos) / ZoomHandler.Zoom;
+            nodeToDrag.Pos = nodeStartPos + dragOffset;
+            nodeToDrag.OnLayoutChanged(this, EventArgs.Empty);
+            foreach (var input in nodeToDrag.GetAllInputs().OfType<InputProcedural>())
             {
-                NodeToDrag.Pos += (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
-                if (!nodeHandler.Tree.Nodes.Contains(NodeToDrag))
+                input.Refresh();
+            }
+
+            foreach (var input in nodeToDragOutputs)
+            {
+                input.Refresh();
+            }
+        }
+
+        public void OnDrop(MouseEventArgs e)
+        {
+            //Console.WriteLine("Dropping node");
+            if (nodeToDrag != null)
+            {
+                //TODO: Refactor this
+                if (!nodeHandler.Tree.Nodes.Contains(nodeToDrag))
                 {
-                    nodeHandler.Tree.AddNode(NodeToDrag);
+                    nodeToDrag.Pos += (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
+                    nodeHandler.Tree.AddNode(nodeToDrag);
                 }
-                NodeToDrag = null;
+                nodeToDrag = null;
             }
         }
 
         public void CancelDrag()
         {
-            NodeToDrag = null;
+            nodeToDrag = null;
         }
     }
 }

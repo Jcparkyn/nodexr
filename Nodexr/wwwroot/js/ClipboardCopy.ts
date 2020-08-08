@@ -1,6 +1,7 @@
-//Handle copying text to the user's clipboard.
+﻿//Handle copying text to the user's clipboard.
 //From https://chrissainty.com/copy-to-clipboard-in-blazor/
-window.clipboardCopy = {
+
+(<any>window).clipboardCopy = {
     copyText: function (text, message) {
         navigator.clipboard.writeText(text).then(() => {
             if (!!message) {
@@ -10,4 +11,3 @@ window.clipboardCopy = {
             .catch(ex => alert(ex));
     }
 };
-//# sourceMappingURL=ClipboardCopy.js.map

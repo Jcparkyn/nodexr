@@ -42,6 +42,7 @@ namespace Nodexr.Shared.NodeInputs
         public void RemoveItem(InputProcedural item)
         {
             item.ValueChanged -= OnValueChanged;
+            item.ConnectedNode = null;
             inputs.Remove(item);
             OnInputPositionsChanged();
             OnValueChanged();

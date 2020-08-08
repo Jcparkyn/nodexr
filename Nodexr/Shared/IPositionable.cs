@@ -2,6 +2,6 @@
 {
     public interface IPositionable
     {
-        Vector2L Pos { get; set; }
+        Vector2 Pos { get; set; }
     }
 }

@@ -1,18 +1,14 @@
 ﻿@inject INodeHandler NodeHandler;
 @implements IDisposable
 
-
-    <path id="@DomId" class="noodle" d="@PathInstructions"
-          style="display:@(Noodle.Enabled ? "default" : "none"); @CssStrokeStyle"/>
-
+<path id="@DomId" class="noodle" d="@PathInstructions"
+        style="@(Noodle.Enabled ? "" : "display:none;") @CssStrokeStyle"/>
 
 
 @functions{
-    //public const string normalClass = "noodle";
-    //public const string invalidClass = "noodle noodle-invalid";
 
     [Parameter] public INoodleData Noodle { get; set; }
-    [Parameter] public string DomId { get; set; } = "";
+    [Parameter] public string DomId { get; set; } = null;
     [Parameter] public string Gradient { get; set; }
 
     public bool Valid { get; set; } = true;
@@ -20,10 +16,11 @@
     protected string PathInstructions {
         get
         {
-            long startX = Noodle.StartPos.x;
-            double startY = Noodle.StartPos.y + 0.01d;
-            long endX = Noodle.EndPos.x, endY = Noodle.EndPos.y;
-            long ctrlLength = (long)(5 + 0.4*Math.Abs(endX-startX) + 0.2*Math.Abs(endY-startY));
+            var startX = (long)Noodle.StartPos.x;
+            var startY = (long)Noodle.StartPos.y + 0.01d;
+            var endX = (long)Noodle.EndPos.x;
+            var endY = (long)Noodle.EndPos.y;
+            double ctrlLength = 5 + 0.4*Math.Abs(endX-startX) + Math.Min(0.2*Math.Abs(endY-startY), 40);
             return FormattableString.Invariant(
                 $"M {startX} {startY} C {startX + ctrlLength} {startY} {endX - ctrlLength} {endY} {endX} {endY}");
         }
