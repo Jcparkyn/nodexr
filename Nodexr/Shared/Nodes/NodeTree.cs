@@ -19,14 +19,7 @@ namespace Nodexr.Shared.Nodes
 
         public NodeResult CachedOutput { get; private set; }
 
-        public void AddNode<TNode>(bool refreshIndex = true) where TNode : Node, new()
-        {
-            Node newNode = new TNode();
-            newNode.CalculateInputsPos();
-            AddNode(newNode, refreshIndex);
-        }
-
-        public void AddNode(INode node, bool refreshIndex = true)
+        public void AddNode(INode node)
         {
             nodes.Add(node);
 
@@ -37,40 +30,29 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        public void DeleteNode(INode nodeToRemove, bool refreshIndex = true)
+        public void DeleteNode(INode nodeToRemove)
         {
             DeleteOutputNoodles(nodeToRemove);
             nodes.Remove(nodeToRemove);
             RecalculateOutput();
         }
 
-        void OnOutputChanged(object sender, EventArgs e)
+        private void OnOutputChanged(object sender, EventArgs e)
         {
             RecalculateOutput();
         }
 
-        private IEnumerable<OutputNode> GetOutputNodes()
+        private OutputNode GetOutputNode()
         {
-            //TODO: refactor
-            return nodes.OfType<OutputNode>();
+            return nodes.OfType<OutputNode>().Single();
         }
 
         public void RecalculateOutput()
         {
-            var outputNodes = GetOutputNodes();
+            var outputNode = GetOutputNode();
 
-            NodeResult output = outputNodes.Count() switch
-            {
-                1 => outputNodes.First().CachedOutput,
-                var count when count > 1 => new NodeResult("Too many Output nodes", null),
-                _ => new NodeResult("Add an output node to get started", null)
-            };
-
-            if (output != CachedOutput)
-            {
-                CachedOutput = output;
-                OutputChanged?.Invoke(this, EventArgs.Empty);
-            }
+            CachedOutput = outputNode.CachedOutput;
+            OutputChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void DeleteOutputNoodles(INode nodeToRemove)

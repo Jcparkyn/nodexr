@@ -179,12 +179,18 @@ namespace Nodexr.Shared.Services
 
         public void DeleteSelectedNode()
         {
-            if (SelectedNode != null)
+            if (SelectedNode is null)
             {
-                Tree.DeleteNode(SelectedNode, false);
-                SelectedNode = null;
-                ForceRefreshNodeGraph();
+                return;
             }
+            if (SelectedNode is OutputNode)
+            {
+                toastService.ShowInfo("", "Can't delete the Output node");
+                return;
+            }
+            Tree.DeleteNode(SelectedNode);
+            SelectedNode = null;
+            ForceRefreshNodeGraph();
         }
 
         private void OnOutputChanged(object sender, EventArgs e)

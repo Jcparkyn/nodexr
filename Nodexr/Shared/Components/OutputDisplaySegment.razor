@@ -14,12 +14,14 @@
         get => segment;
         set
         {
+            //The view needs to be refreshed when the node is selected or deselected.
+            //This is done in the setter (instead of OnParametersSet) so the previous segment can be unsubscribed from.
             if(segment != null)
             {
                 segment.Node.SelectionChanged -= Refresh;
             }
+            value.Node.SelectionChanged += Refresh;
             segment = value;
-            segment.Node.SelectionChanged += Refresh;
         }
     }
 
