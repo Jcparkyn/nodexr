@@ -39,6 +39,7 @@
         {
             <div class="node-content"
                 @onclick:stopPropagation
+                @onkeydown:stopPropagation
                 @onmousedown:stopPropagation>
                 @foreach (INodeInput nodeInput in Data.NodeInputs)
                 {
@@ -83,17 +84,6 @@
     {
         NodeDragService.OnStartNodeDrag(Data, e);
         await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
-    }
-
-    [JSInvokable]
-    public void UpdateNodePosition(double x, double y)
-    {
-        Data.Pos = new Vector2(x, y);
-        StateHasChanged();
-        foreach(var input in Data.GetAllInputs().OfType<InputProcedural>())
-        {
-            input.Refresh();
-        }
     }
 
     void ShowModal()
