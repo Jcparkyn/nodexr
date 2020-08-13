@@ -9,7 +9,7 @@ window.jsFunctions = {
             minSize: [250, 250, 250],
         })
         Split(['#mainpanels', '#bottompanels'], {
-            sizes: [90, 10],
+            sizes: [85, 15],
             direction: 'vertical',
             gutterSize: 7,
             snapOffset: 0,
