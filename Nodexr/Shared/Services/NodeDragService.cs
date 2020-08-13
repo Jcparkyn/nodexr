@@ -30,6 +30,8 @@ namespace Nodexr.Shared.Services
         private Vector2 cursorStartPos;
         private Vector2 nodeStartPos;
 
+        private bool isDraggingNewNode = false;
+
         public NodeDragService(INodeHandler nodeHandler, IJSRuntime jsRuntime)
         {
             this.nodeHandler = nodeHandler;
@@ -60,6 +62,7 @@ namespace Nodexr.Shared.Services
         public async Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e)
         {
             this.nodeToDrag = nodeToDrag;
+            isDraggingNewNode = true;
             cursorStartPos = e.GetClientPos();
             var scaledPos = await jsRuntime.InvokeAsync<float[]>("panzoom.clientToGraphPos", e.ClientX, e.ClientY)
                 .ConfigureAwait(false);
@@ -92,8 +95,9 @@ namespace Nodexr.Shared.Services
             if (nodeToDrag != null)
             {
                 //TODO: Refactor this
-                if (!nodeHandler.Tree.Nodes.Contains(nodeToDrag))
+                if (isDraggingNewNode)
                 {
+                    isDraggingNewNode = false;
                     nodeToDrag.Pos += (e.GetClientPos() - cursorStartPos) / ZoomHandler.Zoom;
                     nodeHandler.Tree.AddNode(nodeToDrag);
                 }
@@ -104,6 +108,7 @@ namespace Nodexr.Shared.Services
         public void CancelDrag()
         {
             nodeToDrag = null;
+            isDraggingNewNode = false;
         }
     }
 }
