@@ -112,7 +112,10 @@ namespace Nodexr.Shared.NodeTypes
             return builder;
         }
 
-        private bool RequiresGroupToQuantify(Node val)
+        /// <summary>
+        /// Check whether the given node needs a non-capturing group before it can be quantified.
+        /// </summary>
+        internal static bool RequiresGroupToQuantify(Node val)
         {
             if (val is null) throw new ArgumentNullException(nameof(val));
 
@@ -120,9 +123,14 @@ namespace Nodexr.Shared.NodeTypes
             if (!(val.PreviousNode is null))
                 return true;
 
-            //All Concat, and Quantifier nodes also need to be wrapped in a group to quantify properly.
-            if (val is ConcatNode || val is QuantifierNode)
+            //All Concat, Quantifier, Decimal and Optional nodes also need to be wrapped in a group to quantify properly.
+            if (val is ConcatNode
+                || val is QuantifierNode
+                || val is DecimalNode
+                || val is OptionalNode)
+            {
                 return true;
+            }
 
             if (val is TextNode && !val.CachedOutput.Expression.IsSingleRegexChar())
                 return true;

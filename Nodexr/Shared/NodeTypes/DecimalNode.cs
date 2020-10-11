@@ -70,7 +70,6 @@ namespace Nodexr.Shared.NodeTypes
 
         protected override NodeResultBuilder GetValue()
         {
-
             string signPrefix = InputSign.Value switch
             {
                 SignType.Optional => "[-+]?",
@@ -107,7 +106,7 @@ namespace Nodexr.Shared.NodeTypes
             }
 
             string contents = signPrefix + number;
-            
+
             string result = InputCaptureType.Value switch
             {
                 CaptureType.Capturing => "(" + contents + ")",
