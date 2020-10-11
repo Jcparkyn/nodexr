@@ -1,0 +1,20 @@
+﻿
+@if (!String.IsNullOrEmpty(Input.Title))
+{
+    <div class="node-input-heading">@Input.Title</div>
+}
+<div style="display:flex">
+    <div class="node-input-filled">
+        <input type="number" class="input-field" min="@Input.MinValue" @bind-value="@Input.Min" @bind-value:event="oninput" />
+    </div>
+    <div style="
+        margin: 2px 5px;
+        align-self: flex-end">to</div>
+    <div class="node-input-filled">
+        <input type="number" class="input-field" min="@Input.MinValue" @bind-value="@Input.Max" @bind-value:event="oninput" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public InputRange Input { get; set; }
+}

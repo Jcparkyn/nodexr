@@ -23,6 +23,9 @@
         case InputProcedural input:
             <InputProceduralView Input="@input"/>
             break;
+        case InputRange input:
+            <InputRangeView Input="@input"/>
+            break;
         case InputCheckbox input:
             <div class="input-checkbox">
                 <label><input type="checkbox" @bind="@input.IsChecked" />@input.Title</label>
