@@ -29,6 +29,7 @@ namespace Nodexr.Shared.NodeTypes
         {
             Title = "Repetitions:",
             Description = "The number of times to match the input.",
+            Value = Reps.OneOrMore,
         };
 
         [NodeInput]
@@ -123,11 +124,12 @@ namespace Nodexr.Shared.NodeTypes
             if (!(val.PreviousNode is null))
                 return true;
 
-            //All Concat, Quantifier, Decimal and Optional nodes also need to be wrapped in a group to quantify properly.
+            //All Concat, Quantifier, Decimal, Optional and List nodes also need to be wrapped in a group to quantify properly.
             if (val is ConcatNode
                 || val is QuantifierNode
                 || val is DecimalNode
-                || val is OptionalNode)
+                || val is OptionalNode
+                || val is ListNode)
             {
                 return true;
             }
