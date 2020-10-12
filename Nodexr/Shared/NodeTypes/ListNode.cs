@@ -52,6 +52,15 @@ namespace Nodexr.Shared.NodeTypes
             Description = "If checked, the separator will be interpreted as a full regular expression, instead of text.",
         };
 
+        [NodeInput]
+        public InputCheckbox InputLazyQuantifier { get; } = new InputCheckbox(false)
+        {
+            Title = "Lazy Quantifier",
+            Description = "If checked, the expression will match as few items as possible.",
+        };
+
+        //TODO: capture
+
         private const string separatorCharsToEscape = "()[]{}$^?.+*|";
 
         protected override NodeResultBuilder GetValue()
@@ -62,7 +71,9 @@ namespace Nodexr.Shared.NodeTypes
             if(!InputAllowRegex.IsChecked)
                 separator = separator.EscapeCharacters(separatorCharsToEscape);
 
-            string quantifier = (InputListLength.Min, InputListLength.Max) switch
+            int minReps = InputListLength.Min ?? 0;
+            int? maxReps = InputListLength.Max;
+            string quantifier = (min: minReps, max: maxReps) switch
             {
                 (0, 2) => "?",
                 (1, 2) => "?",
@@ -70,14 +81,18 @@ namespace Nodexr.Shared.NodeTypes
                 (1, null) => "*",
                 (2, null) => "+",
                 (0, int max) => $"{{{0},{max - 1}}}",
-                (int a, int b) when a == b => $"{{{a - 1}}}",
-                (int a, int b) => $"{{{a - 1},{b - 1}}}"
+                var range when range.min == range.max => $"{{{range.min - 1}}}",
+                var range => $"{{{range.min - 1},{range.max - 1}}}"
             };
+            if (InputLazyQuantifier.IsChecked)
+            {
+                quantifier += "?";
+            }
 
             string prefix = "(?:";
             string suffix = ")" + quantifier;
 
-            if (InputListLength.Min <= 0)
+            if (minReps <= 0)
             {
                 prefix = "(?:" + prefix;
                 suffix += ")?";
