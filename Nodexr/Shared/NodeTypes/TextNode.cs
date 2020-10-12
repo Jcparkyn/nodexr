@@ -37,7 +37,7 @@ namespace Nodexr.Shared.NodeTypes
             Description = "Should backslashes also be escaped automatically?"
         };
 
-        private static readonly HashSet<char> charsToEscape = new HashSet<char> ("()[]{}$^?.+*|");
+        private const string charsToEscape = "()[]{}$^?.+*|";
 
         protected override NodeResultBuilder GetValue()
         {
