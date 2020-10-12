@@ -65,6 +65,8 @@ namespace Nodexr.Shared.NodeTypes
 
         protected override NodeResultBuilder GetValue()
         {
+            var builder = new NodeResultBuilder(InputContents.Value);
+
             string whitespace = InputAllowWhitespace.IsChecked ? "\\s*?" : "";
 
             string separator = InputSeparator.Contents;
@@ -89,19 +91,15 @@ namespace Nodexr.Shared.NodeTypes
                 quantifier += "?";
             }
 
-            string prefix = "(?:";
             string suffix = ")" + quantifier;
 
             if (minReps <= 0)
             {
-                prefix = "(?:" + prefix;
+                builder.Prepend("(?:", this);
                 suffix += ")?";
             }
 
-            var builder = new NodeResultBuilder(InputContents.Value);
-
-            builder.Prepend(prefix, this);
-            builder.Append(")(?:" + separator + whitespace, this);
+            builder.Append("(?:" + separator + whitespace, this);
             builder.Append(InputContents.Value);
             builder.Append(suffix, this);
 
