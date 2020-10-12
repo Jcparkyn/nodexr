@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace Nodexr.Shared.NodeInputs
 {
     public abstract class InputDropdown : NodeInput
@@ -16,7 +15,7 @@ namespace Nodexr.Shared.NodeInputs
         where TValue : struct, Enum
     {
         //private string dropdownValue;
-        private Dictionary<TValue, string> displayNames;
+        private readonly Dictionary<TValue, string> displayNames;
 
         private TValue value = default;
 
@@ -53,7 +52,6 @@ namespace Nodexr.Shared.NodeInputs
             get
             {
                 if (displayNames != null) return displayNames.Values;
-
                 else return Enum.GetNames(typeof(TValue));
             }
         }

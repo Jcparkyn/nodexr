@@ -3,6 +3,7 @@
     public class InputNumber : NodeInput
     {
         private int? inputContents;
+
         public int? InputContents
         {
             get => inputContents;
