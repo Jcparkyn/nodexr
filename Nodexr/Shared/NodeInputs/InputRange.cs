@@ -21,20 +21,21 @@
             get => max;
             set
             {
-                max = value;
+                max = value > 0 ? value : null;
                 OnValueChanged();
             }
         }
 
-        public int? MinValue { get; set; }
+        public int? MinValue { get; set; } = null;
+
+        public bool AutoClearMax { get; set; } = false;
 
         public override int Height => 50;
 
-        public InputRange(int? min = null, int? max = null, int? minValue = null)
+        public InputRange(int? min = null, int? max = null)
         {
             Min = min;
             Max = max;
-            MinValue = minValue;
         }
 
         public (int?, int?) GetValue()
