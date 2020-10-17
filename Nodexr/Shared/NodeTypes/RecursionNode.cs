@@ -122,12 +122,10 @@ namespace Nodexr.Shared.NodeTypes
             builder.Append(openingGroup, this);
             {
                 builder.Append($"(?<{groupName}>{openEscaped})", this);
-                //builder.Append(betweenRec);
                 builder.Append("|", this);
                 builder.Append($"(?<{captureGroupName}-{groupName}>{closeEscaped})", this);
                 builder.Append("|", this);
                 builder.Append(betweenRec);
-                //builder.Append(")", this);
             }
             builder.Append(")+", this);
             builder.Append($"(?({groupName})(?!))", this);
