@@ -21,13 +21,19 @@
             get => max;
             set
             {
-                max = value > 0 ? value : null;
+                if (AutoClearMax && value <= MinValue)
+                    max = null;
+                else
+                    max = value;
                 OnValueChanged();
             }
         }
 
         public int? MinValue { get; set; } = null;
 
+        /// <summary>
+        /// Automatically clear the 'Max' field if the user set the value below MinValue.
+        /// </summary>
         public bool AutoClearMax { get; set; } = false;
 
         public override int Height => 50;

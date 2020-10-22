@@ -124,12 +124,15 @@ namespace Nodexr.Shared.NodeTypes
             if (!(val.PreviousNode is null))
                 return true;
 
+            //TODO: refactor using polymorphism
             //All Concat, Quantifier, Decimal, Optional and List nodes also need to be wrapped in a group to quantify properly.
             if (val is ConcatNode
                 || val is QuantifierNode
                 || val is DecimalNode
                 || val is OptionalNode
-                || val is ListNode)
+                || val is ListNode
+                || (val is IntegerNode intNode && !intNode.IsSingleGroup())
+            )
             {
                 return true;
             }
