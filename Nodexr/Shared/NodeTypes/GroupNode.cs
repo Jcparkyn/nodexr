@@ -54,8 +54,12 @@ namespace Nodexr.Shared.NodeTypes
         {
             var builder = new NodeResultBuilder(Input.Value);
 
-            if(Input.ConnectedNode is OrNode)
+            if(Input.ConnectedNode is OrNode
+                || Input.ConnectedNode is IntegerNode
+            )
+            {
                 builder.StripNonCaptureGroup();
+            }
 
             string prefix = InputGroupType.Value switch
             {

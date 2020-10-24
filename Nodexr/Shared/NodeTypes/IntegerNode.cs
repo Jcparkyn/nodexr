@@ -59,40 +59,12 @@ namespace Nodexr.Shared.NodeTypes
             Description = "Allow leading zeros in the number?",
         };
 
-        [NodeInput]
-        public InputDropdown<CaptureType> InputCaptureType { get; } = new InputDropdown<CaptureType>(captureTypeDisplayNames)
-        {
-            Title = "Capture?",
-            Description = "Store the result using a capturing group?"
-        };
-
-        [NodeInput]
-        public InputString InputGroupName { get; } = new InputString("int")
-        {
-            Title = "Capture Name:",
-            Description = "The name to give to the captured group."
-        };
-
         public enum LimitType
         {
             Nothing,
             Value,
             Digits,
         }
-
-        public enum CaptureType
-        {
-            NonCapturing,
-            Capturing,
-            Named,
-        }
-
-        private static readonly Dictionary<CaptureType, string> captureTypeDisplayNames = new Dictionary<CaptureType, string>()
-        {
-            {CaptureType.NonCapturing, "Don't Capture" },
-            {CaptureType.Capturing, "Capture" },
-            {CaptureType.Named, "Named Capture" },
-        };
 
         public enum SignType
         {
@@ -104,14 +76,8 @@ namespace Nodexr.Shared.NodeTypes
 
         public IntegerNode()
         {
-            InputGroupName.IsEnabled = (() => InputCaptureType.Value == CaptureType.Named);
             InputValueRange.IsEnabled = () => InputLimitBy.Value == LimitType.Value;
             InputDigitRange.IsEnabled = () => InputLimitBy.Value == LimitType.Digits;
-        }
-
-        public bool IsSingleGroup()
-        {
-            return InputCaptureType.Value != CaptureType.NonCapturing;
         }
 
         protected override NodeResultBuilder GetValue()
@@ -126,12 +92,22 @@ namespace Nodexr.Shared.NodeTypes
                 LimitType.Nothing => "\\d+",
                 _ => "\\d+",
             };
-
-            if (InputLeadingZeros.IsChecked)
-                number = "0*" + number;
-
             var builder = new NodeResultBuilder(number, this);
 
+            //Add non-capturing group to make the alternation work
+            if (number.Contains('|'))
+                builder.AddNonCaptureGroup(this);
+
+            if (InputLeadingZeros.IsChecked)
+                builder.Prepend("0*", this);
+
+            AddSign(builder);
+
+            return builder;
+        }
+
+        private void AddSign(NodeResultBuilder builder)
+        {
             switch (InputSign.Value)
             {
                 case SignType.Compulsory:
@@ -141,43 +117,12 @@ namespace Nodexr.Shared.NodeTypes
                 case SignType.Negative:
                     builder.Prepend("-", this); break;
             }
-
-            switch (InputCaptureType.Value)
-            {
-                case CaptureType.Capturing:
-                    builder.Prepend("(", this);
-                    builder.Append(")", this);
-                    break;
-                case CaptureType.Named:
-                    builder.Prepend($"(?<{InputGroupName.GetValue()}>", this);
-                    builder.Append(")", this);
-                    break;
-            }
-
-            return builder;
         }
 
         private string GetIntegerRangeRegex(int min, int max)
         {
             var ranges = rangeGenerator.GenerateRegexRange(min, max);
-            return JoinRegexRanges(ranges);
+            return string.Join('|', ranges);
         }
-
-        private string JoinRegexRanges(IEnumerable<string> ranges)
-        {
-            string regex = string.Join('|', ranges);
-
-            bool needsSubGroup =
-                ranges.Count() > 1 &&
-                (HasPrefix() || InputCaptureType.Value == CaptureType.NonCapturing);
-
-            if (needsSubGroup)
-            {
-                regex = "(?:" + regex + ")";
-            }
-            return regex;
-        }
-
-        private bool HasPrefix() => InputLeadingZeros.IsChecked || InputSign.Value != SignType.None;
     }
 }

@@ -76,6 +76,10 @@ namespace Nodexr.Shared.NodeTypes
         {
             var builder = new NodeResultBuilder(InputContents.Value);
 
+            //Simplify IntegerNode if needed
+            if (InputContents.ConnectedNode is IntegerNode)
+                builder.StripNonCaptureGroup();
+
             string suffix = "";
             string prefix = "";
 
@@ -129,9 +133,10 @@ namespace Nodexr.Shared.NodeTypes
             if (val is ConcatNode
                 || val is QuantifierNode
                 || val is DecimalNode
+                || val is IntegerNode
                 || val is OptionalNode
                 || val is ListNode
-                || (val is IntegerNode intNode && !intNode.IsSingleGroup())
+                || val is RecursionNode
             )
             {
                 return true;

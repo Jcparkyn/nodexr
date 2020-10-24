@@ -42,20 +42,6 @@ namespace Nodexr.Shared.NodeTypes
         };
 
         [NodeInput]
-        public InputDropdown<CaptureType> InputCaptureType { get; } = new InputDropdown<CaptureType>(captureTypeDisplayNames)
-        {
-            Title = "Capture?",
-            Description = "Store the result using a capturing group?"
-        };
-
-        [NodeInput]
-        public InputString InputGroupName { get; } = new InputString("")
-        {
-            Title = "Capture Name",
-            Description = "The name to give to the captured group."
-        };
-
-        [NodeInput]
         public InputCheckbox InputOptionalDecimal { get; } = new InputCheckbox()
         {
             Title = "Optional Decimal",
@@ -69,30 +55,11 @@ namespace Nodexr.Shared.NodeTypes
             Description = "If checked, numbers with no integer part (e.g. .5) are matched."
         };
 
-        public enum CaptureType
-        {
-            NonCapturing,
-            Capturing,
-            Named,
-        }
-
-        private static readonly Dictionary<CaptureType, string> captureTypeDisplayNames = new Dictionary<CaptureType, string>()
-        {
-            {CaptureType.NonCapturing, "Don't Capture" },
-            {CaptureType.Capturing, "Capture" },
-            {CaptureType.Named, "Named Capture" },
-        };
-
         public enum SignType
         {
             None,
             Optional,
             Compulsory,
-        }
-
-        public DecimalNode()
-        {
-            InputGroupName.IsEnabled = (() => InputCaptureType.Value == CaptureType.Named);
         }
 
         protected override NodeResultBuilder GetValue()
@@ -135,16 +102,7 @@ namespace Nodexr.Shared.NodeTypes
                 };
             }
 
-            string contents = signPrefix + number;
-
-            string result = InputCaptureType.Value switch
-            {
-                CaptureType.Capturing => "(" + contents + ")",
-                CaptureType.Named => $"(?<{InputGroupName.GetValue()}>{contents})",
-                _ => contents,
-            };
-
-            return new NodeResultBuilder(result, this);
+            return new NodeResultBuilder(signPrefix + number, this);
         }
     }
 }
