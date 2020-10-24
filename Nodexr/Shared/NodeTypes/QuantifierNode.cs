@@ -36,10 +36,16 @@ namespace Nodexr.Shared.NodeTypes
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
 
         [NodeInput]
-        public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
+        public InputRange InputRange { get; } = new InputRange(0, 1)
+        {
+            Title = "Amount:",
+            //TODO: Description = "",
+            MinValue = 0,
+            AutoClearMax = true,
+        };
 
-        [NodeInput]
-        public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+        //[NodeInput]
+        //public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
 
         [NodeInput]
         public InputDropdown<SearchMode> InputSearchType { get; } = new InputDropdown<SearchMode>()
@@ -67,8 +73,7 @@ namespace Nodexr.Shared.NodeTypes
         public QuantifierNode()
         {
             InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
-            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
-            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputRange.IsEnabled = () => InputCount.Value == Reps.Range;
             InputSearchType.IsEnabled = () => InputCount.Value != Reps.Number;
         }
 
@@ -92,11 +97,7 @@ namespace Nodexr.Shared.NodeTypes
             }
 
             //Add quantifier
-            suffix += GetSuffix(
-                InputCount.Value,
-                InputNumber.InputContents,
-                InputMin.GetValue(),
-                InputMax.GetValue());
+            suffix += GetSuffix(this);
 
             //Add modifier
             if (InputCount.Value != Reps.Number)

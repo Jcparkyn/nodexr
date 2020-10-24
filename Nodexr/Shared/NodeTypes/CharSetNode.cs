@@ -39,10 +39,13 @@ namespace Nodexr.Shared.NodeTypes
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
 
         [NodeInput]
-        public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
-
-        [NodeInput]
-        public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+        public InputRange InputRange { get; } = new InputRange(0, 1)
+        {
+            Title = "Amount:",
+            //TODO: Description = "",
+            MinValue = 0,
+            AutoClearMax = true,
+        };
 
         public CharSetNode()
         {
@@ -52,8 +55,7 @@ namespace Nodexr.Shared.NodeTypes
         private void SetupInputEnables()
         {
             InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
-            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
-            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputRange.IsEnabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override NodeResultBuilder GetValue()
@@ -63,11 +65,7 @@ namespace Nodexr.Shared.NodeTypes
             string prefix = InputDoInvert.IsChecked ? "^" : "";
             string result = "[" + prefix + charSet + "]";
 
-            string suffix = GetSuffix(
-                InputCount.Value,
-                InputNumber.InputContents,
-                InputMin.GetValue(),
-                InputMax.GetValue());
+            string suffix = GetSuffix(this);
 
             var builder = new NodeResultBuilder();
             builder.Append(result, this);
