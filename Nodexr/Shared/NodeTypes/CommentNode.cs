@@ -16,7 +16,7 @@ namespace Nodexr.Shared.NodeTypes
         public CommentNode() { }
         public CommentNode(string contents)
         {
-            Input.Contents = contents;
+            Input.Value = contents;
         }
 
         protected override NodeResultBuilder GetValue()

@@ -38,8 +38,8 @@ namespace Nodexr.Shared.RegexParsers
         private static CharSetNode CreateWithContents(string contents, bool invert)
         {
             var node = new CharSetNode();
-            node.InputCharacters.Contents = contents;
-            node.InputDoInvert.IsChecked = invert;
+            node.InputCharacters.Value = contents;
+            node.InputDoInvert.Checked = invert;
             return node;
         }
     }

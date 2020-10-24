@@ -48,32 +48,30 @@ namespace Nodexr.Shared.NodeTypes
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
 
         [NodeInput]
-        public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
-
-        [NodeInput]
-        public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+        public InputRange InputRange { get; } = new InputRange(0, 1)
+        {
+            Title = "Amount:",
+            Description = "The amount of repetitions to allow. Leave the maximum field blank to allow unlimited repetitions.",
+            MinValue = 0,
+            AutoClearMax = true,
+        };
 
         public WhitespaceNode()
         {
-            bool IsAllWhitespaceUnchecked() => !InputAllWhitespace.IsChecked;
+            bool IsAllWhitespaceUnchecked() => !InputAllWhitespace.Checked;
 
-            InputSpace.IsEnabled = IsAllWhitespaceUnchecked;
-            InputTab.IsEnabled = IsAllWhitespaceUnchecked;
-            InputCR.IsEnabled = IsAllWhitespaceUnchecked;
-            InputLF.IsEnabled = IsAllWhitespaceUnchecked;
+            InputSpace.Enabled = IsAllWhitespaceUnchecked;
+            InputTab.Enabled = IsAllWhitespaceUnchecked;
+            InputCR.Enabled = IsAllWhitespaceUnchecked;
+            InputLF.Enabled = IsAllWhitespaceUnchecked;
 
-            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
-            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
-            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputNumber.Enabled = () => InputCount.Value == Reps.Number;
+            InputRange.Enabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override NodeResultBuilder GetValue()
         {
-            string suffix = GetSuffix(
-                InputCount.Value,
-                InputNumber.InputContents,
-                InputMin.GetValue(),
-                InputMax.GetValue());
+            string suffix = GetSuffix(this);
 
             var builder = new NodeResultBuilder(ValueString(), this);
             builder.Append(suffix, this);
@@ -82,19 +80,19 @@ namespace Nodexr.Shared.NodeTypes
 
         private string ValueString()
         {
-            bool invert = InputInvert.IsChecked;
+            bool invert = InputInvert.Checked;
 
-            if (InputAllWhitespace.IsChecked)
+            if (InputAllWhitespace.Checked)
             {
                 return invert ? "\\S" : "\\s";
             }
 
             List<string> charsToAllow = new List<string>();
 
-            if (InputSpace.IsChecked) charsToAllow.Add(" ");
-            if (InputTab.IsChecked) charsToAllow.Add("\\t");
-            if (InputCR.IsChecked) charsToAllow.Add("\\r");
-            if (InputLF.IsChecked) charsToAllow.Add("\\n");
+            if (InputSpace.Checked) charsToAllow.Add(" ");
+            if (InputTab.Checked) charsToAllow.Add("\\t");
+            if (InputCR.Checked) charsToAllow.Add("\\r");
+            if (InputLF.Checked) charsToAllow.Add("\\n");
 
             string charsConverted = string.Concat(charsToAllow);
             if (invert)

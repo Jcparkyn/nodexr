@@ -35,8 +35,8 @@ namespace Nodexr.Shared.NodeTypes
 
         public ReferenceNode()
         {
-            InputIndex.IsEnabled = (() => InputType.Value == InputTypes.Index);
-            InputName.IsEnabled = (() => InputType.Value == InputTypes.Name);
+            InputIndex.Enabled = (() => InputType.Value == InputTypes.Index);
+            InputName.Enabled = (() => InputType.Value == InputTypes.Name);
         }
 
         protected override NodeResultBuilder GetValue()
@@ -48,8 +48,8 @@ namespace Nodexr.Shared.NodeTypes
         {
             return InputType.Value switch
             {
-                InputTypes.Index => @"\" + InputIndex.InputContents,
-                InputTypes.Name => @"\k<" + InputName.Contents + ">",
+                InputTypes.Index => @"\" + InputIndex.Value,
+                InputTypes.Name => @"\k<" + InputName.Value + ">",
                 _ => "",
             };
         }

@@ -103,6 +103,12 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
+        public void AddNonCaptureGroup(INode node)
+        {
+            Prepend("(?:", node);
+            Append(")", node);
+        }
+
         public NodeResult Build()
         {
             return new NodeResult(contents);

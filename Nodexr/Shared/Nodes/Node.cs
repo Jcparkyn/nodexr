@@ -184,7 +184,7 @@ namespace Nodexr.Shared.Nodes
             const int baseHeight = 28;
 
             int inputHeight = NodeInputs
-                .Where(input => input.IsEnabled())
+                .Where(input => input.Enabled())
                 .Select(input => input.Height)
                 .Sum();
 

@@ -3,14 +3,14 @@ namespace Nodexr.Shared.NodeInputs
 {
     public class InputString : NodeInput
     {
-        private string contents;
+        private string _value;
 
-        public string Contents
+        public string Value
         {
-            get => contents;
+            get => _value;
             set
             {
-                contents = value;
+                _value = value;
                 OnValueChanged();
             }
         }
@@ -19,11 +19,12 @@ namespace Nodexr.Shared.NodeInputs
 
         public InputString(string contents)
         {
-            Contents = contents;
+            Value = contents;
         }
+
         public string GetValue()
         {
-            return Contents;
+            return Value;
         }
     }
 }

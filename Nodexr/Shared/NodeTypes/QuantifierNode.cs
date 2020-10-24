@@ -29,16 +29,20 @@ namespace Nodexr.Shared.NodeTypes
         {
             Title = "Repetitions:",
             Description = "The number of times to match the input.",
+            Value = Reps.OneOrMore,
         };
 
         [NodeInput]
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
 
         [NodeInput]
-        public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
-
-        [NodeInput]
-        public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+        public InputRange InputRange { get; } = new InputRange(0, 1)
+        {
+            Title = "Amount:",
+            Description = "The amount of repetitions to allow. Leave the maximum field blank to allow unlimited repetitions.",
+            MinValue = 0,
+            AutoClearMax = true,
+        };
 
         [NodeInput]
         public InputDropdown<SearchMode> InputSearchType { get; } = new InputDropdown<SearchMode>()
@@ -65,15 +69,18 @@ namespace Nodexr.Shared.NodeTypes
 
         public QuantifierNode()
         {
-            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
-            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
-            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
-            InputSearchType.IsEnabled = () => InputCount.Value != Reps.Number;
+            InputNumber.Enabled = () => InputCount.Value == Reps.Number;
+            InputRange.Enabled = () => InputCount.Value == Reps.Range;
+            InputSearchType.Enabled = () => InputCount.Value != Reps.Number;
         }
 
         protected override NodeResultBuilder GetValue()
         {
             var builder = new NodeResultBuilder(InputContents.Value);
+
+            //Simplify IntegerNode if needed
+            if (InputContents.ConnectedNode is IntegerNode)
+                builder.StripNonCaptureGroup();
 
             string suffix = "";
             string prefix = "";
@@ -87,11 +94,7 @@ namespace Nodexr.Shared.NodeTypes
             }
 
             //Add quantifier
-            suffix += GetSuffix(
-                InputCount.Value,
-                InputNumber.InputContents,
-                InputMin.GetValue(),
-                InputMax.GetValue());
+            suffix += GetSuffix(this);
 
             //Add modifier
             if (InputCount.Value != Reps.Number)
@@ -112,7 +115,10 @@ namespace Nodexr.Shared.NodeTypes
             return builder;
         }
 
-        private bool RequiresGroupToQuantify(Node val)
+        /// <summary>
+        /// Check whether the given node needs a non-capturing group before it can be quantified.
+        /// </summary>
+        internal static bool RequiresGroupToQuantify(Node val)
         {
             if (val is null) throw new ArgumentNullException(nameof(val));
 
@@ -120,9 +126,19 @@ namespace Nodexr.Shared.NodeTypes
             if (!(val.PreviousNode is null))
                 return true;
 
-            //All Concat, and Quantifier nodes also need to be wrapped in a group to quantify properly.
-            if (val is ConcatNode || val is QuantifierNode)
+            //TODO: refactor using polymorphism
+            //All Concat, Quantifier, Decimal, Optional and List nodes also need to be wrapped in a group to quantify properly.
+            if (val is ConcatNode
+                || val is QuantifierNode
+                || val is DecimalNode
+                || val is IntegerNode
+                || val is OptionalNode
+                || val is ListNode
+                || val is RecursionNode
+            )
+            {
                 return true;
+            }
 
             if (val is TextNode && !val.CachedOutput.Expression.IsSingleRegexChar())
                 return true;

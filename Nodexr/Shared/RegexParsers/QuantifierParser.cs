@@ -73,12 +73,11 @@ namespace Nodexr.Shared.RegexParsers
             UnsignedInt(10)
             .OptionalOrNull();
 
-
         private static QuantifierNode CreateWithNumber(int number)
         {
             var node = new QuantifierNode();
             node.InputCount.Value = Reps.Number;
-            node.InputNumber.InputContents = number;
+            node.InputNumber.Value = number;
             return node;
         }
 
@@ -86,8 +85,8 @@ namespace Nodexr.Shared.RegexParsers
         {
             var node = new QuantifierNode();
             node.InputCount.Value = Reps.Range;
-            node.InputMin.InputContents = min;
-            node.InputMax.InputContents = max;
+            node.InputRange.Min = min;
+            node.InputRange.Max = max;
             return node;
         }
 
@@ -111,15 +110,17 @@ namespace Nodexr.Shared.RegexParsers
                 case IQuantifiableNode child when
                 contents.PreviousNode is null
                 && quant.InputSearchType.Value == QuantifierNode.SearchMode.Greedy:
+                    //Transfer properties to child node if Quantifiable
                     child.InputCount.Value = quant.InputCount.Value;
-                    child.InputMin.InputContents = quant.InputMin.InputContents;
-                    child.InputMax.InputContents = quant.InputMax.InputContents;
-                    child.InputNumber.InputContents = quant.InputNumber.InputContents;
+                    child.InputRange.Min = quant.InputRange.Min;
+                    child.InputRange.Min = quant.InputRange.Max;
+                    child.InputNumber.Value = quant.InputNumber.Value;
                     return child as Node;
 
                 case GroupNode child when
                 child.PreviousNode is null
                 && child.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing:
+                    //Discard unneseccary non-capturing group
                     quant.InputContents.ConnectedNode = child.Input.ConnectedNode;
                     return quant;
 

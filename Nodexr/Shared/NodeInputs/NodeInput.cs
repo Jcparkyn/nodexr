@@ -6,7 +6,7 @@ namespace Nodexr.Shared.NodeInputs
     {
         string Title { get; set; }
         event EventHandler ValueChanged;
-        Func<bool> IsEnabled { get; }
+        Func<bool> Enabled { get; }
         string Description { get; set; }
     }
 
@@ -23,7 +23,7 @@ namespace Nodexr.Shared.NodeInputs
 
         public Vector2 Pos { get; set; }
 
-        public Func<bool> IsEnabled { get; set; } = (() => true);
+        public Func<bool> Enabled { get; set; } = () => true;
 
         public virtual int Height { get; } = 32;
 

@@ -60,10 +60,13 @@ namespace Nodexr.Shared.NodeTypes
         public InputNumber InputNumber { get; } = new InputNumber(0, min: 0) { Title = "Amount:" };
 
         [NodeInput]
-        public InputNumber InputMin { get; } = new InputNumber(0, min: 0) { Title = "Minimum:" };
-
-        [NodeInput]
-        public InputNumber InputMax { get; } = new InputNumber(1, min: 0) { Title = "Maximum:" };
+        public InputRange InputRange { get; } = new InputRange(0, 1)
+        {
+            Title = "Amount:",
+            Description = "The amount of repetitions to allow. Leave the maximum field blank to allow unlimited repetitions.",
+            MinValue = 0,
+            AutoClearMax = true,
+        };
 
         public enum WildcardType
         {
@@ -89,33 +92,28 @@ namespace Nodexr.Shared.NodeTypes
         {
             bool isCustom() => InputType.Value == WildcardType.Custom;
 
-            InputAllowWhitespace.IsEnabled = isCustom;
-            InputAllowUnderscore.IsEnabled = isCustom;
-            InputAllowUppercase.IsEnabled = isCustom;
-            InputAllowLowercase.IsEnabled = isCustom;
-            InputAllowDigits.IsEnabled = isCustom;
+            InputAllowWhitespace.Enabled = isCustom;
+            InputAllowUnderscore.Enabled = isCustom;
+            InputAllowUppercase.Enabled = isCustom;
+            InputAllowLowercase.Enabled = isCustom;
+            InputAllowDigits.Enabled = isCustom;
 
-            InputInvert.IsEnabled = () => InputType.Value != WildcardType.Everything;
-            InputMatchNewline.IsEnabled = () => InputType.Value == WildcardType.Everything;
+            InputInvert.Enabled = () => InputType.Value != WildcardType.Everything;
+            InputMatchNewline.Enabled = () => InputType.Value == WildcardType.Everything;
 
-            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
-            InputMin.IsEnabled = () => InputCount.Value == Reps.Range;
-            InputMax.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputNumber.Enabled = () => InputCount.Value == Reps.Number;
+            InputRange.Enabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override NodeResultBuilder GetValue()
         {
-            bool invert = InputInvert.IsChecked;
+            bool invert = InputInvert.Checked;
 
-            string suffix = GetSuffix(
-                InputCount.Value,
-                InputNumber.InputContents,
-                InputMin.GetValue(),
-                InputMax.GetValue());
+            string suffix = GetSuffix(this);
 
             string contents = (InputType.Value, invert) switch
             {
-                (WildcardType.Everything, _) => InputMatchNewline.IsChecked ? @"[\s\S]" : ".",
+                (WildcardType.Everything, _) => InputMatchNewline.Checked ? @"[\s\S]" : ".",
                 (WildcardType.WordCharacters, false) => "\\w",
                 (WildcardType.WordCharacters, true) => "\\W",
                 (WildcardType.Letters, false) => "[a-zA-Z]",
@@ -137,11 +135,11 @@ namespace Nodexr.Shared.NodeTypes
         {
             var inputs = (
                 i: invert,
-                w: InputAllowWhitespace.IsChecked,
-                L: InputAllowUppercase.IsChecked,
-                l: InputAllowLowercase.IsChecked,
-                d: InputAllowDigits.IsChecked,
-                u: InputAllowUnderscore.IsChecked
+                w: InputAllowWhitespace.Checked,
+                L: InputAllowUppercase.Checked,
+                l: InputAllowLowercase.Checked,
+                d: InputAllowDigits.Checked,
+                u: InputAllowUnderscore.Checked
                 );
 
             return inputs switch

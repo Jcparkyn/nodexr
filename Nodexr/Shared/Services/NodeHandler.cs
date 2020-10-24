@@ -203,8 +203,8 @@ namespace Nodexr.Shared.Services
             var defaultOutput = new OutputNode() { Pos = new Vector2(1100, 300) };
             var defaultTextNodeFox = new TextNode() { Pos = new Vector2(300, 200) };
             var defaultTextNodeDog = new TextNode() { Pos = new Vector2(300, 450) };
-            defaultTextNodeFox.Input.Contents = "fox";
-            defaultTextNodeDog.Input.Contents = "dog";
+            defaultTextNodeFox.Input.Value = "fox";
+            defaultTextNodeDog.Input.Value = "dog";
             var defaultOrNode = new OrNode(new List<INodeOutput>() { defaultTextNodeFox, defaultTextNodeDog })
             {
                 Pos = new Vector2(700, 300)

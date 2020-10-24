@@ -2,32 +2,28 @@
 {
     public class InputNumber : NodeInput
     {
-        private int? inputContents;
-        public int? InputContents
+        private int? _value;
+
+        public int? Value
         {
-            get => inputContents;
+            get => _value;
             set
             {
-                inputContents = value;
+                _value = value;
                 OnValueChanged();
             }
         }
 
-        public int? Min { get; set; }
-        public int? Max { get; set; }
+        public int? MinValue { get; set; }
+        public int? MaxValue { get; set; }
 
         public override int Height => 50;
 
         public InputNumber(int contents, int? min = null, int? max = null)
         {
-            InputContents = contents;
-            Min = min;
-            Max = max;
-        }
-
-        public int? GetValue()
-        {
-            return InputContents;
+            Value = contents;
+            MinValue = min;
+            MaxValue = max;
         }
     }
 }

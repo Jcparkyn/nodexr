@@ -31,5 +31,16 @@ namespace Nodexr.Shared
             }
             return result;
         }
+
+        public static string EscapeSpecialCharacters(this string input, bool escapeBackslashes = true)
+        {
+            const string specialCharacters = "()[]{}$^?.+*|";
+
+            string charsToEscape = escapeBackslashes ?
+                specialCharacters + "\\" :
+                specialCharacters;
+
+            return EscapeCharacters(input, charsToEscape);
+        }
     }
 }

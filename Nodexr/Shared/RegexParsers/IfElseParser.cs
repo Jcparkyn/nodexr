@@ -37,7 +37,7 @@ namespace Nodexr.Shared.RegexParsers
         private static IfElseNode CreateIfElse(string condition, Node in1, Node in2)
         {
             var node = new IfElseNode();
-            node.InputCondition.Contents = condition;
+            node.InputCondition.Value = condition;
             node.InputThen.ConnectedNode = in1;
             node.InputElse.ConnectedNode = in2;
             return node;

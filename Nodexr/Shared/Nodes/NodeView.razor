@@ -43,7 +43,7 @@
                 @onmousedown:stopPropagation>
                 @foreach (INodeInput nodeInput in Data.NodeInputs)
                 {
-                    if (nodeInput.IsEnabled())
+                    if (nodeInput.Enabled())
                     {
                         <NodeInputView Data="nodeInput" />
                     }

@@ -46,16 +46,20 @@ namespace Nodexr.Shared.NodeTypes
 
         public GroupNode()
         {
-            GroupName.IsEnabled = (() => InputGroupType.Value == GroupTypes.named);
-            CustomPrefix.IsEnabled = (() => InputGroupType.Value == GroupTypes.custom);
+            GroupName.Enabled = (() => InputGroupType.Value == GroupTypes.named);
+            CustomPrefix.Enabled = (() => InputGroupType.Value == GroupTypes.custom);
         }
 
         protected override NodeResultBuilder GetValue()
         {
             var builder = new NodeResultBuilder(Input.Value);
 
-            if(Input.ConnectedNode is OrNode)
+            if(Input.ConnectedNode is OrNode
+                || Input.ConnectedNode is IntegerNode
+            )
+            {
                 builder.StripNonCaptureGroup();
+            }
 
             string prefix = InputGroupType.Value switch
             {

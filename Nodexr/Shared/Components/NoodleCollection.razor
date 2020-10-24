@@ -9,7 +9,7 @@
 {
     var inputsWithNoodles = node.GetAllInputs()
         .OfType<InputProcedural>()
-        .Where(input => input.Enabled);
+        .Where(input => input.Connected);
 
     @foreach (var input in inputsWithNoodles)
     {

@@ -11,8 +11,7 @@ namespace Nodexr.Shared.NodeTypes
     {
         InputDropdown<Reps> InputCount { get; }
         InputNumber InputNumber { get; }
-        InputNumber InputMin { get; }
-        InputNumber InputMax { get; }
+        InputRange InputRange { get; }
 
         public enum Reps
         {
@@ -34,17 +33,17 @@ namespace Nodexr.Shared.NodeTypes
             {Reps.Range, "Range"}
         };
 
-        public static string GetSuffix(Reps mode, int? number = 0, int? min = 0, int? max = 0)
+        public static string GetSuffix(IQuantifiableNode node)
         {
-            return mode switch
+            return node.InputCount.Value switch
             {
                 Reps.One => "",
                 Reps.ZeroOrMore => "*",
                 Reps.OneOrMore => "+",
                 Reps.ZeroOrOne => "?",
-                Reps.Number => $"{{{number ?? 0}}}",
-                Reps.Range => $"{{{min ?? 0},{max}}}",
-                _ => throw new ArgumentOutOfRangeException(nameof(mode))
+                Reps.Number => $"{{{node.InputNumber.Value ?? 0}}}",
+                Reps.Range => $"{{{node.InputRange.Min ?? 0},{node.InputRange.Max}}}",
+                _ => "",
             };
         }
     }

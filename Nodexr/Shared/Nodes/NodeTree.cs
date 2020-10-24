@@ -36,7 +36,7 @@ namespace Nodexr.Shared.Nodes
             nodes.Remove(nodeToRemove);
             foreach(var input in nodeToRemove.GetAllInputs()
                 .OfType<InputProcedural>()
-                .Where(input => input.Enabled))
+                .Where(input => input.Connected))
             {
                 input.ConnectedNode = null;
             }

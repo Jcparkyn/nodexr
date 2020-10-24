@@ -60,7 +60,7 @@ namespace Nodexr.Shared.RegexParsers
         {
             var node = new GroupNode();
             node.InputGroupType.Value = GroupNode.GroupTypes.named;
-            node.GroupName.Contents = name;
+            node.GroupName.Value = name;
             return node;
         }
 
@@ -76,7 +76,7 @@ namespace Nodexr.Shared.RegexParsers
                 }
                 else if (node.InputGroupType.Value == GroupNode.GroupTypes.capturing)
                 {
-                    orNode.InputCapture.IsChecked = true;
+                    orNode.InputCapture.Checked = true;
                     return orNode;
                 }
             }

@@ -2,14 +2,14 @@
 {
     public class InputCheckbox : NodeInput
     {
-        private bool isChecked;
+        private bool _checked;
 
-        public bool IsChecked
+        public bool Checked
         {
-            get => isChecked;
+            get => _checked;
             set
             {
-                isChecked = value;
+                _checked = value;
                 OnValueChanged();
             }
         }
@@ -18,7 +18,7 @@
 
         public InputCheckbox(bool isChecked = false)
         {
-            this.isChecked = isChecked;
+            this._checked = isChecked;
         }
     }
 }

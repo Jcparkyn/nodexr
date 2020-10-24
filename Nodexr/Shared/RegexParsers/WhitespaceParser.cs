@@ -19,7 +19,7 @@ namespace Nodexr.Shared.RegexParsers
         private static WhitespaceNode CreateWhitespaceNode(bool invert)
         {
             var node = new WhitespaceNode();
-            node.InputInvert.IsChecked = invert;
+            node.InputInvert.Checked = invert;
             return node;
         }
     }

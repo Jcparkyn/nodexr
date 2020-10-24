@@ -31,6 +31,7 @@ namespace Nodexr.Tests
         public string GetOutput_GroupedContents_ReturnsContentsWithAsterisk(string contents)
         {
             var node = CreateDefaultQuantifier(contents);
+            node.InputCount.Value = Reps.ZeroOrMore;
             return node.CachedOutput.Expression;
         }
 
@@ -40,9 +41,10 @@ namespace Nodexr.Tests
         public string GetOutput_UngroupedContents_ReturnsContentsGroupedWithAsterisk(string contents)
         {
             var node = new QuantifierNode();
+            node.InputCount.Value = Reps.ZeroOrMore;
             var input = new TextNode();
-            input.Input.Contents = contents;
-            input.InputEscapeSpecials.IsChecked = false;
+            input.Input.Value = contents;
+            input.InputEscapeSpecials.Checked = false;
 
             node.InputContents.ConnectedNode = input;
             node.InputSearchType.Value = QuantifierNode.SearchMode.Greedy;
@@ -55,7 +57,9 @@ namespace Nodexr.Tests
         [TestCase(Reps.ZeroOrOne, ExpectedResult = @"?")]
         public string GetSuffix_BasicModes_ReturnsSuffix(Reps mode)
         {
-            return IQuantifiableNode.GetSuffix(mode);
+            var node = new QuantifierNode();
+            node.InputCount.Value = mode;
+            return IQuantifiableNode.GetSuffix(node);
         }
 
         [TestCase(0, ExpectedResult = @"{0}")]
@@ -64,10 +68,13 @@ namespace Nodexr.Tests
         [TestCase(null, ExpectedResult = @"{0}")]
         public string GetSuffix_Number_ReturnsSuffix(int? number)
         {
-            return IQuantifiableNode.GetSuffix(Reps.Number, number: number);
+            var node = new QuantifierNode();
+            node.InputCount.Value = Reps.Number;
+            node.InputNumber.Value = number;
+            return IQuantifiableNode.GetSuffix(node);
         }
 
-        [TestCase(0, 0, ExpectedResult = @"{0,0}")]
+        [TestCase(0, 0, ExpectedResult = @"{0,}")]
         [TestCase(0, 1, ExpectedResult = @"{0,1}")]
         [TestCase(0, 99, ExpectedResult = @"{0,99}")]
         [TestCase(null, 1, ExpectedResult = @"{0,1}")]
@@ -75,18 +82,11 @@ namespace Nodexr.Tests
         [TestCase(1, null, ExpectedResult = @"{1,}")]
         public string GetSuffix_Range_ReturnsSuffix(int? min, int? max)
         {
-            return IQuantifiableNode.GetSuffix(Reps.Range, min: min, max: max);
-        }
-
-        private QuantifierNode CreateQuantifierWithRange(string contents, int min, int max)
-        {
-            var node = CreateDefaultQuantifier(contents);
-
+            var node = new QuantifierNode();
             node.InputCount.Value = Reps.Range;
-            node.InputMin.InputContents = min;
-            node.InputMax.InputContents = max;
-
-            return node;
+            node.InputRange.Min = min;
+            node.InputRange.Max = max;
+            return IQuantifiableNode.GetSuffix(node);
         }
 
         private QuantifierNode CreateDefaultQuantifier(string contents)
