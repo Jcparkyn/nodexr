@@ -51,7 +51,7 @@ namespace Nodexr.Shared.NodeTypes
         public InputRange InputRange { get; } = new InputRange(0, 1)
         {
             Title = "Amount:",
-            //TODO: Description = "",
+            Description = "The amount of repetitions to allow. Leave the maximum field blank to allow unlimited repetitions.",
             MinValue = 0,
             AutoClearMax = true,
         };

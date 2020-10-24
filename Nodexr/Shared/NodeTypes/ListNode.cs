@@ -59,8 +59,6 @@ namespace Nodexr.Shared.NodeTypes
             Description = "If checked, the expression will match as few items as possible.",
         };
 
-        //TODO: capture
-
         private const string separatorCharsToEscape = "()[]{}$^?.+*|";
 
         protected override NodeResultBuilder GetValue()

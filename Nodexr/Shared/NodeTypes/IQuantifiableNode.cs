@@ -33,20 +33,6 @@ namespace Nodexr.Shared.NodeTypes
             {Reps.Range, "Range"}
         };
 
-        public string GetSuffix(Reps mode, int? number = 0, int? min = 0, int? max = 0)
-        {
-            return mode switch
-            {
-                Reps.One => "",
-                Reps.ZeroOrMore => "*",
-                Reps.OneOrMore => "+",
-                Reps.ZeroOrOne => "?",
-                Reps.Number => $"{{{number ?? 0}}}",
-                Reps.Range => $"{{{min ?? 0},{max}}}",
-                _ => throw new ArgumentOutOfRangeException(nameof(mode))
-            };
-        }
-
         public static string GetSuffix(IQuantifiableNode node)
         {
             return node.InputCount.Value switch
