@@ -41,7 +41,7 @@ namespace Nodexr.Shared.NodeTypes
                 Reps.ZeroOrMore => "*",
                 Reps.OneOrMore => "+",
                 Reps.ZeroOrOne => "?",
-                Reps.Number => $"{{{node.InputNumber.InputContents ?? 0}}}",
+                Reps.Number => $"{{{node.InputNumber.Value ?? 0}}}",
                 Reps.Range => $"{{{node.InputRange.Min ?? 0},{node.InputRange.Max}}}",
                 _ => "",
             };

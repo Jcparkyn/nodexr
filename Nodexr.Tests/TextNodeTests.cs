@@ -20,7 +20,7 @@ namespace Nodexr.Tests
         public void VariousStrings_MatchesString(string contents, string shouldMatch)
         {
             var node = new TextNode();
-            node.Input.Contents = contents;
+            node.Input.Value = contents;
 
             string nodeVal = node.CachedOutput.Expression;
 

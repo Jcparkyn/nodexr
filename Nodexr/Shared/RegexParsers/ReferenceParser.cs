@@ -33,7 +33,7 @@ namespace Nodexr.Shared.RegexParsers
             if (index > 9 || index < 0) throw new ArgumentOutOfRangeException(nameof(digit));
             var node = new ReferenceNode();
             node.InputType.Value = ReferenceNode.InputTypes.Index;
-            node.InputIndex.InputContents = index;
+            node.InputIndex.Value = index;
             return node;
         }
 
@@ -41,7 +41,7 @@ namespace Nodexr.Shared.RegexParsers
         {
             var node = new ReferenceNode();
             node.InputType.Value = ReferenceNode.InputTypes.Name;
-            node.InputName.Contents = name;
+            node.InputName.Value = name;
             return node;
         }
     }

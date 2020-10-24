@@ -43,8 +43,8 @@ namespace Nodexr.Tests
             var node = new QuantifierNode();
             node.InputCount.Value = Reps.ZeroOrMore;
             var input = new TextNode();
-            input.Input.Contents = contents;
-            input.InputEscapeSpecials.IsChecked = false;
+            input.Input.Value = contents;
+            input.InputEscapeSpecials.Checked = false;
 
             node.InputContents.ConnectedNode = input;
             node.InputSearchType.Value = QuantifierNode.SearchMode.Greedy;
@@ -70,7 +70,7 @@ namespace Nodexr.Tests
         {
             var node = new QuantifierNode();
             node.InputCount.Value = Reps.Number;
-            node.InputNumber.InputContents = number;
+            node.InputNumber.Value = number;
             return IQuantifiableNode.GetSuffix(node);
         }
 

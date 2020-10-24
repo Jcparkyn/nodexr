@@ -18,7 +18,7 @@ namespace Nodexr.Tests.RegexParserTests
         public void CharSetNode_NoSpecials_ReturnsContents(string input, string expectedContents)
         {
             CharSetNode result = ParseCharSet.ParseOrThrow(input);
-            Assert.AreEqual(expectedContents, result.InputCharacters.Contents);
+            Assert.AreEqual(expectedContents, result.InputCharacters.Value);
         }
 
         [TestCase(@"[\]]", @"\]")]
@@ -26,7 +26,7 @@ namespace Nodexr.Tests.RegexParserTests
         public void CharSetNode_EscapedBracket_ReturnsContents(string input, string expectedContents)
         {
             var result = ParseCharSet.ParseOrThrow(input);
-            Assert.AreEqual(expectedContents, result.InputCharacters.Contents);
+            Assert.AreEqual(expectedContents, result.InputCharacters.Value);
         }
 
         [TestCase(@"[^a]", @"a")]
@@ -34,8 +34,8 @@ namespace Nodexr.Tests.RegexParserTests
         public void Inverted_ReturnsContents(string input, string expectedContents)
         {
             var result = ParseCharSet.ParseOrThrow(input);
-            Assert.That(result.InputDoInvert.IsChecked, Is.True);
-            Assert.AreEqual(expectedContents, result.InputCharacters.Contents);
+            Assert.That(result.InputDoInvert.Checked, Is.True);
+            Assert.AreEqual(expectedContents, result.InputCharacters.Value);
         }
     }
 }

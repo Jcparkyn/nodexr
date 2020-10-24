@@ -92,28 +92,28 @@ namespace Nodexr.Shared.NodeTypes
         {
             bool isCustom() => InputType.Value == WildcardType.Custom;
 
-            InputAllowWhitespace.IsEnabled = isCustom;
-            InputAllowUnderscore.IsEnabled = isCustom;
-            InputAllowUppercase.IsEnabled = isCustom;
-            InputAllowLowercase.IsEnabled = isCustom;
-            InputAllowDigits.IsEnabled = isCustom;
+            InputAllowWhitespace.Enabled = isCustom;
+            InputAllowUnderscore.Enabled = isCustom;
+            InputAllowUppercase.Enabled = isCustom;
+            InputAllowLowercase.Enabled = isCustom;
+            InputAllowDigits.Enabled = isCustom;
 
-            InputInvert.IsEnabled = () => InputType.Value != WildcardType.Everything;
-            InputMatchNewline.IsEnabled = () => InputType.Value == WildcardType.Everything;
+            InputInvert.Enabled = () => InputType.Value != WildcardType.Everything;
+            InputMatchNewline.Enabled = () => InputType.Value == WildcardType.Everything;
 
-            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
-            InputRange.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputNumber.Enabled = () => InputCount.Value == Reps.Number;
+            InputRange.Enabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override NodeResultBuilder GetValue()
         {
-            bool invert = InputInvert.IsChecked;
+            bool invert = InputInvert.Checked;
 
             string suffix = GetSuffix(this);
 
             string contents = (InputType.Value, invert) switch
             {
-                (WildcardType.Everything, _) => InputMatchNewline.IsChecked ? @"[\s\S]" : ".",
+                (WildcardType.Everything, _) => InputMatchNewline.Checked ? @"[\s\S]" : ".",
                 (WildcardType.WordCharacters, false) => "\\w",
                 (WildcardType.WordCharacters, true) => "\\W",
                 (WildcardType.Letters, false) => "[a-zA-Z]",
@@ -135,11 +135,11 @@ namespace Nodexr.Shared.NodeTypes
         {
             var inputs = (
                 i: invert,
-                w: InputAllowWhitespace.IsChecked,
-                L: InputAllowUppercase.IsChecked,
-                l: InputAllowLowercase.IsChecked,
-                d: InputAllowDigits.IsChecked,
-                u: InputAllowUnderscore.IsChecked
+                w: InputAllowWhitespace.Checked,
+                L: InputAllowUppercase.Checked,
+                l: InputAllowLowercase.Checked,
+                d: InputAllowDigits.Checked,
+                u: InputAllowUnderscore.Checked
                 );
 
             return inputs switch

@@ -38,7 +38,7 @@ namespace Nodexr.Shared.RegexParsers
             .Then(UnicodeClassContents)
             .Select(node =>
             {
-                node.InputInvert.IsChecked = true;
+                node.InputInvert.Checked = true;
                 return node;
             });
 
@@ -56,7 +56,7 @@ namespace Nodexr.Shared.RegexParsers
         {
             var node = new UnicodeNode();
             node.InputMode.Value = UnicodeNode.Modes.Category;
-            node.InputCategory.Contents = unicodeCategory;
+            node.InputCategory.Value = unicodeCategory;
             return node;
         }
 
@@ -64,7 +64,7 @@ namespace Nodexr.Shared.RegexParsers
         {
             var node = new UnicodeNode();
             node.InputMode.Value = UnicodeNode.Modes.Hex;
-            node.InputHexCode.Contents = hex;
+            node.InputHexCode.Value = hex;
             return node;
         }
     }

@@ -81,7 +81,7 @@ namespace Nodexr.Shared.NodeTypes
             bool noThousandsSeparator = string.IsNullOrEmpty(InputThousandsSeparator.GetValue());
             if (noThousandsSeparator)
             {
-                number = (InputOptionalDecimal.IsChecked, InputOptionalInteger.IsChecked) switch
+                number = (InputOptionalDecimal.Checked, InputOptionalInteger.Checked) switch
                 {
                     (false, false) => $@"\d+{decimalSeparator}\d+",
                     (false, true) => $@"\d*{decimalSeparator}\d+",
@@ -93,7 +93,7 @@ namespace Nodexr.Shared.NodeTypes
             {
                 string thousandsSeparator = InputThousandsSeparator.GetValue();
 
-                number = (InputOptionalDecimal.IsChecked, InputOptionalInteger.IsChecked) switch
+                number = (InputOptionalDecimal.Checked, InputOptionalInteger.Checked) switch
                 {
                     (false, false) => $@"\d[\d{thousandsSeparator}]*{decimalSeparator}\d+",
                     (false, true) => $@"(?:\d[\d{thousandsSeparator}]*)?{decimalSeparator}\d+",

@@ -54,15 +54,15 @@ namespace Nodexr.Shared.NodeTypes
 
         private void SetupInputEnables()
         {
-            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
-            InputRange.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputNumber.Enabled = () => InputCount.Value == Reps.Number;
+            InputRange.Enabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override NodeResultBuilder GetValue()
         {
             string charSet = InputCharacters.GetValue();
 
-            string prefix = InputDoInvert.IsChecked ? "^" : "";
+            string prefix = InputDoInvert.Checked ? "^" : "";
             string result = "[" + prefix + charSet + "]";
 
             string suffix = GetSuffix(this);

@@ -77,7 +77,7 @@ namespace Nodexr.Shared.RegexParsers
         {
             var node = new QuantifierNode();
             node.InputCount.Value = Reps.Number;
-            node.InputNumber.InputContents = number;
+            node.InputNumber.Value = number;
             return node;
         }
 
@@ -114,7 +114,7 @@ namespace Nodexr.Shared.RegexParsers
                     child.InputCount.Value = quant.InputCount.Value;
                     child.InputRange.Min = quant.InputRange.Min;
                     child.InputRange.Min = quant.InputRange.Max;
-                    child.InputNumber.InputContents = quant.InputNumber.InputContents;
+                    child.InputNumber.Value = quant.InputNumber.Value;
                     return child as Node;
 
                 case GroupNode child when

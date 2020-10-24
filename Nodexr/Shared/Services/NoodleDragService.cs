@@ -25,7 +25,7 @@ namespace Nodexr.Shared.Services
     public class NoodleDragService : INoodleDragService
     {
         public INode NodeToDrag { get; set; }
-        public NoodleDataCustom TempNoodle { get; } = new NoodleDataCustom() { Enabled = false };
+        public NoodleDataCustom TempNoodle { get; } = new NoodleDataCustom() { Connected = false };
 
         private readonly IToastService toastService;
         private readonly IJSRuntime jsRuntime;
@@ -47,7 +47,7 @@ namespace Nodexr.Shared.Services
             if(nodeToDrag is Node node)
             {
                 NodeToDrag = node;
-                TempNoodle.Enabled = true;
+                TempNoodle.Connected = true;
 
                 jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
                     nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y);
@@ -58,7 +58,7 @@ namespace Nodexr.Shared.Services
 
         public void OnDropNoodle(InputProcedural nodeInput)
         {
-            TempNoodle.Enabled = false;
+            TempNoodle.Connected = false;
 
             if (NodeToDrag is null) return;
 
@@ -80,7 +80,7 @@ namespace Nodexr.Shared.Services
         public void CancelDrag()
         {
             NodeToDrag = null;
-            TempNoodle.Enabled = false;
+            TempNoodle.Connected = false;
 
             jsRuntime.InvokeVoidAsync("tempNoodle.endDrag");
 
@@ -91,7 +91,7 @@ namespace Nodexr.Shared.Services
         {
             public Vector2 StartPos { get; set; }
             public Vector2 EndPos { get; set; }
-            public bool Enabled { get; set; }
+            public bool Connected { get; set; }
 
             public event EventHandler NoodleChanged;
 

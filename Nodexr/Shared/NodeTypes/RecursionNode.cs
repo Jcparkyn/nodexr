@@ -83,12 +83,12 @@ namespace Nodexr.Shared.NodeTypes
         {
             var builder = new NodeResultBuilder();
 
-            string open = InputOpenBracket.Contents;
-            string close = InputCloseBracket.Contents;
+            string open = InputOpenBracket.Value;
+            string close = InputCloseBracket.Value;
 
             string openEscaped = open;
             string closeEscaped = close;
-            if (!InputRegexInBrackets.IsChecked)
+            if (!InputRegexInBrackets.Checked)
             {
                 openEscaped = open.EscapeSpecialCharacters();
                 closeEscaped = close.EscapeSpecialCharacters();
@@ -107,14 +107,14 @@ namespace Nodexr.Shared.NodeTypes
                 notBrackets = $"(?!{openEscaped}|{closeEscaped}).";
             }
 
-            NodeResult betweenRec = InputContents.Enabled ?
+            NodeResult betweenRec = InputContents.Connected ?
                 InputContents.Value :
                 new NodeResult(notBrackets, this);
 
-            string groupName = InputGroupName.Contents;
-            string captureGroupName = InputCaptureName.Contents;
+            string groupName = InputGroupName.Value;
+            string captureGroupName = InputCaptureName.Value;
 
-            string openingGroup = InputNoBacktracking.IsChecked ?
+            string openingGroup = InputNoBacktracking.Checked ?
                 "(?>" :
                 "(?:";
 
@@ -130,7 +130,7 @@ namespace Nodexr.Shared.NodeTypes
             builder.Append(")+", this);
             builder.Append($"(?({groupName})(?!))", this);
 
-            if (InputEnclosingBrackets.IsChecked)
+            if (InputEnclosingBrackets.Checked)
             {
                 builder.Prepend(openEscaped, this);
                 builder.Append(closeEscaped, this);

@@ -46,8 +46,8 @@ namespace Nodexr.Shared.NodeTypes
 
         public GroupNode()
         {
-            GroupName.IsEnabled = (() => InputGroupType.Value == GroupTypes.named);
-            CustomPrefix.IsEnabled = (() => InputGroupType.Value == GroupTypes.custom);
+            GroupName.Enabled = (() => InputGroupType.Value == GroupTypes.named);
+            CustomPrefix.Enabled = (() => InputGroupType.Value == GroupTypes.custom);
         }
 
         protected override NodeResultBuilder GetValue()

@@ -30,7 +30,7 @@ namespace Nodexr.Shared.NodeInputs
 
         public Vector2 EndPos => Pos;
 
-        public bool Enabled => connectedNode != null;
+        public bool Connected => connectedNode != null && Enabled();
 
         public override int Height => 32;
 
@@ -58,7 +58,7 @@ namespace Nodexr.Shared.NodeInputs
     {
         Vector2 StartPos { get; }
         Vector2 EndPos { get; }
-        bool Enabled { get; }
+        bool Connected { get; }
         void Refresh();
 
         event EventHandler NoodleChanged;

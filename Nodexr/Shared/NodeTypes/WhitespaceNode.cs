@@ -58,15 +58,15 @@ namespace Nodexr.Shared.NodeTypes
 
         public WhitespaceNode()
         {
-            bool IsAllWhitespaceUnchecked() => !InputAllWhitespace.IsChecked;
+            bool IsAllWhitespaceUnchecked() => !InputAllWhitespace.Checked;
 
-            InputSpace.IsEnabled = IsAllWhitespaceUnchecked;
-            InputTab.IsEnabled = IsAllWhitespaceUnchecked;
-            InputCR.IsEnabled = IsAllWhitespaceUnchecked;
-            InputLF.IsEnabled = IsAllWhitespaceUnchecked;
+            InputSpace.Enabled = IsAllWhitespaceUnchecked;
+            InputTab.Enabled = IsAllWhitespaceUnchecked;
+            InputCR.Enabled = IsAllWhitespaceUnchecked;
+            InputLF.Enabled = IsAllWhitespaceUnchecked;
 
-            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
-            InputRange.IsEnabled = () => InputCount.Value == Reps.Range;
+            InputNumber.Enabled = () => InputCount.Value == Reps.Number;
+            InputRange.Enabled = () => InputCount.Value == Reps.Range;
         }
 
         protected override NodeResultBuilder GetValue()
@@ -80,19 +80,19 @@ namespace Nodexr.Shared.NodeTypes
 
         private string ValueString()
         {
-            bool invert = InputInvert.IsChecked;
+            bool invert = InputInvert.Checked;
 
-            if (InputAllWhitespace.IsChecked)
+            if (InputAllWhitespace.Checked)
             {
                 return invert ? "\\S" : "\\s";
             }
 
             List<string> charsToAllow = new List<string>();
 
-            if (InputSpace.IsChecked) charsToAllow.Add(" ");
-            if (InputTab.IsChecked) charsToAllow.Add("\\t");
-            if (InputCR.IsChecked) charsToAllow.Add("\\r");
-            if (InputLF.IsChecked) charsToAllow.Add("\\n");
+            if (InputSpace.Checked) charsToAllow.Add(" ");
+            if (InputTab.Checked) charsToAllow.Add("\\t");
+            if (InputCR.Checked) charsToAllow.Add("\\r");
+            if (InputLF.Checked) charsToAllow.Add("\\n");
 
             string charsConverted = string.Concat(charsToAllow);
             if (invert)

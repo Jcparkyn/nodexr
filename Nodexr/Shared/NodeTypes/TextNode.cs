@@ -43,11 +43,11 @@ namespace Nodexr.Shared.NodeTypes
         {
             string result = Input.GetValue() ?? "";
 
-            if (InputEscapeBackslash.IsChecked)
+            if (InputEscapeBackslash.Checked)
             {
                 result = result.EscapeCharacters("\\");
             }
-            if (InputEscapeSpecials.IsChecked)
+            if (InputEscapeSpecials.Checked)
             {
                 result = result.EscapeCharacters(charsToEscape);
             }
@@ -60,7 +60,7 @@ namespace Nodexr.Shared.NodeTypes
             string escapedContents = StripUnnecessaryEscapes(contents);
 
             var result = new TextNode();
-            result.Input.Contents = escapedContents;
+            result.Input.Value = escapedContents;
             return result;
 
             static string StripUnnecessaryEscapes(string input)

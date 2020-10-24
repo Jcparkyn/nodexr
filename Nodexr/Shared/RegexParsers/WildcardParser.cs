@@ -33,7 +33,7 @@ namespace Nodexr.Shared.RegexParsers
         {
             var node = new WildcardNode();
             node.InputType.Value = type;
-            node.InputInvert.IsChecked = invert;
+            node.InputInvert.Checked = invert;
             return node;
         }
     }

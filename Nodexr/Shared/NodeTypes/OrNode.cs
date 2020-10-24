@@ -49,7 +49,7 @@ namespace Nodexr.Shared.NodeTypes
         {
             var builder = new NodeResultBuilder();
             var inputs = Inputs.Inputs;
-            string prefix = InputCapture.IsChecked ? "(" : "(?:";
+            string prefix = InputCapture.Checked ? "(" : "(?:";
             builder.Append(prefix, this);
 
             if (inputs.Count > 0)

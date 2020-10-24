@@ -69,9 +69,9 @@ namespace Nodexr.Shared.NodeTypes
 
         public QuantifierNode()
         {
-            InputNumber.IsEnabled = () => InputCount.Value == Reps.Number;
-            InputRange.IsEnabled = () => InputCount.Value == Reps.Range;
-            InputSearchType.IsEnabled = () => InputCount.Value != Reps.Number;
+            InputNumber.Enabled = () => InputCount.Value == Reps.Number;
+            InputRange.Enabled = () => InputCount.Value == Reps.Range;
+            InputSearchType.Enabled = () => InputCount.Value != Reps.Number;
         }
 
         protected override NodeResultBuilder GetValue()

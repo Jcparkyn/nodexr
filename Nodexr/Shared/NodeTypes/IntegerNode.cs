@@ -76,8 +76,8 @@ namespace Nodexr.Shared.NodeTypes
 
         public IntegerNode()
         {
-            InputValueRange.IsEnabled = () => InputLimitBy.Value == LimitType.Value;
-            InputDigitRange.IsEnabled = () => InputLimitBy.Value == LimitType.Digits;
+            InputValueRange.Enabled = () => InputLimitBy.Value == LimitType.Value;
+            InputDigitRange.Enabled = () => InputLimitBy.Value == LimitType.Digits;
         }
 
         protected override NodeResultBuilder GetValue()
@@ -98,7 +98,7 @@ namespace Nodexr.Shared.NodeTypes
             if (number.Contains('|'))
                 builder.AddNonCaptureGroup(this);
 
-            if (InputLeadingZeros.IsChecked)
+            if (InputLeadingZeros.Checked)
                 builder.Prepend("0*", this);
 
             AddSign(builder);

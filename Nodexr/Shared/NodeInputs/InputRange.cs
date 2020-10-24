@@ -43,10 +43,5 @@
             Min = min;
             Max = max;
         }
-
-        public (int?, int?) GetValue()
-        {
-            return (min, max);
-        }
     }
 }

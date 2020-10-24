@@ -65,10 +65,10 @@ namespace Nodexr.Shared.NodeTypes
         {
             var builder = new NodeResultBuilder(InputContents.Value);
 
-            string whitespace = InputAllowWhitespace.IsChecked ? "\\s*?" : "";
+            string whitespace = InputAllowWhitespace.Checked ? "\\s*?" : "";
 
-            string separator = InputSeparator.Contents;
-            if(!InputAllowRegex.IsChecked)
+            string separator = InputSeparator.Value;
+            if(!InputAllowRegex.Checked)
                 separator = separator.EscapeCharacters(separatorCharsToEscape);
 
             int minReps = InputListLength.Min ?? 0;
@@ -84,7 +84,7 @@ namespace Nodexr.Shared.NodeTypes
                 var range when range.min == range.max => $"{{{range.min - 1}}}",
                 var range => $"{{{range.min - 1},{range.max - 1}}}"
             };
-            if (InputLazyQuantifier.IsChecked)
+            if (InputLazyQuantifier.Checked)
             {
                 quantifier += "?";
             }

@@ -36,8 +36,8 @@ namespace Nodexr.Shared.NodeTypes
 
         public UnicodeNode()
         {
-            InputCategory.IsEnabled = () => InputMode.Value == Modes.Category;
-            InputHexCode.IsEnabled = () => InputMode.Value == Modes.Hex;
+            InputCategory.Enabled = () => InputMode.Value == Modes.Category;
+            InputHexCode.Enabled = () => InputMode.Value == Modes.Hex;
         }
 
         protected override NodeResultBuilder GetValue()
@@ -49,8 +49,8 @@ namespace Nodexr.Shared.NodeTypes
         {
             return InputMode.Value switch
             {
-                Modes.Category => GetCategoryRegex(InputCategory.Contents, InputInvert.IsChecked),
-                Modes.Hex => GetHexCodeRegex(InputHexCode.Contents, InputInvert.IsChecked),
+                Modes.Category => GetCategoryRegex(InputCategory.Value, InputInvert.Checked),
+                Modes.Hex => GetHexCodeRegex(InputHexCode.Value, InputInvert.Checked),
                 _ => "",
             };
         }
