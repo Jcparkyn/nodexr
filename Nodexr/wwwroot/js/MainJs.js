@@ -14,7 +14,7 @@ window.jsFunctions = {
             gutterSize: 7,
             snapOffset: 0,
             elementStyle: (dimension, size, gutterSize) => ({
-                'flex-basis': `calc(${size}% - ${gutterSize}px)`,
+                'height': `calc(${size}% - ${gutterSize}px)`,
             }),
             gutterStyle: (dimension, gutterSize) => ({
                 'flex-basis': `${gutterSize}px`,
