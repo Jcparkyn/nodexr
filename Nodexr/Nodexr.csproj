@@ -42,20 +42,32 @@
     <TypeScriptCompile Include="wwwroot\js\NoodleDragHandler.ts" />
   </ItemGroup>
   
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+  <ItemGroup>
+    <Folder Include="wwwroot\js\GeneratedJS\" />
+  </ItemGroup>
+
+  <PropertyGroup>
     <TypeScriptTarget>ES2015</TypeScriptTarget>
+    <TypeScriptToolsVersion>4.0.5</TypeScriptToolsVersion>
     <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
     <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
-    <TypeScriptOutFile />
-    <TypeScriptOutDir />
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
-    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptOutDir>wwwroot\js\GeneratedJS</TypeScriptOutDir>
+    <TypeScriptOutFile />
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+  
 </Project>

@@ -341,3 +341,6 @@ healthchecksdb
 
 # Auto-generated xml documentation file
 Nodexr/Nodexr.xml
+
+# Auto-generated JS files from typescript
+Nodexr/wwwroot/js/GeneratedJS/
