@@ -113,7 +113,7 @@ namespace Nodexr.Shared.RegexParsers
                     //Transfer properties to child node if Quantifiable
                     child.InputCount.Value = quant.InputCount.Value;
                     child.InputRange.Min = quant.InputRange.Min;
-                    child.InputRange.Min = quant.InputRange.Max;
+                    child.InputRange.Max = quant.InputRange.Max;
                     child.InputNumber.Value = quant.InputNumber.Value;
                     return child as Node;
 
