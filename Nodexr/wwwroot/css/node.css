@@ -33,7 +33,7 @@
             background: none;
             border: none;
             font-size: 0.8rem;
-            padding: 0 0 0 7px;
+            padding: 0 4px 0 7px;
             color: inherit;
             transform-origin: 61% 54%; /*for scaling on hover*/
             transition: transform 0.2s;

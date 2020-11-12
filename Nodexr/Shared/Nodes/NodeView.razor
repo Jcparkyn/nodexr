@@ -90,7 +90,7 @@
     {
         var modalParameters = new ModalParameters();
         modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
-        Modal.Show(typeof(NodeInfo), Data.Title, modalParameters);
+        Modal.Show<NodeInfo>(Data.Title, modalParameters);
     }
 
     void Refresh(object sender, EventArgs e)
