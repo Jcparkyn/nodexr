@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nodexr", "Nodexr\Nodexr.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nodexr.Tests", "Nodexr.Tests\Nodexr.Tests.csproj", "{E060746D-7469-4FB9-A9C2-BDA3465875B1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nodexr.ApiFunctions", "Nodexr.ApiFunctions\Nodexr.ApiFunctions.csproj", "{B1EA28C7-D162-4B83-9670-E847492E1007}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nodexr.ApiShared", "Nodexr.ApiShared\Nodexr.ApiShared.csproj", "{5F8D5439-8F14-45C9-9388-8A59443C1843}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{E060746D-7469-4FB9-A9C2-BDA3465875B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E060746D-7469-4FB9-A9C2-BDA3465875B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E060746D-7469-4FB9-A9C2-BDA3465875B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1EA28C7-D162-4B83-9670-E847492E1007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1EA28C7-D162-4B83-9670-E847492E1007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1EA28C7-D162-4B83-9670-E847492E1007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1EA28C7-D162-4B83-9670-E847492E1007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F8D5439-8F14-45C9-9388-8A59443C1843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F8D5439-8F14-45C9-9388-8A59443C1843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F8D5439-8F14-45C9-9388-8A59443C1843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F8D5439-8F14-45C9-9388-8A59443C1843}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
