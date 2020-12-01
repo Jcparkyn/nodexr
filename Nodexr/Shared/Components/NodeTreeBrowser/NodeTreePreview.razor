@@ -1,0 +1,17 @@
+﻿@using Nodexr.Shared.NodeTreeBrowser
+
+<li class="list-group-item bg-dark d-flex flex-row">
+    <div class="flex-grow-1">
+        <strong>@Model.Title</strong>
+        <div>@Model.Expression</div>
+    </div>
+    <button class="btn btn-outline-light btn-sm"
+        @onclick="() => OnSelected(Model)"
+        ><i class="fas fa-arrow-right"></i></button>
+</li>
+
+
+@code {
+    [Parameter] public NodeTreePreviewModel Model { get; set; }
+    [Parameter] public Action<NodeTreePreviewModel> OnSelected { get; set; }
+}

@@ -30,6 +30,7 @@ namespace Nodexr
             builder.Services.AddScoped<INoodleDragService, NoodleDragService>();
             builder.Services.AddScoped<INodeHandler, NodeHandler>();
             builder.Services.AddScoped<RegexReplaceHandler>();
+            builder.Services.AddScoped<NodeTreeBrowserService>();
             builder.Services.AddBlazoredModal();
 
             await builder.Build().RunAsync().ConfigureAwait(false);

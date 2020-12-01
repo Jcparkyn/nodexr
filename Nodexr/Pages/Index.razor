@@ -2,6 +2,7 @@
 @using Nodexr.Shared;
 @using Nodexr.Shared.NodeTypes;
 @using Nodexr.Shared.Components;
+@using Nodexr.Shared.Components.NodeTreeBrowser;
 @inject INodeDragService NodeDragService
 @inject INodeHandler  NodeHandler
 @inject IJSRuntime JSRuntime
@@ -21,6 +22,8 @@
            class="top-row-link">Help</a>
         <a href="http://github.com/jcparkyn/nodexr/" target="_blank"
            class="top-row-link">GitHub</a>
+        <a @onclick="ShowExpressionBrowser" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
+           class="top-row-link">Expression Browser</a>
     </div>
 
     <div style="display:flex; flex-direction:row; flex:1; min-height:0;">
@@ -48,6 +51,11 @@
     protected void ShowHelpInfo(MouseEventArgs e)
     {
         ModalService.Show<HelpModal>("How To Use");
+    }
+
+    protected void ShowExpressionBrowser()
+    {
+        ModalService.Show<NodeTreeBrowser>("Expression Browser");
     }
 
     protected void Refresh()

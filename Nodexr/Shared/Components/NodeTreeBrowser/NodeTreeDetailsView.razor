@@ -1,0 +1,29 @@
+﻿@using Nodexr.Shared.NodeTreeBrowser
+@inject NodeTreeBrowserService browserService
+
+@if (browserService.SelectedNodeTree != null)
+{
+    <h4>@(browserService.SelectedNodeTree?.Title ?? "...")</h4>
+    <p>@(browserService.SelectedNodeTree?.Expression ?? "...")</p>
+
+    <button class="float-right btn btn-outline-light" @onclick="LoadSelectedNodeTree">Load</button>
+}
+else
+{
+    <h4>Select an expression to load.</h4>
+}
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+
+    protected override void OnInitialized()
+    {
+        browserService.SelectedNodeTreeChanged += (_, _) => StateHasChanged();
+    }
+
+    private void LoadSelectedNodeTree()
+    {
+        BlazoredModal.Close();
+        browserService.LoadSelectedNodeTree();
+    }
+}
