@@ -10,10 +10,12 @@ namespace Nodexr.ApiFunctions.Models
 {
     public class NodeTreeModel
     {
-        public string id { get; set; }
+        public string id { get; set; } = Guid.NewGuid().ToString("n");
 
         public string Title { get; set; }
 
         public string Expression { get; set; }
+
+        public string Description { get; set; }
     }
 }
