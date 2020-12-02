@@ -16,6 +16,7 @@ namespace Nodexr.Shared.Services
         private readonly HttpClient httpClient;
         private readonly INodeHandler nodeHandler;
         private NodeTreePreviewModel selectedNodeTree;
+        private const string apiAddress = "http://localhost:7071/api";
 
         public event EventHandler SelectedNodeTreeChanged;
         public NodeTreePreviewModel SelectedNodeTree
@@ -44,14 +45,20 @@ namespace Nodexr.Shared.Services
             //TODO: Load search/replace strings
         }
 
+        public async Task PublishNodeTree(NodeTreePreviewModel model)
+        {
+            await httpClient.PostAsJsonAsync(
+                $"{apiAddress}/nodetree",
+                model
+                ).ConfigureAwait(false);
+        }
+
         public async Task<Paged<NodeTreePreviewModel>> GetAllNodeTrees(CancellationToken cancellationToken, int start = 0, int limit = 50)
         {
-            var httpResponse = await httpClient.GetFromJsonAsync<Paged<NodeTreePreviewModel>>(
-                    $"http://localhost:7071/api/nodetree?start={start}&limit={limit}",
+            return await httpClient.GetFromJsonAsync<Paged<NodeTreePreviewModel>>(
+                    $"{apiAddress}/nodetree?start={start}&limit={limit}",
                     cancellationToken
-                    );
-
-            return httpResponse;
+                    ).ConfigureAwait(false);
         }
     }
 }

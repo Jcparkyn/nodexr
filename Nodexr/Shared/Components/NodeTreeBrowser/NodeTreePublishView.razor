@@ -1,0 +1,32 @@
+﻿@using Nodexr.Shared.NodeTreeBrowser
+@inject NodeTreeBrowserService browserService
+@inject INodeHandler nodeHandler
+@inject IToastService toastService
+
+<EditForm Model="model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Title</label>
+        <InputText class="form-control" @bind-Value="model.Title" DisplayName="Title" />
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <InputTextArea class="form-control" @bind-Value="model.Description" DisplayName="Description" />
+    </div>
+    <ValidationSummary />
+    <button type="submit" class="btn btn-outline-light float-right">Upload</button>
+</EditForm>
+
+@code {
+    private NodeTreePreviewModel model = new NodeTreePreviewModel();
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+
+    private async Task HandleValidSubmit()
+    {
+        model.Expression = nodeHandler.CachedOutput.Expression;
+        await browserService.PublishNodeTree(model);
+        await BlazoredModal.Close();
+        toastService.ShowSuccess("", "Expression uploaded successfully");
+    }
+}

@@ -6,12 +6,18 @@
     <div class="col" style="height:100%; overflow:auto">
         @if (isLoadingFirstItems)
         {
-            <h3>Loading...</h3>
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         }
         <div class="list-group">
-            <Virtualize Context="nodeTree" ItemsProvider="LoadNodeTrees" OverscanCount="5" ItemSize="64">
+            <Virtualize Context="nodeTree" ItemsProvider="LoadNodeTrees" OverscanCount="10" ItemSize="64" >
                 <Placeholder>
-                    <div class="card">Loading...</div>
+                    <li class="list-group-item bg-dark">
+                        <strong>Loading...</strong>
+                    </li>
                 </Placeholder>
                 <ItemContent>
                     <NodeTreePreview Model="nodeTree" OnSelected="SelectNodeTree" />

@@ -24,6 +24,8 @@
            class="top-row-link">GitHub</a>
         <a @onclick="ShowExpressionBrowser" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
            class="top-row-link">Expression Browser</a>
+        <a @onclick="ShowExpressionPublishWindow" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
+           class="top-row-link">Publish</a>
     </div>
 
     <div style="display:flex; flex-direction:row; flex:1; min-height:0;">
@@ -56,6 +58,11 @@
     protected void ShowExpressionBrowser()
     {
         ModalService.Show<NodeTreeBrowser>("Expression Browser");
+    }
+
+    protected void ShowExpressionPublishWindow()
+    {
+        ModalService.Show<NodeTreePublishView>("Upload your Regex");
     }
 
     protected void Refresh()

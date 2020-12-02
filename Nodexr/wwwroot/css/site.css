@@ -436,6 +436,7 @@ input {
     margin: 9px;
     color: #056fe1;
     font-size: 1em;
+    white-space: nowrap;
 }
 
 mark {
