@@ -1,4 +1,5 @@
-﻿using Nodexr.ApiShared;
+﻿using Microsoft.Extensions.Configuration;
+using Nodexr.ApiShared;
 using Nodexr.ApiShared.Pagination;
 using Nodexr.Shared.NodeTreeBrowser;
 using System;
@@ -16,7 +17,7 @@ namespace Nodexr.Shared.Services
         private readonly HttpClient httpClient;
         private readonly INodeHandler nodeHandler;
         private NodeTreePreviewModel selectedNodeTree;
-        private const string apiAddress = "http://localhost:7071/api";
+        private string apiAddress;
 
         public event EventHandler SelectedNodeTreeChanged;
         public NodeTreePreviewModel SelectedNodeTree
@@ -29,10 +30,11 @@ namespace Nodexr.Shared.Services
             }
         }
 
-        public NodeTreeBrowserService(HttpClient httpClient, INodeHandler nodeHandler)
+        public NodeTreeBrowserService(HttpClient httpClient, INodeHandler nodeHandler, IConfiguration config)
         {
             this.httpClient = httpClient;
             this.nodeHandler = nodeHandler;
+            this.apiAddress = config["apiAddress"];
         }
 
         public void LoadSelectedNodeTree()
