@@ -5,6 +5,7 @@
     <Configurations>Debug;Release</Configurations>
     <AssemblyName>Nodexr.ApiFunctions</AssemblyName>
     <RootNamespace>Nodexr.ApiFunctions</RootNamespace>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />

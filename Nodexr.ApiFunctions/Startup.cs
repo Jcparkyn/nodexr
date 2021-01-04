@@ -16,9 +16,9 @@ namespace Nodexr.ApiFunctions
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            string endpoint = Environment.GetEnvironmentVariable("databaseEndpoint");
-            string key = Environment.GetEnvironmentVariable("databaseKey");
-            string databaseName = Environment.GetEnvironmentVariable("databaseName");
+            string? key = Environment.GetEnvironmentVariable("databaseKey");
+            string? endpoint = Environment.GetEnvironmentVariable("databaseEndpoint");
+            string? databaseName = Environment.GetEnvironmentVariable("databaseName");
 
             builder.Services.AddDbContext<NodeTreeContext>(
                 options => options.UseCosmos(

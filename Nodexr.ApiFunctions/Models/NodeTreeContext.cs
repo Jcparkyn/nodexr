@@ -11,14 +11,8 @@ namespace Nodexr.ApiFunctions.Models
         public NodeTreeContext(DbContextOptions<NodeTreeContext> options)
             : base(options)
         { }
-        
-        public DbSet<NodeTreeModel> NodeTrees { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<NodeTreeContext>()
-        //        .ToContainer("NodexrContainer");
-        //}
+        public DbSet<NodeTreeModel> NodeTrees => Set<NodeTreeModel>();
     }
 
     /*public class NodeTreeContextFactory : IDesignTimeDbContextFactory<NodeTreeContext>
