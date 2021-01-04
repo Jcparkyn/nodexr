@@ -92,6 +92,10 @@ app {
     border:none !important;
 }
 
+.blazored-modal > div {
+    max-width: 90vw;
+}
+
 .blazored-modal-close {
     color: var(--col-text-medium) !important;
 }
