@@ -90,7 +90,6 @@ app {
 .blazored-modal {
     background-color:var(--col-bg-2) !important;
     border:none !important;
-    width:40rem !important;
 }
 
 .blazored-modal-close {
