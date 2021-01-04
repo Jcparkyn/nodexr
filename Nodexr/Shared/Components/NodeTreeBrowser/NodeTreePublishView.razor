@@ -3,19 +3,21 @@
 @inject INodeHandler nodeHandler
 @inject IToastService toastService
 
-<EditForm Model="model" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <div class="form-group">
-        <label>Title</label>
-        <InputText class="form-control" @bind-Value="model.Title" DisplayName="Title" />
-    </div>
-    <div class="form-group">
-        <label>Description</label>
-        <InputTextArea class="form-control" @bind-Value="model.Description" DisplayName="Description" />
-    </div>
-    <ValidationSummary />
-    <button type="submit" class="btn btn-outline-light float-right">Upload</button>
-</EditForm>
+<div style="width: 45rem">
+    <EditForm Model="model" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label>Title</label>
+            <InputText class="form-control" @bind-Value="model.Title" DisplayName="Title" />
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <InputTextArea class="form-control" @bind-Value="model.Description" DisplayName="Description" />
+        </div>
+        <ValidationSummary />
+        <button type="submit" class="btn btn-outline-light float-right">Upload</button>
+    </EditForm>
+</div>
 
 @code {
     private NodeTreePreviewModel model = new NodeTreePreviewModel();
