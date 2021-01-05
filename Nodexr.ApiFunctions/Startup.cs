@@ -26,7 +26,7 @@ namespace Nodexr.ApiFunctions
                     key,
                     databaseName: databaseName));
 
-            builder.Services.AddScoped<NodeTreeRepository>();
+            builder.Services.AddTransient<IGetNodeTreesService, GetNodeTreesService>();
         }
     }
 }

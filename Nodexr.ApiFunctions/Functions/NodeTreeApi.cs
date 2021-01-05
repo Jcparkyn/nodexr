@@ -8,21 +8,23 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Nodexr.ApiFunctions.Models;
-using Nodexr.ApiFunctions.Services;
 using System.Collections.Generic;
 using System.Linq;
 using Nodexr.ApiShared;
 using Nodexr.ApiShared.Pagination;
+using Nodexr.ApiFunctions.Services;
 
 namespace Nodexr.ApiFunctions.Functions
 {
     public class NodeTreeApi
     {
-        private readonly NodeTreeRepository nodeTreeRepository;
+        private readonly NodeTreeContext dbContext;
+        private readonly IGetNodeTreesService getNodeTreeService;
 
-        public NodeTreeApi(NodeTreeRepository nodeTreeRepository)
+        public NodeTreeApi(NodeTreeContext dbContext, IGetNodeTreesService getNodeTreeService)
         {
-            this.nodeTreeRepository = nodeTreeRepository;
+            this.dbContext = dbContext;
+            this.getNodeTreeService = getNodeTreeService;
         }
 
         [FunctionName("CreateNodeTree")]
@@ -35,7 +37,9 @@ namespace Nodexr.ApiFunctions.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var newTree = JsonConvert.DeserializeObject<NodeTreeModel>(requestBody);
 
-            await nodeTreeRepository.InsertNodeTree(newTree);
+            //Add the new tree to the database
+            dbContext.NodeTrees.Add(newTree);
+            await dbContext.SaveChangesAsync();
 
             return new OkObjectResult(newTree);
         }
@@ -48,7 +52,7 @@ namespace Nodexr.ApiFunctions.Functions
         {
             log.LogInformation("Retrieving NodeTree with Id " + id);
 
-            var tree = await nodeTreeRepository.GetNodeTreeById(id);
+            var tree = await dbContext.NodeTrees.FindAsync(id);
 
             if (tree is null)
                 return new NotFoundResult();
@@ -69,12 +73,13 @@ namespace Nodexr.ApiFunctions.Functions
 
             var paginationFilter = new PaginationFilter(start, limit ?? 50);
 
-            var trees = string.IsNullOrEmpty(titleSearch) ?
-                await nodeTreeRepository.GetAllNodeTrees(paginationFilter) :
-                await nodeTreeRepository.GetNodeTreesWithTitleLike(titleSearch, paginationFilter);
+            IQueryable<NodeTreeModel> query = getNodeTreeService.GetAllNodeTrees(
+                titleSearch: titleSearch
+                )
+                .OrderBy(tree => tree.Title);
 
-            //var response = new HttpResponse<Paged<NodeTreeModel>>(trees);
-            
+            var trees = await paginationFilter.ApplyTo(query);
+
             return new OkObjectResult(trees);
         }
 
