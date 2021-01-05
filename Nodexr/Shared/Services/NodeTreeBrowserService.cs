@@ -16,8 +16,8 @@ namespace Nodexr.Shared.Services
     {
         private readonly HttpClient httpClient;
         private readonly INodeHandler nodeHandler;
+        private readonly string apiAddress;
         private NodeTreePreviewModel selectedNodeTree;
-        private string apiAddress;
 
         public event EventHandler SelectedNodeTreeChanged;
         public NodeTreePreviewModel SelectedNodeTree
@@ -47,7 +47,7 @@ namespace Nodexr.Shared.Services
             //TODO: Load search/replace strings
         }
 
-        public async Task PublishNodeTree(NodeTreePreviewModel model)
+        public async Task PublishNodeTree(NodeTreePublishModel model)
         {
             await httpClient.PostAsJsonAsync(
                 $"{apiAddress}/nodetree",

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Nodexr.Shared.NodeTreeBrowser
 {
-    public class NodeTreePreviewModel
+    public class NodeTreePublishModel
     {
+        [Required]
         public string Title { get; set; }
 
         public string Expression { get; set; }
