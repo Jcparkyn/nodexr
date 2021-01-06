@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Nodexr.ApiShared;
 using Nodexr.ApiShared.Pagination;
 using Nodexr.Shared.NodeTreeBrowser;
@@ -55,10 +56,23 @@ namespace Nodexr.Shared.Services
                 ).ConfigureAwait(false);
         }
 
-        public async Task<Paged<NodeTreePreviewModel>> GetAllNodeTrees(CancellationToken cancellationToken, int start = 0, int limit = 50)
+        public async Task<Paged<NodeTreePreviewModel>> GetAllNodeTrees(CancellationToken cancellationToken, string search = null, int start = 0, int limit = 50)
         {
+            var queryParams = new Dictionary<string, string>
+            {
+                { "start", start.ToString() },
+                { "limit", limit.ToString() },
+            };
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                queryParams.Add("search", search);
+            }
+
+            string uri = QueryHelpers.AddQueryString($"{apiAddress}/nodetree", queryParams);
+
             return await httpClient.GetFromJsonAsync<Paged<NodeTreePreviewModel>>(
-                    $"{apiAddress}/nodetree?start={start}&limit={limit}",
+                    uri,
                     cancellationToken
                     ).ConfigureAwait(false);
         }
