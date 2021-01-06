@@ -5,7 +5,7 @@
 <div class="row browser-container">
     <div class="col d-flex flex-column" style="height:100%;">
         <div class="input-group mb-3">
-            <input type="text" @bind-value="searchParam" class="form-control" placeholder="Search">
+            <input type="text" value="@searchParam" @onchange="OnSearchChanged" class="form-control" placeholder="Search">
             <div class="input-group-append">
                 <button class="btn btn-secondary" type="button">
                     <i class="fa fa-search"></i>
@@ -27,8 +27,13 @@
 
 
 @code {
-
     string searchParam;
+
+    private async Task OnSearchChanged(ChangeEventArgs e)
+    {
+        searchParam = e.Value.ToString();
+        await listComponent.RefreshDataAsync();
+    }
 
     PagedExpandingList<NodeTreePreviewModel> listComponent;
 

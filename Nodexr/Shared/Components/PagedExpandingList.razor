@@ -46,11 +46,21 @@ else
     private async Task LoadNextItems()
     {
         isLoading = true;
-        var cancellationToken = new CancellationToken();
+        var cancellationToken = new CancellationToken(); //Dummy token for ItemsProviderRequest, currently unused.
         var itemsProviderRequest = new ItemsProviderRequest(items.Count, ChunkSize, cancellationToken);
         var newItems = await ItemsProvider(itemsProviderRequest);
 
-        items.AddRange(newItems.Items);
-        isLoading = false;
+        //This check is a cheap workaround to prevent multiple requests being made out of order. Should ideally be implemented with CancellationToken.
+        if (isLoading)
+        {
+            items.AddRange(newItems.Items);
+            isLoading = false; 
+        }
+    }
+
+    public async Task RefreshDataAsync()
+    {
+        items.Clear();
+        await LoadNextItems();
     }
 }
