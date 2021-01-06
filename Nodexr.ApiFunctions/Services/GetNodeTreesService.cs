@@ -43,7 +43,7 @@ namespace Nodexr.ApiFunctions.Services
             }
             if (titleSearch != null)
             {
-                query = query.Where(tree => tree.Title!.Contains(titleSearch));
+                query = query.Where(tree => tree.Title == titleSearch);
             }
 
             return query;
