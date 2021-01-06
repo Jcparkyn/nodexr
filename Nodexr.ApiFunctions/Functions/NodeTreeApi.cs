@@ -69,7 +69,7 @@ namespace Nodexr.ApiFunctions.Functions
             int? limit = GetQueryInt(req, "limit");
             int start = GetQueryInt(req, "start") ?? 0;
 
-            log.LogInformation($"Retrieving all NodeTrees, with start = {start}, limit = {limit}");
+            log.LogInformation($"Retrieving all NodeTrees, with start = {start}, limit = {limit}, search = {titleSearch}");
 
             var paginationFilter = new PaginationFilter(start, limit ?? 50);
 
