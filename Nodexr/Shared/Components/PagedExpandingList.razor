@@ -8,21 +8,34 @@
     @ItemContent(item)
 }
 
-<button @onclick="LoadNextItems" disabled="@isLoading" class="btn btn-outline-light mt-3">
-    @if (isLoading)
-    {
-        <div class="spinner-border spinner-border-sm" role="status">
-            <span class="sr-only">Loading</span>
-        </div>
-    }
-    else
-    {
-        @:Load Next
-    }
-</button>
+@if (NumItemsInNextLoad > 0)
+{
+    <button @onclick="LoadNextItems" disabled="@isLoading" class="btn btn-outline-light mt-3">
+        @if (isLoading)
+        {
+            <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Loading</span>
+            </div>
+        }
+        else
+        {
+            @:Load next @NumItemsInNextLoad items
+        }
+    </button>
+}
 
 @code {
-    bool isLoading = true;
+    private bool isLoading = true;
+
+    //Stores all the items to be rendered.
+    private List<TItem> items = new();
+
+    //The total number of items that can be returned by the ItemsProvider.
+    private int totalItemCount;
+
+    //Used to determine the value for the 'Load Next Items' button.
+    private int NumItemsInNextLoad =>
+        Math.Min(totalItemCount - items.Count, ChunkSize);
 
     /// <summary>
     /// Gets or sets the function providing items to the list.
@@ -30,13 +43,17 @@
     [Parameter]
     public ItemsProviderDelegate<TItem> ItemsProvider { get; set; }
 
+    /// <summary>
+    /// Template for rendering list items.
+    /// </summary>
     [Parameter]
     public RenderFragment<TItem> ItemContent { get; set; }
 
+    /// <summary>
+    /// The number of items to add to the list each time the 'Load Next' button is pressed, and the default number of items to show.
+    /// </summary>
     [Parameter]
     public int ChunkSize { get; set; } = 25;
-
-    private List<TItem> items = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -45,14 +62,20 @@
 
     private async Task LoadNextItems()
     {
+        await LoadNextItems(ChunkSize);
+    }
+
+    private async Task LoadNextItems(int numItems)
+    {
         isLoading = true;
         var cancellationToken = new CancellationToken(); //Dummy token for ItemsProviderRequest, currently unused.
-        var itemsProviderRequest = new ItemsProviderRequest(items.Count, ChunkSize, cancellationToken);
+        var itemsProviderRequest = new ItemsProviderRequest(items.Count, numItems, cancellationToken);
         var newItems = await ItemsProvider(itemsProviderRequest);
 
         //This check is a cheap workaround to prevent multiple requests being added to the list out of order. Should ideally be implemented with CancellationToken.
         if (isLoading)
         {
+            totalItemCount = newItems.TotalItemCount;
             items.AddRange(newItems.Items);
             isLoading = false;
         }
