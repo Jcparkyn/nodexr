@@ -8,18 +8,18 @@
     @ItemContent(item)
 }
 
-@if (isLoading)
-{
-    <div class="d-flex justify-content-center align-items-center">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
+<button @onclick="LoadNextItems" disabled="@isLoading" class="btn btn-outline-light mt-3">
+    @if (isLoading)
+    {
+        <div class="spinner-border spinner-border-sm" role="status">
+            <span class="sr-only">Loading</span>
         </div>
-    </div>
-}
-else
-{
-    <button @onclick="LoadNextItems" class="btn btn-outline-light mt-3">Load Next</button>
-}
+    }
+    else
+    {
+        @:Load Next
+    }
+</button>
 
 @code {
     bool isLoading = true;
@@ -50,11 +50,11 @@ else
         var itemsProviderRequest = new ItemsProviderRequest(items.Count, ChunkSize, cancellationToken);
         var newItems = await ItemsProvider(itemsProviderRequest);
 
-        //This check is a cheap workaround to prevent multiple requests being made out of order. Should ideally be implemented with CancellationToken.
+        //This check is a cheap workaround to prevent multiple requests being added to the list out of order. Should ideally be implemented with CancellationToken.
         if (isLoading)
         {
             items.AddRange(newItems.Items);
-            isLoading = false; 
+            isLoading = false;
         }
     }
 

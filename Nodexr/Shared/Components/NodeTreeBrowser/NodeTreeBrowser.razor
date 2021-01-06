@@ -12,8 +12,8 @@
                 </button>
             </div>
         </div>
-        <div class="list-group overflow-auto">
-            <PagedExpandingList @ref="listComponent" Context="nodeTree" ItemsProvider="LoadNodeTrees" ChunkSize="4">
+        <div class="list-group overflow-auto fancy-scrollbar">
+            <PagedExpandingList @ref="listComponent" Context="nodeTree" ItemsProvider="LoadNodeTrees" ChunkSize="3">
                 <ItemContent>
                     <NodeTreePreview Model="nodeTree" OnSelected="SelectNodeTree" />
                 </ItemContent>

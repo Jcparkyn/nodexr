@@ -9,20 +9,6 @@
     /*    justify-content: space-between;*/
 }
 
-    .sidebar::-webkit-scrollbar {
-        width: 9px;
-    }
-
-    .sidebar::-webkit-scrollbar-track {
-        background: var(--col-bg-2);
-    }
-
-    .sidebar::-webkit-scrollbar-thumb {
-        background-color: rgba(255, 255, 255, 0.22);
-        border-radius: 6px;
-/*        border: 3px solid var(--col-bg-2);*/
-    }
-
     .sidebar .top-row {
         background-color: rgba(0,0,0,0.4);
     }

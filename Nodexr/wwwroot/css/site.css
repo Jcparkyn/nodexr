@@ -464,6 +464,20 @@ mark {
     color: #ffffffAA;
 }
 
+.fancy-scrollbar::-webkit-scrollbar {
+    width: 9px;
+}
+
+.fancy-scrollbar::-webkit-scrollbar-track {
+    background: var(--col-bg-2);
+}
+
+.fancy-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.22);
+    border-radius: 6px;
+    /*        border: 3px solid var(--col-bg-2);*/
+}
+
 button {
     background-color: rgba(200,200,256,0.2);
     border: none;
