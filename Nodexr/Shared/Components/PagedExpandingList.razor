@@ -1,0 +1,56 @@
+﻿@typeparam TItem
+
+@using System.Threading
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+
+@foreach (var item in items)
+{
+    @ItemContent(item)
+}
+
+@if (isLoading)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <button @onclick="LoadNextItems" class="btn btn-outline-light mt-3">Load Next</button>
+}
+
+@code {
+    bool isLoading = true;
+
+    /// <summary>
+    /// Gets or sets the function providing items to the list.
+    /// </summary>
+    [Parameter]
+    public ItemsProviderDelegate<TItem> ItemsProvider { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> ItemContent { get; set; }
+
+    [Parameter]
+    public int ChunkSize { get; set; } = 25;
+
+    private List<TItem> items = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNextItems();
+    }
+
+    private async Task LoadNextItems()
+    {
+        isLoading = true;
+        var cancellationToken = new CancellationToken();
+        var itemsProviderRequest = new ItemsProviderRequest(items.Count, ChunkSize, cancellationToken);
+        var newItems = await ItemsProvider(itemsProviderRequest);
+
+        items.AddRange(newItems.Items);
+        isLoading = false;
+    }
+}

@@ -3,26 +3,21 @@
 @inject NodeTreeBrowserService browserService
 
 <div class="row browser-container">
-    <div class="col" style="height:100%; overflow:auto">
-        @if (isLoadingFirstItems)
-        {
-        <div class="d-flex justify-content-center align-items-center h-100">
-            <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
+    <div class="col d-flex flex-column" style="height:100%;">
+        <div class="input-group mb-3">
+            <input type="text" @bind-value="searchParam" class="form-control" placeholder="Search">
+            <div class="input-group-append">
+                <button class="btn btn-secondary" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
             </div>
         </div>
-        }
-        <div class="list-group">
-            <Virtualize Context="nodeTree" ItemsProvider="LoadNodeTrees" OverscanCount="10" ItemSize="64" >
-                <Placeholder>
-                    <li class="list-group-item bg-dark">
-                        <strong>Loading...</strong>
-                    </li>
-                </Placeholder>
+        <div class="list-group overflow-auto">
+            <PagedExpandingList @ref="listComponent" Context="nodeTree" ItemsProvider="LoadNodeTrees" ChunkSize="4">
                 <ItemContent>
                     <NodeTreePreview Model="nodeTree" OnSelected="SelectNodeTree" />
                 </ItemContent>
-            </Virtualize>
+            </PagedExpandingList>
         </div>
     </div>
     <div class="col">
@@ -32,7 +27,10 @@
 
 
 @code {
-    bool isLoadingFirstItems = true;
+
+    string searchParam;
+
+    PagedExpandingList<NodeTreePreviewModel> listComponent;
 
     private void SelectNodeTree(NodeTreePreviewModel tree)
     {
@@ -47,14 +45,9 @@
         {
             var nodeTreesPaged = await browserService.GetAllNodeTrees(
                 request.CancellationToken,
+                searchParam,
                 request.StartIndex,
                 request.Count);
-
-            if (isLoadingFirstItems)
-            {
-                isLoadingFirstItems = false;
-                StateHasChanged();
-            }
 
             return new ItemsProviderResult<NodeTreePreviewModel>(nodeTreesPaged.Contents, nodeTreesPaged.TotalSize);
         }
@@ -62,6 +55,5 @@
         {
             return new ItemsProviderResult<NodeTreePreviewModel>();
         }
-
     }
 }
