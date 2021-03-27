@@ -35,7 +35,7 @@ namespace Nodexr.Shared.Services
         {
             this.httpClient = httpClient;
             this.nodeHandler = nodeHandler;
-            this.apiAddress = config["apiAddress"];
+            apiAddress = config["apiAddress"];
         }
 
         public void LoadSelectedNodeTree()

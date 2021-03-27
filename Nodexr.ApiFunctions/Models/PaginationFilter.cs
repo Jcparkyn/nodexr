@@ -13,12 +13,12 @@ namespace Nodexr.ApiFunctions.Models
         public int Start { get; set; }
         public int Limit { get; set; }
 
-        const int maxLimit = 100;
+        private readonly int maxLimit = 100;
 
         public PaginationFilter(int start, int limit)
         {
-            this.Start = start < 0 ? 0 : start;
-            this.Limit = limit > maxLimit ? maxLimit : limit;
+            Start = start < 0 ? 0 : start;
+            Limit = limit > maxLimit ? maxLimit : limit;
         }
 
         public async Task<Paged<T>> ApplyTo<T>(IQueryable<T> collection)

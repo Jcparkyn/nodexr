@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Nodexr.ApiFunctions
 {
-    class Startup : FunctionsStartup
+    internal class Startup : FunctionsStartup
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
