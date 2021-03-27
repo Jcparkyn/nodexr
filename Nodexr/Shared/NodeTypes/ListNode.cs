@@ -59,7 +59,7 @@ namespace Nodexr.Shared.NodeTypes
             Description = "If checked, the expression will match as few items as possible.",
         };
 
-        private const string separatorCharsToEscape = "()[]{}$^?.+*|";
+        private const string SeparatorCharsToEscape = "()[]{}$^?.+*|";
 
         protected override NodeResultBuilder GetValue()
         {
@@ -69,7 +69,7 @@ namespace Nodexr.Shared.NodeTypes
 
             string separator = InputSeparator.Value;
             if(!InputAllowRegex.Checked)
-                separator = separator.EscapeCharacters(separatorCharsToEscape);
+                separator = separator.EscapeCharacters(SeparatorCharsToEscape);
 
             int minReps = InputListLength.Min ?? 0;
             int? maxReps = InputListLength.Max;

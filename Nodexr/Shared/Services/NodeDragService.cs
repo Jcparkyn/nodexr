@@ -43,7 +43,7 @@ namespace Nodexr.Shared.Services
         {
             this.nodeToDrag = nodeToDrag;
 
-            this.nodeToDragOutputs = nodeHandler.Tree.Nodes
+            nodeToDragOutputs = nodeHandler.Tree.Nodes
                 .SelectMany(node => node.GetAllInputs()
                     .OfType<InputProcedural>()
                     .Where(input => input.ConnectedNode == nodeToDrag)).ToList();
@@ -64,7 +64,7 @@ namespace Nodexr.Shared.Services
             this.nodeToDrag = nodeToDrag;
             isDraggingNewNode = true;
             cursorStartPos = e.GetClientPos();
-            var scaledPos = await jsRuntime.InvokeAsync<float[]>("panzoom.clientToGraphPos", e.ClientX, e.ClientY)
+            float[] scaledPos = await jsRuntime.InvokeAsync<float[]>("panzoom.clientToGraphPos", e.ClientX, e.ClientY)
                 .ConfigureAwait(false);
             int x = (int)scaledPos[0];
             int y = (int)scaledPos[1];

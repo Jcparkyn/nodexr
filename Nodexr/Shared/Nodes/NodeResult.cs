@@ -18,7 +18,7 @@ namespace Nodexr.Shared.Nodes
 
         public NodeResult(IList<RegexSegment> contents)
         {
-            this.Contents = new ReadOnlyCollection<RegexSegment>(contents);
+            Contents = new ReadOnlyCollection<RegexSegment>(contents);
         }
 
         public NodeResult(string expression, INode node)
@@ -38,7 +38,7 @@ namespace Nodexr.Shared.Nodes
 
         public NodeResultBuilder()
         {
-            this.contents = new List<RegexSegment>();
+            contents = new List<RegexSegment>();
         }
 
         public NodeResultBuilder(string expression, INode node)

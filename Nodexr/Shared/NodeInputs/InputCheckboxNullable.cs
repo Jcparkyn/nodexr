@@ -7,7 +7,6 @@ namespace Nodexr.Shared.NodeInputs
 {
     public class InputCheckboxNullable : NodeInput
     {
-
         private int checkedState;
 
         public int CheckedState
@@ -24,7 +23,7 @@ namespace Nodexr.Shared.NodeInputs
 
         public InputCheckboxNullable(int state = 0)
         {
-            this.checkedState = state;
+            checkedState = state;
         }
     }
 }

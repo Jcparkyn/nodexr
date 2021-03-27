@@ -28,7 +28,7 @@ namespace Nodexr.Shared.NodeTypes
             Hex
         }
 
-        private static readonly Dictionary<Modes, string> modeDisplayNames = new Dictionary<Modes, string>()
+        private static readonly Dictionary<Modes, string> modeDisplayNames = new()
         {
             {Modes.Category, "Category/Block"},
             {Modes.Hex, "Hex Code"},
@@ -55,7 +55,7 @@ namespace Nodexr.Shared.NodeTypes
             };
         }
 
-        string GetCategoryRegex(string input, bool invert)
+        private static string GetCategoryRegex(string input, bool invert)
         {
             if (invert)
             {
@@ -67,22 +67,15 @@ namespace Nodexr.Shared.NodeTypes
             }
         }
 
-        string GetHexCodeRegex(string input, bool invert)
+        private static string GetHexCodeRegex(string input, bool invert)
         {
-            if(input.Length > 2)
-            {
-                input = "\\u" + input.PadLeft(4, '0');
-                
-            }
-            else
-            {
-                input = "\\x" + input.PadLeft(2, '0');
-            }
+            input = input.Length > 2
+                ? "\\u" + input.PadLeft(4, '0')
+                : "\\x" + input.PadLeft(2, '0');
 
-            if (invert)
-                return "[^" + input + "]";
-            else
-                return input;
+            return invert
+                ? "[^" + input + "]"
+                : input;
         }
     }
 }

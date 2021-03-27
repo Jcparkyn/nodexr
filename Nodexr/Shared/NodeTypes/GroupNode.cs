@@ -35,7 +35,7 @@ namespace Nodexr.Shared.NodeTypes
             custom
         }
 
-        private static readonly Dictionary<GroupTypes, string> groupTypeDisplayNames = new Dictionary<GroupTypes, string>()
+        private static readonly Dictionary<GroupTypes, string> groupTypeDisplayNames = new()
         {
             {GroupTypes.capturing, "Capturing" },
             {GroupTypes.nonCapturing, "Non-capturing" },
@@ -66,7 +66,7 @@ namespace Nodexr.Shared.NodeTypes
                 GroupTypes.capturing => "(",
                 GroupTypes.nonCapturing => "(?:",
                 GroupTypes.named => $"(?<{GroupName.GetValue()}>",
-                GroupTypes.atomic => $"(?>",
+                GroupTypes.atomic => "(?>",
                 GroupTypes.custom => "(" + CustomPrefix.GetValue(),
                 _ => "",
             };

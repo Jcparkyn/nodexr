@@ -37,7 +37,7 @@ namespace Nodexr.Shared.NodeTypes
             Description = "Should backslashes also be escaped automatically?"
         };
 
-        private const string charsToEscape = "()[]{}$^?.+*|";
+        private const string CharsToEscape = "()[]{}$^?.+*|";
 
         protected override NodeResultBuilder GetValue()
         {
@@ -49,7 +49,7 @@ namespace Nodexr.Shared.NodeTypes
             }
             if (InputEscapeSpecials.Checked)
             {
-                result = result.EscapeCharacters(charsToEscape);
+                result = result.EscapeCharacters(CharsToEscape);
             }
 
             return new NodeResultBuilder(result, this);
@@ -65,10 +65,10 @@ namespace Nodexr.Shared.NodeTypes
 
             static string StripUnnecessaryEscapes(string input)
             {
-                for(var i = 0; i < input.Length - 1; i++)
+                for(int i = 0; i < input.Length - 1; i++)
                 {
                     if(input[i] == '\\'
-                        && charsToEscape.Contains(input[i + 1]))
+                        && CharsToEscape.Contains(input[i + 1]))
                     {
                         //Remove the backslash. This automatically causes the next character to be skipped.
                         input = input.Remove(i, 1);

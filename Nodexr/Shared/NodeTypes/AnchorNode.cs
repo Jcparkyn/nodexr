@@ -17,7 +17,7 @@ namespace Nodexr.Shared.NodeTypes
         [NodeInput]
         public InputDropdown<Mode> InputAnchorType { get; } = new InputDropdown<Mode>(modeDisplayNames) { Title = "Type of anchor:" };
 
-        public static readonly Dictionary<Mode, string> modeDisplayNames = new Dictionary<Mode, string>()
+        public static readonly Dictionary<Mode, string> modeDisplayNames = new()
         {
             {Mode.StartLine, "Start of string"},
             {Mode.EndLine, "End of string"},

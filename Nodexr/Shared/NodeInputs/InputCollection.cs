@@ -31,7 +31,7 @@ namespace Nodexr.Shared.NodeInputs
 
         public void AddItem(INodeOutput node = null)
         {
-            var newInput = new InputProcedural() { Title = this.Title };
+            var newInput = new InputProcedural() { Title = Title };
             newInput.ConnectedNode = node;
             newInput.ValueChanged += OnValueChanged;
             inputs.Add(newInput);

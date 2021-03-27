@@ -8,6 +8,5 @@ namespace Nodexr.Shared
     [AttributeUsage(AttributeTargets.Property)]
     public class NodeInputAttribute : Attribute
     {
-
     }
 }

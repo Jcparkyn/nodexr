@@ -10,7 +10,7 @@ using static Nodexr.Shared.RegexParsers.GroupParser;
 
 namespace Nodexr.Tests.RegexParserTests
 {
-    class GroupParserTests
+    internal class GroupParserTests
     {
         [TestCase(@"(a)", @"a")]
         [TestCase(@"(abc)", @"abc")]

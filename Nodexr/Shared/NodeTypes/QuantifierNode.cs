@@ -58,7 +58,7 @@ namespace Nodexr.Shared.NodeTypes
             Possessive,
         }
 
-        private static readonly Dictionary<Reps, string> displayNamesExcludingOne = new Dictionary<Reps, string>()
+        private static readonly Dictionary<Reps, string> displayNamesExcludingOne = new()
         {
             {Reps.ZeroOrMore, "Zero or more"},
             {Reps.OneOrMore, "One or more"},

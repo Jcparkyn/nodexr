@@ -78,7 +78,7 @@ namespace Nodexr.Shared.NodeTypes
             Custom
         }
 
-        private static readonly Dictionary<WildcardType, string> presetDisplayNames = new Dictionary<WildcardType, string>
+        private static readonly Dictionary<WildcardType, string> presetDisplayNames = new()
         {
             { WildcardType.Everything, "Everything" },
             { WildcardType.WordCharacters, "Word Characters" },
@@ -162,7 +162,7 @@ namespace Nodexr.Shared.NodeTypes
             };
         }
 
-        private string GetClassContents(bool invert, bool w, bool L, bool l, bool d, bool u)
+        private static string GetClassContents(bool invert, bool w, bool L, bool l, bool d, bool u)
         {
             string result = invert ? "[^" : "[";
             result += w ? "\\s" : "";

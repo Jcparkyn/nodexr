@@ -39,8 +39,8 @@ namespace Nodexr.Shared.RegexParsers
 
         private static Parser<char, GroupNode> NormalGroupPrefix =>
             OneOf(
-                Char(':').Select(c => CreateWithType(GroupNode.GroupTypes.nonCapturing)),
-                Char('>').Select(c => CreateWithType(GroupNode.GroupTypes.atomic)),
+                Char(':').Select(_ => CreateWithType(GroupNode.GroupTypes.nonCapturing)),
+                Char('>').Select(_ => CreateWithType(GroupNode.GroupTypes.atomic)),
                 GroupName.Select(name => CreateWithName(name))
                 );
 

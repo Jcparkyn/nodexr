@@ -35,7 +35,7 @@ namespace Nodexr.Shared.Services
 
         public RegexReplaceHandler(INodeHandler NodeHandler, NavigationManager navManager)
         {
-            this.nodeHandler = NodeHandler;
+            nodeHandler = NodeHandler;
 
             var uriParams = QueryHelpers.ParseQuery(navManager.ToAbsoluteUri(navManager.Uri).Query);
             if (uriParams.TryGetValue("search", out var searchString))
@@ -90,7 +90,7 @@ namespace Nodexr.Shared.Services
             return result;
         }
 
-        private bool IsRegexOptionsValid(RegexOptions options)
+        private static bool IsRegexOptionsValid(RegexOptions options)
         {
             //Options can only be invalid in ECMAScript mode
             if (!options.HasFlag(RegexOptions.ECMAScript)) return true;

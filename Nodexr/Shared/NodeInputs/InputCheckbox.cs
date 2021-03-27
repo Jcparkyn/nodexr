@@ -18,7 +18,7 @@
 
         public InputCheckbox(bool isChecked = false)
         {
-            this._checked = isChecked;
+            _checked = isChecked;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Nodexr.Shared.NodeTypes
             "\n\nWarning: this node is marked as 'Experimental' because it will not be preserved " +
             "after using the 'Create Link' or 'Edit' buttons.";
 
-        private readonly IntegerRangeGenerator rangeGenerator = new IntegerRangeGenerator();
+        private readonly IntegerRangeGenerator rangeGenerator = new();
 
         [NodeInput]
         public InputDropdown<LimitType> InputLimitBy { get; } = new InputDropdown<LimitType>()

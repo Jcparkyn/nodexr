@@ -198,7 +198,7 @@ namespace Nodexr.Shared.Services
             OutputChanged?.Invoke(this, e);
         }
 
-        private void CreateDefaultNodes(NodeTree tree)
+        private static void CreateDefaultNodes(NodeTree tree)
         {
             var defaultOutput = new OutputNode() { Pos = new Vector2(1100, 300) };
             var defaultTextNodeFox = new TextNode() { Pos = new Vector2(300, 200) };
