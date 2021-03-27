@@ -33,6 +33,5 @@ namespace Nodexr.Shared.RegexParsers
         public static Parser<TToken, bool> WasMatched<TToken, T>(this Parser<TToken, T> original) =>
             original.Optional()
             .Select(maybe => maybe.HasValue);
-
     }
 }

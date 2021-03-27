@@ -7,9 +7,9 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Tests
 {
-    class FakeNodeOutput : INodeOutput
+    internal class FakeNodeOutput : INodeOutput
     {
-        readonly private string output;
+        private readonly string output;
 
         public event EventHandler OutputChanged;
 
@@ -19,7 +19,7 @@ namespace Nodexr.Tests
 
         public string CssColor => throw new NotImplementedException();
 
-        public NodeResult CachedOutput => new NodeResult(output, null);
+        public NodeResult CachedOutput => new(output, null);
 
         public FakeNodeOutput(string output) => this.output = output;
     }

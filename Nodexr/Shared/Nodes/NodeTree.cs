@@ -14,7 +14,7 @@ namespace Nodexr.Shared.Nodes
     {
         public event EventHandler OutputChanged;
 
-        private readonly List<INode> nodes = new List<INode>();
+        private readonly List<INode> nodes = new();
         public IEnumerable<INode> Nodes => nodes.AsReadOnly();
 
         public NodeResult CachedOutput { get; private set; }
@@ -72,7 +72,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        private void DeleteNoodlesBetween(INode node, InputProcedural input)
+        private static void DeleteNoodlesBetween(INode node, InputProcedural input)
         {
             if (input.ConnectedNode == node)
             {

@@ -10,7 +10,7 @@ using static Nodexr.Shared.RegexParsers.GroupParser;
 
 namespace Nodexr.Tests.RegexParserTests
 {
-    class LookaroundParserTests
+    internal class LookaroundParserTests
     {
         [TestCase(@"(?=a)", @"a", LookaroundNode.Types.lookahead)]
         [TestCase(@"(?!a)", @"a", LookaroundNode.Types.lookaheadNeg)]

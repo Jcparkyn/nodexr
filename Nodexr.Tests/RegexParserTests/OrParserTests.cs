@@ -10,7 +10,7 @@ using static Nodexr.Shared.RegexParsers.OrParser;
 
 namespace Nodexr.Tests.RegexParserTests
 {
-    class OrParserTests
+    internal class OrParserTests
     {
         [TestCase("a|b", "(?:a|b)")]
         [TestCase("abc|def", "(?:abc|def)")]

@@ -89,7 +89,7 @@ namespace Nodexr.Tests
             return IQuantifiableNode.GetSuffix(node);
         }
 
-        private QuantifierNode CreateDefaultQuantifier(string contents)
+        private static QuantifierNode CreateDefaultQuantifier(string contents)
         {
             var node = new QuantifierNode();
             node.InputContents.ConnectedNode = new FakeNodeOutput(contents);

@@ -34,7 +34,6 @@ namespace Nodexr.Shared.RegexParsers
                 CharSetContents)
             .Between(LBracket, RBracket);
 
-
         private static CharSetNode CreateWithContents(string contents, bool invert)
         {
             var node = new CharSetNode();

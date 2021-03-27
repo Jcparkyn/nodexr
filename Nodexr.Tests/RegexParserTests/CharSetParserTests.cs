@@ -10,7 +10,7 @@ using static Nodexr.Shared.RegexParsers.CharSetParser;
 
 namespace Nodexr.Tests.RegexParserTests
 {
-    class CharSetParserTests
+    internal class CharSetParserTests
     {
         [TestCase("[a]", "a")]
         [TestCase("[a-z]", "a-z")]

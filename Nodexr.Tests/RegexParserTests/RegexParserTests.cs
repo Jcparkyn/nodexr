@@ -11,7 +11,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Tests.RegexParserTests
 {
-    class RegexParserTests
+    internal class RegexParserTests
     {
         [TestCase(@"abc")]
         [TestCase(@"abc[abc]")]

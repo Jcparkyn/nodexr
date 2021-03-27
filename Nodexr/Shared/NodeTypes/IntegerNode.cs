@@ -16,7 +16,7 @@ namespace Nodexr.Shared.NodeTypes
             "\n\nWarning: this node is marked as 'Experimental' because it will not be preserved " +
             "after using the 'Create Link' or 'Edit' buttons.";
 
-        private readonly IntegerRangeGenerator rangeGenerator = new IntegerRangeGenerator();
+        private readonly IntegerRangeGenerator rangeGenerator = new();
 
         [NodeInput]
         public InputDropdown<LimitType> InputLimitBy { get; } = new InputDropdown<LimitType>()
@@ -59,6 +59,13 @@ namespace Nodexr.Shared.NodeTypes
             Description = "Allow leading zeros in the number?",
         };
 
+        [NodeInput]
+        public InputCheckbox InputPreferLongest { get; } = new InputCheckbox(true)
+        {
+            Title = "Prefer longest",
+            Description = "If unchecked, the expression may only match part of a longer number. Leaving this checked may slightly reduce performance.",
+        };
+
         public enum LimitType
         {
             Nothing,
@@ -86,11 +93,9 @@ namespace Nodexr.Shared.NodeTypes
             string number = InputLimitBy.Value switch
             {
                 LimitType.Value => GetIntegerRangeRegex(InputValueRange.Min ?? 0, InputValueRange.Max ?? 0),
-                LimitType.Digits => (InputDigitRange.Min ?? 0) == InputDigitRange.Max ?
-                    $"\\d{{{InputDigitRange.Min}}}" :
-                    $"\\d{{{InputDigitRange.Min ?? 0},{InputDigitRange.Max}}}",
-                LimitType.Nothing => "\\d+",
-                _ => "\\d+",
+                LimitType.Digits => GetQuantifierRangeSuffix() + QuantifierSuffix,
+                LimitType.Nothing => "\\d+" + QuantifierSuffix,
+                _ => "\\d+" + QuantifierSuffix,
             };
             var builder = new NodeResultBuilder(number, this);
 
@@ -105,6 +110,17 @@ namespace Nodexr.Shared.NodeTypes
 
             return builder;
         }
+
+        private string GetQuantifierRangeSuffix()
+        {
+            int min = InputDigitRange.Min ?? 0;
+            return min == InputDigitRange.Max ?
+                $"\\d{{{min}}}" :
+                $"\\d{{{min},{InputDigitRange.Max}}}";
+        }
+
+        private string QuantifierSuffix =>
+            InputPreferLongest.Checked ? "" : "?";
 
         private void AddSign(NodeResultBuilder builder)
         {
@@ -122,6 +138,10 @@ namespace Nodexr.Shared.NodeTypes
         private string GetIntegerRangeRegex(int min, int max)
         {
             var ranges = rangeGenerator.GenerateRegexRange(min, max);
+            if (InputPreferLongest.Checked)
+            {
+                ranges.Reverse();
+            }
             return string.Join('|', ranges);
         }
     }

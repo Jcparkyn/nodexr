@@ -26,7 +26,7 @@ namespace Nodexr.Shared.NodeTypes
             lookbehindNeg,
         }
 
-        private static readonly Dictionary<Types, string> groupTypeDisplyNames = new Dictionary<Types, string>()
+        private static readonly Dictionary<Types, string> groupTypeDisplyNames = new()
         {
             {Types.lookahead, "Lookahead"},
             {Types.lookbehind, "Lookbehind"},

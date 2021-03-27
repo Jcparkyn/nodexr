@@ -23,7 +23,7 @@ namespace Nodexr.Shared.NodeTypes
             Range
         }
 
-        public static readonly Dictionary<Reps, string> displayNames = new Dictionary<Reps, string>()
+        public static readonly Dictionary<Reps, string> displayNames = new()
         {
             {Reps.One, "One"},
             {Reps.ZeroOrMore, "Zero or more"},

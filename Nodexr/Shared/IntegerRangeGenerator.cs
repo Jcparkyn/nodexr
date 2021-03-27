@@ -49,11 +49,11 @@ namespace Nodexr.Shared
 
         /**
          * return the regular expressions that match the ranges in the given
-         * list of integers. The list is in the form firstRangeStart, firstRangeEnd, 
+         * list of integers. The list is in the form firstRangeStart, firstRangeEnd,
          * secondRangeStart, secondRangeEnd, etc. Each regular expression is 0-left-padded,
          * if necessary, to match strings of the given width.
          */
-        private List<string> FormatPairsToRegEx(List<Pair> pairs)
+        private static List<string> FormatPairsToRegEx(List<Pair> pairs)
         {
             List<string> list = new List<string>();
             for (int i = 0; i < pairs.Count; i ++)

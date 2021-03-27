@@ -8,7 +8,7 @@
 @implements IDisposable
 
     <div class="node @CssClass"
-         style="transform: translate(@((long)Data.Pos.x)px, @((long)Data.Pos.y)px); --col-node-accent:@Data.CssColor;"
+         style="transform: @CssTransform; --col-node-accent:@Data.CssColor;"
          @ref="NodeDiv"
          ondragleave="tempNoodle.setInvalid()"
          ondragover="event.preventDefault(); tempNoodle.setValid();"
@@ -62,59 +62,60 @@
 
 
 @functions{
-    [Parameter] public INode Data { get; set; }
-    ElementReference NodeDiv { get; set; }
+   [Parameter] public INode Data { get; set; }
+   ElementReference NodeDiv { get; set; }
 
-    string CssClass => NodeHandler.IsNodeSelected(Data) ? "node-selected" : "";
+   string CssClass => NodeHandler.IsNodeSelected(Data) ? "node-selected" : "";
+   string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
 
-    protected override void OnInitialized()
-    {
-        Data.OutputChanged += Refresh;
-        Data.LayoutChanged += Refresh;
-        Data.SelectionChanged += Refresh;
-    }
+   protected override void OnInitialized()
+   {
+      Data.OutputChanged += Refresh;
+      Data.LayoutChanged += Refresh;
+      Data.SelectionChanged += Refresh;
+   }
 
-    void ToggleCollapsed()
-    {
-        Data.IsCollapsed = !Data.IsCollapsed;
-        Data.OnLayoutChanged(this, EventArgs.Empty);
-    }
+   void ToggleCollapsed()
+   {
+      Data.IsCollapsed = !Data.IsCollapsed;
+      Data.OnLayoutChanged(this, EventArgs.Empty);
+   }
 
-    async Task StartDrag(MouseEventArgs e)
-    {
-        NodeDragService.OnStartNodeDrag(Data, e);
-        await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
-    }
+   async Task StartDrag(MouseEventArgs e)
+   {
+      NodeDragService.OnStartNodeDrag(Data, e);
+      await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
+   }
 
-    void ShowModal()
-    {
-        var modalParameters = new ModalParameters();
-        modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
-        Modal.Show<NodeInfo>(Data.Title, modalParameters);
-    }
+   void ShowModal()
+   {
+      var modalParameters = new ModalParameters();
+      modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
+      Modal.Show<NodeInfo>(Data.Title, modalParameters);
+   }
 
-    void Refresh(object sender, EventArgs e)
-    {
-        StateHasChanged();
-    }
+   void Refresh(object sender, EventArgs e)
+   {
+      StateHasChanged();
+   }
 
-    void Select(MouseEventArgs e)
-    {
-        if (!NodeDragService.IsDrag(e))
-        {
-            NodeHandler.SelectNode(Data);
-        }
-    }
+   void Select(MouseEventArgs e)
+   {
+      if (!NodeDragService.IsDrag(e))
+      {
+         NodeHandler.SelectNode(Data);
+      }
+   }
 
-    void Deselect()
-    {
-        NodeHandler.DeselectAllNodes();
-    }
+   void Deselect()
+   {
+      NodeHandler.DeselectAllNodes();
+   }
 
-    public void Dispose()
-    {
-        Data.OutputChanged -= Refresh;
-        Data.LayoutChanged -= Refresh;
-        Data.SelectionChanged -= Refresh;
-    }
+   public void Dispose()
+   {
+      Data.OutputChanged -= Refresh;
+      Data.LayoutChanged -= Refresh;
+      Data.SelectionChanged -= Refresh;
+   }
 }

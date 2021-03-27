@@ -11,7 +11,7 @@ using System.Linq;
 namespace Nodexr.Tests
 {
     [TestFixture]
-    class OrNodeTests
+    internal class OrNodeTests
     {
 
         [TestCase("a", "b", "a")]

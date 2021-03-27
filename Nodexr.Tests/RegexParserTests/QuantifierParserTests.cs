@@ -12,7 +12,7 @@ using static Nodexr.Shared.RegexParsers.QuantifierParser;
 
 namespace Nodexr.Tests.RegexParserTests
 {
-    class QuantifierParserTests
+    internal class QuantifierParserTests
     {
         [TestCase("a*")]
         [TestCase("a{0}")]
