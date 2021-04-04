@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class IntegerNode : Node
+    public class IntegerNode : RegexNodeViewModelBase
     {
         public override string Title => "Integer";
 

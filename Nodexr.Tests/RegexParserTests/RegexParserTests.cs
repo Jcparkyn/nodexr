@@ -51,7 +51,7 @@ namespace Nodexr.Tests.RegexParserTests
         public void ParseRegex_ThreeChunks_ReturnsNodesInSequence(string input, Type type3, Type type2, Type type1)
         {
             var node1 = RegexParser.ParseRegex.ParseOrThrow(input);
-            var node2 = node1.PreviousNode as Node;
+            var node2 = node1.PreviousNode as RegexNodeViewModelBase;
             var node3 = node2.PreviousNode;
 
             Assert.Multiple(() =>

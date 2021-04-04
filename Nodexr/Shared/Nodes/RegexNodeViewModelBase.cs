@@ -16,7 +16,7 @@ namespace Nodexr.Shared.Nodes
         event EventHandler OutputChanged;
     }
 
-    public interface INode : IPositionable, INodeOutput
+    public interface IRegexNodeViewModel : IPositionable, INodeOutput
     {
         string Title { get; }
         string NodeInfo { get; }
@@ -40,25 +40,14 @@ namespace Nodexr.Shared.Nodes
         void OnLayoutChanged(object sender, EventArgs e);
         void OnSelectionChanged(EventArgs e);
         void OnDeselected(EventArgs e);
+        IEnumerable<NodeInput> GetAllInputs();
 
         event EventHandler LayoutChanged;
         event EventHandler SelectionChanged;
     }
 
-    public abstract class Node : INode
+    public abstract class RegexNodeViewModelBase : NodeViewModelBase, IRegexNodeViewModel
     {
-        private Vector2 pos;
-
-        public Vector2 Pos
-        {
-            get => pos;
-            set
-            {
-                pos = value;
-                CalculateInputsPos();
-            }
-        }
-
         public InputProcedural Previous { get; } = new InputProcedural();
 
         public INodeOutput PreviousNode
@@ -67,35 +56,15 @@ namespace Nodexr.Shared.Nodes
             set => Previous.ConnectedNode = value;
         }
 
-        public IEnumerable<NodeInput> NodeInputs { get; }
-        public abstract string Title { get; }
         public abstract string NodeInfo { get; }
 
         public NodeResult CachedOutput { get; private set; }
 
-        public Vector2 OutputPos => Pos + new Vector2(154, 13);
-
-        public bool IsCollapsed { get; set; }
+        public override Vector2 OutputPos => Pos + new Vector2(154, 13);
 
         public event EventHandler OutputChanged;
-        public event EventHandler LayoutChanged;
-        public event EventHandler SelectionChanged;
 
         protected virtual void OnOutputChanged(EventArgs e) => OutputChanged?.Invoke(this, e);
-
-        public void OnLayoutChanged(object sender, EventArgs e)
-        {
-            CalculateInputsPos();
-            foreach (var input in this.GetAllInputs().OfType<InputProcedural>())
-            {
-                input.Refresh();
-            }
-            LayoutChanged?.Invoke(this, e);
-        }
-
-        public void OnSelectionChanged(EventArgs e) => SelectionChanged?.Invoke(this, e);
-
-        public void OnDeselected(EventArgs e) => SelectionChanged?.Invoke(this, e);
 
         protected void OnInputsChanged(object sender, EventArgs e)
         {
@@ -103,16 +72,8 @@ namespace Nodexr.Shared.Nodes
             OnOutputChanged(EventArgs.Empty);
         }
 
-        protected Node()
+        protected RegexNodeViewModelBase() : base()
         {
-            var inputProperties = GetType()
-                .GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)));
-
-            NodeInputs = inputProperties
-                    .Select(prop => prop.GetValue(this) as NodeInput)
-                    .ToList();
-
             Previous.ValueChanged += OnInputsChanged;
 
             foreach (var input in NodeInputs)
@@ -127,10 +88,8 @@ namespace Nodexr.Shared.Nodes
             OnInputsChanged(this, EventArgs.Empty);
         }
 
-        /// <summary>
-        /// Set the position of each input based on the position of the node.
-        /// </summary>
-        public void CalculateInputsPos()
+        /// <inheritdoc/>
+        public override void CalculateInputsPos()
         {
             //TODO: refactor using GetHeight() on each input
             Previous.Pos = new Vector2(Pos.x + 2, Pos.y + 13);
@@ -191,8 +150,8 @@ namespace Nodexr.Shared.Nodes
             return baseHeight + inputHeight;
         }
 
-        public string CssName => Title.Replace(" ", "").ToLowerInvariant();
-        public string CssColor => $"var(--col-node-{CssName})";
+        public override string CssName => Title.Replace(" ", "").ToLowerInvariant();
+        public override string CssColor => $"var(--col-node-{CssName})";
 
         protected virtual NodeResult GetOutput()
         {
@@ -202,6 +161,27 @@ namespace Nodexr.Shared.Nodes
                 builder.Prepend(Previous.Value);
             }
             return builder.Build();
+        }
+
+        /// <summary>
+        /// Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
+        /// InputCollections themselves are not returned.
+        /// </summary>
+        public override IEnumerable<NodeInput> GetAllInputs()
+        {
+            yield return Previous;
+            foreach (var input in NodeInputs)
+            {
+                if (input is InputCollection coll)
+                {
+                    foreach (var subInput in coll.Inputs)
+                        yield return subInput;
+                }
+                else
+                {
+                    yield return input;
+                }
+            }
         }
 
         protected abstract NodeResultBuilder GetValue();

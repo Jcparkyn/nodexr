@@ -14,7 +14,7 @@ namespace Nodexr.Shared.RegexParsers
 {
     public static class TextParser
     {
-        public static Parser<char, Node> ParseTextWithOptionalQuantifier =>
+        public static Parser<char, RegexNodeViewModelBase> ParseTextWithOptionalQuantifier =>
             Map(CreateTextWithQuantifier,
                 ParseText,
                 QuantifierParser.ParseQuantifier.Optional());
@@ -33,7 +33,7 @@ namespace Nodexr.Shared.RegexParsers
                 .Select(c => "\\" + c)
                 ));
 
-        public static Node CreateTextWithQuantifier(IEnumerable<string> chars, Maybe<QuantifierNode> maybeQuant)
+        public static RegexNodeViewModelBase CreateTextWithQuantifier(IEnumerable<string> chars, Maybe<QuantifierNode> maybeQuant)
         {
             if (!maybeQuant.HasValue)
                 return TextNode.CreateWithContents(string.Concat(chars));

@@ -7,7 +7,7 @@ using static Nodexr.Shared.NodeTypes.IQuantifiableNode;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class OptionalNode : Node
+    public class OptionalNode : RegexNodeViewModelBase
     {
         public override string Title => "Optional";
 
@@ -29,7 +29,7 @@ namespace Nodexr.Shared.NodeTypes
             string prefix = "";
 
             //Surround with non-capturing group if necessary
-            if (InputContents.ConnectedNode is Node _node
+            if (InputContents.ConnectedNode is RegexNodeViewModelBase _node
                 && QuantifierNode.RequiresGroupToQuantify(_node))
             {
                 prefix += "(?:";

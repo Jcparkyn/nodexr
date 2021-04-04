@@ -16,7 +16,7 @@
 
 
 @functions {
-    [Parameter] public INode Data { get; set; }
+    [Parameter] public IRegexNodeViewModel Data { get; set; }
 
     string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
 
@@ -29,13 +29,13 @@
 
     void StartNodeDrag(DragEventArgs e)
     {
-        INode newNode = (INode)Activator.CreateInstance(Data.GetType());
+        IRegexNodeViewModel newNode = (IRegexNodeViewModel)Activator.CreateInstance(Data.GetType());
         NodeDragService.OnStartCreateNodeDrag(newNode, e);
     }
 
     void AddNode(Type type)
     {
-        INode node = (INode)Activator.CreateInstance(type);
+        IRegexNodeViewModel node = (IRegexNodeViewModel)Activator.CreateInstance(type);
         NodeHandler.Tree.AddNode(node);
     }
 }

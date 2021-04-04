@@ -5,7 +5,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class CommentNode : Node
+    public class CommentNode : RegexNodeViewModelBase
     {
         public override string Title => "Comment";
         public override string NodeInfo => "Inserts a comment block, which will be ignored by the Regex engine.";

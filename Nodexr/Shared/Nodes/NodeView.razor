@@ -62,7 +62,7 @@
 
 
 @functions{
-   [Parameter] public INode Data { get; set; }
+   [Parameter] public IRegexNodeViewModel Data { get; set; }
    ElementReference NodeDiv { get; set; }
 
    string CssClass => NodeHandler.IsNodeSelected(Data) ? "node-selected" : "";

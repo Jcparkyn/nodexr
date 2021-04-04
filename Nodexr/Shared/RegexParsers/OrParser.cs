@@ -14,14 +14,14 @@ namespace Nodexr.Shared.RegexParsers
 {
     public static class OrParser
     {
-        public static Parser<char, Node> WithOptionalAlternation(this Parser<char, Node> previous) =>
+        public static Parser<char, RegexNodeViewModelBase> WithOptionalAlternation(this Parser<char, RegexNodeViewModelBase> previous) =>
             previous.SeparatedAtLeastOnce(Pipe)
             .Select(CreateWithInputs);
 
         private static readonly Parser<char, char> Pipe =
             Char('|');
 
-        private static Node CreateWithInputs(IEnumerable<Node> nodes)
+        private static RegexNodeViewModelBase CreateWithInputs(IEnumerable<RegexNodeViewModelBase> nodes)
         {
             var nodesList = nodes.ToList();
             if(nodesList.Count == 1)

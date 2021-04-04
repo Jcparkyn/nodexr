@@ -17,21 +17,21 @@ namespace Nodexr.Shared.RegexParsers
         /// <summary>
         /// Parse any type of group. This includes anything in (non-escaped) parentheses.
         /// </summary>
-        public static Parser<char, Node> ParseGroup =>
+        public static Parser<char, RegexNodeViewModelBase> ParseGroup =>
             Char('?').Then(OneOf(
-                LookaroundParser.ParseLookaround.Cast<Node>(),
+                LookaroundParser.ParseLookaround.Cast<RegexNodeViewModelBase>(),
                 OtherGroup,
-                IfElseParser.ParseIfElse.Cast<Node>()
+                IfElseParser.ParseIfElse.Cast<RegexNodeViewModelBase>()
                 ))
             .Or(CaptureGroup)
             .Between(Char('('), Char(')'));
 
-        private static Parser<char, Node> OtherGroup =>
+        private static Parser<char, RegexNodeViewModelBase> OtherGroup =>
             Map((node, contents) => node.WithContents(contents),
                 NormalGroupPrefix,
                 Rec(() => RegexParser.ParseRegex));
 
-        private static Parser<char, Node> CaptureGroup =>
+        private static Parser<char, RegexNodeViewModelBase> CaptureGroup =>
             Rec(() => RegexParser.ParseRegex)
             .Select(contents =>
                 CreateWithType(GroupNode.GroupTypes.capturing)
@@ -64,7 +64,7 @@ namespace Nodexr.Shared.RegexParsers
             return node;
         }
 
-        private static Node WithContents(this GroupNode node, Node contents)
+        private static RegexNodeViewModelBase WithContents(this GroupNode node, RegexNodeViewModelBase contents)
         {
             //This group is not needed if it is actually part of an OrNode
             if(contents is OrNode orNode

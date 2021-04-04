@@ -6,7 +6,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class OrNode : Node, INode
+    public class OrNode : RegexNodeViewModelBase
     {
         public override string Title => "Or";
 

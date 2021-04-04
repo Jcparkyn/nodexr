@@ -15,50 +15,50 @@ namespace Nodexr.Shared.RegexParsers
 {
     public static class RegexParser
     {
-        public static readonly Parser<char, Node> ParseRegex =
+        public static readonly Parser<char, RegexNodeViewModelBase> ParseRegex =
             ParseRegexWithoutAlternation
-            .Or(Return<Node>(null)) //Empty OrNode options are allowed.
+            .Or(Return<RegexNodeViewModelBase>(null)) //Empty OrNode options are allowed.
             .WithOptionalAlternation();
 
-        public static Parser<char, Node> ParseRegexWithoutAlternation =>
+        public static Parser<char, RegexNodeViewModelBase> ParseRegexWithoutAlternation =>
             ParseSingleNode
             .AtLeastOnce()
             .Select(ConnectNodesInSequence);
 
-        private static Parser<char, Node> ParseSingleNode =>
+        private static Parser<char, RegexNodeViewModelBase> ParseSingleNode =>
             TextParser.ParseTextWithOptionalQuantifier
             .Or(
                 OneOf(
-                    CharSetParser.ParseCharSet.Cast<Node>(),
-                    GroupParser.ParseGroup.Cast<Node>(),
-                    WildcardParser.ParseWildcard.Cast<Node>(),
-                    AnchorParser.ParseAnchor.Cast<Node>(),
+                    CharSetParser.ParseCharSet.Cast<RegexNodeViewModelBase>(),
+                    GroupParser.ParseGroup.Cast<RegexNodeViewModelBase>(),
+                    WildcardParser.ParseWildcard.Cast<RegexNodeViewModelBase>(),
+                    AnchorParser.ParseAnchor.Cast<RegexNodeViewModelBase>(),
                     ParseEscapedWord)
                 .WithOptionalQuantifier());
 
-        public static Parser<char, Node> ParseEscapedWord =>
+        public static Parser<char, RegexNodeViewModelBase> ParseEscapedWord =>
             EscapeChar.Then(ParseSpecialAfterEscape);
 
-        public static Parser<char, Node> ParseSpecialAfterEscape =>
+        public static Parser<char, RegexNodeViewModelBase> ParseSpecialAfterEscape =>
             OneOf(
-                UnicodeParser.ParseUnicode.Cast<Node>(),
-                ReferenceParser.ParseReference.Cast<Node>(),
-                WildcardParser.ParseWildcardAfterEscape.Cast<Node>(),
-                AnchorParser.ParseAnchorAfterEscape.Cast<Node>(),
-                WhitespaceParser.ParseWhitespaceAfterEscape.Cast<Node>());
+                UnicodeParser.ParseUnicode.Cast<RegexNodeViewModelBase>(),
+                ReferenceParser.ParseReference.Cast<RegexNodeViewModelBase>(),
+                WildcardParser.ParseWildcardAfterEscape.Cast<RegexNodeViewModelBase>(),
+                AnchorParser.ParseAnchorAfterEscape.Cast<RegexNodeViewModelBase>(),
+                WhitespaceParser.ParseWhitespaceAfterEscape.Cast<RegexNodeViewModelBase>());
 
         public static Result<char, NodeTree> Parse(string input)
         {
             return OutputParser.ParseOutputNode.Select(BuildNodeTree).Parse(input);
         }
 
-        public static NodeTree BuildNodeTree(Node endNode)
+        public static NodeTree BuildNodeTree(RegexNodeViewModelBase endNode)
         {
             var builder = new NodeTreeBuilder(endNode);
             return builder.Build();
         }
 
-        private static Node ConnectNodesInSequence(IEnumerable<Node> nodes)
+        private static RegexNodeViewModelBase ConnectNodesInSequence(IEnumerable<RegexNodeViewModelBase> nodes)
         {
             var endNode = nodes.Aggregate((first, second) =>
             {
@@ -69,7 +69,7 @@ namespace Nodexr.Shared.RegexParsers
             return endNode;
         }
 
-        private static void ConnectBefore(this Node first, Node second)
+        private static void ConnectBefore(this RegexNodeViewModelBase first, RegexNodeViewModelBase second)
         {
             if(second.PreviousNode is null)
             {
@@ -78,7 +78,7 @@ namespace Nodexr.Shared.RegexParsers
             }
             else
             {
-                first.ConnectBefore((Node)second.PreviousNode);
+                first.ConnectBefore((RegexNodeViewModelBase)second.PreviousNode);
             }
         }
     }

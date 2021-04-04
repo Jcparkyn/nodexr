@@ -5,7 +5,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class IfElseNode : Node
+    public class IfElseNode : RegexNodeViewModelBase
     {
         public override string Title => "If-Else";
 

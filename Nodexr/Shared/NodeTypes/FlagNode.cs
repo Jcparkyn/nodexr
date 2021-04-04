@@ -7,7 +7,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class FlagNode : Node
+    public class FlagNode : RegexNodeViewModelBase
     {
         public override string Title => "Flags";
         public override string NodeInfo => "Inserts flags that change the way the Regex is interpreted.\nEach flag can either be ignored (default), applied (✓), or removed (−).\nLeave the 'Contents' input empty to have the flags apply to everything that comes after them in the Regex, or connect a node to this input so that only that portion of the Regex has the flags applied.";
@@ -40,7 +40,7 @@ namespace Nodexr.Shared.NodeTypes
             flagsOff += OptionSingleline.CheckedState == -1 ? "s" : "";
             flagsOff += OptionExplicitCapture.CheckedState == -1 ? "n" : "";
             flagsOff += OptionIgnoreWhitespace.CheckedState == -1 ? "x" : "";
-            if (!String.IsNullOrEmpty(flagsOff))
+            if (!string.IsNullOrEmpty(flagsOff))
             {
                 flagsOff = "-" + flagsOff;
             }

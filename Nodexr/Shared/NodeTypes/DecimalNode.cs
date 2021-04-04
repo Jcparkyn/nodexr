@@ -7,7 +7,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class DecimalNode : Node
+    public class DecimalNode : RegexNodeViewModelBase
     {
         public override string Title => "Decimal";
 

@@ -6,7 +6,7 @@ using static Nodexr.Shared.NodeTypes.IQuantifiableNode;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class CharSetNode : Node, IQuantifiableNode
+    public class CharSetNode : RegexNodeViewModelBase, IQuantifiableNode
     {
         public override string Title => "Character Set";
 

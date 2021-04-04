@@ -8,7 +8,7 @@ using static Nodexr.Shared.NodeTypes.IQuantifiableNode;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class WildcardNode : Node, IQuantifiableNode
+    public class WildcardNode : RegexNodeViewModelBase, IQuantifiableNode
     {
         public override string Title => "Wildcard";
 

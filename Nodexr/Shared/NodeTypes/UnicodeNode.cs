@@ -7,7 +7,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class UnicodeNode : Node
+    public class UnicodeNode : RegexNodeViewModelBase
     {
         public override string Title => "Unicode";
 

@@ -7,7 +7,7 @@ using static Nodexr.Shared.NodeTypes.IQuantifiableNode;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class RecursionNode : Node
+    public class RecursionNode : RegexNodeViewModelBase
     {
         public override string Title => "Recursion";
 

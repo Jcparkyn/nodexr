@@ -21,7 +21,7 @@ namespace Nodexr.Shared.Nodes
             Contents = new ReadOnlyCollection<RegexSegment>(contents);
         }
 
-        public NodeResult(string expression, INode node)
+        public NodeResult(string expression, IRegexNodeViewModel node)
         {
             var segment = new RegexSegment(expression, node);
             var segments = new List<RegexSegment>() { segment };
@@ -41,7 +41,7 @@ namespace Nodexr.Shared.Nodes
             contents = new List<RegexSegment>();
         }
 
-        public NodeResultBuilder(string expression, INode node)
+        public NodeResultBuilder(string expression, IRegexNodeViewModel node)
         {
             contents = new List<RegexSegment>
             {
@@ -61,7 +61,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        public void Prepend(string expr, INode node)
+        public void Prepend(string expr, IRegexNodeViewModel node)
         {
             var segment = new RegexSegment(expr, node);
             contents.Insert(0, segment);
@@ -72,7 +72,7 @@ namespace Nodexr.Shared.Nodes
             contents.InsertRange(0, segments);
         }
 
-        public void Append(string expr, INode node)
+        public void Append(string expr, IRegexNodeViewModel node)
         {
             var segment = new RegexSegment(expr, node);
             contents.Add(segment);
@@ -103,7 +103,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        public void AddNonCaptureGroup(INode node)
+        public void AddNonCaptureGroup(IRegexNodeViewModel node)
         {
             Prepend("(?:", node);
             Append(")", node);
@@ -118,9 +118,9 @@ namespace Nodexr.Shared.Nodes
     public class RegexSegment
     {
         public string Expression { get; }
-        public INode Node { get; }
+        public IRegexNodeViewModel Node { get; }
 
-        public RegexSegment(string expression, INode node)
+        public RegexSegment(string expression, IRegexNodeViewModel node)
         {
             Expression = expression;
             Node = node;

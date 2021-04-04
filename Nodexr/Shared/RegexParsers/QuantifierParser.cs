@@ -15,7 +15,7 @@ namespace Nodexr.Shared.RegexParsers
 {
     public static class QuantifierParser
     {
-        public static Parser<char, Node> WithOptionalQuantifier(this Parser<char, Node> previous) =>
+        public static Parser<char, RegexNodeViewModelBase> WithOptionalQuantifier(this Parser<char, RegexNodeViewModelBase> previous) =>
             Map((prev, maybeQuant) =>
                     maybeQuant.HasValue ?
                         maybeQuant.Value.AttachToNode(prev) :
@@ -103,7 +103,7 @@ namespace Nodexr.Shared.RegexParsers
             return node;
         }
 
-        private static Node AttachToNode(this QuantifierNode quant, Node contents)
+        private static RegexNodeViewModelBase AttachToNode(this QuantifierNode quant, RegexNodeViewModelBase contents)
         {
             switch (contents)
             {
@@ -115,7 +115,7 @@ namespace Nodexr.Shared.RegexParsers
                     child.InputRange.Min = quant.InputRange.Min;
                     child.InputRange.Max = quant.InputRange.Max;
                     child.InputNumber.Value = quant.InputNumber.Value;
-                    return child as Node;
+                    return child as RegexNodeViewModelBase;
 
                 case GroupNode child when
                 child.PreviousNode is null

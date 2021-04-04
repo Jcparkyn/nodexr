@@ -4,7 +4,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class ReferenceNode : Node, INode
+    public class ReferenceNode : RegexNodeViewModelBase
     {
         public override string Title => "Reference";
         public override string NodeInfo => "Inserts a backreference (or forward-reference if the language supports it) to a captured group, either by name or index.";

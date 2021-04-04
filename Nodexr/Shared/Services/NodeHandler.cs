@@ -20,16 +20,16 @@ namespace Nodexr.Shared.Services
         event EventHandler OnRequireNoodleRefresh;
         event EventHandler OnRequireNodeGraphRefresh;
 
-        INode SelectedNode { get; }
+        IRegexNodeViewModel SelectedNode { get; }
         NodeTree Tree { get; }
 
         void DeleteSelectedNode();
         void ForceRefreshNodeGraph();
         void ForceRefreshNoodles();
-        void SelectNode(INode node);
+        void SelectNode(IRegexNodeViewModel node);
         void DeselectAllNodes();
         void TryCreateTreeFromRegex(string regex);
-        bool IsNodeSelected(INode node);
+        bool IsNodeSelected(IRegexNodeViewModel node);
         void RevertPreviousParse();
     }
 
@@ -56,7 +56,7 @@ namespace Nodexr.Shared.Services
         /// <summary>
         /// The currently selected node.
         /// </summary>
-        public INode SelectedNode { get; private set; }
+        public IRegexNodeViewModel SelectedNode { get; private set; }
 
         /// <summary>
         /// Called when the output of the node graph has changed.
@@ -152,7 +152,7 @@ namespace Nodexr.Shared.Services
             OnRequireNoodleRefresh?.Invoke(this, EventArgs.Empty);
         }
 
-        public void SelectNode(INode node)
+        public void SelectNode(IRegexNodeViewModel node)
         {
             var selectedNodePrevious = SelectedNode;
             SelectedNode = node;
@@ -172,7 +172,7 @@ namespace Nodexr.Shared.Services
             }
         }
 
-        public bool IsNodeSelected(INode node)
+        public bool IsNodeSelected(IRegexNodeViewModel node)
         {
             return ReferenceEquals(SelectedNode, node);
         }

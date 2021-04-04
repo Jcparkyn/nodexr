@@ -31,10 +31,10 @@ namespace Nodexr.Shared.RegexParsers
         //    AnyCharExcept(')').AtLeastOnceString()
         //    .Between(OpenPar, ClosePar);
 
-        private static Parser<char, Node> ParseIfElseOption =>
+        private static Parser<char, RegexNodeViewModelBase> ParseIfElseOption =>
             Rec(() => RegexParser.ParseRegexWithoutAlternation);
 
-        private static IfElseNode CreateIfElse(string condition, Node in1, Node in2)
+        private static IfElseNode CreateIfElse(string condition, RegexNodeViewModelBase in1, RegexNodeViewModelBase in2)
         {
             var node = new IfElseNode();
             node.InputCondition.Value = condition;

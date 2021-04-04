@@ -7,7 +7,7 @@ using static Nodexr.Shared.NodeTypes.IQuantifiableNode;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class ListNode : Node
+    public class ListNode : RegexNodeViewModelBase
     {
         public override string Title => "List";
 

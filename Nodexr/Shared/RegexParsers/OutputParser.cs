@@ -18,7 +18,7 @@ namespace Nodexr.Shared.RegexParsers
             RegexParser.ParseRegex
             .Select(contents => AttachOutputToContents(new OutputNode(), contents));
 
-        private static OutputNode AttachOutputToContents(OutputNode output, Node contents)
+        private static OutputNode AttachOutputToContents(OutputNode output, RegexNodeViewModelBase contents)
         {
             output.PreviousNode = contents;
 
@@ -58,10 +58,10 @@ namespace Nodexr.Shared.RegexParsers
             return output;
         }
 
-        private static IEnumerable<Node> GetPreviousNodes(Node parent)
+        private static IEnumerable<RegexNodeViewModelBase> GetPreviousNodes(RegexNodeViewModelBase parent)
         {
             var currentNode = parent;
-            while (currentNode.PreviousNode is Node previous)
+            while (currentNode.PreviousNode is RegexNodeViewModelBase previous)
             {
                 yield return previous;
                 currentNode = previous;

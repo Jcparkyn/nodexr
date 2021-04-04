@@ -18,17 +18,17 @@
 @functions{
     protected Type[] nodeTypes { get; set; }
 
-    List<(string name, Node[] nodes)> exampleCategories = new List<(string, Node[])>
+    List<(string name, RegexNodeViewModelBase[] nodes)> exampleCategories = new List<(string, RegexNodeViewModelBase[])>
     {
         ("Basics",
-        new Node[]
+        new RegexNodeViewModelBase[]
         {
             new TextNode(),
             new GroupNode(),
         }),
 
         ("Wildcards",
-        new Node[]
+        new RegexNodeViewModelBase[]
         {
             new WildcardNode(),
             new CharSetNode(),
@@ -37,14 +37,14 @@
         }),
 
         ("Alternation",
-        new Node[]
+        new RegexNodeViewModelBase[]
         {
             new OrNode(),
             new IfElseNode(),
         }),
 
         ("Repetition",
-        new Node[]
+        new RegexNodeViewModelBase[]
         {
             new QuantifierNode(),
             new ReferenceNode(),
@@ -52,21 +52,21 @@
         }),
 
         ("Zero-Width Anchors",
-        new Node[]
+        new RegexNodeViewModelBase[]
         {
             new AnchorNode(),
             new LookaroundNode(),
         }),
 
         ("Other",
-        new Node[]
+        new RegexNodeViewModelBase[]
         {
             new CommentNode(),
             new FlagNode(),
         }),
 
         ("Experimental",
-        new Node[]
+        new RegexNodeViewModelBase[]
         {
             new DecimalNode(),
             new IntegerNode(),

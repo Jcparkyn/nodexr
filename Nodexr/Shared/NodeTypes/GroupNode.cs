@@ -4,7 +4,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class GroupNode : Node
+    public class GroupNode : RegexNodeViewModelBase
     {
         public override string Title => "Group";
         public override string NodeInfo => "Wraps the input node in a group. A capturing or named group can be used later in a backrefence (with the 'Reference' node) or in the  Replacement Regex.";

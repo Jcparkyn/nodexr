@@ -8,7 +8,7 @@ using static Nodexr.Shared.NodeTypes.IQuantifiableNode;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class WhitespaceNode : Node, IQuantifiableNode
+    public class WhitespaceNode : RegexNodeViewModelBase, IQuantifiableNode
     {
         public override string Title => "Whitespace";
 

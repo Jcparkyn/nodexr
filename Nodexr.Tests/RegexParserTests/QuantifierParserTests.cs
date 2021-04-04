@@ -46,7 +46,7 @@ namespace Nodexr.Tests.RegexParserTests
         public void ParseQuantifier_AfterCharSet_ReturnsCharSetWithQuantifier(string input, string expectedContents)
         {
             var previous = CharSetParser.ParseCharSet;
-            var parser = previous.Cast<Node>().WithOptionalQuantifier();
+            var parser = previous.Cast<RegexNodeViewModelBase>().WithOptionalQuantifier();
             var node = parser.ParseOrThrow(input) as CharSetNode;
 
             Assert.That(node, Is.Not.Null);

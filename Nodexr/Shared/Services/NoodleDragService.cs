@@ -24,7 +24,7 @@ namespace Nodexr.Shared.Services
 
     public class NoodleDragService : INoodleDragService
     {
-        public INode NodeToDrag { get; set; }
+        public IRegexNodeViewModel NodeToDrag { get; set; }
         public NoodleDataCustom TempNoodle { get; } = new NoodleDataCustom() { Connected = false };
 
         private readonly IToastService toastService;
@@ -43,8 +43,8 @@ namespace Nodexr.Shared.Services
 
         public void OnStartNoodleDrag(INodeOutput nodeToDrag, Vector2 noodleEndPos)
         {
-            NodeToDrag = nodeToDrag as Node;
-            if(nodeToDrag is Node node)
+            NodeToDrag = nodeToDrag as RegexNodeViewModelBase;
+            if(nodeToDrag is RegexNodeViewModelBase node)
             {
                 NodeToDrag = node;
                 TempNoodle.Connected = true;

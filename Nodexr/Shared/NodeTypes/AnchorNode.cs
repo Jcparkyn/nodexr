@@ -6,7 +6,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class AnchorNode : Node
+    public class AnchorNode : RegexNodeViewModelBase
     {
         public override string Title => "Anchor";
 

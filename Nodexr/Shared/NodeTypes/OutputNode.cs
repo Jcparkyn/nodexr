@@ -4,7 +4,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class OutputNode : Node
+    public class OutputNode : RegexNodeViewModelBase
     {
         public override string Title => "Output";
 

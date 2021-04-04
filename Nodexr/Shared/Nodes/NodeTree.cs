@@ -14,12 +14,12 @@ namespace Nodexr.Shared.Nodes
     {
         public event EventHandler OutputChanged;
 
-        private readonly List<INode> nodes = new();
-        public IEnumerable<INode> Nodes => nodes.AsReadOnly();
+        private readonly List<IRegexNodeViewModel> nodes = new();
+        public IEnumerable<IRegexNodeViewModel> Nodes => nodes.AsReadOnly();
 
         public NodeResult CachedOutput { get; private set; }
 
-        public void AddNode(INode node)
+        public void AddNode(IRegexNodeViewModel node)
         {
             nodes.Add(node);
 
@@ -30,7 +30,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        public void DeleteNode(INode nodeToRemove)
+        public void DeleteNode(IRegexNodeViewModel nodeToRemove)
         {
             DeleteOutputNoodles(nodeToRemove);
             nodes.Remove(nodeToRemove);
@@ -61,7 +61,7 @@ namespace Nodexr.Shared.Nodes
             OutputChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private void DeleteOutputNoodles(INode nodeToRemove)
+        private void DeleteOutputNoodles(IRegexNodeViewModel nodeToRemove)
         {
             foreach (var node in nodes)
             {
@@ -72,7 +72,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        private static void DeleteNoodlesBetween(INode node, InputProcedural input)
+        private static void DeleteNoodlesBetween(IRegexNodeViewModel node, InputProcedural input)
         {
             if (input.ConnectedNode == node)
             {

@@ -12,9 +12,9 @@ namespace Nodexr.Shared.Services
 {
     public interface INodeDragService
     {
-        void OnStartNodeDrag(INode nodeToDrag, MouseEventArgs e);
+        void OnStartNodeDrag(IRegexNodeViewModel nodeToDrag, MouseEventArgs e);
         void OnDrop(MouseEventArgs e);
-        Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e);
+        Task OnStartCreateNodeDrag(IRegexNodeViewModel nodeToDrag, DragEventArgs e);
         void CancelDrag();
         bool IsDrag(MouseEventArgs e);
     }
@@ -24,7 +24,7 @@ namespace Nodexr.Shared.Services
         private readonly INodeHandler nodeHandler;
         private readonly IJSRuntime jsRuntime;
 
-        private INode nodeToDrag;
+        private IRegexNodeViewModel nodeToDrag;
         private List<InputProcedural> nodeToDragOutputs;
 
         private Vector2 cursorStartPos;
@@ -39,7 +39,7 @@ namespace Nodexr.Shared.Services
             jsRuntime.InvokeVoidAsync("addDotNetSingletonService", "DotNetNodeDragService", DotNetObjectReference.Create(this));
         }
 
-        public void OnStartNodeDrag(INode nodeToDrag, MouseEventArgs e)
+        public void OnStartNodeDrag(IRegexNodeViewModel nodeToDrag, MouseEventArgs e)
         {
             this.nodeToDrag = nodeToDrag;
 
@@ -59,7 +59,7 @@ namespace Nodexr.Shared.Services
             return mouseOffset.GetLength() > dragThreshold;
         }
 
-        public async Task OnStartCreateNodeDrag(INode nodeToDrag, DragEventArgs e)
+        public async Task OnStartCreateNodeDrag(IRegexNodeViewModel nodeToDrag, DragEventArgs e)
         {
             this.nodeToDrag = nodeToDrag;
             isDraggingNewNode = true;

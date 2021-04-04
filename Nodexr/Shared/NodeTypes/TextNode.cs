@@ -7,7 +7,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class TextNode : Node
+    public class TextNode : RegexNodeViewModelBase
     {
         public override string Title => "Text";
 

@@ -4,7 +4,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class ConcatNode : Node, INode
+    public class ConcatNode : RegexNodeViewModelBase
     {
         public override string Title => "Concatenate";
         public override string NodeInfo => "Concatenates (strings together) the outputs of multiple nodes, so that they come one after another. This could also be thought of as an 'And' or 'Then' node. The resulting regex will be order-sensitive, so order your inputs from top to bottom.";

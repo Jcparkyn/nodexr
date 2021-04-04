@@ -12,13 +12,13 @@ namespace Nodexr.Shared.RegexParsers
     public class NodeTreeBuilder
     {
         private readonly NodeTree tree;
-        private readonly Node endNode;
+        private readonly RegexNodeViewModelBase endNode;
         private readonly List<int> columnHeights = new();
         private const int SpacingX = 250;
         private const int SpacingY =20;
         private static readonly Vector2 outputPos = new(1000, 300);
 
-        public NodeTreeBuilder(Node endNode)
+        public NodeTreeBuilder(RegexNodeViewModelBase endNode)
         {
             this.endNode = endNode;
             tree = new NodeTree();
@@ -30,7 +30,7 @@ namespace Nodexr.Shared.RegexParsers
             return tree;
         }
 
-        private void FillColumns(Node endNode)
+        private void FillColumns(RegexNodeViewModelBase endNode)
         {
             tree.AddNode(endNode);
             int startHeight = (int)outputPos.y;
@@ -38,14 +38,14 @@ namespace Nodexr.Shared.RegexParsers
             AddNodeChildren(endNode, startHeight, 1);
         }
 
-        private static List<Node> GetChildren(Node node)
+        private static List<RegexNodeViewModelBase> GetChildren(RegexNodeViewModelBase node)
         {
             var inputs = node.GetAllInputs().OfType<InputProcedural>();
-            var children = inputs.Select(input => input.ConnectedNode).OfType<Node>().ToList();
+            var children = inputs.Select(input => input.ConnectedNode).OfType<RegexNodeViewModelBase>().ToList();
             return children;
         }
 
-        private void AddNodeChildren(Node parent, int pos, int column)
+        private void AddNodeChildren(RegexNodeViewModelBase parent, int pos, int column)
         {
             var children = GetChildren(parent);
             int childrenHeight = children.Skip(1).Select(node => node.GetHeight() + SpacingY).Sum();
@@ -58,7 +58,7 @@ namespace Nodexr.Shared.RegexParsers
             }
         }
 
-        private int AddToColumn (Node node, int pos, int column)
+        private int AddToColumn (RegexNodeViewModelBase node, int pos, int column)
         {
             if(columnHeights.Count <= column)
             {

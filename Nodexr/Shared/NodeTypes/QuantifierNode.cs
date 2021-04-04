@@ -7,7 +7,7 @@ using static Nodexr.Shared.NodeTypes.IQuantifiableNode;
 
 namespace Nodexr.Shared.NodeTypes
 {
-    public class QuantifierNode : Node, IQuantifiableNode
+    public class QuantifierNode : RegexNodeViewModelBase, IQuantifiableNode
     {
         public override string Title => "Quantifier";
 
@@ -86,7 +86,7 @@ namespace Nodexr.Shared.NodeTypes
             string prefix = "";
 
             //Surround with non-capturing group if necessary
-            if (InputContents.ConnectedNode is Node _node
+            if (InputContents.ConnectedNode is RegexNodeViewModelBase _node
                 && RequiresGroupToQuantify(_node))
             {
                 prefix += "(?:";
@@ -118,7 +118,7 @@ namespace Nodexr.Shared.NodeTypes
         /// <summary>
         /// Check whether the given node needs a non-capturing group before it can be quantified.
         /// </summary>
-        internal static bool RequiresGroupToQuantify(Node val)
+        internal static bool RequiresGroupToQuantify(RegexNodeViewModelBase val)
         {
             if (val is null) throw new ArgumentNullException(nameof(val));
 
