@@ -6,18 +6,33 @@ using System.Reflection;
 
 namespace Nodexr.Shared.Nodes
 {
-    public interface INodeViewModel : IPositionable
+    public interface INodeOutput
     {
+        Vector2 OutputPos { get; }
+        string CssName { get; }
+        string CssColor { get; }
+        NodeResult CachedOutput { get; }
+
+        event EventHandler OutputChanged;
+    }
+
+    public interface INodeViewModel : IPositionable, INodeOutput
+    {
+        string NodeInfo { get; }
         string Title { get; }
         bool IsCollapsed { get; set; }
 
         IEnumerable<NodeInput> NodeInputs { get; }
+
+        InputProcedural PrimaryInput { get; }
+        string OutputTooltip { get; }
 
         void CalculateInputsPos();
 
         void OnLayoutChanged(object sender, EventArgs e);
         void OnSelectionChanged(EventArgs e);
         void OnDeselected(EventArgs e);
+        IEnumerable<NodeInput> GetAllInputs();
 
         event EventHandler LayoutChanged;
         event EventHandler SelectionChanged;
@@ -38,7 +53,9 @@ namespace Nodexr.Shared.Nodes
         }
 
         public IEnumerable<NodeInput> NodeInputs { get; }
+        public abstract InputProcedural PrimaryInput { get; }
         public abstract string Title { get; }
+        public abstract string OutputTooltip { get; }
 
         public abstract Vector2 OutputPos { get; }
 
@@ -46,6 +63,7 @@ namespace Nodexr.Shared.Nodes
 
         public event EventHandler LayoutChanged;
         public event EventHandler SelectionChanged;
+        public abstract event EventHandler OutputChanged;
 
         public void OnLayoutChanged(object sender, EventArgs e)
         {
@@ -81,5 +99,8 @@ namespace Nodexr.Shared.Nodes
 
         public abstract string CssName { get; }
         public abstract string CssColor { get; }
+
+        public abstract NodeResult CachedOutput { get; }
+        public abstract string NodeInfo { get; }
     }
 }

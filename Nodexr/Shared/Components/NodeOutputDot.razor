@@ -10,7 +10,7 @@
     <div class="node-output-dot">
         <span class="outputtooltip">
             Output:<br />
-            @{string output = Data.CachedOutput.Expression;}
+            @{string output = Data.OutputTooltip;}
             <nobr>@(String.IsNullOrEmpty(output) ? "None" : output)</nobr>
         </span>
     </div>
@@ -18,7 +18,7 @@
 
 @functions
 {
-    [Parameter] public IRegexNodeViewModel Data { get; set; }
+    [Parameter] public INodeViewModel Data { get; set; }
 
     void OnDragStart()
     {

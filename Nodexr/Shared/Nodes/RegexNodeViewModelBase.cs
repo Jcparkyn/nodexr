@@ -6,23 +6,8 @@ using System.Reflection;
 
 namespace Nodexr.Shared.Nodes
 {
-    public interface INodeOutput
+    public interface IRegexNodeViewModel : INodeViewModel
     {
-        Vector2 OutputPos { get; }
-        string CssName { get; }
-        string CssColor { get; }
-        NodeResult CachedOutput { get; }
-
-        event EventHandler OutputChanged;
-    }
-
-    public interface IRegexNodeViewModel : IPositionable, INodeOutput
-    {
-        string Title { get; }
-        string NodeInfo { get; }
-        bool IsCollapsed { get; set; }
-
-        IEnumerable<NodeInput> NodeInputs { get; }
         InputProcedural Previous { get; }
 
         /// <summary>
@@ -30,45 +15,36 @@ namespace Nodexr.Shared.Nodes
         /// </summary>
         INodeOutput PreviousNode { get; set; }
 
-        void CalculateInputsPos();
-
         /// <summary>
         /// Get the height of the node, in pixels. Disabled inputs do not contribute to the height.
         /// </summary>
         int GetHeight();
-
-        void OnLayoutChanged(object sender, EventArgs e);
-        void OnSelectionChanged(EventArgs e);
-        void OnDeselected(EventArgs e);
-        IEnumerable<NodeInput> GetAllInputs();
-
-        event EventHandler LayoutChanged;
-        event EventHandler SelectionChanged;
     }
 
     public abstract class RegexNodeViewModelBase : NodeViewModelBase, IRegexNodeViewModel
     {
         public InputProcedural Previous { get; } = new InputProcedural();
-
+        public override InputProcedural PrimaryInput => Previous;
         public INodeOutput PreviousNode
         {
             get => Previous.ConnectedNode;
             set => Previous.ConnectedNode = value;
         }
 
-        public abstract string NodeInfo { get; }
+        private NodeResult cachedOutput;
+        public override NodeResult CachedOutput => cachedOutput;
 
-        public NodeResult CachedOutput { get; private set; }
+        public override string OutputTooltip => CachedOutput.Expression;
 
         public override Vector2 OutputPos => Pos + new Vector2(154, 13);
 
-        public event EventHandler OutputChanged;
+        public override event EventHandler OutputChanged;
 
         protected virtual void OnOutputChanged(EventArgs e) => OutputChanged?.Invoke(this, e);
 
         protected void OnInputsChanged(object sender, EventArgs e)
         {
-            CachedOutput = GetOutput();
+            cachedOutput = GetOutput();
             OnOutputChanged(EventArgs.Empty);
         }
 
