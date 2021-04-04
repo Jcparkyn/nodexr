@@ -1,0 +1,12 @@
+﻿
+@if (!String.IsNullOrEmpty(Input.Title))
+{
+    <div class="node-input-heading">@Input.Title</div>
+}
+<div class="node-input-filled">
+    <input type="number" class="input-field" min="@("" + Input.MinValue)" max="@("" + Input.MaxValue)" @bind-value="@Input.Value" @bind-value:event="oninput" />
+</div>
+
+@code {
+    [Parameter] public InputNumber Input { get; set; }
+}

@@ -3,38 +3,22 @@
     @switch (Data)
     {
         case InputString input:
-            @if (!String.IsNullOrEmpty(input.Title))
-            {
-                <div class="node-input-heading">@input.Title</div>
-            }
-            <div class="node-input-filled">
-                <input type="text" class="input-field" @bind-value="@input.Value" @bind-value:event="oninput" />
-            </div>
+            <InputStringView Input="input" />
             break;
         case InputNumber input:
-            @if (!String.IsNullOrEmpty(input.Title))
-            {
-                <div class="node-input-heading">@input.Title</div>
-            }
-            <div class="node-input-filled">
-                <input type="number" class="input-field" min="@("" + input.MinValue)" max="@("" + input.MaxValue)" @bind-value="@input.Value" @bind-value:event="oninput"/>
-            </div>
+            <InputNumberView Input="input" />
             break;
         case InputProcedural input:
-            <InputProceduralView Input="@input"/>
+            <InputProceduralView Input="@input" />
             break;
         case InputRange input:
-            <InputRangeView Input="@input"/>
+            <InputRangeView Input="@input" />
             break;
         case InputCheckbox input:
-            <div class="input-checkbox">
-                <label><input type="checkbox" @bind="@input.Checked" />@input.Title</label>
-            </div>
+            <InputCheckboxView Input="@input" />
             break;
         case InputCheckboxNullable input:
-            <div class="input-checkbox">
-                <label><ThreeStateToggle @bind-ButtonState="@input.CheckedState" />@input.Title</label>
-            </div>
+            <InputCheckboxNullableView Input="input"/>
             break;
         case InputDropdown input:
             <InputDropdownView Input="@input" />

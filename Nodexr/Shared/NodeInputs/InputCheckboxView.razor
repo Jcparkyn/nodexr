@@ -1,0 +1,7 @@
+﻿<div class="input-checkbox">
+    <label><input type="checkbox" @bind="@Input.Checked" />@Input.Title</label>
+</div>
+
+@code {
+    [Parameter] public InputCheckbox Input { get; set; }
+}
