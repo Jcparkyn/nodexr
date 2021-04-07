@@ -1,36 +1,17 @@
-﻿
+﻿@using BlazorNodes.Components
+
 <div title="@Data.Description">
-    @switch (Data)
-    {
-        case InputString input:
-            <InputStringView Input="input" />
-            break;
-        case InputNumber input:
-            <InputNumberView Input="input" />
-            break;
-        case InputProcedural input:
-            <InputProceduralView Input="@input" />
-            break;
-        case InputRange input:
-            <InputRangeView Input="@input" />
-            break;
-        case InputCheckbox input:
-            <InputCheckboxView Input="@input" />
-            break;
-        case InputCheckboxNullable input:
-            <InputCheckboxNullableView Input="input"/>
-            break;
-        case InputDropdown input:
-            <InputDropdownView Input="@input" />
-            break;
-        case InputCollection input:
-            <InputCollectionView Data="@input" />
-            break;
-    }
+    <DynamicComponent Type="InputViewModelProvider(Data)" Parameters="Params" />
 </div>
 
 @functions{
     [Parameter] public INodeInput Data { get; set; }
 
+    private Dictionary<string, object> Params => new()
+    {
+        ["Input"] = Data,
+    };
 
+    [CascadingParameter(Name = "InputViewModelProvider")]
+    Func<INodeInput, Type> InputViewModelProvider { get; set; }
 }

@@ -1,6 +1,7 @@
 ﻿@using Nodexr.Shared;
 @using Nodexr.Shared.NodeTypes;
 @using Nodexr.Shared.Components;
+@using Nodexr.Shared.NodeInputs;
 @inject INodeDragService NodeDragService
 @inject INoodleDragService NoodleDragService
 @inject INodeHandler NodeHandler
@@ -14,10 +15,15 @@
      ondragover="event.preventDefault()" @ondrop="@OnDrop" @onkeydown="@OnKeyDown" tabindex="-1">
     <div style="width:100%; height:100%; position:absolute;" @onclick="@OnClick"></div>
     <div id="nodegraph" style="position:relative; transform-origin:0% 0%; width:0px; height:0px;">
-        @foreach (var node in NodeHandler.Tree.Nodes)
-        {
-            <NodeView @key="node" Data="node" />
-        }
+        <CascadingValue
+            Value="(Func<INodeInput, Type>)InputViewModelProvider"
+            Name="InputViewModelProvider"
+            IsFixed="true">
+            @foreach (var node in NodeHandler.Tree.Nodes)
+            {
+                <NodeView @key="node" Data="node" />
+            }
+        </CascadingValue>
         <svg style="overflow:visible; position:absolute;">
             <NoodleSvg Noodle="NoodleDragService.TempNoodle" DomId="tempNoodle" />
         </svg>
@@ -33,6 +39,22 @@
     protected override bool ShouldRender() => shouldRender;
 
     private Vector2 clickStartPos; //Used to check whether an onclick event was actually a drag
+
+    private Type InputViewModelProvider(INodeInput input)
+    {
+        return input switch
+        {
+            InputCheckbox => typeof(InputCheckboxView),
+            InputCheckboxNullable => typeof(InputCheckboxNullableView),
+            InputCollection => typeof(InputCollectionView),
+            InputDropdown => typeof(InputDropdownView),
+            InputNumber => typeof(InputNumberView),
+            InputProcedural => typeof(InputProceduralView),
+            InputRange => typeof(InputRangeView),
+            InputString => typeof(InputStringView),
+            _ => throw new ArgumentOutOfRangeException($"No view class defined for type {input.GetType()}")
+        };
+    }
 
     protected override void OnInitialized()
     {
