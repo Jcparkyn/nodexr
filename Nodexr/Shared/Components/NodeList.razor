@@ -1,6 +1,4 @@
 ﻿@using Nodexr.Shared.NodeTypes;
-@inject INodeHandler NodeHandler
-@inject INodeDragService NodeDragService
 
 <div class="viewport sidebar panel">
     <div class="node-list-heading">Nodes</div>
@@ -12,23 +10,22 @@
             <NodeListPreview Data="node" />
         }
     }
-
 </div>
 
 @functions{
     protected Type[] nodeTypes { get; set; }
 
-    List<(string name, RegexNodeViewModelBase[] nodes)> exampleCategories = new List<(string, RegexNodeViewModelBase[])>
+    List<(string name, List<RegexNodeViewModelBase> nodes)> exampleCategories = new ()
     {
         ("Basics",
-        new RegexNodeViewModelBase[]
+        new ()
         {
             new TextNode(),
             new GroupNode(),
         }),
 
         ("Wildcards",
-        new RegexNodeViewModelBase[]
+        new ()
         {
             new WildcardNode(),
             new CharSetNode(),
@@ -37,14 +34,14 @@
         }),
 
         ("Alternation",
-        new RegexNodeViewModelBase[]
+        new ()
         {
             new OrNode(),
             new IfElseNode(),
         }),
 
         ("Repetition",
-        new RegexNodeViewModelBase[]
+        new ()
         {
             new QuantifierNode(),
             new ReferenceNode(),
@@ -52,21 +49,21 @@
         }),
 
         ("Zero-Width Anchors",
-        new RegexNodeViewModelBase[]
+        new ()
         {
             new AnchorNode(),
             new LookaroundNode(),
         }),
 
         ("Other",
-        new RegexNodeViewModelBase[]
+        new ()
         {
             new CommentNode(),
             new FlagNode(),
         }),
 
         ("Experimental",
-        new RegexNodeViewModelBase[]
+        new ()
         {
             new DecimalNode(),
             new IntegerNode(),

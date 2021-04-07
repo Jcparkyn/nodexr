@@ -1,5 +1,4 @@
-﻿@inject INodeHandler NodeHandler;
-@implements IDisposable
+﻿@implements IDisposable
 
 <path id="@DomId" class="noodle" d="@PathInstructions"
         style="@(Noodle.Connected ? "" : "display:none;") @CssStrokeStyle"/>
@@ -34,7 +33,6 @@
     protected override void OnInitialized()
     {
         Noodle.NoodleChanged += Refresh;
-        //NodeHandler.OnRequireNodeGraphRefresh += StateHasChanged;
     }
 
     public void Refresh(object sender, EventArgs e)

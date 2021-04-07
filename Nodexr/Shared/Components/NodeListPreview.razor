@@ -1,6 +1,6 @@
-
+﻿
 @inject INodeDragService NodeDragService
-@inject INodeHandler  NodeHandler
+@inject INodeHandler NodeHandler
 @inject IModalService Modal
 @inject IJSRuntime JSRuntime
 <div class="node node-preview" draggable="true" @ondragstart="@StartNodeDrag" @ondragend="NodeDragService.CancelDrag">
