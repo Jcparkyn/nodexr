@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Nodexr.Shared.NodeInputs
 {
-    public abstract class InputDropdown : NodeInput
+    public abstract class InputDropdown : NodeInputBase
     {
         public abstract string ValueDisplayName { get; set; }
 

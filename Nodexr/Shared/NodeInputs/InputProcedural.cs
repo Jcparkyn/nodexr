@@ -4,7 +4,7 @@ using Nodexr.Shared.Nodes;
 
 namespace Nodexr.Shared.NodeInputs
 {
-    public class InputProcedural : NodeInput, INoodleData
+    public class InputProcedural : NodeInputBase, INoodleData
     {
         private INodeOutput connectedNode;
 

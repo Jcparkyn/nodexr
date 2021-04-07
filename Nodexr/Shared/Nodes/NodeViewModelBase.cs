@@ -12,7 +12,6 @@ namespace Nodexr.Shared.Nodes
         string CssName { get; }
         string CssColor { get; }
         NodeResult CachedOutput { get; }
-
         event EventHandler OutputChanged;
     }
 
@@ -22,7 +21,7 @@ namespace Nodexr.Shared.Nodes
         string Title { get; }
         bool IsCollapsed { get; set; }
 
-        IEnumerable<NodeInput> NodeInputs { get; }
+        IEnumerable<INodeInput> NodeInputs { get; }
 
         InputProcedural PrimaryInput { get; }
         string OutputTooltip { get; }
@@ -32,7 +31,7 @@ namespace Nodexr.Shared.Nodes
         void OnLayoutChanged(object sender, EventArgs e);
         void OnSelectionChanged(EventArgs e);
         void OnDeselected(EventArgs e);
-        IEnumerable<NodeInput> GetAllInputs();
+        IEnumerable<INodeInput> GetAllInputs();
 
         event EventHandler LayoutChanged;
         event EventHandler SelectionChanged;
@@ -52,7 +51,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        public IEnumerable<NodeInput> NodeInputs { get; }
+        public IEnumerable<INodeInput> NodeInputs { get; }
         public abstract InputProcedural PrimaryInput { get; }
         public abstract string Title { get; }
         public abstract string OutputTooltip { get; }
@@ -86,11 +85,11 @@ namespace Nodexr.Shared.Nodes
                 .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)));
 
             NodeInputs = inputProperties
-                    .Select(prop => prop.GetValue(this) as NodeInput)
+                    .Select(prop => prop.GetValue(this) as INodeInput)
                     .ToList();
         }
 
-        public abstract IEnumerable<NodeInput> GetAllInputs();
+        public abstract IEnumerable<INodeInput> GetAllInputs();
 
         /// <summary>
         /// Set the position of each input based on the position of the node.

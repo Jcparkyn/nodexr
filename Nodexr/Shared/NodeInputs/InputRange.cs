@@ -1,6 +1,6 @@
 ﻿namespace Nodexr.Shared.NodeInputs
 {
-    public class InputRange : NodeInput
+    public class InputRange : NodeInputBase
     {
         private int? min;
 

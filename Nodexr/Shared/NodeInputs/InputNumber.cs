@@ -1,6 +1,6 @@
 ﻿namespace Nodexr.Shared.NodeInputs
 {
-    public class InputNumber : NodeInput
+    public class InputNumber : NodeInputBase
     {
         private int? _value;
 

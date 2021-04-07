@@ -8,9 +8,10 @@ namespace Nodexr.Shared.NodeInputs
         event EventHandler ValueChanged;
         Func<bool> Enabled { get; }
         string Description { get; set; }
+        int Height { get; }
     }
 
-    public abstract class NodeInput : INodeInput
+    public abstract class NodeInputBase : INodeInput
     {
         public string Title { get; set; }
 

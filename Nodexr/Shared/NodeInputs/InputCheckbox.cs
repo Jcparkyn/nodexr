@@ -1,6 +1,6 @@
 ﻿namespace Nodexr.Shared.NodeInputs
 {
-    public class InputCheckbox : NodeInput
+    public class InputCheckbox : NodeInputBase
     {
         private bool _checked;
 

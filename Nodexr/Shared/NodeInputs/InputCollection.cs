@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Nodexr.Shared.NodeInputs
 {
-    public class InputCollection : NodeInput
+    public class InputCollection : NodeInputBase
     {
         private readonly List<InputProcedural> inputs;
         public IReadOnlyCollection<InputProcedural> Inputs => inputs;

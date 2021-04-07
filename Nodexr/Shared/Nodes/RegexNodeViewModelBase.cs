@@ -143,7 +143,7 @@ namespace Nodexr.Shared.Nodes
         /// Get all of the inputs to the node, including the 'previous' input and the sub-inputs of any InputCollections.
         /// InputCollections themselves are not returned.
         /// </summary>
-        public override IEnumerable<NodeInput> GetAllInputs()
+        public override IEnumerable<INodeInput> GetAllInputs()
         {
             yield return Previous;
             foreach (var input in NodeInputs)
