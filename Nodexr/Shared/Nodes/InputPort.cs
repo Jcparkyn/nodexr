@@ -9,7 +9,6 @@
         /// Allows the ConnectedNode property to be accessed without the type argument.
         /// </summary>
         public INodeOutput ConnectedNodeUntyped { get; }
-        bool IsConnected { get; }
 
         /// <summary>
         /// Attempt to set the connected node using a weakly-typed <see cref="INodeOutput"/>.
@@ -50,8 +49,6 @@
         public override int Height => 32;
 
         public event EventHandler NoodleChanged;
-
-        public bool IsConnected => connectedNode != null;
 
         public TValue Value => ConnectedNode?.CachedOutput;
 

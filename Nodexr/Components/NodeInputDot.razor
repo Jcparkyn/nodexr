@@ -21,7 +21,7 @@
 
    void OnDragStart(DragEventArgs e)
    {
-       if (Input.IsConnected)
+       if (Input.Connected)
        {
            NoodleDragService.OnStartNoodleDrag(Input.ConnectedNodeUntyped, Input.Pos);
            Input.TrySetConnectedNode(null);

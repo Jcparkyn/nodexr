@@ -68,7 +68,7 @@ namespace Nodexr.RegexParsers
         {
             //This group is not needed if it is actually part of an OrNode
             if(contents is OrNode orNode
-                && !orNode.Previous.IsConnected)
+                && !orNode.Previous.Connected)
             {
                 if (node.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing)
                 {

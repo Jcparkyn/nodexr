@@ -47,7 +47,7 @@ namespace Nodexr.NodeTypes
 
             var builder = new NodeResultBuilder();
             builder.Append("(?" + flagsOn + flagsOff, this);
-            if (InputContents.IsConnected)
+            if (InputContents.Connected)
             {
                 builder.Append(":", this);
                 builder.Append(InputContents.Value);
