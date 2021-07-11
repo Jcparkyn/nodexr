@@ -29,6 +29,7 @@ namespace Nodexr.Shared.Nodes
         IEnumerable<INodeInput> NodeInputs { get; }
 
         string OutputTooltip { get; }
+        IInputPort PrimaryInput { get; set; }
 
         void CalculateInputsPos();
 
@@ -56,6 +57,7 @@ namespace Nodexr.Shared.Nodes
         }
 
         public IEnumerable<INodeInput> NodeInputs { get; }
+        public IInputPort PrimaryInput { get; set; }
         public abstract string Title { get; }
         public abstract string OutputTooltip { get; }
 

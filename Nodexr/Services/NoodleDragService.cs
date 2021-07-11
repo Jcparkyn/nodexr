@@ -16,14 +16,14 @@ namespace Nodexr.Services
         NoodleDragService.NoodleDataCustom TempNoodle { get; }
 
         void CancelDrag();
-        void OnDropNoodle(InputProcedural nodeInput);
+        void OnDropNoodle(IInputPort nodeInput);
         void OnStartNoodleDrag(INodeOutput nodeToDrag);
         void OnStartNoodleDrag(INodeOutput nodeToDrag, Vector2 noodleEndPos);
     }
 
     public class NoodleDragService : INoodleDragService
     {
-        public RegexNodeViewModelBase NodeToDrag { get; set; }
+        private INodeOutput nodeToDrag;
         public NoodleDataCustom TempNoodle { get; } = new NoodleDataCustom() { Connected = false };
 
         private readonly IToastService toastService;
@@ -42,43 +42,40 @@ namespace Nodexr.Services
 
         public void OnStartNoodleDrag(INodeOutput nodeToDrag, Vector2 noodleEndPos)
         {
-            NodeToDrag = nodeToDrag as RegexNodeViewModelBase;
-            if(nodeToDrag is RegexNodeViewModelBase node)
-            {
-                NodeToDrag = node;
-                TempNoodle.Connected = true;
+            this.nodeToDrag = nodeToDrag;
+            TempNoodle.Connected = true;
 
-                jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
-                    nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y);
+            jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
+                nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y);
 
-                TempNoodle.Refresh();
-            }
+            TempNoodle.Refresh();
         }
 
-        public void OnDropNoodle(InputProcedural nodeInput)
+        public void OnDropNoodle(IInputPort nodeInput)
         {
             TempNoodle.Connected = false;
 
-            if (NodeToDrag is null) return;
+            if (nodeToDrag is null) return;
 
-            if (NodeToDrag.IsDependentOn(nodeInput))
+            if (nodeToDrag is INodeViewModel node && node.IsDependentOn(nodeInput))
             {
                 toastService.ShowError(
                     "Cyclical dependencies would create a rift in the space-time continuum and are therefore not allowed. " +
                     "If you want to use the same node multiple times in a row, connect it to multiple inputs of a 'Concatenate' node.",
                     "Can't connect these nodes");
             }
-            else
+
+            if (!nodeInput.TrySetConnectedNode(nodeToDrag))
             {
-                nodeInput.ConnectedNode = NodeToDrag;
+                toastService.ShowError("Input and output type do not match.");
             }
 
-            NodeToDrag = null;
+            nodeToDrag = null;
         }
 
         public void CancelDrag()
         {
-            NodeToDrag = null;
+            nodeToDrag = null;
             TempNoodle.Connected = false;
 
             jsRuntime.InvokeVoidAsync("tempNoodle.endDrag");

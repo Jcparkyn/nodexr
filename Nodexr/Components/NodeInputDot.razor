@@ -12,24 +12,24 @@
 </div>
 
 @code {
-    [Parameter] public InputProcedural Input { get; set; }
-    [Parameter] public bool IsPrevious { get; set; } = false;
+   [Parameter] public IInputPort Input { get; set; }
+   [Parameter] public bool IsPrevious { get; set; } = false;
 
-    string CssClass => "node-input-dot" + (IsPrevious ? " input-dot-previous" : "");
+   string CssClass => "node-input-dot" + (IsPrevious ? " input-dot-previous" : "");
 
-    protected override bool ShouldRender() => false;
+   protected override bool ShouldRender() => false;
 
-    void OnDragStart(DragEventArgs e)
-    {
-        if (Input.ConnectedNode != null)
-        {
-            NoodleDragService.OnStartNoodleDrag(Input.ConnectedNode, Input.Pos);
-            Input.ConnectedNode = null;
-        }
-    }
+   void OnDragStart(DragEventArgs e)
+   {
+       if (Input.IsConnected)
+       {
+           NoodleDragService.OnStartNoodleDrag(Input.ConnectedNodeUntyped, Input.Pos);
+           Input.TrySetConnectedNode(null);
+       }
+   }
 
-    void OnDragEnd(DragEventArgs e)
-    {
-        NoodleDragService.CancelDrag();
-    }
+   void OnDragEnd(DragEventArgs e)
+   {
+       NoodleDragService.CancelDrag();
+   }
 }
