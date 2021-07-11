@@ -6,24 +6,7 @@ using System.Reflection;
 
 namespace Nodexr.Shared.Nodes
 {
-    public interface IRegexNodeViewModel : INodeViewModel
-    {
-        InputProcedural Previous { get; }
-
-        /// <summary>
-        /// The node connected to the 'Previous' input.
-        /// </summary>
-        INodeOutput PreviousNode { get; set; }
-
-        public abstract InputProcedural PrimaryInput { get; }
-
-        /// <summary>
-        /// Get the height of the node, in pixels. Disabled inputs do not contribute to the height.
-        /// </summary>
-        int GetHeight();
-    }
-
-    public abstract class RegexNodeViewModelBase : NodeViewModelBase<NodeResult>, IRegexNodeViewModel
+    public abstract class RegexNodeViewModelBase : NodeViewModelBase<NodeResult>
     {
         public InputProcedural Previous { get; } = new InputProcedural();
         public InputProcedural PrimaryInput => Previous;

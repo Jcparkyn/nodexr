@@ -44,6 +44,7 @@ namespace Nodexr.Shared.NodeInputs
 
         public bool IsConnected => connectedNode != null;
 
+        // TODO: Refactor to fix this temporary cast
         public NodeResult Value => (ConnectedNode as INodeOutput<NodeResult>)?.CachedOutput;
 
         /// <summary>

@@ -11,17 +11,17 @@ namespace Nodexr.Shared.Nodes
         /// Used for finding cyclic dependencies.
         /// </summary>
         /// <returns>True if there is a dependency, false otherwise</returns>
-        public static bool IsDependentOn(this IRegexNodeViewModel that, INodeInput childInput)
+        public static bool IsDependentOn(this RegexNodeViewModelBase that, INodeInput childInput)
         {
             return GetAllProceduralInputsRecursive(that).Any(input => input == childInput);
 
-            static IEnumerable<InputProcedural> GetAllProceduralInputsRecursive(IRegexNodeViewModel parent)
+            static IEnumerable<InputProcedural> GetAllProceduralInputsRecursive(RegexNodeViewModelBase parent)
             {
                 foreach (var input in parent.GetAllInputs().OfType<InputProcedural>())
                 {
                     yield return input;
 
-                    if (input.ConnectedNode is IRegexNodeViewModel childNode)
+                    if (input.ConnectedNode is RegexNodeViewModelBase childNode)
                     {
                         foreach (var input2 in GetAllProceduralInputsRecursive(childNode))
                             yield return input2;

@@ -23,7 +23,7 @@ namespace Nodexr.Services
 
     public class NoodleDragService : INoodleDragService
     {
-        public IRegexNodeViewModel NodeToDrag { get; set; }
+        public RegexNodeViewModelBase NodeToDrag { get; set; }
         public NoodleDataCustom TempNoodle { get; } = new NoodleDataCustom() { Connected = false };
 
         private readonly IToastService toastService;

@@ -18,7 +18,8 @@
             Value="(Func<INodeInput, Type>)InputViewModelProvider"
             Name="InputViewModelProvider"
             IsFixed="true">
-            @foreach (var node in NodeHandler.Tree.Nodes)
+            @*TODO: refactor to remove cast*@
+            @foreach (var node in NodeHandler.Tree.Nodes.OfType<RegexNodeViewModelBase>())
             {
                 <NodeView @key="node" Data="node" />
             }
