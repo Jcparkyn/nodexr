@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nodexr.Shared;
-using Nodexr.Shared.Services;
+using Nodexr.Services;
 using Blazored;
 using Blazored.Modal;
 using Blazored.Toast;

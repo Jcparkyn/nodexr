@@ -7,8 +7,9 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using Blazored.Toast.Services;
+using Nodexr.Shared;
 
-namespace Nodexr.Shared.Services
+namespace Nodexr.Services
 {
     public interface INoodleDragService
     {

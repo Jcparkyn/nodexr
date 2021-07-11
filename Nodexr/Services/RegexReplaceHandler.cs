@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Nodexr.Shared.Services
+namespace Nodexr.Services
 {
     public class RegexReplaceHandler
     {

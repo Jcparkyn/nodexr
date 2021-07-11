@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 
-namespace Nodexr.Shared.Services
+namespace Nodexr.Services
 {
     public static class ZoomHandler
     {

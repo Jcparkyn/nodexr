@@ -8,8 +8,9 @@ using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using System.Collections.Generic;
 using Nodexr.Utils;
+using Nodexr.Shared;
 
-namespace Nodexr.Shared.Services
+namespace Nodexr.Services
 {
     public interface INodeDragService
     {
