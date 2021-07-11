@@ -105,7 +105,7 @@ namespace Nodexr.Shared.Nodes
         public abstract string NodeInfo { get; }
     }
 
-    public abstract class NodeViewModelBase<TOutput> : NodeViewModelBase
+    public abstract class NodeViewModelBase<TOutput> : NodeViewModelBase, INodeOutput<TOutput>
     {
         public abstract TOutput CachedOutput { get; }
     }

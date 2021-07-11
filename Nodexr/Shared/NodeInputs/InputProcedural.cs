@@ -36,7 +36,7 @@ namespace Nodexr.Shared.NodeInputs
 
         public event EventHandler NoodleChanged;
 
-        [Obsolete("Use Value instead")]
+        [Obsolete("Use Value.Expression instead")]
         public string GetValue()
         {
             return (ConnectedNode as INodeOutput<NodeResult>)?.CachedOutput.Expression ?? "";

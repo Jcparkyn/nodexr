@@ -7,7 +7,7 @@ using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.Tests
 {
-    internal class FakeNodeOutput : INodeOutput
+    internal class FakeNodeOutput : INodeOutput<NodeResult>
     {
         private readonly string output;
 
