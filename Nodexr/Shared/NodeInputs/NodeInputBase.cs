@@ -29,12 +29,6 @@ namespace Nodexr.Shared.NodeInputs
 
         public virtual int Height { get; } = 32;
 
-        /// <summary>
-        /// Determines whether a change from this input should trigger a
-        /// re-render of noodles connected to the parent node.
-        /// </summary>
-        public virtual bool AffectsLayout { get; set; } = false;
-
         protected virtual void OnValueChanged(object sender, EventArgs e)
         {
             ValueChanged?.Invoke(this, e);
