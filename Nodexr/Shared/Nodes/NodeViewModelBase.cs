@@ -15,11 +15,12 @@ namespace Nodexr.Shared.Nodes
         event EventHandler OutputChanged;
     }
 
-    public interface INodeViewModel : IPositionable, INodeOutput
+    public interface INodeViewModel : INodeOutput
     {
         string NodeInfo { get; }
         string Title { get; }
         bool IsCollapsed { get; set; }
+        Vector2 Pos { get; set; }
 
         IEnumerable<INodeInput> NodeInputs { get; }
 

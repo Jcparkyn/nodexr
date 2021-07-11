@@ -2,12 +2,13 @@
 
 namespace Nodexr.Shared.NodeInputs
 {
-    public interface INodeInput : IPositionable
+    public interface INodeInput
     {
         string Title { get; set; }
         event EventHandler ValueChanged;
         Func<bool> Enabled { get; }
         string Description { get; set; }
+        Vector2 Pos { get; set; }
         int Height { get; }
     }
 
