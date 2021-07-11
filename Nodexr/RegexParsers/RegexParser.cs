@@ -9,9 +9,9 @@ using Nodexr.Shared.NodeInputs;
 using Nodexr.Shared.NodeTypes;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
-using static Nodexr.Shared.RegexParsers.ParsersShared;
+using static Nodexr.RegexParsers.ParsersShared;
 
-namespace Nodexr.Shared.RegexParsers
+namespace Nodexr.RegexParsers
 {
     public static class RegexParser
     {

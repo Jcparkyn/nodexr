@@ -7,7 +7,7 @@ using Nodexr.Shared;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 
-namespace Nodexr.Shared.RegexParsers
+namespace Nodexr.RegexParsers
 {
     public class NodeTreeBuilder
     {

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using Nodexr.Shared.Components;
-using Nodexr.Shared;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using System;

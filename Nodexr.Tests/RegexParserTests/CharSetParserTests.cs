@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using Pidgin;
-using Nodexr.Shared.RegexParsers;
+using Nodexr.RegexParsers;
 using Nodexr.Shared.NodeTypes;
 using Nodexr.Shared;
-using static Nodexr.Shared.RegexParsers.CharSetParser;
+using static Nodexr.RegexParsers.CharSetParser;
 
 namespace Nodexr.Tests.RegexParserTests
 {

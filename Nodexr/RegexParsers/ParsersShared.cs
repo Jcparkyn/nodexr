@@ -7,7 +7,7 @@ using Nodexr.Shared.NodeTypes;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
 
-namespace Nodexr.Shared.RegexParsers
+namespace Nodexr.RegexParsers
 {
     public static class ParsersShared
     {

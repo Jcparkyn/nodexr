@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Nodexr.Shared.NodeTypes;
-using Nodexr.Shared.RegexParsers;
+using Nodexr.RegexParsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.WebUtilities;
 using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
 using Blazored.Toast.Services;
 
 namespace Nodexr.Shared.Services
