@@ -3,7 +3,7 @@ using NUnit.Framework;
 using Nodexr;
 using System.Text.RegularExpressions;
 using Nodexr.Shared;
-using Nodexr.Shared.NodeTypes;
+using Nodexr.NodeTypes;
 
 namespace Nodexr.Tests
 {

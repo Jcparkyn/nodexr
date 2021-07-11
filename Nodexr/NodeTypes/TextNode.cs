@@ -4,8 +4,9 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
+using Nodexr.Utils;
 
-namespace Nodexr.Shared.NodeTypes
+namespace Nodexr.NodeTypes
 {
     public class TextNode : RegexNodeViewModelBase
     {

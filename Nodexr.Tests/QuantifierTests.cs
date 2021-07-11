@@ -4,9 +4,9 @@ using Nodexr;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Nodexr.Shared;
-using Nodexr.Shared.NodeTypes;
+using Nodexr.NodeTypes;
 
-using Reps = Nodexr.Shared.NodeTypes.IQuantifiableNode.Reps;
+using Reps = Nodexr.NodeTypes.IQuantifiableNode.Reps;
 
 namespace Nodexr.Tests
 {

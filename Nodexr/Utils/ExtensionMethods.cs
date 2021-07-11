@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Nodexr.Shared;
 
-namespace Nodexr.Shared
+namespace Nodexr.Utils
 {
     public static class ExtensionMethods
     {

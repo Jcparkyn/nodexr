@@ -4,9 +4,10 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
+using Nodexr.Utils;
 using System.Linq;
 
-namespace Nodexr.Shared.NodeTypes
+namespace Nodexr.NodeTypes
 {
     public class IntegerNode : RegexNodeViewModelBase
     {

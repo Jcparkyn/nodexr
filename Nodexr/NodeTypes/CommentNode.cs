@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 
-namespace Nodexr.Shared.NodeTypes
+namespace Nodexr.NodeTypes
 {
     public class CommentNode : RegexNodeViewModelBase
     {

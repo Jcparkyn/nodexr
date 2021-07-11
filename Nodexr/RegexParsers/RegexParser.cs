@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Pidgin;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
-using Nodexr.Shared.NodeTypes;
+using Nodexr.NodeTypes;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
 using static Nodexr.RegexParsers.ParsersShared;

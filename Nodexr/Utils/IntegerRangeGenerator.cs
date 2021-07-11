@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 //Algorithm based on answers in https://stackoverflow.com/questions/33512037/a-regular-expression-generator-for-number-ranges
 
-namespace Nodexr.Shared
+namespace Nodexr.Utils
 {
     public class IntegerRangeGenerator
     {
@@ -115,13 +115,13 @@ namespace Nodexr.Shared
                 return pairs;
             }
 
-            /* 
+            /*
              * Calculate first number ending with 0, which is greater than the start value.
-             * This will tell us whether or not start and end values differ only at last digit.	    
+             * This will tell us whether or not start and end values differ only at last digit.
              */
             int firstEndingWith0 = 10 * ((start + 9) / 10);
 
-            /* 
+            /*
              * Start and end values differ only at the last digit.
              */
             if (firstEndingWith0 > end) // not in range?
@@ -130,7 +130,7 @@ namespace Nodexr.Shared
                 return pairs;
             }
 
-            /* 
+            /*
              * start is not ending in 0.
              */
             if (start < firstEndingWith0)

@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 
-namespace Nodexr.Shared.NodeTypes
+namespace Nodexr.NodeTypes
 {
     public class IfElseNode : RegexNodeViewModelBase
     {

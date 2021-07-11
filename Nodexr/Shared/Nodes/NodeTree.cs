@@ -1,4 +1,4 @@
-﻿using Nodexr.Shared.NodeTypes;
+﻿using Nodexr.NodeTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

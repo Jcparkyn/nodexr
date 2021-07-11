@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Nodexr.Shared.NodeTypes;
+using Nodexr.NodeTypes;
 using Nodexr.RegexParsers;
 using System;
 using System.Collections.Generic;

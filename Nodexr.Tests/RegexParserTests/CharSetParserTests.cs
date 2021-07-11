@@ -4,7 +4,7 @@ using System.Text;
 using NUnit.Framework;
 using Pidgin;
 using Nodexr.RegexParsers;
-using Nodexr.Shared.NodeTypes;
+using Nodexr.NodeTypes;
 using Nodexr.Shared;
 using static Nodexr.RegexParsers.CharSetParser;
 

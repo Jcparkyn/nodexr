@@ -7,6 +7,7 @@ using System.Linq;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using System.Collections.Generic;
+using Nodexr.Utils;
 
 namespace Nodexr.Shared.Services
 {

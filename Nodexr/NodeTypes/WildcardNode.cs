@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
-using static Nodexr.Shared.NodeTypes.IQuantifiableNode;
+using static Nodexr.NodeTypes.IQuantifiableNode;
 
-namespace Nodexr.Shared.NodeTypes
+namespace Nodexr.NodeTypes
 {
     public class WildcardNode : RegexNodeViewModelBase, IQuantifiableNode
     {

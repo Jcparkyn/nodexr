@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 
-namespace Nodexr.Shared.NodeTypes
+namespace Nodexr.NodeTypes
 {
     public class DecimalNode : RegexNodeViewModelBase
     {

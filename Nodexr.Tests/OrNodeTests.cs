@@ -4,7 +4,7 @@ using Nodexr;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Nodexr.Shared;
-using Nodexr.Shared.NodeTypes;
+using Nodexr.NodeTypes;
 using System.Runtime.InteropServices;
 using System.Linq;
 
