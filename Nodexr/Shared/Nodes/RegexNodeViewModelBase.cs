@@ -15,16 +15,18 @@ namespace Nodexr.Shared.Nodes
         /// </summary>
         INodeOutput PreviousNode { get; set; }
 
+        public abstract InputProcedural PrimaryInput { get; }
+
         /// <summary>
         /// Get the height of the node, in pixels. Disabled inputs do not contribute to the height.
         /// </summary>
         int GetHeight();
     }
 
-    public abstract class RegexNodeViewModelBase : NodeViewModelBase, IRegexNodeViewModel
+    public abstract class RegexNodeViewModelBase : NodeViewModelBase<NodeResult>, IRegexNodeViewModel
     {
         public InputProcedural Previous { get; } = new InputProcedural();
-        public override InputProcedural PrimaryInput => Previous;
+        public InputProcedural PrimaryInput => Previous;
         public INodeOutput PreviousNode
         {
             get => Previous.ConnectedNode;

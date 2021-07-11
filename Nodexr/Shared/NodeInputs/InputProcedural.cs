@@ -36,14 +36,15 @@ namespace Nodexr.Shared.NodeInputs
 
         public event EventHandler NoodleChanged;
 
+        [Obsolete("Use Value instead")]
         public string GetValue()
         {
-            return ConnectedNode?.CachedOutput.Expression ?? "";
+            return (ConnectedNode as INodeOutput<NodeResult>)?.CachedOutput.Expression ?? "";
         }
 
         public bool IsConnected => connectedNode != null;
 
-        public NodeResult Value => ConnectedNode?.CachedOutput;
+        public NodeResult Value => (ConnectedNode as INodeOutput<NodeResult>)?.CachedOutput;
 
         /// <summary>
         /// Causes the connected noodle to be re-rendered

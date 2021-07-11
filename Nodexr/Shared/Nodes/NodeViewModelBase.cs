@@ -11,8 +11,12 @@ namespace Nodexr.Shared.Nodes
         Vector2 OutputPos { get; }
         string CssName { get; }
         string CssColor { get; }
-        NodeResult CachedOutput { get; }
         event EventHandler OutputChanged;
+    }
+
+    public interface INodeOutput<TOutput> : INodeOutput
+    {
+        TOutput CachedOutput { get; }
     }
 
     public interface INodeViewModel : INodeOutput
@@ -24,7 +28,6 @@ namespace Nodexr.Shared.Nodes
 
         IEnumerable<INodeInput> NodeInputs { get; }
 
-        InputProcedural PrimaryInput { get; }
         string OutputTooltip { get; }
 
         void CalculateInputsPos();
@@ -53,7 +56,6 @@ namespace Nodexr.Shared.Nodes
         }
 
         public IEnumerable<INodeInput> NodeInputs { get; }
-        public abstract InputProcedural PrimaryInput { get; }
         public abstract string Title { get; }
         public abstract string OutputTooltip { get; }
 
@@ -100,7 +102,11 @@ namespace Nodexr.Shared.Nodes
         public abstract string CssName { get; }
         public abstract string CssColor { get; }
 
-        public abstract NodeResult CachedOutput { get; }
         public abstract string NodeInfo { get; }
+    }
+
+    public abstract class NodeViewModelBase<TOutput> : NodeViewModelBase
+    {
+        public abstract TOutput CachedOutput { get; }
     }
 }
