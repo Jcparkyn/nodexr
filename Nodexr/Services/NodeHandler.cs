@@ -205,7 +205,7 @@ namespace Nodexr.Services
             var defaultTextNodeDog = new TextNode() { Pos = new Vector2(300, 450) };
             defaultTextNodeFox.Input.Value = "fox";
             defaultTextNodeDog.Input.Value = "dog";
-            var defaultOrNode = new OrNode(new List<INodeOutput>() { defaultTextNodeFox, defaultTextNodeDog })
+            var defaultOrNode = new OrNode(new [] { defaultTextNodeFox, defaultTextNodeDog })
             {
                 Pos = new Vector2(700, 300)
             };

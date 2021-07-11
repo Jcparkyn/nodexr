@@ -31,19 +31,13 @@ namespace Nodexr.NodeTypes
         /// <summary>
         /// Creates an OrNode with the given nodes as inputs.
         /// </summary>
-        public OrNode(IEnumerable<INodeOutput> inputs)
+        public OrNode(IEnumerable<INodeOutput<NodeResult>> inputs)
         {
             foreach (var input in inputs)
             {
                 Inputs.AddItem(input);
             }
         }
-
-        /// <summary>
-        /// Creates an OrNode with the given nodes as inputs.
-        /// This overload is to allow easy instantiation with params.
-        /// </summary>
-        public OrNode(params INodeOutput[] inputs) : this(inputs as IEnumerable<INodeOutput>) { }
 
         protected override NodeResultBuilder GetValue()
         {

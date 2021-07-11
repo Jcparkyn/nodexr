@@ -10,7 +10,7 @@ namespace Nodexr.Shared.Nodes
     {
         public InputProcedural Previous { get; } = new InputProcedural();
         public InputProcedural PrimaryInput => Previous;
-        public INodeOutput PreviousNode
+        public INodeOutput<NodeResult> PreviousNode
         {
             get => Previous.ConnectedNode;
             set => Previous.ConnectedNode = value;

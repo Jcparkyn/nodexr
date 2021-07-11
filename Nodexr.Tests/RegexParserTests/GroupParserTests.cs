@@ -20,7 +20,7 @@ namespace Nodexr.Tests.RegexParserTests
         {
             var result = ParseGroup.ParseOrThrow(input) as GroupNode;
             Assert.That(result, Is.Not.Null);
-            Assert.AreEqual(expectedContents, result.Input.GetValue());
+            Assert.AreEqual(expectedContents, result.Input.Value.Expression);
         }
     }
 }

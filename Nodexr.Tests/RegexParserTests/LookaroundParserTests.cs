@@ -28,7 +28,7 @@ namespace Nodexr.Tests.RegexParserTests
             {
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result, Is.TypeOf<LookaroundNode>());
-                Assert.AreEqual(expectedContents, lookaround.Input.GetValue());
+                Assert.AreEqual(expectedContents, lookaround.Input.Value.Expression);
                 Assert.AreEqual(expectedType, lookaround.InputGroupType.Value);
             });
         }

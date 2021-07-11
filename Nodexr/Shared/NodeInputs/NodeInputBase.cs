@@ -12,6 +12,11 @@ namespace Nodexr.Shared.NodeInputs
         int Height { get; }
     }
 
+    public interface INodeInput<TValue>
+    {
+        public TValue Value { get; }
+    }
+
     public abstract class NodeInputBase : INodeInput
     {
         public string Title { get; set; }
@@ -38,5 +43,10 @@ namespace Nodexr.Shared.NodeInputs
         {
             OnValueChanged(this, EventArgs.Empty);
         }
+    }
+
+    public abstract class NodeInputBase<TValue> : NodeInputBase, INodeInput<TValue>
+    {
+        public abstract TValue Value { get; }
     }
 }
