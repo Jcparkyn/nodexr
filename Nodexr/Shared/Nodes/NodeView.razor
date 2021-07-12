@@ -62,7 +62,7 @@
 @functions{
     [Parameter] public INodeViewModel Data { get; set; }
 
-    string CssClass => NodeHandler.IsNodeSelected(Data) ? "node-selected" : "";
+    string CssClass => NodeHandler.Tree.IsNodeSelected(Data) ? "node-selected" : "";
     string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
 
     protected override void OnInitialized()
@@ -100,13 +100,13 @@
     {
         if (!NodeDragService.IsDrag(e))
         {
-            NodeHandler.SelectNode(Data);
+            NodeHandler.Tree.SelectNode(Data);
         }
     }
 
     void Deselect()
     {
-        NodeHandler.DeselectAllNodes();
+        NodeHandler.Tree.DeselectAllNodes();
     }
 
     public void Dispose()

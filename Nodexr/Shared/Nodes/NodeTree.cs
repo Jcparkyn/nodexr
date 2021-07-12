@@ -12,12 +12,18 @@ namespace Nodexr.Shared.Nodes
 {
     public class NodeTree
     {
-        public event EventHandler OutputChanged;
-
         private readonly List<INodeViewModel> nodes = new();
+
         public IEnumerable<INodeViewModel> Nodes => nodes.AsReadOnly();
 
+        /// <summary>
+        /// The currently selected node.
+        /// </summary>
+        public INodeViewModel SelectedNode { get; set; }
+
         public NodeResult CachedOutput { get; private set; }
+
+        public event EventHandler OutputChanged;
 
         public void AddNode(INodeViewModel node)
         {
@@ -41,6 +47,31 @@ namespace Nodexr.Shared.Nodes
                 input.ConnectedNode = null;
             }
             RecalculateOutput();
+        }
+
+        public void SelectNode(INodeViewModel node)
+        {
+            var selectedNodePrevious = SelectedNode;
+            SelectedNode = node;
+            selectedNodePrevious?.OnSelectionChanged(EventArgs.Empty);
+            node.OnSelectionChanged(EventArgs.Empty);
+        }
+
+        public void DeselectAllNodes()
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.OnLayoutChanged(this, EventArgs.Empty);
+                var previousSelectedNode = SelectedNode;
+                SelectedNode = null;
+                previousSelectedNode.OnSelectionChanged(EventArgs.Empty);
+                //ForceRefreshNodeGraph();
+            }
+        }
+
+        public bool IsNodeSelected(INodeViewModel node)
+        {
+            return ReferenceEquals(SelectedNode, node);
         }
 
         private void OnOutputChanged(object sender, EventArgs e)

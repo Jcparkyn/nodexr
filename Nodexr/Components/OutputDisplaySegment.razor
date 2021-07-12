@@ -1,9 +1,9 @@
 ﻿@implements IDisposable
 @inject INodeHandler NodeHandler
 
-<span class="output-regex-text @(NodeHandler.IsNodeSelected(Segment.Node) ? "output-segment-selected" : "")"
+<span class="output-regex-text @(NodeHandler.Tree.IsNodeSelected(Segment.Node) ? "output-segment-selected" : "")"
       style="color:@(Segment.Node?.CssColor ?? "inherit")"
-       @onmouseover="@(() => NodeHandler.SelectNode(Segment.Node))"
+       @onmouseover="@(() => NodeHandler.Tree.SelectNode(Segment.Node))"
       title="@Segment.Node.Title"
       >@Segment.Expression</span>
 

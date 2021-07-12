@@ -20,16 +20,12 @@ namespace Nodexr.Services
         event EventHandler OnRequireNoodleRefresh;
         event EventHandler OnRequireNodeGraphRefresh;
 
-        INodeViewModel SelectedNode { get; }
         NodeTree Tree { get; }
 
         void DeleteSelectedNode();
         void ForceRefreshNodeGraph();
         void ForceRefreshNoodles();
-        void SelectNode(INodeViewModel node);
-        void DeselectAllNodes();
         void TryCreateTreeFromRegex(string regex);
-        bool IsNodeSelected(INodeViewModel node);
         void RevertPreviousParse();
     }
 
@@ -52,11 +48,6 @@ namespace Nodexr.Services
         }
 
         public NodeResult CachedOutput => Tree.CachedOutput;
-
-        /// <summary>
-        /// The currently selected node.
-        /// </summary>
-        public INodeViewModel SelectedNode { get; private set; }
 
         /// <summary>
         /// Called when the output of the node graph has changed.
@@ -152,44 +143,19 @@ namespace Nodexr.Services
             OnRequireNoodleRefresh?.Invoke(this, EventArgs.Empty);
         }
 
-        public void SelectNode(INodeViewModel node)
-        {
-            var selectedNodePrevious = SelectedNode;
-            SelectedNode = node;
-            selectedNodePrevious?.OnSelectionChanged(EventArgs.Empty);
-            node.OnSelectionChanged(EventArgs.Empty);
-        }
-
-        public void DeselectAllNodes()
-        {
-            if (SelectedNode != null)
-            {
-                SelectedNode.OnLayoutChanged(this, EventArgs.Empty);
-                var previousSelectedNode = SelectedNode;
-                SelectedNode = null;
-                previousSelectedNode.OnSelectionChanged(EventArgs.Empty);
-                //ForceRefreshNodeGraph();
-            }
-        }
-
-        public bool IsNodeSelected(INodeViewModel node)
-        {
-            return ReferenceEquals(SelectedNode, node);
-        }
-
         public void DeleteSelectedNode()
         {
-            if (SelectedNode is null)
+            if (Tree.SelectedNode is null)
             {
                 return;
             }
-            if (SelectedNode is OutputNode)
+            if (Tree.SelectedNode is OutputNode)
             {
                 toastService.ShowInfo("", "Can't delete the Output node");
                 return;
             }
-            Tree.DeleteNode(SelectedNode);
-            SelectedNode = null;
+            Tree.DeleteNode(Tree.SelectedNode);
+            Tree.SelectedNode = null;
             ForceRefreshNodeGraph();
         }
 
