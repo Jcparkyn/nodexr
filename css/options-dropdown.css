@@ -1,0 +1,38 @@
+﻿.options-dropdown-parent {
+        user-select: none;
+    }
+
+    .options-dropdown-parent :focus {
+        outline: none;
+    }
+
+    .options-dropdown-container {
+        position: absolute;
+        width: 11em;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 5px;
+        color: var(--col-text-medium);
+    }
+
+    .options-dropdown-button {
+        height: 1.5em;
+        display: inline-block;
+        color: #0469d4;
+        border-radius: 5px;
+        white-space: nowrap;
+        background-color: transparent;
+        padding: 0 4px;
+    }
+
+    .options-dropdown-button:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .options-dropdown-item {
+        display: block;
+        margin: 0.1em 0.5em;
+    }
+
+    .options-dropdown-label {
+        margin: 0;
+    }
