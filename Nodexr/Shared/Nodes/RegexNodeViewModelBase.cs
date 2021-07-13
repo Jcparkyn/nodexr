@@ -9,7 +9,7 @@ namespace Nodexr.Shared.Nodes
     public abstract class RegexNodeViewModelBase : NodeViewModelBase<NodeResult>
     {
         public InputProcedural Previous { get; } = new InputProcedural();
-        public InputProcedural PrimaryInput => Previous;
+        public override IInputPort PrimaryInput => Previous;
         public INodeOutput<NodeResult> PreviousNode
         {
             get => Previous.ConnectedNode;
