@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using Nodexr.ApiShared;
 using Nodexr.ApiShared.Pagination;
 using Nodexr.Shared.NodeTreeBrowser;
 using System;
@@ -11,7 +10,7 @@ using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Nodexr.Shared.Services
+namespace Nodexr.Services
 {
     public class NodeTreeBrowserService
     {
@@ -41,9 +40,7 @@ namespace Nodexr.Shared.Services
         public void LoadSelectedNodeTree()
         {
             if (SelectedNodeTree is null)
-            {
                 return;
-            }
             nodeHandler.TryCreateTreeFromRegex(SelectedNodeTree.Expression);
             //TODO: Load search/replace strings
         }
@@ -65,9 +62,7 @@ namespace Nodexr.Shared.Services
             };
 
             if (!string.IsNullOrEmpty(search))
-            {
                 queryParams.Add("search", search);
-            }
 
             string uri = QueryHelpers.AddQueryString($"{apiAddress}/nodetree", queryParams);
 

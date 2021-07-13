@@ -44,7 +44,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\js\GeneratedJS\" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Nodexr.ApiShared\Nodexr.ApiShared.csproj" />
   </ItemGroup>
