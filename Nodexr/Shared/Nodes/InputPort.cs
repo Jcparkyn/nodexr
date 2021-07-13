@@ -57,12 +57,17 @@
         /// <inheritdoc/>
         public bool TrySetConnectedNode(INodeOutput node)
         {
-            if (node is INodeOutput<TValue> nodeSafe)
+            switch (node)
             {
-                ConnectedNode = nodeSafe;
-                return true;
+                case INodeOutput<TValue> nodeSafe:
+                    ConnectedNode = nodeSafe;
+                    return true;
+                case null:
+                    ConnectedNode = null;
+                    return true;
+                default:
+                    return false;
             }
-            return false;
         }
 
         /// <summary>
