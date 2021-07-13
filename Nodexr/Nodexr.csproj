@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RazorLangVersion>3.0</RazorLangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -16,7 +15,7 @@
     <EmbeddedResource Remove="images\**" />
     <None Remove="images\**" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Blazored.Modal" Version="5.1.0" />
     <PackageReference Include="Blazored.Toast" Version="3.1.2" />
@@ -34,18 +33,18 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
-    
+
   </ItemGroup>
-  
+
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\js\ClipboardCopy.ts" />
     <TypeScriptCompile Include="wwwroot\js\NoodleDragHandler.ts" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Folder Include="wwwroot\js\GeneratedJS\" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\BlazorNodes\BlazorNodes.csproj" />
   </ItemGroup>
@@ -73,5 +72,5 @@
     <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
   </PropertyGroup>
-  
+
 </Project>
