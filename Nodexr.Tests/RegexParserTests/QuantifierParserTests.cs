@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using Pidgin;
-using Nodexr.Shared.RegexParsers;
-using Nodexr.Shared.NodeTypes;
+using Nodexr.RegexParsers;
+using Nodexr.NodeTypes;
 using Nodexr.Shared;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
-using static Nodexr.Shared.RegexParsers.QuantifierParser;
+using static Nodexr.RegexParsers.QuantifierParser;
 
 namespace Nodexr.Tests.RegexParserTests
 {
@@ -46,7 +46,7 @@ namespace Nodexr.Tests.RegexParserTests
         public void ParseQuantifier_AfterCharSet_ReturnsCharSetWithQuantifier(string input, string expectedContents)
         {
             var previous = CharSetParser.ParseCharSet;
-            var parser = previous.Cast<Node>().WithOptionalQuantifier();
+            var parser = previous.Cast<RegexNodeViewModelBase>().WithOptionalQuantifier();
             var node = parser.ParseOrThrow(input) as CharSetNode;
 
             Assert.That(node, Is.Not.Null);

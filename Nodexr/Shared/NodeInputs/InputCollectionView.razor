@@ -1,7 +1,7 @@
 ﻿@inject INodeHandler NodeHandler
 
 <button class="add-button" @onclick="@AddItem">Add Item</button>
-@foreach (var input in Data.Inputs)
+@foreach (var input in Input.Inputs)
 {
     <div style="display:flex;">
         <InputProceduralView Input="@input"/>
@@ -12,26 +12,26 @@
 }
 
 @functions{
-    [Parameter] public InputCollection Data { get; set; }
+    [Parameter] public InputCollection Input { get; set; }
 
     void AddItem()
     {
-        Data.AddItem();
+        Input.AddItem();
     }
 
     void MoveUp(InputProcedural input)
     {
-        Data.MoveUp(input);
+        Input.MoveUp(input);
     }
 
     void MoveDown(InputProcedural input)
     {
-        Data.MoveDown(input);
+        Input.MoveDown(input);
     }
 
     void RemoveItem(InputProcedural input)
     {
-        Data.RemoveItem(input);
+        Input.RemoveItem(input);
         NodeHandler.ForceRefreshNoodles();
     }
 }

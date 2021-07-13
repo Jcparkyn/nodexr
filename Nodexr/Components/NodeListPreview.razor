@@ -1,0 +1,41 @@
+﻿
+@inject INodeDragService NodeDragService
+@inject INodeHandler NodeHandler
+@inject IModalService Modal
+@inject IJSRuntime JSRuntime
+<div class="node node-preview" draggable="true" @ondragstart="@StartNodeDrag" @ondragend="NodeDragService.CancelDrag">
+    <div class="node-title collapsed" style="background-color: @Color; height:100%;">
+        <b> @Data.Title</b>
+        <button class="icon-button info-button"
+                @onclick="@ShowInfoModal">
+            <i class="fas fa-info-circle"></i>
+        </button>
+    </div>
+</div>
+@*<div class="separator"/>*@
+
+
+@functions {
+    [Parameter] public RegexNodeViewModelBase Data { get; set; }
+
+    string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
+
+    void ShowInfoModal()
+    {
+        var modalParameters = new ModalParameters();
+        modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
+        Modal.Show<NodeInfo>(Data.Title, modalParameters);
+    }
+
+    void StartNodeDrag(DragEventArgs e)
+    {
+        RegexNodeViewModelBase newNode = (RegexNodeViewModelBase)Activator.CreateInstance(Data.GetType());
+        NodeDragService.OnStartCreateNodeDrag(newNode, e);
+    }
+
+    void AddNode(Type type)
+    {
+        RegexNodeViewModelBase node = (RegexNodeViewModelBase)Activator.CreateInstance(type);
+        NodeHandler.Tree.AddNode(node);
+    }
+}

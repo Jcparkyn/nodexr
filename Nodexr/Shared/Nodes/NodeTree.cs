@@ -1,4 +1,4 @@
-﻿using Nodexr.Shared.NodeTypes;
+﻿using Nodexr.NodeTypes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,14 +12,20 @@ namespace Nodexr.Shared.Nodes
 {
     public class NodeTree
     {
-        public event EventHandler OutputChanged;
+        private readonly List<INodeViewModel> nodes = new();
 
-        private readonly List<INode> nodes = new();
-        public IEnumerable<INode> Nodes => nodes.AsReadOnly();
+        public IEnumerable<INodeViewModel> Nodes => nodes.AsReadOnly();
+
+        /// <summary>
+        /// The currently selected node.
+        /// </summary>
+        public INodeViewModel SelectedNode { get; set; }
 
         public NodeResult CachedOutput { get; private set; }
 
-        public void AddNode(INode node)
+        public event EventHandler OutputChanged;
+
+        public void AddNode(INodeViewModel node)
         {
             nodes.Add(node);
 
@@ -30,7 +36,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        public void DeleteNode(INode nodeToRemove)
+        public void DeleteNode(INodeViewModel nodeToRemove)
         {
             DeleteOutputNoodles(nodeToRemove);
             nodes.Remove(nodeToRemove);
@@ -41,6 +47,31 @@ namespace Nodexr.Shared.Nodes
                 input.ConnectedNode = null;
             }
             RecalculateOutput();
+        }
+
+        public void SelectNode(INodeViewModel node)
+        {
+            var selectedNodePrevious = SelectedNode;
+            SelectedNode = node;
+            selectedNodePrevious?.OnSelectionChanged(EventArgs.Empty);
+            node.OnSelectionChanged(EventArgs.Empty);
+        }
+
+        public void DeselectAllNodes()
+        {
+            if (SelectedNode != null)
+            {
+                SelectedNode.OnLayoutChanged(this, EventArgs.Empty);
+                var previousSelectedNode = SelectedNode;
+                SelectedNode = null;
+                previousSelectedNode.OnSelectionChanged(EventArgs.Empty);
+                //ForceRefreshNodeGraph();
+            }
+        }
+
+        public bool IsNodeSelected(INodeViewModel node)
+        {
+            return ReferenceEquals(SelectedNode, node);
         }
 
         private void OnOutputChanged(object sender, EventArgs e)
@@ -61,7 +92,7 @@ namespace Nodexr.Shared.Nodes
             OutputChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private void DeleteOutputNoodles(INode nodeToRemove)
+        private void DeleteOutputNoodles(INodeViewModel nodeToRemove)
         {
             foreach (var node in nodes)
             {
@@ -72,7 +103,7 @@ namespace Nodexr.Shared.Nodes
             }
         }
 
-        private static void DeleteNoodlesBetween(INode node, InputProcedural input)
+        private static void DeleteNoodlesBetween(INodeViewModel node, InputProcedural input)
         {
             if (input.ConnectedNode == node)
             {

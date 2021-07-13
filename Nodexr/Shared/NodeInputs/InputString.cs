@@ -1,7 +1,7 @@
 ﻿
 namespace Nodexr.Shared.NodeInputs
 {
-    public class InputString : NodeInput
+    public class InputString : NodeInputBase
     {
         private string _value;
 

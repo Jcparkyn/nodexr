@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Nodexr.Shared.NodeInputs
 {
-    public class InputCheckboxNullable : NodeInput
+    public class InputCheckboxNullable : NodeInputBase
     {
         private int checkedState;
 

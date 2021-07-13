@@ -1,0 +1,37 @@
+﻿@implements IDisposable
+@inject INodeHandler NodeHandler
+
+<span class="output-regex-text @(NodeHandler.Tree.IsNodeSelected(Segment.Node) ? "output-segment-selected" : "")"
+      style="color:@(Segment.Node?.CssColor ?? "inherit")"
+       @onmouseover="@(() => NodeHandler.Tree.SelectNode(Segment.Node))"
+      title="@Segment.Node.Title"
+      >@Segment.Expression</span>
+
+@code {
+    private RegexSegment segment { get; set; }
+    [Parameter] public RegexSegment Segment
+    {
+        get => segment;
+        set
+        {
+            //The view needs to be refreshed when the node is selected or deselected.
+            //This is done in the setter (instead of OnParametersSet) so the previous segment can be unsubscribed from.
+            if(segment != null)
+            {
+                segment.Node.SelectionChanged -= Refresh;
+            }
+            value.Node.SelectionChanged += Refresh;
+            segment = value;
+        }
+    }
+
+    private void Refresh(object sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        segment.Node.SelectionChanged -= Refresh;
+    }
+}

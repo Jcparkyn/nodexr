@@ -1,0 +1,32 @@
+﻿@using Microsoft.JSInterop;
+@inject INoodleDragService NoodleDragService;
+@inject IJSRuntime  JSRuntime;
+
+
+<div draggable="true" class="node-output-dot-parent"
+     ondragstart="tempNoodle.clearDragImage(event)"
+     @onmousedown="OnDragStart" @onmousedown:stopPropagation
+     @ondragend="OnDragEnd">
+    <div class="node-output-dot">
+        <span class="outputtooltip">
+            Output:<br />
+            @{string output = Data.OutputTooltip;}
+            <nobr>@(String.IsNullOrEmpty(output) ? "None" : output)</nobr>
+        </span>
+    </div>
+</div>
+
+@functions
+{
+    [Parameter] public INodeViewModel Data { get; set; }
+
+    void OnDragStart()
+    {
+        NoodleDragService.OnStartNoodleDrag(Data);
+    }
+
+    void OnDragEnd(DragEventArgs e)
+    {
+        NoodleDragService.CancelDrag();
+    }
+}

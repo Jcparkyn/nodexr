@@ -1,121 +1,118 @@
 ﻿
 @inject INodeDragService NodeDragService
-@inject INodeHandler  NodeHandler
+@inject INodeHandler NodeHandler
 @inject IModalService Modal
 @inject INoodleDragService NoodleDragService
 @inject IJSRuntime JSRuntime
 
 @implements IDisposable
 
-    <div class="node @CssClass"
-         style="transform: @CssTransform; --col-node-accent:@Data.CssColor;"
-         @ref="NodeDiv"
-         ondragleave="tempNoodle.setInvalid()"
-         ondragover="event.preventDefault(); tempNoodle.setValid();"
-         @onmousedown="StartDrag" @onmousedown:stopPropagation
-         @onclick="Select"
-         @onfocusin="Deselect"
-         @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.Previous))">
+<div class="node @CssClass"
+     style="transform: @CssTransform; --col-node-accent:@Data.CssColor;"
+     ondragleave="tempNoodle.setInvalid()"
+     ondragover="event.preventDefault(); tempNoodle.setValid();"
+     @onmousedown="StartDrag" @onmousedown:stopPropagation
+     @onclick="Select"
+     @onfocusin="Deselect"
+     @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.PrimaryInput))">
 
-        <div class="node-title @(Data.IsCollapsed ? "collapsed" : "")"
-             style="background-color: var(--col-node-accent);">
-            @if (!Data.IsCollapsed)
-            {
-                <button @onclick="ToggleCollapsed" class="collapse-button" title="Collapse"><i class="fas fa-chevron-down"></i></button>
-            }
-            else
-            {
-                <button @onclick="ToggleCollapsed" class="collapse-button" title="Uncollapse" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
-            }
-
-            <b>@Data.Title</b>
-            <button class="icon-button info-button" title="About this node"
-                    @onclick="ShowModal">
-                <i class="fas fa-info-circle"></i>
-            </button>
-        </div>
-
+    <div class="node-title @(Data.IsCollapsed ? "collapsed" : "")"
+         style="background-color: var(--col-node-accent);">
         @if (!Data.IsCollapsed)
         {
-            <div class="node-content"
-                @onclick:stopPropagation
-                @onkeydown:stopPropagation
-                @onmousedown:stopPropagation>
-                @foreach (INodeInput nodeInput in Data.NodeInputs)
-                {
-                    if (nodeInput.Enabled())
-                    {
-                        <NodeInputView Data="nodeInput" />
-                    }
-                }
-            </div>
+            <button @onclick="ToggleCollapsed" class="collapse-button" title="Collapse"><i class="fas fa-chevron-down"></i></button>
         }
-
-        <NodeInputDot Input="Data.Previous" IsPrevious="true" />
-
-        @*Output dot*@
-        @if (!(Data is OutputNode))
+        else
         {
-            <NodeOutputDot Data="Data" />
+            <button @onclick="ToggleCollapsed" class="collapse-button" title="Uncollapse" style="top:-2px;"><i class="fas fa-chevron-up"></i></button>
         }
+
+        <b>@Data.Title</b>
+        <button class="icon-button info-button" title="About this node"
+                @onclick="ShowModal">
+            <i class="fas fa-info-circle"></i>
+        </button>
     </div>
 
+    @if (!Data.IsCollapsed)
+    {
+        <div class="node-content"
+             @onclick:stopPropagation
+             @onkeydown:stopPropagation
+             @onmousedown:stopPropagation>
+            @foreach (INodeInput nodeInput in Data.NodeInputs)
+            {
+                if (nodeInput.Enabled())
+                {
+                    <NodeInputView Data="nodeInput" />
+                }
+            }
+        </div>
+    }
+
+    <NodeInputDot Input="Data.PrimaryInput" IsPrevious="true" />
+
+    @*Output dot*@
+    @if (!(Data is OutputNode))
+    {
+        <NodeOutputDot Data="Data" />
+    }
+</div>
 
 @functions{
-   [Parameter] public INode Data { get; set; }
-   ElementReference NodeDiv { get; set; }
+    [Parameter] public INodeViewModel Data { get; set; }
 
-   string CssClass => NodeHandler.IsNodeSelected(Data) ? "node-selected" : "";
-   string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
+    string CssClass => NodeHandler.Tree.IsNodeSelected(Data) ? "node-selected" : "";
+    string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
 
-   protected override void OnInitialized()
-   {
-      Data.OutputChanged += Refresh;
-      Data.LayoutChanged += Refresh;
-      Data.SelectionChanged += Refresh;
-   }
+    protected override void OnInitialized()
+    {
+        Data.OutputChanged += Refresh;
+        Data.LayoutChanged += Refresh;
+        Data.SelectionChanged += Refresh;
+    }
 
-   void ToggleCollapsed()
-   {
-      Data.IsCollapsed = !Data.IsCollapsed;
-      Data.OnLayoutChanged(this, EventArgs.Empty);
-   }
+    void ToggleCollapsed()
+    {
+        Data.IsCollapsed = !Data.IsCollapsed;
+        Data.OnLayoutChanged(this, EventArgs.Empty);
+    }
 
-   async Task StartDrag(MouseEventArgs e)
-   {
-      NodeDragService.OnStartNodeDrag(Data, e);
-      await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
-   }
+    async Task StartDrag(MouseEventArgs e)
+    {
+        NodeDragService.OnStartNodeDrag(Data, e);
+        await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
+    }
 
-   void ShowModal()
-   {
-      var modalParameters = new ModalParameters();
-      modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
-      Modal.Show<NodeInfo>(Data.Title, modalParameters);
-   }
+    void ShowModal()
+    {
+        var modalParameters = new ModalParameters();
+        modalParameters.Add(nameof(NodeInfo.InfoText), Data.NodeInfo);
+        Modal.Show<NodeInfo>(Data.Title, modalParameters);
+    }
 
-   void Refresh(object sender, EventArgs e)
-   {
-      StateHasChanged();
-   }
+    void Refresh(object sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
 
-   void Select(MouseEventArgs e)
-   {
-      if (!NodeDragService.IsDrag(e))
-      {
-         NodeHandler.SelectNode(Data);
-      }
-   }
+    void Select(MouseEventArgs e)
+    {
+        if (!NodeDragService.IsDrag(e))
+        {
+            NodeHandler.Tree.SelectNode(Data);
+        }
+    }
 
-   void Deselect()
-   {
-      NodeHandler.DeselectAllNodes();
-   }
+    void Deselect()
+    {
+        NodeHandler.Tree.DeselectAllNodes();
+    }
 
-   public void Dispose()
-   {
-      Data.OutputChanged -= Refresh;
-      Data.LayoutChanged -= Refresh;
-      Data.SelectionChanged -= Refresh;
-   }
+    public void Dispose()
+    {
+        Data.OutputChanged -= Refresh;
+        Data.LayoutChanged -= Refresh;
+        Data.SelectionChanged -= Refresh;
+    }
 }

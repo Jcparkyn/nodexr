@@ -1,0 +1,7 @@
+﻿<div class="input-checkbox">
+    <label><ThreeStateToggle @bind-ButtonState="@Input.CheckedState" />@Input.Title</label>
+</div>
+
+@code {
+    [Parameter] public InputCheckboxNullable Input { get; set; }
+}

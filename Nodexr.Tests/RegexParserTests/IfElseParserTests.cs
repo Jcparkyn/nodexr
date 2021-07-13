@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using Pidgin;
-using Nodexr.Shared.RegexParsers;
-using Nodexr.Shared.NodeTypes;
+using Nodexr.RegexParsers;
+using Nodexr.NodeTypes;
 using Nodexr.Shared;
-using static Nodexr.Shared.RegexParsers.GroupParser;
+using static Nodexr.RegexParsers.GroupParser;
 
 namespace Nodexr.Tests.RegexParserTests
 {
@@ -25,8 +25,8 @@ namespace Nodexr.Tests.RegexParserTests
                 Assert.That(result, Is.Not.Null);
                 //Assert.That(result, Is.TypeOf<LookaroundNode>());
                 Assert.AreEqual(expectedCondition, lookaround.InputCondition.GetValue());
-                Assert.AreEqual(expectedContents1, lookaround.InputThen.GetValue());
-                Assert.AreEqual(expectedContents2, lookaround.InputElse.GetValue());
+                Assert.AreEqual(expectedContents1, lookaround.InputThen.Value.Expression);
+                Assert.AreEqual(expectedContents2, lookaround.InputElse.Value.Expression);
             });
         }
     }

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Nodexr.Shared.NodeInputs
 {
-    public class InputCollection : NodeInput
+    public class InputCollection : NodeInputBase
     {
         private readonly List<InputProcedural> inputs;
         public IReadOnlyCollection<InputProcedural> Inputs => inputs;
@@ -29,7 +29,7 @@ namespace Nodexr.Shared.NodeInputs
             InputPositionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void AddItem(INodeOutput node = null)
+        public void AddItem(INodeOutput<NodeResult> node = null)
         {
             var newInput = new InputProcedural() { Title = Title };
             newInput.ConnectedNode = node;

@@ -1,0 +1,75 @@
+﻿@using Nodexr.NodeTypes;
+
+<div class="viewport sidebar panel fancy-scrollbar">
+    <div class="node-list-heading">Nodes</div>
+    @foreach (var category in exampleCategories)
+    {
+        <div class="node-list-subheading">@category.name</div>
+        foreach (var node in category.nodes)
+        {
+            <NodeListPreview Data="node" />
+        }
+    }
+</div>
+
+@functions{
+    protected Type[] nodeTypes { get; set; }
+
+    List<(string name, List<RegexNodeViewModelBase> nodes)> exampleCategories = new ()
+    {
+        ("Basics",
+        new ()
+        {
+            new TextNode(),
+            new GroupNode(),
+        }),
+
+        ("Wildcards",
+        new ()
+        {
+            new WildcardNode(),
+            new CharSetNode(),
+            new WhitespaceNode(),
+            new UnicodeNode(),
+        }),
+
+        ("Alternation",
+        new ()
+        {
+            new OrNode(),
+            new IfElseNode(),
+        }),
+
+        ("Repetition",
+        new ()
+        {
+            new QuantifierNode(),
+            new ReferenceNode(),
+            new ConcatNode(),
+        }),
+
+        ("Zero-Width Anchors",
+        new ()
+        {
+            new AnchorNode(),
+            new LookaroundNode(),
+        }),
+
+        ("Other",
+        new ()
+        {
+            new CommentNode(),
+            new FlagNode(),
+        }),
+
+        ("Experimental",
+        new ()
+        {
+            new DecimalNode(),
+            new IntegerNode(),
+            new OptionalNode(),
+            new ListNode(),
+            new RecursionNode(),
+        }),
+    };
+}
