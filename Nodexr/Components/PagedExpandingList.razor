@@ -8,18 +8,18 @@
     @ItemContent(item)
 }
 
-@if (NumItemsInNextLoad > 0)
+@if (isLoading || NumItemsInNextLoad > 0)
 {
     <button @onclick="LoadNextItems" disabled="@isLoading" class="btn btn-outline-light mt-3">
         @if (isLoading)
         {
             <div class="spinner-border spinner-border-sm" role="status">
-                <span class="sr-only">Loading</span>
+                <span class="sr-only"></span>
             </div>
         }
         else
         {
-            @:Load next @NumItemsInNextLoad items
+            @:Load @(isLastChunk ? "last" : "next") @NumItemsInNextLoad items
         }
     </button>
 }
@@ -36,6 +36,8 @@
     //Used to determine the value for the 'Load Next Items' button.
     private int NumItemsInNextLoad =>
         Math.Min(totalItemCount - items.Count, ChunkSize);
+
+    private bool isLastChunk => items.Count + ChunkSize >= totalItemCount;
 
     /// <summary>
     /// Gets or sets the function providing items to the list.
