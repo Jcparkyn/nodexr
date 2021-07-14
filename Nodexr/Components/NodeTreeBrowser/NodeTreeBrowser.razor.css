@@ -1,4 +1,5 @@
 ﻿.browser-container {
-    height: 600px;
-    width: 75rem;
+    height: 70vh;
+    max-width: 90vw;
+    width: 70rem;
 }
