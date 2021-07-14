@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Nodexr.Shared.NodeTreeBrowser
+namespace Nodexr.ApiShared.NodeTrees
 {
-    public class NodeTreePublishModel
+    public class NodeTreePreviewDto
     {
-        [Required]
         public string Title { get; set; }
 
         public string Expression { get; set; }

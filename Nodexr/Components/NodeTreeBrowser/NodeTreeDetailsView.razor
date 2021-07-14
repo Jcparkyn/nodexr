@@ -1,5 +1,4 @@
-﻿@using Nodexr.Shared.NodeTreeBrowser
-@inject NodeTreeBrowserService browserService
+﻿@inject NodeTreeBrowserService browserService
 @implements IDisposable
 
 @if (browserService.SelectedNodeTree != null)
@@ -17,7 +16,7 @@ else
 @code {
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 
-    private NodeTreePreviewModel Model => browserService.SelectedNodeTree;
+    private NodeTreePreviewDto Model => browserService.SelectedNodeTree;
 
     protected override void OnInitialized()
     {

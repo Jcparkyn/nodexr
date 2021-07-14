@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +13,7 @@ using System.Linq;
 using Nodexr.ApiShared;
 using Nodexr.ApiShared.Pagination;
 using Nodexr.ApiFunctions.Services;
+using Nodexr.ApiShared.NodeTrees;
 
 namespace Nodexr.ApiFunctions.Functions
 {
@@ -35,7 +36,12 @@ namespace Nodexr.ApiFunctions.Functions
             log.LogInformation("Creating new NodeTree");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var newTree = JsonConvert.DeserializeObject<NodeTreeModel>(requestBody);
+            var publishModel = JsonConvert.DeserializeObject<NodeTreePublishDto>(requestBody);
+            var newTree = new NodeTreeModel(publishModel.Title)
+            {
+                Description = publishModel.Description,
+                Expression = publishModel.Expression,
+            };
 
             //Add the new tree to the database
             dbContext.NodeTrees.Add(newTree);
@@ -73,10 +79,16 @@ namespace Nodexr.ApiFunctions.Functions
 
             var paginationFilter = new PaginationFilter(start, limit ?? 50);
 
-            IQueryable<NodeTreeModel> query = getNodeTreeService.GetAllNodeTrees(
+            var query = getNodeTreeService.GetAllNodeTrees(
                 titleSearch: titleSearch
                 )
-                .OrderBy(tree => tree.Title);
+                .OrderBy(tree => tree.Title)
+                .Select(tree => new NodeTreePreviewDto
+                {
+                    Description = tree.Description,
+                    Expression = tree.Expression,
+                    Title = tree.Title,
+                });
 
             var trees = await paginationFilter.ApplyTo(query);
 

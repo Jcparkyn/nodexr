@@ -1,5 +1,4 @@
-﻿@using Nodexr.Shared.NodeTreeBrowser
-@inject NodeTreeBrowserService browserService
+﻿@inject NodeTreeBrowserService browserService
 @inject INodeHandler nodeHandler
 @inject IToastService toastService
 
@@ -20,7 +19,7 @@
 </div>
 
 @code {
-    private NodeTreePublishModel model = new();
+    private NodeTreePublishDto model = new();
 
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 

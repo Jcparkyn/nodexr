@@ -1,5 +1,4 @@
-﻿@using Nodexr.Shared.NodeTreeBrowser
-
+﻿
 <li class="list-group-item bg-dark d-flex flex-row">
     <div class="flex-grow-1">
         <strong>@Model.Title</strong>
@@ -12,6 +11,6 @@
 
 
 @code {
-    [Parameter] public NodeTreePreviewModel Model { get; set; }
-    [Parameter] public Action<NodeTreePreviewModel> OnSelected { get; set; }
+    [Parameter] public NodeTreePreviewDto Model { get; set; }
+    [Parameter] public Action<NodeTreePreviewDto> OnSelected { get; set; }
 }

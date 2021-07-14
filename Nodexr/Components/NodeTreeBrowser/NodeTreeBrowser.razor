@@ -1,5 +1,4 @@
-﻿@using Nodexr.Shared.NodeTreeBrowser
-@using Microsoft.AspNetCore.Components.Web.Virtualization
+﻿@using Microsoft.AspNetCore.Components.Web.Virtualization
 @inject NodeTreeBrowserService browserService
 
 <div class="row browser-container">
@@ -35,14 +34,14 @@
         await listComponent.RefreshDataAsync();
     }
 
-    PagedExpandingList<NodeTreePreviewModel> listComponent;
+    PagedExpandingList<NodeTreePreviewDto> listComponent;
 
-    private void SelectNodeTree(NodeTreePreviewModel tree)
+    private void SelectNodeTree(NodeTreePreviewDto tree)
     {
         browserService.SelectedNodeTree = tree;
     }
 
-    private async ValueTask<ItemsProviderResult<NodeTreePreviewModel>> LoadNodeTrees(
+    private async ValueTask<ItemsProviderResult<NodeTreePreviewDto>> LoadNodeTrees(
         ItemsProviderRequest request)
     {
         //TODO: Handle HttpRequestException
@@ -54,11 +53,11 @@
                 request.StartIndex,
                 request.Count);
 
-            return new ItemsProviderResult<NodeTreePreviewModel>(nodeTreesPaged.Contents, nodeTreesPaged.TotalSize);
+            return new ItemsProviderResult<NodeTreePreviewDto>(nodeTreesPaged.Contents, nodeTreesPaged.TotalSize);
         }
         catch (OperationCanceledException)
         {
-            return new ItemsProviderResult<NodeTreePreviewModel>();
+            return new ItemsProviderResult<NodeTreePreviewDto>();
         }
     }
 }

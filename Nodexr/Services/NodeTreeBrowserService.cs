@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using Nodexr.ApiShared.NodeTrees;
 using Nodexr.ApiShared.Pagination;
-using Nodexr.Shared.NodeTreeBrowser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +17,10 @@ namespace Nodexr.Services
         private readonly HttpClient httpClient;
         private readonly INodeHandler nodeHandler;
         private readonly string apiAddress;
-        private NodeTreePreviewModel selectedNodeTree;
+        private NodeTreePreviewDto selectedNodeTree;
 
         public event EventHandler SelectedNodeTreeChanged;
-        public NodeTreePreviewModel SelectedNodeTree
+        public NodeTreePreviewDto SelectedNodeTree
         {
             get => selectedNodeTree;
             set
@@ -45,7 +45,7 @@ namespace Nodexr.Services
             //TODO: Load search/replace strings
         }
 
-        public async Task PublishNodeTree(NodeTreePublishModel model)
+        public async Task PublishNodeTree(NodeTreePublishDto model)
         {
             await httpClient.PostAsJsonAsync(
                 $"{apiAddress}/nodetree",
@@ -53,7 +53,7 @@ namespace Nodexr.Services
                 ).ConfigureAwait(false);
         }
 
-        public async Task<Paged<NodeTreePreviewModel>> GetAllNodeTrees(CancellationToken cancellationToken, string search = null, int start = 0, int limit = 50)
+        public async Task<Paged<NodeTreePreviewDto>> GetAllNodeTrees(CancellationToken cancellationToken, string search = null, int start = 0, int limit = 50)
         {
             var queryParams = new Dictionary<string, string>
             {
@@ -66,7 +66,7 @@ namespace Nodexr.Services
 
             string uri = QueryHelpers.AddQueryString($"{apiAddress}/nodetree", queryParams);
 
-            return await httpClient.GetFromJsonAsync<Paged<NodeTreePreviewModel>>(
+            return await httpClient.GetFromJsonAsync<Paged<NodeTreePreviewDto>>(
                     uri,
                     cancellationToken
                     ).ConfigureAwait(false);
