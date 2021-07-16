@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using Nodexr.Utils;
+using BlazorNodes.Core;
 
 namespace Nodexr.NodeTypes
 {

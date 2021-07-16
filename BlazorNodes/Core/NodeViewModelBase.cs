@@ -1,6 +1,4 @@
-﻿using Nodexr.Shared.NodeInputs;
-using Nodexr.Shared.Nodes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -73,7 +71,7 @@ namespace BlazorNodes.Core
         public void OnLayoutChanged(object sender, EventArgs e)
         {
             CalculateInputsPos();
-            foreach (var input in GetAllInputs().OfType<InputProcedural>())
+            foreach (var input in GetAllInputs().OfType<IInputPort>())
                 input.Refresh();
             LayoutChanged?.Invoke(this, e);
         }

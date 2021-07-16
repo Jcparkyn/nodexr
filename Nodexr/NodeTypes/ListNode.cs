@@ -5,6 +5,7 @@ using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using Nodexr.Utils;
 using static Nodexr.NodeTypes.IQuantifiableNode;
+using BlazorNodes.Core;
 
 namespace Nodexr.NodeTypes
 {

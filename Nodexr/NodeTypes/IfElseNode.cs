@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 
 namespace Nodexr.NodeTypes
 {
