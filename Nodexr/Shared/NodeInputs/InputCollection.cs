@@ -1,4 +1,5 @@
-﻿using Nodexr.Shared.Nodes;
+﻿using BlazorNodes.Core;
+using Nodexr.Shared.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

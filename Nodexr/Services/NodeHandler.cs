@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.WebUtilities;
 using Nodexr.Shared.Nodes;
 using Blazored.Toast.Services;
-using Nodexr.Shared;
+using BlazorNodes.Core;
 
 namespace Nodexr.Services
 {

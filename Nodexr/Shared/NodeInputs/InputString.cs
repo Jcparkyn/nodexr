@@ -1,4 +1,6 @@
 ﻿
+using BlazorNodes.Core;
+
 namespace Nodexr.Shared.NodeInputs
 {
     public class InputString : NodeInputBase

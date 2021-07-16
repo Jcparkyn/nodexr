@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Nodexr.Shared;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 
 namespace Nodexr.Tests
 {

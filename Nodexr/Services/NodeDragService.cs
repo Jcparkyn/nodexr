@@ -4,11 +4,10 @@ using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
-using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using System.Collections.Generic;
 using Nodexr.Utils;
-using Nodexr.Shared;
+using BlazorNodes.Core;
 
 namespace Nodexr.Services
 {

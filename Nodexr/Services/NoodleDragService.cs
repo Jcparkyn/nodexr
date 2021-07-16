@@ -7,7 +7,7 @@ using System;
 using System.Threading.Tasks;
 using System.Linq;
 using Blazored.Toast.Services;
-using Nodexr.Shared;
+using BlazorNodes.Core;
 
 namespace Nodexr.Services
 {

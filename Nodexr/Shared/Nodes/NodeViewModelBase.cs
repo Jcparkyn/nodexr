@@ -1,10 +1,11 @@
 ﻿using Nodexr.Shared.NodeInputs;
+using Nodexr.Shared.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Nodexr.Shared.Nodes
+namespace BlazorNodes.Core
 {
     public interface INodeOutput
     {
@@ -73,9 +74,7 @@ namespace Nodexr.Shared.Nodes
         {
             CalculateInputsPos();
             foreach (var input in GetAllInputs().OfType<InputProcedural>())
-            {
                 input.Refresh();
-            }
             LayoutChanged?.Invoke(this, e);
         }
 

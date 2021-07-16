@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 
 namespace Nodexr.Shared.Nodes
 {

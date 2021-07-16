@@ -1,7 +1,6 @@
-﻿namespace Nodexr.Shared.Nodes
+﻿namespace BlazorNodes.Core
 {
     using System;
-    using Nodexr.Shared.NodeInputs;
 
     public interface IInputPort : INodeInput, INoodleData
     {
@@ -28,13 +27,9 @@
             set
             {
                 if (connectedNode != null)
-                {
                     connectedNode.OutputChanged -= OnValueChanged;
-                }
                 if (value != null)
-                {
                     value.OutputChanged += OnValueChanged;
-                }
                 connectedNode = value;
                 OnValueChanged();
             }
