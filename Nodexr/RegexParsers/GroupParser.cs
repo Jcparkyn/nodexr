@@ -67,7 +67,7 @@ namespace Nodexr.RegexParsers
         private static RegexNodeViewModelBase WithContents(this GroupNode node, RegexNodeViewModelBase contents)
         {
             //This group is not needed if it is actually part of an OrNode
-            if(contents is OrNode orNode
+            if (contents is OrNode orNode
                 && !orNode.Previous.Connected)
             {
                 if (node.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing)

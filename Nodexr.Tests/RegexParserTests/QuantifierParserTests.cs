@@ -27,7 +27,7 @@ namespace Nodexr.Tests.RegexParserTests
             Assert.That(node, Is.TypeOf<QuantifierNode>());
             Assert.AreEqual(input, node.CachedOutput.Expression);
         }
-        
+
         [TestCase("+", IQuantifiableNode.Reps.OneOrMore)]
         [TestCase("*", IQuantifiableNode.Reps.ZeroOrMore)]
         [TestCase("?", IQuantifiableNode.Reps.ZeroOrOne)]

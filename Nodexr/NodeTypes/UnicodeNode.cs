@@ -31,8 +31,8 @@ namespace Nodexr.NodeTypes
 
         private static readonly Dictionary<Modes, string> modeDisplayNames = new()
         {
-            {Modes.Category, "Category/Block"},
-            {Modes.Hex, "Hex Code"},
+            { Modes.Category, "Category/Block" },
+            { Modes.Hex, "Hex Code" },
         };
 
         public UnicodeNode()

@@ -15,7 +15,7 @@ namespace Nodexr.RegexParsers
         private readonly RegexNodeViewModelBase endNode;
         private readonly List<int> columnHeights = new();
         private const int SpacingX = 250;
-        private const int SpacingY =20;
+        private const int SpacingY = 20;
         private static readonly Vector2 outputPos = new(1000, 300);
 
         public NodeTreeBuilder(RegexNodeViewModelBase endNode)
@@ -58,9 +58,9 @@ namespace Nodexr.RegexParsers
             }
         }
 
-        private int AddToColumn (RegexNodeViewModelBase node, int pos, int column)
+        private int AddToColumn(RegexNodeViewModelBase node, int pos, int column)
         {
-            if(columnHeights.Count <= column)
+            if (columnHeights.Count <= column)
             {
                 //Assumes that no columns are skipped
                 columnHeights.Add(int.MinValue);

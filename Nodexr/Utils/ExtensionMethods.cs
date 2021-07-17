@@ -21,7 +21,7 @@ namespace Nodexr.Utils
         public static string EscapeCharacters(this string input, IEnumerable<char> chars)
         {
             string result = "";
-            for(int i = 0; i < input.Length; i++)
+            for (int i = 0; i < input.Length; i++)
             {
                 if (chars.Contains(input[i]))
                 {

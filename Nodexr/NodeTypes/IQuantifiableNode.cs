@@ -25,12 +25,12 @@ namespace Nodexr.NodeTypes
 
         public static readonly Dictionary<Reps, string> displayNames = new()
         {
-            {Reps.One, "One"},
-            {Reps.ZeroOrMore, "Zero or more"},
-            {Reps.OneOrMore, "One or more"},
-            {Reps.ZeroOrOne, "Zero or one"},
-            {Reps.Number, "Number"},
-            {Reps.Range, "Range"}
+            { Reps.One, "One" },
+            { Reps.ZeroOrMore, "Zero or more" },
+            { Reps.OneOrMore, "One or more" },
+            { Reps.ZeroOrOne, "Zero or one" },
+            { Reps.Number, "Number" },
+            { Reps.Range, "Range" }
         };
 
         public static string GetSuffix(IQuantifiableNode node)

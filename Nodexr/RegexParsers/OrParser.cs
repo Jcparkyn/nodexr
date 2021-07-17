@@ -24,7 +24,7 @@ namespace Nodexr.RegexParsers
         private static RegexNodeViewModelBase CreateWithInputs(IEnumerable<RegexNodeViewModelBase> nodes)
         {
             var nodesList = nodes.ToList();
-            if(nodesList.Count == 1)
+            if (nodesList.Count == 1)
             {
                 return nodesList[0];
             }

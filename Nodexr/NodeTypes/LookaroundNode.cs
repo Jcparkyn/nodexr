@@ -29,10 +29,10 @@ namespace Nodexr.NodeTypes
 
         private static readonly Dictionary<Types, string> groupTypeDisplyNames = new()
         {
-            {Types.lookahead, "Lookahead"},
-            {Types.lookbehind, "Lookbehind"},
-            {Types.lookaheadNeg, "Negative Lookahead"},
-            {Types.lookbehindNeg, "Negative Lookbehind"},
+            { Types.lookahead, "Lookahead" },
+            { Types.lookbehind, "Lookbehind" },
+            { Types.lookaheadNeg, "Negative Lookahead" },
+            { Types.lookbehindNeg, "Negative Lookbehind" },
         };
 
         protected override NodeResultBuilder GetValue()

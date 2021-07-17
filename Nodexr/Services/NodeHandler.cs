@@ -42,7 +42,7 @@ namespace Nodexr.Services
             private set
             {
                 // TODO refactor this. The current implementation breaks if the Output node is replaced.
-                if(tree != null) GetOutputNode(tree).OutputChanged -= OnOutputChanged;
+                if (tree != null) GetOutputNode(tree).OutputChanged -= OnOutputChanged;
                 GetOutputNode(value).OutputChanged += OnOutputChanged;
                 tree = value;
             }
@@ -102,7 +102,7 @@ namespace Nodexr.Services
                 ForceRefreshNodeGraph();
                 OnOutputChanged(this, EventArgs.Empty);
 
-                if(CachedOutput.Expression == regex)
+                if (CachedOutput.Expression == regex)
                 {
                     var fragment = Components.ToastButton.GetRenderFragment(RevertPreviousParse, "Revert to previous");
                     toastService.ShowSuccess(fragment, "Converted to node tree successfully");
@@ -179,7 +179,7 @@ namespace Nodexr.Services
             var defaultTextNodeDog = new TextNode() { Pos = new Vector2(300, 450) };
             defaultTextNodeFox.Input.Value = "fox";
             defaultTextNodeDog.Input.Value = "dog";
-            var defaultOrNode = new OrNode(new [] { defaultTextNodeFox, defaultTextNodeDog })
+            var defaultOrNode = new OrNode(new[] { defaultTextNodeFox, defaultTextNodeDog })
             {
                 Pos = new Vector2(700, 300)
             };

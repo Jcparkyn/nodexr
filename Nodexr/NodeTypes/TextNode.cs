@@ -67,9 +67,9 @@ namespace Nodexr.NodeTypes
 
             static string StripUnnecessaryEscapes(string input)
             {
-                for(int i = 0; i < input.Length - 1; i++)
+                for (int i = 0; i < input.Length - 1; i++)
                 {
-                    if(input[i] == '\\'
+                    if (input[i] == '\\'
                         && CharsToEscape.Contains(input[i + 1]))
                     {
                         //Remove the backslash. This automatically causes the next character to be skipped.

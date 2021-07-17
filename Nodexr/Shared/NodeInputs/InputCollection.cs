@@ -51,7 +51,7 @@ namespace Nodexr.Shared.NodeInputs
 
         public void RemoveAll()
         {
-            foreach(var input in inputs)
+            foreach (var input in inputs)
             {
                 input.ValueChanged -= OnValueChanged;
             }

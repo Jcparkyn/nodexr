@@ -168,7 +168,7 @@ namespace Nodexr.NodeTypes
             string result = invert ? "[^" : "[";
             result += w ? "\\s" : "";
 
-            if(L && l && d && u)
+            if (L && l && d && u)
             {
                 result += "\\w";
             }

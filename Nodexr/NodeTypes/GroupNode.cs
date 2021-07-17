@@ -38,11 +38,11 @@ namespace Nodexr.NodeTypes
 
         private static readonly Dictionary<GroupTypes, string> groupTypeDisplayNames = new()
         {
-            {GroupTypes.capturing, "Capturing" },
-            {GroupTypes.nonCapturing, "Non-capturing" },
-            {GroupTypes.named, "Named" },
-            {GroupTypes.atomic, "Atomic" },
-            {GroupTypes.custom, "Custom" }
+            { GroupTypes.capturing, "Capturing" },
+            { GroupTypes.nonCapturing, "Non-capturing" },
+            { GroupTypes.named, "Named" },
+            { GroupTypes.atomic, "Atomic" },
+            { GroupTypes.custom, "Custom" }
         };
 
         public GroupNode()
@@ -55,7 +55,7 @@ namespace Nodexr.NodeTypes
         {
             var builder = new NodeResultBuilder(Input.Value);
 
-            if(Input.ConnectedNode is OrNode
+            if (Input.ConnectedNode is OrNode
                 || Input.ConnectedNode is IntegerNode
             )
             {

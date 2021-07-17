@@ -68,7 +68,7 @@ namespace Nodexr.RegexParsers
 
         private static void ConnectBefore(this RegexNodeViewModelBase first, RegexNodeViewModelBase second)
         {
-            if(second.PreviousNode is null)
+            if (second.PreviousNode is null)
             {
                 second.PreviousNode = first;
                 return;

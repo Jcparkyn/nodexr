@@ -70,7 +70,7 @@ namespace Nodexr.NodeTypes
             string whitespace = InputAllowWhitespace.Checked ? "\\s*?" : "";
 
             string separator = InputSeparator.Value;
-            if(!InputAllowRegex.Checked)
+            if (!InputAllowRegex.Checked)
                 separator = separator.EscapeCharacters(SeparatorCharsToEscape);
 
             int minReps = InputListLength.Min ?? 0;
