@@ -41,10 +41,10 @@ namespace Nodexr.Shared.Nodes
             DeleteOutputNoodles(nodeToRemove);
             nodes.Remove(nodeToRemove);
             foreach(var input in nodeToRemove.GetAllInputs()
-                .OfType<InputProcedural>()
+                .OfType<IInputPort>()
                 .Where(input => input.Connected))
             {
-                input.ConnectedNode = null;
+                input.TrySetConnectedNode(null);
             }
             RecalculateOutput();
         }
