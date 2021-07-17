@@ -1,14 +1,8 @@
-﻿using Nodexr.NodeTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
-using Nodexr.Shared;
-using Nodexr.Shared.NodeInputs;
-using BlazorNodes.Core;
 
-namespace Nodexr.Shared.Nodes
+namespace BlazorNodes.Core
 {
     public class NodeTree
     {
@@ -25,7 +19,7 @@ namespace Nodexr.Shared.Nodes
         {
             DeleteOutputNoodles(nodeToRemove);
             nodes.Remove(nodeToRemove);
-            foreach(var input in nodeToRemove.GetAllInputs()
+            foreach (var input in nodeToRemove.GetAllInputs()
                 .OfType<IInputPort>()
                 .Where(input => input.Connected))
             {
