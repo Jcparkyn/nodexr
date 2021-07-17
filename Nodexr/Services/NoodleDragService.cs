@@ -64,8 +64,7 @@ namespace Nodexr.Services
                     "If you want to use the same node multiple times in a row, connect it to multiple inputs of a 'Concatenate' node.",
                     "Can't connect these nodes");
             }
-
-            if (!nodeInput.TrySetConnectedNode(nodeToDrag))
+            else if (!nodeInput.TrySetConnectedNode(nodeToDrag))
             {
                 toastService.ShowError("Input and output type do not match.");
             }
