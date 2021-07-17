@@ -34,20 +34,21 @@ namespace Nodexr.Services
         private NodeTree tree;
 
         /// <summary>
-        /// The <c>NodeTree</c> containing the collection of nodes in the current expression.
+        /// The <see cref="NodeTree"/> containing the collection of nodes in the current expression.
         /// </summary>
         public NodeTree Tree
         {
             get => tree;
             private set
             {
-                if(tree != null) tree.OutputChanged -= OnOutputChanged;
-                value.OutputChanged += OnOutputChanged;
+                // TODO refactor this. The current implementation breaks if the Output node is replaced.
+                if(tree != null) GetOutputNode(tree).OutputChanged -= OnOutputChanged;
+                GetOutputNode(value).OutputChanged += OnOutputChanged;
                 tree = value;
             }
         }
 
-        public NodeResult CachedOutput => Tree.CachedOutput;
+        public NodeResult CachedOutput => GetOutputNode(Tree).CachedOutput;
 
         /// <summary>
         /// Called when the output of the node graph has changed.
@@ -81,11 +82,8 @@ namespace Nodexr.Services
 
             if (Tree is null)
             {
-                Tree = new NodeTree();
-                CreateDefaultNodes(Tree);
+                Tree = CreateDefaultNodeTree();
             }
-
-            Tree.OutputChanged += OnOutputChanged;
         }
 
         /// <summary>
@@ -159,8 +157,13 @@ namespace Nodexr.Services
                     Tree.DeleteNode(node);
                 }
             }
-
+            OutputChanged?.Invoke(this, EventArgs.Empty);
             ForceRefreshNodeGraph();
+        }
+
+        private static OutputNode GetOutputNode(NodeTree tree)
+        {
+            return tree.Nodes.OfType<OutputNode>().Single();
         }
 
         private void OnOutputChanged(object sender, EventArgs e)
@@ -168,8 +171,9 @@ namespace Nodexr.Services
             OutputChanged?.Invoke(this, e);
         }
 
-        private static void CreateDefaultNodes(NodeTree tree)
+        private static NodeTree CreateDefaultNodeTree()
         {
+            var tree = new NodeTree();
             var defaultOutput = new OutputNode() { Pos = new Vector2(1100, 300) };
             var defaultTextNodeFox = new TextNode() { Pos = new Vector2(300, 200) };
             var defaultTextNodeDog = new TextNode() { Pos = new Vector2(300, 450) };
@@ -184,6 +188,7 @@ namespace Nodexr.Services
             tree.AddNode(defaultTextNodeDog);
             tree.AddNode(defaultOrNode);
             tree.AddNode(defaultOutput);
+            return tree;
         }
     }
 }

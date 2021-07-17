@@ -16,19 +16,9 @@ namespace Nodexr.Shared.Nodes
 
         public IEnumerable<INodeViewModel> Nodes => nodes.AsReadOnly();
 
-        public NodeResult CachedOutput { get; private set; }
-
-        public event EventHandler OutputChanged;
-
         public void AddNode(INodeViewModel node)
         {
             nodes.Add(node);
-
-            if (node is OutputNode)
-            {
-                node.OutputChanged += OnOutputChanged;
-                RecalculateOutput();
-            }
         }
 
         public void DeleteNode(INodeViewModel nodeToRemove)
@@ -41,7 +31,6 @@ namespace Nodexr.Shared.Nodes
             {
                 input.TrySetConnectedNode(null);
             }
-            RecalculateOutput();
         }
 
         public void SelectNode(INodeViewModel node, bool unselectOthers = true)
@@ -67,40 +56,22 @@ namespace Nodexr.Shared.Nodes
         public IEnumerable<INodeViewModel> GetSelectedNodes() =>
             Nodes.Where(node => node.Selected);
 
-        private void OnOutputChanged(object sender, EventArgs e)
-        {
-            RecalculateOutput();
-        }
-
-        private OutputNode GetOutputNode()
-        {
-            return nodes.OfType<OutputNode>().Single();
-        }
-
-        public void RecalculateOutput()
-        {
-            var outputNode = GetOutputNode();
-
-            CachedOutput = outputNode.CachedOutput;
-            OutputChanged?.Invoke(this, EventArgs.Empty);
-        }
-
         private void DeleteOutputNoodles(INodeViewModel nodeToRemove)
         {
             foreach (var node in nodes)
             {
-                foreach (var input in node.GetAllInputs().OfType<InputProcedural>())
+                foreach (var input in node.GetAllInputs().OfType<IInputPort>())
                 {
                     DeleteNoodlesBetween(nodeToRemove, input);
                 }
             }
         }
 
-        private static void DeleteNoodlesBetween(INodeViewModel node, InputProcedural input)
+        private static void DeleteNoodlesBetween(INodeViewModel node, IInputPort input)
         {
-            if (input.ConnectedNode == node)
+            if (ReferenceEquals(input.ConnectedNodeUntyped, node))
             {
-                input.ConnectedNode = null;
+                input.TrySetConnectedNode(null);
             }
         }
     }
