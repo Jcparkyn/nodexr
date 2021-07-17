@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 //Algorithm based on answers in https://stackoverflow.com/questions/33512037/a-regular-expression-generator-for-number-ranges
 

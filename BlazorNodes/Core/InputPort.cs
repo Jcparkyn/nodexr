@@ -1,7 +1,7 @@
-﻿namespace BlazorNodes.Core
-{
-    using System;
+﻿using System;
 
+namespace BlazorNodes.Core
+{
     public interface IInputPort : INodeInput, INoodleData
     {
         /// <summary>

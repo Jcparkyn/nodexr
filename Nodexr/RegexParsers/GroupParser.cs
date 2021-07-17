@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Pidgin;
+﻿using Pidgin;
 using Nodexr.NodeTypes;
 using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
 using static Pidgin.Parser;
-using static Pidgin.Parser<char>;
-using static Nodexr.RegexParsers.ParsersShared;
 
 namespace Nodexr.RegexParsers
 {

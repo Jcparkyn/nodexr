@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Nodexr.Shared.Nodes;
+﻿using System.Collections.Generic;
 using Nodexr.Shared.NodeInputs;
 
 namespace Nodexr.NodeTypes

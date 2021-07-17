@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Pidgin;
-using Nodexr.RegexParsers;
 using Nodexr.NodeTypes;
-using Nodexr.Shared;
 using static Nodexr.RegexParsers.GroupParser;
 
 namespace Nodexr.Tests.RegexParserTests

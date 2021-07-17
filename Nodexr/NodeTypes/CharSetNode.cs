@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Nodexr.Shared.Nodes;
+﻿using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using BlazorNodes.Core;
 using static Nodexr.NodeTypes.IQuantifiableNode;
