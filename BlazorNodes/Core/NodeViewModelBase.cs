@@ -24,6 +24,7 @@ namespace BlazorNodes.Core
         string Title { get; }
         bool IsCollapsed { get; set; }
         Vector2 Pos { get; set; }
+        bool Selected { get; set; }
 
         IEnumerable<INodeInput> NodeInputs { get; }
 
@@ -33,8 +34,6 @@ namespace BlazorNodes.Core
         void CalculateInputsPos();
 
         void OnLayoutChanged(object sender, EventArgs e);
-        void OnSelectionChanged(EventArgs e);
-        void OnDeselected(EventArgs e);
         IEnumerable<INodeInput> GetAllInputs();
 
         event EventHandler LayoutChanged;
@@ -57,12 +56,23 @@ namespace BlazorNodes.Core
 
         public IEnumerable<INodeInput> NodeInputs { get; }
         public abstract IInputPort PrimaryInput { get; }
+        public bool IsCollapsed { get; set; }
+
+        private bool selected;
+        public bool Selected
+        {
+            get => selected;
+            set
+            {
+                if (value == selected) return;
+                selected = value;
+                SelectionChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
         public abstract string Title { get; }
         public abstract string OutputTooltip { get; }
 
         public abstract Vector2 OutputPos { get; }
-
-        public bool IsCollapsed { get; set; }
 
         public event EventHandler LayoutChanged;
         public event EventHandler SelectionChanged;
@@ -76,10 +86,6 @@ namespace BlazorNodes.Core
             LayoutChanged?.Invoke(this, e);
         }
 
-        public void OnSelectionChanged(EventArgs e) => SelectionChanged?.Invoke(this, e);
-
-        public void OnDeselected(EventArgs e) => SelectionChanged?.Invoke(this, e);
-
         protected NodeViewModelBase()
         {
             var inputProperties = GetType()
@@ -87,8 +93,8 @@ namespace BlazorNodes.Core
                 .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)));
 
             NodeInputs = inputProperties
-                    .Select(prop => prop.GetValue(this) as INodeInput)
-                    .ToList();
+                .Select(prop => prop.GetValue(this) as INodeInput)
+                .ToList();
         }
 
         public abstract IEnumerable<INodeInput> GetAllInputs();

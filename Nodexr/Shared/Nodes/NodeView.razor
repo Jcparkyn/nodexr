@@ -62,7 +62,7 @@
 @functions{
     [Parameter] public INodeViewModel Data { get; set; }
 
-    string CssClass => NodeHandler.Tree.IsNodeSelected(Data) ? "node-selected" : "";
+    string CssClass => Data.Selected ? "node-selected" : "";
     string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
 
     protected override void OnInitialized()

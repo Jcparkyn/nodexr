@@ -16,11 +16,6 @@ namespace Nodexr.Shared.Nodes
 
         public IEnumerable<INodeViewModel> Nodes => nodes.AsReadOnly();
 
-        /// <summary>
-        /// The currently selected node.
-        /// </summary>
-        public INodeViewModel SelectedNode { get; set; }
-
         public NodeResult CachedOutput { get; private set; }
 
         public event EventHandler OutputChanged;
@@ -49,30 +44,28 @@ namespace Nodexr.Shared.Nodes
             RecalculateOutput();
         }
 
-        public void SelectNode(INodeViewModel node)
+        public void SelectNode(INodeViewModel node, bool unselectOthers = true)
         {
-            var selectedNodePrevious = SelectedNode;
-            SelectedNode = node;
-            selectedNodePrevious?.OnSelectionChanged(EventArgs.Empty);
-            node.OnSelectionChanged(EventArgs.Empty);
+            if (node.Selected) return;
+
+            if (unselectOthers)
+            {
+                DeselectAllNodes();
+            }
+
+            node.Selected = true;
         }
 
         public void DeselectAllNodes()
         {
-            if (SelectedNode != null)
+            foreach (var node in GetSelectedNodes())
             {
-                SelectedNode.OnLayoutChanged(this, EventArgs.Empty);
-                var previousSelectedNode = SelectedNode;
-                SelectedNode = null;
-                previousSelectedNode.OnSelectionChanged(EventArgs.Empty);
-                //ForceRefreshNodeGraph();
+                node.Selected = false;
             }
         }
 
-        public bool IsNodeSelected(INodeViewModel node)
-        {
-            return ReferenceEquals(SelectedNode, node);
-        }
+        public IEnumerable<INodeViewModel> GetSelectedNodes() =>
+            Nodes.Where(node => node.Selected);
 
         private void OnOutputChanged(object sender, EventArgs e)
         {

@@ -22,7 +22,7 @@ namespace Nodexr.Services
 
         NodeTree Tree { get; }
 
-        void DeleteSelectedNode();
+        void DeleteSelectedNodes();
         void ForceRefreshNodeGraph();
         void ForceRefreshNoodles();
         void TryCreateTreeFromRegex(string regex);
@@ -143,19 +143,23 @@ namespace Nodexr.Services
             OnRequireNoodleRefresh?.Invoke(this, EventArgs.Empty);
         }
 
-        public void DeleteSelectedNode()
+        public void DeleteSelectedNodes()
         {
-            if (Tree.SelectedNode is null)
+            var selectedNodes = Tree.GetSelectedNodes().ToList();
+            if (selectedNodes.Count == 0) return;
+
+            foreach (var node in selectedNodes)
             {
-                return;
+                if (node is OutputNode)
+                {
+                    toastService.ShowInfo("", "Can't delete the Output node");
+                }
+                else
+                {
+                    Tree.DeleteNode(node);
+                }
             }
-            if (Tree.SelectedNode is OutputNode)
-            {
-                toastService.ShowInfo("", "Can't delete the Output node");
-                return;
-            }
-            Tree.DeleteNode(Tree.SelectedNode);
-            Tree.SelectedNode = null;
+
             ForceRefreshNodeGraph();
         }
 
