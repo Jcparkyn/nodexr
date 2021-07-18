@@ -43,5 +43,8 @@ namespace Nodexr.Utils
 
             return EscapeCharacters(input, charsToEscape);
         }
+
+        public static IEnumerable<(int index, T item)> Enumerate<T>(this IEnumerable<T> self) =>
+            self?.Select((item, index) => (index, item)) ?? Enumerable.Empty<(int, T)>();
     }
 }
