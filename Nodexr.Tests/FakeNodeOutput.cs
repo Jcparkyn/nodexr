@@ -8,7 +8,9 @@ namespace Nodexr.Tests
     {
         private readonly string output;
 
+#pragma warning disable CS0067 // TODO: use this in a test
         public event EventHandler OutputChanged;
+#pragma warning restore CS0067
 
         public Vector2 OutputPos => throw new NotImplementedException();
 

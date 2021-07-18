@@ -36,7 +36,12 @@ namespace Nodexr.Services
         {
             this.nodeHandler = nodeHandler;
             this.jsRuntime = jsRuntime;
-            jsRuntime.InvokeVoidAsync("addDotNetSingletonService", "DotNetNodeDragService", DotNetObjectReference.Create(this));
+            // TODO: refactor to avoid synchronous JS interop
+            ((IJSInProcessRuntime)jsRuntime).InvokeVoid(
+                "addDotNetSingletonService",
+                "DotNetNodeDragService",
+                DotNetObjectReference.Create(this)
+            );
         }
 
         public void OnStartNodeDrag(INodeViewModel nodeToDrag, MouseEventArgs e)

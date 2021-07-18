@@ -40,7 +40,8 @@ namespace Nodexr.Services
             this.nodeToDrag = nodeToDrag;
             TempNoodle.Connected = true;
 
-            jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
+            // TODO: refactor to avoid synchronous JS interop
+            ((IJSInProcessRuntime)jsRuntime).Invoke<object>("tempNoodle.startNoodleDrag",
                 nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y);
 
             TempNoodle.Refresh();
@@ -72,7 +73,8 @@ namespace Nodexr.Services
             nodeToDrag = null;
             TempNoodle.Connected = false;
 
-            jsRuntime.InvokeVoidAsync("tempNoodle.endDrag");
+            // TODO: refactor to avoid synchronous JS interop
+            ((IJSInProcessRuntime)jsRuntime).InvokeVoid("tempNoodle.endDrag");
 
             TempNoodle.Refresh();
         }
