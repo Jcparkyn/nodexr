@@ -4,8 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Nodexr.ApiFunctions.Models;
 using Nodexr.ApiFunctions.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 
 [assembly: FunctionsStartup(typeof(Nodexr.ApiFunctions.Startup))]

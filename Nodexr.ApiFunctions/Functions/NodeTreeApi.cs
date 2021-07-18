@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -8,10 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Nodexr.ApiFunctions.Models;
-using System.Collections.Generic;
 using System.Linq;
-using Nodexr.ApiShared;
-using Nodexr.ApiShared.Pagination;
 using Nodexr.ApiFunctions.Services;
 using Nodexr.ApiShared.NodeTrees;
 
