@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using Pidgin;
+﻿using Pidgin;
 using Nodexr.NodeTypes;
 using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
 using static Pidgin.Parser;
-using static Pidgin.Parser<char>;
-using static Nodexr.RegexParsers.ParsersShared;
 
 namespace Nodexr.RegexParsers
 {
@@ -67,7 +60,7 @@ namespace Nodexr.RegexParsers
         private static RegexNodeViewModelBase WithContents(this GroupNode node, RegexNodeViewModelBase contents)
         {
             //This group is not needed if it is actually part of an OrNode
-            if(contents is OrNode orNode
+            if (contents is OrNode orNode
                 && !orNode.Previous.Connected)
             {
                 if (node.InputGroupType.Value == GroupNode.GroupTypes.nonCapturing)

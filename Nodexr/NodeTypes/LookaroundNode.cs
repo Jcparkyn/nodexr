@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 
 namespace Nodexr.NodeTypes
 {
@@ -28,10 +26,10 @@ namespace Nodexr.NodeTypes
 
         private static readonly Dictionary<Types, string> groupTypeDisplyNames = new()
         {
-            {Types.lookahead, "Lookahead"},
-            {Types.lookbehind, "Lookbehind"},
-            {Types.lookaheadNeg, "Negative Lookahead"},
-            {Types.lookbehindNeg, "Negative Lookbehind"},
+            { Types.lookahead, "Lookahead" },
+            { Types.lookbehind, "Lookbehind" },
+            { Types.lookaheadNeg, "Negative Lookahead" },
+            { Types.lookbehindNeg, "Negative Lookbehind" },
         };
 
         protected override NodeResultBuilder GetValue()

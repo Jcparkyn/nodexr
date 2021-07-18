@@ -212,27 +212,3 @@
         padding-bottom: 2px;
         padding-left: 7px;
     }
-
-.add-button {
-    position: relative;
-    margin: 5px 0px 0px 0px;
-    font-size: 0.9rem;
-}
-
-    .add-button:hover {
-        background-color: rgba(0,0,0,0.1);
-    }
-
-.item-button {
-    position: relative;
-    width: 20px;
-    margin: 5px 0px 0px 0px;
-    background: none;
-    border: none;
-    border-radius: 6px;
-    color: var(--col-text-subtle);
-}
-
-    .item-button:hover {
-        background-color: rgba(0,0,0,0.1);
-    }

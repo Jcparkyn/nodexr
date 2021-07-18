@@ -1,0 +1,16 @@
+.item-button {
+    position: relative;
+    background: none;
+    padding: 0 4px;
+    color: var(--col-text-subtle);
+    transition: transform 0.2s;
+}
+
+    .item-button:disabled {
+        opacity: 0.5;
+    }
+
+    .item-button:hover:enabled {
+        color: var(--col-node-accent);
+        transform: scale(1.2);
+    }

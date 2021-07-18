@@ -1,4 +1,5 @@
-﻿using Nodexr.Shared.Nodes;
+﻿using BlazorNodes.Core;
+using Nodexr.Shared.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,7 @@ namespace Nodexr.Shared.NodeInputs
 
         public void RemoveAll()
         {
-            foreach(var input in inputs)
+            foreach (var input in inputs)
             {
                 input.ValueChanged -= OnValueChanged;
             }

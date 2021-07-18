@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 
 namespace Nodexr.NodeTypes
 {
@@ -19,10 +18,10 @@ namespace Nodexr.NodeTypes
 
         public static readonly Dictionary<Mode, string> modeDisplayNames = new()
         {
-            {Mode.StartLine, "Start of string"},
-            {Mode.EndLine, "End of string"},
-            {Mode.WordBoundary, "Word boundary"},
-            {Mode.NotWordBoundary, "Not word boundary"}
+            { Mode.StartLine, "Start of string" },
+            { Mode.EndLine, "End of string" },
+            { Mode.WordBoundary, "Word boundary" },
+            { Mode.NotWordBoundary, "Not word boundary" }
         };
 
         public enum Mode

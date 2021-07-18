@@ -2,13 +2,11 @@
 using Nodexr.NodeTypes;
 using Nodexr.RegexParsers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.WebUtilities;
 using Nodexr.Shared.Nodes;
 using Blazored.Toast.Services;
-using Nodexr.Shared;
+using BlazorNodes.Core;
 
 namespace Nodexr.Services
 {
@@ -22,7 +20,7 @@ namespace Nodexr.Services
 
         NodeTree Tree { get; }
 
-        void DeleteSelectedNode();
+        void DeleteSelectedNodes();
         void ForceRefreshNodeGraph();
         void ForceRefreshNoodles();
         void TryCreateTreeFromRegex(string regex);
@@ -34,20 +32,21 @@ namespace Nodexr.Services
         private NodeTree tree;
 
         /// <summary>
-        /// The <c>NodeTree</c> containing the collection of nodes in the current expression.
+        /// The <see cref="NodeTree"/> containing the collection of nodes in the current expression.
         /// </summary>
         public NodeTree Tree
         {
             get => tree;
             private set
             {
-                if(tree != null) tree.OutputChanged -= OnOutputChanged;
-                value.OutputChanged += OnOutputChanged;
+                // TODO refactor this. The current implementation breaks if the Output node is replaced.
+                if (tree != null) GetOutputNode(tree).OutputChanged -= OnOutputChanged;
+                GetOutputNode(value).OutputChanged += OnOutputChanged;
                 tree = value;
             }
         }
 
-        public NodeResult CachedOutput => Tree.CachedOutput;
+        public NodeResult CachedOutput => GetOutputNode(Tree).CachedOutput;
 
         /// <summary>
         /// Called when the output of the node graph has changed.
@@ -81,11 +80,8 @@ namespace Nodexr.Services
 
             if (Tree is null)
             {
-                Tree = new NodeTree();
-                CreateDefaultNodes(Tree);
+                Tree = CreateDefaultNodeTree();
             }
-
-            Tree.OutputChanged += OnOutputChanged;
         }
 
         /// <summary>
@@ -104,7 +100,7 @@ namespace Nodexr.Services
                 ForceRefreshNodeGraph();
                 OnOutputChanged(this, EventArgs.Empty);
 
-                if(CachedOutput.Expression == regex)
+                if (CachedOutput.Expression == regex)
                 {
                     var fragment = Components.ToastButton.GetRenderFragment(RevertPreviousParse, "Revert to previous");
                     toastService.ShowSuccess(fragment, "Converted to node tree successfully");
@@ -143,20 +139,29 @@ namespace Nodexr.Services
             OnRequireNoodleRefresh?.Invoke(this, EventArgs.Empty);
         }
 
-        public void DeleteSelectedNode()
+        public void DeleteSelectedNodes()
         {
-            if (Tree.SelectedNode is null)
+            var selectedNodes = Tree.GetSelectedNodes().ToList();
+            if (selectedNodes.Count == 0) return;
+
+            foreach (var node in selectedNodes)
             {
-                return;
+                if (node is OutputNode)
+                {
+                    toastService.ShowInfo("", "Can't delete the Output node");
+                }
+                else
+                {
+                    Tree.DeleteNode(node);
+                }
             }
-            if (Tree.SelectedNode is OutputNode)
-            {
-                toastService.ShowInfo("", "Can't delete the Output node");
-                return;
-            }
-            Tree.DeleteNode(Tree.SelectedNode);
-            Tree.SelectedNode = null;
+            OutputChanged?.Invoke(this, EventArgs.Empty);
             ForceRefreshNodeGraph();
+        }
+
+        private static OutputNode GetOutputNode(NodeTree tree)
+        {
+            return tree.Nodes.OfType<OutputNode>().Single();
         }
 
         private void OnOutputChanged(object sender, EventArgs e)
@@ -164,14 +169,15 @@ namespace Nodexr.Services
             OutputChanged?.Invoke(this, e);
         }
 
-        private static void CreateDefaultNodes(NodeTree tree)
+        private static NodeTree CreateDefaultNodeTree()
         {
+            var tree = new NodeTree();
             var defaultOutput = new OutputNode() { Pos = new Vector2(1100, 300) };
             var defaultTextNodeFox = new TextNode() { Pos = new Vector2(300, 200) };
             var defaultTextNodeDog = new TextNode() { Pos = new Vector2(300, 450) };
             defaultTextNodeFox.Input.Value = "fox";
             defaultTextNodeDog.Input.Value = "dog";
-            var defaultOrNode = new OrNode(new [] { defaultTextNodeFox, defaultTextNodeDog })
+            var defaultOrNode = new OrNode(new[] { defaultTextNodeFox, defaultTextNodeDog })
             {
                 Pos = new Vector2(700, 300)
             };
@@ -180,6 +186,7 @@ namespace Nodexr.Services
             tree.AddNode(defaultTextNodeDog);
             tree.AddNode(defaultOrNode);
             tree.AddNode(defaultOutput);
+            return tree;
         }
     }
 }

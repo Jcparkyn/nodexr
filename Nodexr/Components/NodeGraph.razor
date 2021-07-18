@@ -1,6 +1,4 @@
-﻿@using Nodexr.Shared;
-@using Nodexr.NodeTypes;
-@using Nodexr.Shared.NodeInputs;
+﻿@using Nodexr.Shared.NodeInputs;
 @inject INodeDragService NodeDragService
 @inject INoodleDragService NoodleDragService
 @inject INodeHandler NodeHandler
@@ -85,7 +83,7 @@
     {
         if (e.Key == "Delete" || e.Key == "Backspace")
         {
-            NodeHandler.DeleteSelectedNode();
+            NodeHandler.DeleteSelectedNodes();
         }
         else if (e.Key == "Escape")
         {

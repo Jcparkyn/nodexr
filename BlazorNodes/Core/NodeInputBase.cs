@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nodexr.Shared.NodeInputs
+namespace BlazorNodes.Core
 {
     public interface INodeInput
     {

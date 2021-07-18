@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 //Algorithm based on answers in https://stackoverflow.com/questions/33512037/a-regular-expression-generator-for-number-ranges
 
@@ -56,7 +54,7 @@ namespace Nodexr.Utils
         private static List<string> FormatPairsToRegEx(List<Pair> pairs)
         {
             List<string> list = new List<string>();
-            for (int i = 0; i < pairs.Count; i ++)
+            for (int i = 0; i < pairs.Count; i++)
             {
                 string start = pairs[i].min.ToString();
                 string end = pairs[i].max.ToString();
@@ -69,7 +67,7 @@ namespace Nodexr.Utils
                     {
                         result.Append(start[pos]);
                     }
-                    else if(start[pos] == '0' && end[pos] == '9')
+                    else if (start[pos] == '0' && end[pos] == '9')
                     {
                         result.Append("\\d");
                     }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using static Nodexr.NodeTypes.IQuantifiableNode;
+using BlazorNodes.Core;
 
 namespace Nodexr.NodeTypes
 {
@@ -167,7 +165,7 @@ namespace Nodexr.NodeTypes
             string result = invert ? "[^" : "[";
             result += w ? "\\s" : "";
 
-            if(L && l && d && u)
+            if (L && l && d && u)
             {
                 result += "\\w";
             }

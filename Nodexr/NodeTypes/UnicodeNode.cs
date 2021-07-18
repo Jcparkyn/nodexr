@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 
 namespace Nodexr.NodeTypes
 {
@@ -30,8 +28,8 @@ namespace Nodexr.NodeTypes
 
         private static readonly Dictionary<Modes, string> modeDisplayNames = new()
         {
-            {Modes.Category, "Category/Block"},
-            {Modes.Hex, "Hex Code"},
+            { Modes.Category, "Category/Block" },
+            { Modes.Hex, "Hex Code" },
         };
 
         public UnicodeNode()

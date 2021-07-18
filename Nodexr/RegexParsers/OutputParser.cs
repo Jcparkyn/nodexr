@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Pidgin;
 using Nodexr.NodeTypes;
 using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
-using static Pidgin.Parser;
-using static Pidgin.Parser<char>;
-using static Nodexr.RegexParsers.ParsersShared;
 
 namespace Nodexr.RegexParsers
 {
@@ -40,7 +34,7 @@ namespace Nodexr.RegexParsers
             }
 
             var previousNodes = GetPreviousNodes(output).ToList();
-            if(previousNodes.LastOrDefault() is AnchorNode anchorStart)
+            if (previousNodes.LastOrDefault() is AnchorNode anchorStart)
             {
                 var anchorParent = previousNodes[^2];
                 switch (anchorStart.InputAnchorType.Value)

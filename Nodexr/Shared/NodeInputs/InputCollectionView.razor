@@ -1,33 +1,42 @@
 ﻿@inject INodeHandler NodeHandler
 
-<button class="add-button" @onclick="@AddItem">Add Item</button>
-@foreach (var input in Input.Inputs)
+@foreach (var (index, subInput) in Input.Inputs.Enumerate())
 {
-    <div style="display:flex;">
-        <InputProceduralView Input="@input"/>
-        <button title="Move up" @onclick="@(() => MoveUp(input))" class="item-button"><i class="fas fa-chevron-up"></i></button>
-        <button title="Move down" @onclick="@(() => MoveDown(input))" class="item-button"><i class="fas fa-chevron-down"></i></button>
-        <button title="Delete input" @onclick="@(() => RemoveItem(input))" class="item-button"><i class="fas fa-times"></i></button>
+    bool isFirst = index == 0;
+    bool isLast = index >= Input.Inputs.Count - 1;
+    <div style="display:flex; align-items: flex-end;">
+        <InputProceduralView Input="@subInput" />
+        <button title="Move up"
+            disabled=@isFirst
+            @onclick="@(() => Input.MoveUp(subInput))"
+            class="item-button">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+        <button title="Move down"
+            disabled=@isLast
+            @onclick="@(() => Input.MoveDown(subInput))"
+            class="item-button">
+            <i class="fas fa-chevron-down"></i>
+        </button>
+        <button title="Delete input"
+            @onclick="@(() => RemoveItem(subInput))"
+            class="item-button">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
 }
 
-@functions{
+<div style="display:flex; justify-content:flex-end">
+    <button title="Add Item"
+            @onclick="@(() => Input.AddItem())"
+            class="item-button"
+            style="margin: 2px -2px -2px 0;">
+        <i class="fas fa-plus"></i>
+    </button>
+</div>
+
+@functions {
     [Parameter] public InputCollection Input { get; set; }
-
-    void AddItem()
-    {
-        Input.AddItem();
-    }
-
-    void MoveUp(InputProcedural input)
-    {
-        Input.MoveUp(input);
-    }
-
-    void MoveDown(InputProcedural input)
-    {
-        Input.MoveDown(input);
-    }
 
     void RemoveItem(InputProcedural input)
     {

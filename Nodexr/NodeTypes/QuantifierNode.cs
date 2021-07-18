@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nodexr.Shared;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using static Nodexr.NodeTypes.IQuantifiableNode;
 using Nodexr.Utils;
+using BlazorNodes.Core;
 
 namespace Nodexr.NodeTypes
 {
@@ -61,11 +61,11 @@ namespace Nodexr.NodeTypes
 
         private static readonly Dictionary<Reps, string> displayNamesExcludingOne = new()
         {
-            {Reps.ZeroOrMore, "Zero or more"},
-            {Reps.OneOrMore, "One or more"},
-            {Reps.ZeroOrOne, "Zero or one"},
-            {Reps.Number, "Number"},
-            {Reps.Range, "Range"}
+            { Reps.ZeroOrMore, "Zero or more" },
+            { Reps.OneOrMore, "One or more" },
+            { Reps.ZeroOrOne, "Zero or one" },
+            { Reps.Number, "Number" },
+            { Reps.Range, "Range" }
         };
 
         public QuantifierNode()

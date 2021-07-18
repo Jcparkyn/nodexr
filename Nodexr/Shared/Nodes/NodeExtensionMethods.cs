@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-using Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 
 namespace Nodexr.Shared.Nodes
 {
@@ -13,15 +13,15 @@ namespace Nodexr.Shared.Nodes
         /// <returns>True if there is a dependency, false otherwise</returns>
         public static bool IsDependentOn(this INodeViewModel that, INodeInput childInput)
         {
-            return GetAllProceduralInputsRecursive(that).Any(input => input == childInput);
+            return GetAllProceduralInputsRecursive(that).Contains(childInput);
 
-            static IEnumerable<InputProcedural> GetAllProceduralInputsRecursive(INodeViewModel parent)
+            static IEnumerable<IInputPort> GetAllProceduralInputsRecursive(INodeViewModel parent)
             {
-                foreach (var input in parent.GetAllInputs().OfType<InputProcedural>())
+                foreach (var input in parent.GetAllInputs().OfType<IInputPort>())
                 {
                     yield return input;
 
-                    if (input.ConnectedNode is INodeViewModel childNode)
+                    if (input.ConnectedNodeUntyped is INodeViewModel childNode)
                     {
                         foreach (var input2 in GetAllProceduralInputsRecursive(childNode))
                             yield return input2;

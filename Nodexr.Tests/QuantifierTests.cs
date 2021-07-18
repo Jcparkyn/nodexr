@@ -1,9 +1,4 @@
-﻿using System;
-using NUnit.Framework;
-using Nodexr;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using Nodexr.Shared;
+﻿using NUnit.Framework;
 using Nodexr.NodeTypes;
 
 using Reps = Nodexr.NodeTypes.IQuantifiableNode.Reps;

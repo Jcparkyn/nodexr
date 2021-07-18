@@ -1,13 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
 using System;
-using System.Threading.Tasks;
-using System.Linq;
 using Blazored.Toast.Services;
-using Nodexr.Shared;
+using BlazorNodes.Core;
 
 namespace Nodexr.Services
 {
@@ -64,8 +59,7 @@ namespace Nodexr.Services
                     "If you want to use the same node multiple times in a row, connect it to multiple inputs of a 'Concatenate' node.",
                     "Can't connect these nodes");
             }
-
-            if (!nodeInput.TrySetConnectedNode(nodeToDrag))
+            else if (!nodeInput.TrySetConnectedNode(nodeToDrag))
             {
                 toastService.ShowError("Input and output type do not match.");
             }

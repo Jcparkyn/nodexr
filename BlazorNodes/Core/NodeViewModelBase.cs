@@ -1,10 +1,9 @@
-﻿using Nodexr.Shared.NodeInputs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Nodexr.Shared.Nodes
+namespace BlazorNodes.Core
 {
     public interface INodeOutput
     {
@@ -25,6 +24,7 @@ namespace Nodexr.Shared.Nodes
         string Title { get; }
         bool IsCollapsed { get; set; }
         Vector2 Pos { get; set; }
+        bool Selected { get; set; }
 
         IEnumerable<INodeInput> NodeInputs { get; }
 
@@ -34,8 +34,6 @@ namespace Nodexr.Shared.Nodes
         void CalculateInputsPos();
 
         void OnLayoutChanged(object sender, EventArgs e);
-        void OnSelectionChanged(EventArgs e);
-        void OnDeselected(EventArgs e);
         IEnumerable<INodeInput> GetAllInputs();
 
         event EventHandler LayoutChanged;
@@ -58,12 +56,23 @@ namespace Nodexr.Shared.Nodes
 
         public IEnumerable<INodeInput> NodeInputs { get; }
         public abstract IInputPort PrimaryInput { get; }
+        public bool IsCollapsed { get; set; }
+
+        private bool selected;
+        public bool Selected
+        {
+            get => selected;
+            set
+            {
+                if (value == selected) return;
+                selected = value;
+                SelectionChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
         public abstract string Title { get; }
         public abstract string OutputTooltip { get; }
 
         public abstract Vector2 OutputPos { get; }
-
-        public bool IsCollapsed { get; set; }
 
         public event EventHandler LayoutChanged;
         public event EventHandler SelectionChanged;
@@ -72,16 +81,10 @@ namespace Nodexr.Shared.Nodes
         public void OnLayoutChanged(object sender, EventArgs e)
         {
             CalculateInputsPos();
-            foreach (var input in GetAllInputs().OfType<InputProcedural>())
-            {
+            foreach (var input in GetAllInputs().OfType<IInputPort>())
                 input.Refresh();
-            }
             LayoutChanged?.Invoke(this, e);
         }
-
-        public void OnSelectionChanged(EventArgs e) => SelectionChanged?.Invoke(this, e);
-
-        public void OnDeselected(EventArgs e) => SelectionChanged?.Invoke(this, e);
 
         protected NodeViewModelBase()
         {
@@ -90,8 +93,8 @@ namespace Nodexr.Shared.Nodes
                 .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)));
 
             NodeInputs = inputProperties
-                    .Select(prop => prop.GetValue(this) as INodeInput)
-                    .ToList();
+                .Select(prop => prop.GetValue(this) as INodeInput)
+                .ToList();
         }
 
         public abstract IEnumerable<INodeInput> GetAllInputs();

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Nodexr.Shared;
+using BlazorNodes.Core;
 
 namespace Nodexr.Utils
 {
@@ -21,7 +21,7 @@ namespace Nodexr.Utils
         public static string EscapeCharacters(this string input, IEnumerable<char> chars)
         {
             string result = "";
-            for(int i = 0; i < input.Length; i++)
+            for (int i = 0; i < input.Length; i++)
             {
                 if (chars.Contains(input[i]))
                 {
@@ -43,5 +43,8 @@ namespace Nodexr.Utils
 
             return EscapeCharacters(input, charsToEscape);
         }
+
+        public static IEnumerable<(int index, T item)> Enumerate<T>(this IEnumerable<T> self) =>
+            self?.Select((item, index) => (index, item)) ?? Enumerable.Empty<(int, T)>();
     }
 }

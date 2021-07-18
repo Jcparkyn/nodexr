@@ -1,8 +1,8 @@
-﻿using Nodexr.Shared.NodeInputs;
+﻿using BlazorNodes.Core;
+using Nodexr.Shared.NodeInputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Nodexr.Shared.Nodes
 {
@@ -82,13 +82,13 @@ namespace Nodexr.Shared.Nodes
                 {
                     if (input is InputCollection inputColl)
                     {
-                        startHeight += 28;
                         inputColl.Pos = new Vector2(Pos.x, Pos.y + startHeight);
                         foreach (var input2 in inputColl.Inputs)
                         {
                             input2.Pos = new Vector2(Pos.x, Pos.y + startHeight);
                             startHeight += input2.Height;
                         }
+                        startHeight += 28;
                     }
                     else
                     {

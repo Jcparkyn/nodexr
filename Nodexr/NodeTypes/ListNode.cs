@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Nodexr.Shared;
-using Nodexr.Shared.Nodes;
+﻿using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using Nodexr.Utils;
-using static Nodexr.NodeTypes.IQuantifiableNode;
+using BlazorNodes.Core;
 
 namespace Nodexr.NodeTypes
 {
@@ -69,7 +66,7 @@ namespace Nodexr.NodeTypes
             string whitespace = InputAllowWhitespace.Checked ? "\\s*?" : "";
 
             string separator = InputSeparator.Value;
-            if(!InputAllowRegex.Checked)
+            if (!InputAllowRegex.Checked)
                 separator = separator.EscapeCharacters(SeparatorCharsToEscape);
 
             int minReps = InputListLength.Min ?? 0;

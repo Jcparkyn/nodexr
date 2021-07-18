@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nodexr.Shared
+namespace BlazorNodes.Core
 {
     public readonly struct Vector2
     {
@@ -15,7 +15,7 @@ namespace Nodexr.Shared
 
         public double GetLength()
         {
-            return Math.Sqrt((x * x) + (y * y));
+            return Math.Sqrt(x * x + y * y);
         }
 
         public static Vector2 operator -(Vector2 v1)

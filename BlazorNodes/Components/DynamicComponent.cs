@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 
 // This file is copied from the ASP.NET 6.0 source code, and will be removed once the project is migrated to .NET 6.0.
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -105,3 +106,5 @@ namespace BlazorNodes.Components
         }
     }
 }
+
+#nullable restore
