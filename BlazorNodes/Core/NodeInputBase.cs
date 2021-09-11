@@ -4,10 +4,10 @@ namespace BlazorNodes.Core
 {
     public interface INodeInput
     {
-        string Title { get; set; }
+        string? Title { get; set; }
         event EventHandler ValueChanged;
         Func<bool> Enabled { get; }
-        string Description { get; set; }
+        string? Description { get; set; }
         Vector2 Pos { get; set; }
         int Height { get; }
     }
@@ -19,14 +19,14 @@ namespace BlazorNodes.Core
 
     public abstract class NodeInputBase : INodeInput
     {
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// The description for this input. Displayed as a tooltip for most types of inputs.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
-        public event EventHandler ValueChanged;
+        public event EventHandler? ValueChanged;
 
         public Vector2 Pos { get; set; }
 
@@ -34,7 +34,7 @@ namespace BlazorNodes.Core
 
         public virtual int Height { get; } = 32;
 
-        protected virtual void OnValueChanged(object sender, EventArgs e)
+        protected virtual void OnValueChanged(object? sender, EventArgs e)
         {
             ValueChanged?.Invoke(this, e);
         }

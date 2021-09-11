@@ -74,8 +74,8 @@ namespace BlazorNodes.Core
 
         public abstract Vector2 OutputPos { get; }
 
-        public event EventHandler LayoutChanged;
-        public event EventHandler SelectionChanged;
+        public event EventHandler? LayoutChanged;
+        public event EventHandler? SelectionChanged;
         public abstract event EventHandler OutputChanged;
 
         public void OnLayoutChanged(object sender, EventArgs e)
@@ -93,7 +93,8 @@ namespace BlazorNodes.Core
                 .Where(prop => Attribute.IsDefined(prop, typeof(NodeInputAttribute)));
 
             NodeInputs = inputProperties
-                .Select(prop => prop.GetValue(this) as INodeInput)
+                .Select(prop => prop.GetValue(this))
+                .OfType<INodeInput>()
                 .ToList();
         }
 
