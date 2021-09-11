@@ -109,7 +109,7 @@ namespace Nodexr.RegexParsers
                     child.InputRange.Min = quant.InputRange.Min;
                     child.InputRange.Max = quant.InputRange.Max;
                     child.InputNumber.Value = quant.InputNumber.Value;
-                    return child as RegexNodeViewModelBase;
+                    return (RegexNodeViewModelBase)child;
 
                 case GroupNode child when
                 child.PreviousNode is null

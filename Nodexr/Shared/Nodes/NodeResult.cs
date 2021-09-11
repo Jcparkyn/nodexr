@@ -46,7 +46,7 @@ namespace Nodexr.Shared.Nodes
             };
         }
 
-        public NodeResultBuilder(NodeResult contents)
+        public NodeResultBuilder(NodeResult? contents)
         {
             if (contents is null)
             {
@@ -75,9 +75,9 @@ namespace Nodexr.Shared.Nodes
             contents.Add(segment);
         }
 
-        public void Append(NodeResult segments)
+        public void Append(NodeResult? segments)
         {
-            if (!(segments is null))
+            if (segments is not null)
             {
                 contents.AddRange(segments);
             }

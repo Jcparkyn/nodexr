@@ -10,30 +10,30 @@ namespace Nodexr.Shared.Nodes
     {
         public InputProcedural Previous { get; } = new InputProcedural();
         public override IInputPort PrimaryInput => Previous;
-        public INodeOutput<NodeResult> PreviousNode
+        public INodeOutput<NodeResult>? PreviousNode
         {
             get => Previous.ConnectedNode;
             set => Previous.ConnectedNode = value;
         }
 
-        private NodeResult cachedOutput;
-        public override NodeResult CachedOutput => cachedOutput;
+        private NodeResult? cachedOutput;
+        public override NodeResult CachedOutput => cachedOutput!;
 
         public override string OutputTooltip => CachedOutput.Expression;
 
         public override Vector2 OutputPos => Pos + new Vector2(154, 13);
 
-        public override event EventHandler OutputChanged;
+        public override event EventHandler? OutputChanged;
 
         protected virtual void OnOutputChanged(EventArgs e) => OutputChanged?.Invoke(this, e);
 
-        protected void OnInputsChanged(object sender, EventArgs e)
+        protected void OnInputsChanged(object? sender, EventArgs e)
         {
             cachedOutput = GetOutput();
             OnOutputChanged(EventArgs.Empty);
         }
 
-        protected RegexNodeViewModelBase() : base()
+        protected RegexNodeViewModelBase()
         {
             Previous.ValueChanged += OnInputsChanged;
 

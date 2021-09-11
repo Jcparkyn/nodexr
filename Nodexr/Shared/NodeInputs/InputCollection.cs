@@ -21,7 +21,7 @@ namespace Nodexr.Shared.NodeInputs
             }
         }
 
-        public event EventHandler InputPositionsChanged;
+        public event EventHandler? InputPositionsChanged;
 
         public override int Height => inputs.Select(input => input.Height).Sum() + 28;
 
@@ -30,7 +30,7 @@ namespace Nodexr.Shared.NodeInputs
             InputPositionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void AddItem(INodeOutput<NodeResult> node = null)
+        public void AddItem(INodeOutput<NodeResult>? node = null)
         {
             var newInput = new InputProcedural() { Title = Title };
             newInput.ConnectedNode = node;

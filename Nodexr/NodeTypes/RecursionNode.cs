@@ -105,9 +105,9 @@ namespace Nodexr.NodeTypes
                 notBrackets = $"(?!{openEscaped}|{closeEscaped}).";
             }
 
-            NodeResult betweenRec = InputContents.Connected ?
-                InputContents.Value :
-                new NodeResult(notBrackets, this);
+            var betweenRec = InputContents.Connected
+                ? InputContents.Value
+                : new NodeResult(notBrackets, this);
 
             string groupName = InputGroupName.Value;
             string captureGroupName = InputCaptureName.Value;

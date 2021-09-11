@@ -24,8 +24,8 @@ namespace Nodexr.Services
         private readonly INodeHandler nodeHandler;
         private readonly IJSRuntime jsRuntime;
 
-        private INodeViewModel nodeToDrag;
-        private List<InputProcedural> nodeToDragOutputs;
+        private INodeViewModel? nodeToDrag;
+        private List<InputProcedural>? nodeToDragOutputs;
 
         private Vector2 cursorStartPos;
         private Vector2 nodeStartPos;
@@ -51,7 +51,8 @@ namespace Nodexr.Services
             nodeToDragOutputs = nodeHandler.Tree.Nodes
                 .SelectMany(node => node.GetAllInputs()
                     .OfType<InputProcedural>()
-                    .Where(input => input.ConnectedNode == nodeToDrag)).ToList();
+                    .Where(input => input.ConnectedNode == nodeToDrag))
+                .ToList();
 
             cursorStartPos = e.GetClientPos();
             nodeStartPos = nodeToDrag.Pos;
@@ -80,6 +81,9 @@ namespace Nodexr.Services
         [JSInvokable]
         public void DragNode(double posX, double posY)
         {
+            if (nodeToDrag is null)
+                return;
+
             var dragOffset = (new Vector2(posX, posY) - cursorStartPos) / ZoomHandler.Zoom;
             nodeToDrag.Pos = nodeStartPos + dragOffset;
             nodeToDrag.OnLayoutChanged(this, EventArgs.Empty);
@@ -88,10 +92,7 @@ namespace Nodexr.Services
                 input.Refresh();
             }
 
-            foreach (var input in nodeToDragOutputs)
-            {
-                input.Refresh();
-            }
+            nodeToDragOutputs?.ForEach(input => input.Refresh());
         }
 
         public void OnDrop(MouseEventArgs e)

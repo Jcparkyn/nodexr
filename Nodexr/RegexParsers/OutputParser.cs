@@ -12,8 +12,14 @@ namespace Nodexr.RegexParsers
             RegexParser.ParseRegex
             .Select(contents => AttachOutputToContents(new OutputNode(), contents));
 
-        private static OutputNode AttachOutputToContents(OutputNode output, RegexNodeViewModelBase contents)
+        private static OutputNode AttachOutputToContents(OutputNode output, RegexNodeViewModelBase? contents)
         {
+            if (contents is null)
+            {
+                output.PreviousNode = new TextNode();
+                return output;
+            }
+
             output.PreviousNode = contents;
 
             if (contents is AnchorNode anchorEnd)

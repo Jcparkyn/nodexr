@@ -41,7 +41,7 @@ namespace Nodexr.RegexParsers
             return node;
         }
 
-        private static LookaroundNode WithContents(this LookaroundNode node, RegexNodeViewModelBase contents)
+        private static LookaroundNode WithContents(this LookaroundNode node, RegexNodeViewModelBase? contents)
         {
             node.Input.ConnectedNode = contents;
             return node;

@@ -28,7 +28,7 @@ namespace Nodexr.Services
             }
         }
 
-        public event EventHandler RegexOptionsChanged;
+        public event EventHandler? RegexOptionsChanged;
 
         public RegexReplaceHandler(INodeHandler NodeHandler, NavigationManager navManager)
         {
@@ -45,9 +45,8 @@ namespace Nodexr.Services
             }
         }
 
-        public MatchCollection GetAllMatches()
+        public MatchCollection? GetAllMatches()
         {
-            //return Regex.Matches("" + SearchText, nodeHandler.CachedOutput, RegexOptions.None, TimeSpan.FromSeconds(0.5));
             try
             {
                 return Regex.Matches("" + SearchText, nodeHandler.CachedOutput.Expression, Options, TimeSpan.FromSeconds(0.5));

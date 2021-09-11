@@ -33,7 +33,7 @@ namespace BlazorNodes.Core
 
         void CalculateInputsPos();
 
-        void OnLayoutChanged(object sender, EventArgs e);
+        void OnLayoutChanged(object? sender, EventArgs e);
         IEnumerable<INodeInput> GetAllInputs();
 
         event EventHandler LayoutChanged;
@@ -78,7 +78,7 @@ namespace BlazorNodes.Core
         public event EventHandler? SelectionChanged;
         public abstract event EventHandler OutputChanged;
 
-        public void OnLayoutChanged(object sender, EventArgs e)
+        public void OnLayoutChanged(object? sender, EventArgs e)
         {
             CalculateInputsPos();
             foreach (var input in GetAllInputs().OfType<IInputPort>())
