@@ -9,6 +9,13 @@ namespace Nodexr.Tests.RegexParserTests
 {
     internal class RegexParserTests
     {
+        [Test]
+        public void ParseRegex_Empty_ReturnsNull()
+        {
+            var outputNode = RegexParser.ParseRegex.ParseOrThrow("");
+            Assert.IsNull(outputNode);
+        }
+
         [TestCase(@"abc")]
         [TestCase(@"abc[abc]")]
         [TestCase(@"[abc]+")]

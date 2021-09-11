@@ -7,6 +7,16 @@ namespace Nodexr.Tests.RegexParserTests
 {
     internal class GroupParserTests
     {
+        [TestCase("()")]
+        [TestCase("(?:)")]
+        [TestCase("(?<name>)")]
+        public void EmptyGroup_ReturnsSameValue(string input)
+        {
+            var result = ParseGroup.ParseOrThrow(input) as GroupNode;
+            Assert.IsNotNull(result);
+            Assert.AreEqual(input, result.CachedOutput.Expression);
+        }
+
         [TestCase(@"(a)", @"a")]
         [TestCase(@"(abc)", @"abc")]
         [TestCase(@"(?:a)", @"a")]
