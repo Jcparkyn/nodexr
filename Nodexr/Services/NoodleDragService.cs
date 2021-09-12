@@ -18,7 +18,7 @@ namespace Nodexr.Services
 
     public class NoodleDragService : INoodleDragService
     {
-        private INodeOutput nodeToDrag;
+        private INodeOutput? nodeToDrag;
         public NoodleDataCustom TempNoodle { get; } = new NoodleDataCustom() { Connected = false };
 
         private readonly IToastService toastService;
@@ -40,7 +40,8 @@ namespace Nodexr.Services
             this.nodeToDrag = nodeToDrag;
             TempNoodle.Connected = true;
 
-            jsRuntime.InvokeAsync<object>("tempNoodle.startNoodleDrag",
+            // TODO: refactor to avoid synchronous JS interop
+            ((IJSInProcessRuntime)jsRuntime).Invoke<object>("tempNoodle.startNoodleDrag",
                 nodeToDrag.OutputPos.x, nodeToDrag.OutputPos.y);
 
             TempNoodle.Refresh();
@@ -72,7 +73,8 @@ namespace Nodexr.Services
             nodeToDrag = null;
             TempNoodle.Connected = false;
 
-            jsRuntime.InvokeVoidAsync("tempNoodle.endDrag");
+            // TODO: refactor to avoid synchronous JS interop
+            ((IJSInProcessRuntime)jsRuntime).InvokeVoid("tempNoodle.endDrag");
 
             TempNoodle.Refresh();
         }
@@ -83,7 +85,7 @@ namespace Nodexr.Services
             public Vector2 EndPos { get; set; }
             public bool Connected { get; set; }
 
-            public event EventHandler NoodleChanged;
+            public event EventHandler? NoodleChanged;
 
             public void Refresh()
             {

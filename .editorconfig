@@ -126,3 +126,7 @@ csharp_preserve_single_line_blocks = true
 
 # IDE0005: Using directive is unnecessary.
 dotnet_diagnostic.IDE0005.severity = suggestion
+
+# RCS1096: Convert 'HasFlag' call to bitwise operation
+dotnet_diagnostic.RCS1096.severity = silent
+dotnet_diagnostic.RCS1096i.severity = silent

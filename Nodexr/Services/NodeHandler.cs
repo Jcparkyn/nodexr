@@ -29,14 +29,14 @@ namespace Nodexr.Services
 
     public class NodeHandler : INodeHandler
     {
-        private NodeTree tree;
+        private NodeTree? tree;
 
         /// <summary>
         /// The <see cref="NodeTree"/> containing the collection of nodes in the current expression.
         /// </summary>
         public NodeTree Tree
         {
-            get => tree;
+            get => tree!;
             private set
             {
                 // TODO refactor this. The current implementation breaks if the Output node is replaced.
@@ -51,22 +51,22 @@ namespace Nodexr.Services
         /// <summary>
         /// Called when the output of the node graph has changed.
         /// </summary>
-        public event EventHandler OutputChanged;
+        public event EventHandler? OutputChanged;
 
         /// <summary>
         /// Called when the state of the noodles has changed, but the noodles have not been re-rendered automatically.
         /// </summary>
-        public event EventHandler OnRequireNoodleRefresh;
+        public event EventHandler? OnRequireNoodleRefresh;
 
         /// <summary>
         /// Called when the state of the node graph has changed, but the node graph has not been re-rendered automatically.
         /// </summary>
-        public event EventHandler OnRequireNodeGraphRefresh;
+        public event EventHandler? OnRequireNodeGraphRefresh;
 
         private readonly IToastService toastService;
 
         //Stores the previous tree from before the most recent parse, so that the parse can be reverted.
-        private NodeTree treePrevious;
+        private NodeTree? treePrevious;
 
         public NodeHandler(NavigationManager navManager, IToastService toastService)
         {
@@ -117,14 +117,14 @@ namespace Nodexr.Services
             }
             else
             {
-                toastService.ShowError(parseResult.Error.ToString(), "Couldn't parse input");
+                toastService.ShowError(parseResult.Error?.ToString(), "Couldn't parse input");
                 Console.WriteLine("Couldn't parse input: " + parseResult.Error);
             }
         }
 
         public void RevertPreviousParse()
         {
-            Tree = treePrevious;
+            Tree = treePrevious ?? throw new InvalidOperationException("No previous tree to revert to");
             ForceRefreshNodeGraph();
             OnOutputChanged(this, EventArgs.Empty);
         }
@@ -164,7 +164,7 @@ namespace Nodexr.Services
             return tree.Nodes.OfType<OutputNode>().Single();
         }
 
-        private void OnOutputChanged(object sender, EventArgs e)
+        private void OnOutputChanged(object? sender, EventArgs e)
         {
             OutputChanged?.Invoke(this, e);
         }

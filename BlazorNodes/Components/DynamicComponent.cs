@@ -20,7 +20,7 @@ namespace BlazorNodes.Components
     public class DynamicComponent : IComponent
     {
         private RenderHandle _renderHandle;
-        private RenderFragment _cachedRenderFragment;
+        private readonly RenderFragment _cachedRenderFragment;
 
         /// <summary>
         /// Constructs an instance of <see cref="DynamicComponent"/>.
@@ -90,7 +90,7 @@ namespace BlazorNodes.Components
             return Task.CompletedTask;
         }
 
-        void Render(RenderTreeBuilder builder)
+        private void Render(RenderTreeBuilder builder)
         {
             builder.OpenComponent(0, Type);
 

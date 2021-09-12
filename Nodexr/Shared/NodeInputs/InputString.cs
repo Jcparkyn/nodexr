@@ -21,12 +21,9 @@ namespace Nodexr.Shared.NodeInputs
 
         public InputString(string contents)
         {
-            Value = contents;
+            _value = contents;
         }
 
-        public string GetValue()
-        {
-            return Value;
-        }
+        public string GetValue() => Value;
     }
 }

@@ -66,6 +66,7 @@
     <TypeScriptOutFile />
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

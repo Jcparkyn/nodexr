@@ -15,8 +15,7 @@ namespace Nodexr.Shared.NodeInputs
     public class InputDropdown<TValue> : InputDropdown
         where TValue : struct, Enum
     {
-        //private string dropdownValue;
-        private readonly Dictionary<TValue, string> displayNames;
+        private readonly Dictionary<TValue, string>? displayNames;
 
         private TValue value = default;
 
@@ -61,8 +60,6 @@ namespace Nodexr.Shared.NodeInputs
         {
             this.displayNames = displayNames;
             Value = displayNames.Keys.FirstOrDefault();
-            //DropdownValue = options[0];
-            //Options = options.ToList();
         }
 
         public InputDropdown()

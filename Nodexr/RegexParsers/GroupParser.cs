@@ -57,7 +57,7 @@ namespace Nodexr.RegexParsers
             return node;
         }
 
-        private static RegexNodeViewModelBase WithContents(this GroupNode node, RegexNodeViewModelBase contents)
+        private static RegexNodeViewModelBase WithContents(this GroupNode node, RegexNodeViewModelBase? contents)
         {
             //This group is not needed if it is actually part of an OrNode
             if (contents is OrNode orNode
