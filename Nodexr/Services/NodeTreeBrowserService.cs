@@ -16,16 +16,16 @@ namespace Nodexr.Services
         private readonly HttpClient httpClient;
         private readonly INodeHandler nodeHandler;
         private readonly string apiAddress;
-        private NodeTreePreviewDto selectedNodeTree;
+        private NodeTreePreviewDto? selectedNodeTree;
 
-        public event EventHandler SelectedNodeTreeChanged;
-        public NodeTreePreviewDto SelectedNodeTree
+        public event EventHandler? SelectedNodeTreeChanged;
+        public NodeTreePreviewDto? SelectedNodeTree
         {
             get => selectedNodeTree;
             set
             {
                 selectedNodeTree = value;
-                SelectedNodeTreeChanged(this, EventArgs.Empty);
+                SelectedNodeTreeChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -52,7 +52,7 @@ namespace Nodexr.Services
                 ).ConfigureAwait(false);
         }
 
-        public async Task<Paged<NodeTreePreviewDto>> GetAllNodeTrees(CancellationToken cancellationToken, string search = null, int start = 0, int limit = 50)
+        public async Task<Paged<NodeTreePreviewDto>> GetAllNodeTrees(CancellationToken cancellationToken, string? search = null, int start = 0, int limit = 50)
         {
             var queryParams = new Dictionary<string, string>
             {
@@ -68,7 +68,7 @@ namespace Nodexr.Services
             return await httpClient.GetFromJsonAsync<Paged<NodeTreePreviewDto>>(
                     uri,
                     cancellationToken
-                    ).ConfigureAwait(false);
+                    ).ConfigureAwait(false) ?? throw new Exception("API response could not be parsed");
         }
     }
 }

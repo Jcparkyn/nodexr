@@ -26,15 +26,15 @@
 
 
 @code {
-    string searchParam;
+    string? searchParam;
 
     private async Task OnSearchChanged(ChangeEventArgs e)
     {
-        searchParam = e.Value.ToString();
-        await listComponent.RefreshDataAsync();
+        searchParam = e.Value?.ToString();
+        await listComponent!.RefreshDataAsync();
     }
 
-    PagedExpandingList<NodeTreePreviewDto> listComponent;
+    PagedExpandingList<NodeTreePreviewDto>? listComponent;
 
     private void SelectNodeTree(NodeTreePreviewDto tree)
     {
