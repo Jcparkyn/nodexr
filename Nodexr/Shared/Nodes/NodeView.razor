@@ -60,7 +60,7 @@
 </div>
 
 @functions{
-    [Parameter] public INodeViewModel Data { get; set; }
+    [Parameter] public INodeViewModel Data { get; set; } = null!;
 
     string CssClass => Data.Selected ? "node-selected" : "";
     string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
@@ -91,7 +91,7 @@
         Modal.Show<NodeInfo>(Data.Title, modalParameters);
     }
 
-    void Refresh(object sender, EventArgs e)
+    void Refresh(object? sender, EventArgs e)
     {
         StateHasChanged();
     }

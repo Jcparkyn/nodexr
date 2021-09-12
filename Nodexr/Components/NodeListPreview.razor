@@ -12,11 +12,10 @@
         </button>
     </div>
 </div>
-@*<div class="separator"/>*@
 
 
 @functions {
-    [Parameter] public RegexNodeViewModelBase Data { get; set; }
+    [Parameter] public RegexNodeViewModelBase Data { get; set; } = null!;
 
     string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
 
@@ -29,13 +28,13 @@
 
     void StartNodeDrag(DragEventArgs e)
     {
-        RegexNodeViewModelBase newNode = (RegexNodeViewModelBase)Activator.CreateInstance(Data.GetType());
+        RegexNodeViewModelBase newNode = (RegexNodeViewModelBase)Activator.CreateInstance(Data.GetType())!;
         NodeDragService.OnStartCreateNodeDrag(newNode, e);
     }
 
     void AddNode(Type type)
     {
-        RegexNodeViewModelBase node = (RegexNodeViewModelBase)Activator.CreateInstance(type);
+        RegexNodeViewModelBase node = (RegexNodeViewModelBase)Activator.CreateInstance(type)!;
         NodeHandler.Tree.AddNode(node);
     }
 }

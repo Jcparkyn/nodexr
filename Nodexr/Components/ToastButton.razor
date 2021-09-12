@@ -5,9 +5,9 @@
 <button class="toast-button" @onclick="OnButtonClicked" disabled="@hasBeenPressed">@ButtonText</button>
 
 @code {
-    [Parameter] public Action OnClick { get; set; }
-    [Parameter] public string ButtonText { get; set; }
-    [Parameter] public string Info { get; set; }
+    [Parameter] public Action? OnClick { get; set; }
+    [Parameter] public string? ButtonText { get; set; }
+    [Parameter] public string? Info { get; set; }
 
     private bool hasBeenPressed = false;
 
@@ -17,6 +17,6 @@
         OnClick?.Invoke();
     }
 
-    public static RenderFragment GetRenderFragment(Action onClick, string buttonText, string info = null)
+    public static RenderFragment GetRenderFragment(Action onClick, string buttonText, string? info = null)
         => @<ToastButton OnClick="@onClick" ButtonText="@buttonText" Info="@info"/>;
 }
