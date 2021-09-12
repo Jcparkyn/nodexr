@@ -1,11 +1,11 @@
 ﻿
-@if (!String.IsNullOrEmpty(Input.Title))
+@if (!String.IsNullOrEmpty(Input?.Title))
 {
     <div class="node-input-heading">@Input.Title</div>
 }
 <div style="display:flex">
     <div class="node-input-filled">
-        <input type="number" class="input-field" min="@Input.MinValue" @bind-value="@Input.Min" @bind-value:event="oninput" />
+        <input type="number" class="input-field" min="@Input!.MinValue" @bind-value="@Input.Min" @bind-value:event="oninput" />
     </div>
     <div style="
         margin: 2px 5px;
@@ -16,5 +16,5 @@
 </div>
 
 @code {
-    [Parameter] public InputRange Input { get; set; }
+	[Parameter] public InputRange Input { get; set; } = null!;
 }

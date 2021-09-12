@@ -5,7 +5,7 @@
 </div>
 
 @functions{
-    [Parameter] public INodeInput Data { get; set; }
+    [Parameter] public INodeInput Data { get; set; } = null!;
 
     private Dictionary<string, object> Params => new()
     {
@@ -13,5 +13,5 @@
     };
 
     [CascadingParameter(Name = "InputViewModelProvider")]
-    Func<INodeInput, Type> InputViewModelProvider { get; set; }
+    Func<INodeInput, Type> InputViewModelProvider { get; set; } = null!;
 }

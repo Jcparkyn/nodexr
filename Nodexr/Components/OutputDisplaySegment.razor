@@ -1,17 +1,17 @@
 ﻿@implements IDisposable
 @inject INodeHandler NodeHandler
 
-<span class="output-regex-text @(Segment.Node.Selected ? "output-segment-selected" : "")"
+<span class="output-regex-text @(Segment!.Node.Selected ? "output-segment-selected" : "")"
       style="color:@(Segment.Node?.CssColor ?? "inherit")"
-       @onmouseover="@(() => NodeHandler.Tree.SelectNode(Segment.Node))"
-      title="@Segment.Node.Title"
-      >@Segment.Expression</span>
+       @onmouseover="@(() => NodeHandler.Tree.SelectNode(Segment.Node!))"
+      title="@Segment?.Node?.Title"
+      >@Segment?.Expression</span>
 
 @code {
-    private RegexSegment segment { get; set; }
+    private RegexSegment? segment { get; set; }
     [Parameter] public RegexSegment Segment
     {
-        get => segment;
+        get => segment ?? throw new InvalidOperationException("Segment is null");
         set
         {
             //The view needs to be refreshed when the node is selected or deselected.
@@ -25,13 +25,13 @@
         }
     }
 
-    private void Refresh(object sender, EventArgs e)
+    private void Refresh(object? sender, EventArgs e)
     {
         StateHasChanged();
     }
 
     public void Dispose()
     {
-        segment.Node.SelectionChanged -= Refresh;
+        Segment.Node.SelectionChanged -= Refresh;
     }
 }

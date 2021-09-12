@@ -6,29 +6,22 @@
 @code {
 
     [Parameter]
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     [Parameter]
-    public string CssClass { get; set; }
+    public string? CssClass { get; set; }
 
     [Parameter]
     public EventCallback<string> TextChanged { get; set; }
 
     ElementReference divElement;
 
-    protected string textToDisplay;
-
-    protected override void OnInitialized()
-    {
-        //Text = Text.Replace(Environment.NewLine, "<br />");
-    }
-
     //send initial text (if any) to javascript to place in the div
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await JS.InvokeVoidAsync("contentEditable.initContentEditable", divElement, DotNetObjectReference.Create(this), Text);
+            await JS.InvokeVoidAsync("contentEditable.initContentEditable", divElement, DotNetObjectReference.Create(this), Text!);
         }
     }
 

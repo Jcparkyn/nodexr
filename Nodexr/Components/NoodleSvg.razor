@@ -6,9 +6,9 @@
 
 @functions{
 
-    [Parameter] public INoodleData Noodle { get; set; }
-    [Parameter] public string DomId { get; set; } = null;
-    [Parameter] public string Gradient { get; set; }
+    [Parameter] public INoodleData Noodle { get; set; } = null!;
+    [Parameter] public string? DomId { get; set; } = null;
+    [Parameter] public string? Gradient { get; set; }
 
     public bool Valid { get; set; } = true;
     //public string CssClass => Valid ? normalClass : invalidClass;
@@ -35,7 +35,7 @@
         Noodle.NoodleChanged += Refresh;
     }
 
-    public void Refresh(object sender, EventArgs e)
+    public void Refresh(object? sender, EventArgs e)
     {
         StateHasChanged();
     }

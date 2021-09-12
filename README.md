@@ -1,6 +1,6 @@
 # Nodexr
 Nodexr is a node-based Regular Expression editor, created in C# and Blazor.
-__Nodexr is published [here](https://www.nodexr.net).__
+__Nodexr is published at [nodexr.net](https://www.nodexr.net).__
 
 You can also try it out by starting with one of these example expressions:
 * [Floating point with exponent](https://www.nodexr.net/?parse=%5Cb%5B-%2B%5D%3F%5Cd*%5C.%3F%5Cd%2B%28%5BeE%5D%5B-%2B%5D%3F%5Cd%2B%29%3F%5Cb&search=123.45,%201563,%0A9.76456e12,%201E-9,%200.5e-7&replace=%5B$0,%20$1%5D)
@@ -43,4 +43,4 @@ Use the bottom 3 panels to test a string for searching and/or replacement. Any v
 Any contributions are welcome, but ideally start by creating an [issue](https://github.com/Jcparkyn/nodexr/issues).
 
 ## Also check out
-A very similar tool called [Regex Nodes](https://github.com/johannesvollmer/regex-nodes) has been made by Johannes Vollmer. There is no connection between Nodexr and Regex Nodes (in fact I didn't even know it existed until after I'd released v1.0.0), but it is a very polished alternative for those that need JavaScript regular expressions.
+A very similar tool called [Regex Nodes](https://github.com/johannesvollmer/regex-nodes) has been made by Johannes Vollmer. There is no connection between Nodexr and Regex Nodes, but it is a very polished alternative for those that need JavaScript regular expressions.

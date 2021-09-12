@@ -22,7 +22,7 @@
     @foreach (var (input, node) in gradientPairs)
     {
         <linearGradient id="@GradientName(input, node)" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:@input.ConnectedNode.CssColor"></stop>
+            <stop offset="0%" style="stop-color:@input.ConnectedNode?.CssColor"></stop>
             <stop offset="100%" style="stop-color:@node.CssColor"></stop>
         </linearGradient>
     }
@@ -33,7 +33,7 @@
     private string GradientName(InputProcedural input, INodeViewModel node)
     {
         return "gradient-"
-        + input.ConnectedNode.CssName
+        + input.ConnectedNode?.CssName
         + "-"
         + node.CssName;
     }
@@ -48,5 +48,5 @@
         StateHasChanged();
     }
 
-    [Parameter] public IEnumerable<INodeViewModel> Nodes { get; set; }
+    [Parameter] public IEnumerable<INodeViewModel> Nodes { get; set; } = null!;
 }

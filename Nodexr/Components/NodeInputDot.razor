@@ -12,7 +12,7 @@
 </div>
 
 @code {
-   [Parameter] public IInputPort Input { get; set; }
+   [Parameter] public IInputPort Input { get; set; } = null!;
    [Parameter] public bool IsPrevious { get; set; } = false;
 
    string CssClass => "node-input-dot" + (IsPrevious ? " input-dot-previous" : "");
@@ -23,7 +23,7 @@
    {
        if (Input.Connected)
        {
-           NoodleDragService.OnStartNoodleDrag(Input.ConnectedNodeUntyped, Input.Pos);
+           NoodleDragService.OnStartNoodleDrag(Input.ConnectedNodeUntyped!, Input.Pos);
            Input.TrySetConnectedNode(null);
        }
    }
