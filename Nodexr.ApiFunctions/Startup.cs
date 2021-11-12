@@ -14,9 +14,12 @@ namespace Nodexr.ApiFunctions
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            string? key = Environment.GetEnvironmentVariable("databaseKey");
-            string? endpoint = Environment.GetEnvironmentVariable("databaseEndpoint");
-            string? databaseName = Environment.GetEnvironmentVariable("databaseName");
+            string key = Environment.GetEnvironmentVariable("databaseKey")
+                ?? throw new InvalidOperationException("databaseKey must be provided in application settings");
+            string endpoint = Environment.GetEnvironmentVariable("databaseEndpoint")
+                ?? throw new InvalidOperationException("databaseEndpoint must be provided in application settings");
+            string databaseName = Environment.GetEnvironmentVariable("databaseName")
+                ?? throw new InvalidOperationException("databaseName must be provided in application settings");
 
             builder.Services.AddDbContext<NodeTreeContext>(
                 options => options.UseCosmos(
