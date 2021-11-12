@@ -28,6 +28,7 @@ charset = utf-8-bom
 [*.{cs,vb}]
 # Organize usings
 dotnet_sort_system_directives_first = true:suggestion
+csharp_style_namespace_declarations=file_scoped:warning
 # this. preferences
 dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
@@ -100,7 +101,8 @@ csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_pattern_local_over_anonymous_function = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
 
-csharp_using_directive_placement = outside_namespace:suggestion
+csharp_using_directive_placement = inside_namespace:warning
+dotnet_style_namespace_match_folder=true:warning
 
 ###############################
 # C# Formatting Rules         #
