@@ -1,6 +1,8 @@
 ﻿
+declare function Split(arg0: string[], arg1: any);
+
 //Create draggable dividers between windows
-window.jsFunctions = {
+window["jsFunctions"] = {
     blazorHasRendered: function () {
         Split(['#viewport-searchtext', '#viewport-replacetext', '#viewport-replaceresult'], {
             sizes: [40, 25, 35],
