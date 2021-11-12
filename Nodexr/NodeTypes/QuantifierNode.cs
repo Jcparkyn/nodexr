@@ -123,7 +123,7 @@ public class QuantifierNode : RegexNodeViewModelBase, IQuantifiableNode
         if (val is null) throw new ArgumentNullException(nameof(val));
 
         //Any chain of 2 or more nodes will always need to be wrapped in a group to quantify properly.
-        if (!(val.PreviousNode is null))
+        if (val.PreviousNode is not null)
             return true;
 
         //TODO: refactor using polymorphism

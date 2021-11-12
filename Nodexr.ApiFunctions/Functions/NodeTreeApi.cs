@@ -46,6 +46,7 @@ public class NodeTreeApi
     }
 
     [FunctionName("GetNodeTreeById")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "req is required by Azure Functions")]
     public async Task<IActionResult> GetNodeTreeById(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "nodetree/{id}")] HttpRequest req,
         ILogger log,

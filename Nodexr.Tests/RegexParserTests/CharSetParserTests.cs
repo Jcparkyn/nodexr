@@ -1,7 +1,6 @@
 ﻿namespace Nodexr.Tests.RegexParserTests;
 using NUnit.Framework;
 using Pidgin;
-using Nodexr.NodeTypes;
 using static Nodexr.RegexParsers.CharSetParser;
 
 internal class CharSetParserTests
@@ -11,7 +10,7 @@ internal class CharSetParserTests
     [TestCase(@"[\\]", @"\\")]
     public void CharSetNode_NoSpecials_ReturnsContents(string input, string expectedContents)
     {
-        CharSetNode result = ParseCharSet.ParseOrThrow(input);
+        var result = ParseCharSet.ParseOrThrow(input);
         Assert.AreEqual(expectedContents, result.InputCharacters.Value);
     }
 
