@@ -27,7 +27,7 @@
     {
         model.Expression = nodeHandler.CachedOutput.Expression;
         await browserService.PublishNodeTree(model);
-        await BlazoredModal.Close();
+        await BlazoredModal.CloseAsync();
         toastService.ShowSuccess("", "Expression uploaded successfully");
     }
 }
