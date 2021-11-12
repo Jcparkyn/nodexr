@@ -2,7 +2,7 @@
 
 <button class="icon-button" @onclick="Toggle"><i class="@stateClasses[ButtonState]"></i></button>
 
-@functions{
+@code {
     [Parameter] public int ButtonState { get; set; }
     //[Parameter] public string ButtonState2 { get; set; }
     [Parameter] public EventCallback<int> ButtonStateChanged { get; set; }

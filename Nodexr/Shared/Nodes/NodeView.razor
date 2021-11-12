@@ -59,7 +59,7 @@
     }
 </div>
 
-@functions{
+@code {
     [Parameter] public INodeViewModel Data { get; set; } = null!;
 
     string CssClass => Data.Selected ? "node-selected" : "";

@@ -3,7 +3,7 @@
     <DynamicComponent Type="InputViewModelProvider(Data)" Parameters="Params" />
 </div>
 
-@functions{
+@code {
     [Parameter] public INodeInput Data { get; set; } = null!;
 
     private Dictionary<string, object> Params => new()

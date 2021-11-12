@@ -14,7 +14,7 @@
 </div>
 
 
-@functions {
+@code {
     [Parameter] public RegexNodeViewModelBase Data { get; set; } = null!;
 
     string Color => $"var(--col-node-{Data.Title.Replace(" ", "").ToLower()})";
