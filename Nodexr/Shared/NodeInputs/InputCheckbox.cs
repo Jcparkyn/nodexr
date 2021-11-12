@@ -1,26 +1,24 @@
-﻿using BlazorNodes.Core;
+﻿namespace Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 
-namespace Nodexr.Shared.NodeInputs
+public class InputCheckbox : NodeInputBase
 {
-    public class InputCheckbox : NodeInputBase
+    private bool _checked;
+
+    public bool Checked
     {
-        private bool _checked;
-
-        public bool Checked
+        get => _checked;
+        set
         {
-            get => _checked;
-            set
-            {
-                _checked = value;
-                OnValueChanged();
-            }
+            _checked = value;
+            OnValueChanged();
         }
+    }
 
-        public override int Height => 19;
+    public override int Height => 19;
 
-        public InputCheckbox(bool isChecked = false)
-        {
-            _checked = isChecked;
-        }
+    public InputCheckbox(bool isChecked = false)
+    {
+        _checked = isChecked;
     }
 }

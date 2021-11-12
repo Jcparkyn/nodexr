@@ -1,46 +1,44 @@
-﻿using System.Collections.Generic;
+﻿namespace Nodexr.NodeTypes;
+using System.Collections.Generic;
 using Nodexr.Shared.NodeInputs;
 
-namespace Nodexr.NodeTypes
+public interface IQuantifiableNode
 {
-    public interface IQuantifiableNode
+    InputDropdown<Reps> InputCount { get; }
+    InputNumber InputNumber { get; }
+    InputRange InputRange { get; }
+
+    public enum Reps
     {
-        InputDropdown<Reps> InputCount { get; }
-        InputNumber InputNumber { get; }
-        InputRange InputRange { get; }
+        One,
+        ZeroOrMore,
+        OneOrMore,
+        ZeroOrOne,
+        Number,
+        Range
+    }
 
-        public enum Reps
-        {
-            One,
-            ZeroOrMore,
-            OneOrMore,
-            ZeroOrOne,
-            Number,
-            Range
-        }
+    public static readonly Dictionary<Reps, string> displayNames = new()
+    {
+        { Reps.One, "One" },
+        { Reps.ZeroOrMore, "Zero or more" },
+        { Reps.OneOrMore, "One or more" },
+        { Reps.ZeroOrOne, "Zero or one" },
+        { Reps.Number, "Number" },
+        { Reps.Range, "Range" }
+    };
 
-        public static readonly Dictionary<Reps, string> displayNames = new()
+    public static string GetSuffix(IQuantifiableNode node)
+    {
+        return node.InputCount.Value switch
         {
-            { Reps.One, "One" },
-            { Reps.ZeroOrMore, "Zero or more" },
-            { Reps.OneOrMore, "One or more" },
-            { Reps.ZeroOrOne, "Zero or one" },
-            { Reps.Number, "Number" },
-            { Reps.Range, "Range" }
+            Reps.One => "",
+            Reps.ZeroOrMore => "*",
+            Reps.OneOrMore => "+",
+            Reps.ZeroOrOne => "?",
+            Reps.Number => $"{{{node.InputNumber.Value ?? 0}}}",
+            Reps.Range => $"{{{node.InputRange.Min ?? 0},{node.InputRange.Max}}}",
+            _ => "",
         };
-
-        public static string GetSuffix(IQuantifiableNode node)
-        {
-            return node.InputCount.Value switch
-            {
-                Reps.One => "",
-                Reps.ZeroOrMore => "*",
-                Reps.OneOrMore => "+",
-                Reps.ZeroOrOne => "?",
-                Reps.Number => $"{{{node.InputNumber.Value ?? 0}}}",
-                Reps.Range => $"{{{node.InputRange.Min ?? 0},{node.InputRange.Max}}}",
-                _ => "",
-            };
-        }
     }
 }

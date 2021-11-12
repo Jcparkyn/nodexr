@@ -1,35 +1,33 @@
-﻿using Nodexr.ApiFunctions.Models;
+﻿namespace Nodexr.ApiFunctions.Services;
+using Nodexr.ApiFunctions.Models;
 using System.Linq;
 
-namespace Nodexr.ApiFunctions.Services
+public interface IGetNodeTreesService
 {
-    public interface IGetNodeTreesService
+    IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null);
+}
+
+public class GetNodeTreesService : IGetNodeTreesService
+{
+    private readonly NodeTreeContext nodeTreeContext;
+
+    public GetNodeTreesService(NodeTreeContext nodeTreeContext)
     {
-        IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null);
+        this.nodeTreeContext = nodeTreeContext;
     }
 
-    public class GetNodeTreesService : IGetNodeTreesService
+    public IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null)
     {
-        private readonly NodeTreeContext nodeTreeContext;
+        var query = nodeTreeContext.NodeTrees.AsQueryable();
 
-        public GetNodeTreesService(NodeTreeContext nodeTreeContext)
+        if (!string.IsNullOrEmpty(titleSearch))
         {
-            this.nodeTreeContext = nodeTreeContext;
+            query = query.Where(tree =>
+                // Case-insensitive search (StringComparison doesn't work with Cosmos)
+                tree.Title.ToLower().Contains(titleSearch.ToLowerInvariant())
+            );
         }
 
-        public IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null)
-        {
-            var query = nodeTreeContext.NodeTrees.AsQueryable();
-
-            if (!string.IsNullOrEmpty(titleSearch))
-            {
-                query = query.Where(tree =>
-                    // Case-insensitive search (StringComparison doesn't work with Cosmos)
-                    tree.Title.ToLower().Contains(titleSearch.ToLowerInvariant())
-                );
-            }
-
-            return query;
-        }
+        return query;
     }
 }

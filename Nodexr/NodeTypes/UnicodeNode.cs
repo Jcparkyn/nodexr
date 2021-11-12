@@ -1,79 +1,77 @@
-﻿using System.Collections.Generic;
+﻿namespace Nodexr.NodeTypes;
+using System.Collections.Generic;
 using Nodexr.Shared.Nodes;
 using Nodexr.Shared.NodeInputs;
 using BlazorNodes.Core;
 
-namespace Nodexr.NodeTypes
+public class UnicodeNode : RegexNodeViewModelBase
 {
-    public class UnicodeNode : RegexNodeViewModelBase
+    public override string Title => "Unicode";
+
+    public override string NodeInfo => "Insert a unicode category, unicode block, or the hex value of a unicode/ascii character.";
+
+    [NodeInput]
+    public InputDropdown<Modes> InputMode { get; } = new InputDropdown<Modes>(modeDisplayNames) { Title = "Mode" };
+    [NodeInput]
+    public InputString InputCategory { get; } = new InputString("IsBasicLatin") { Title = "Unicode Category" };
+    [NodeInput]
+    public InputString InputHexCode { get; } = new InputString("1e22") { Title = "Hex Code" };
+    [NodeInput]
+    public InputCheckbox InputInvert { get; } = new InputCheckbox() { Title = "Invert" };
+
+    public enum Modes
     {
-        public override string Title => "Unicode";
+        Category,
+        Hex
+    }
 
-        public override string NodeInfo => "Insert a unicode category, unicode block, or the hex value of a unicode/ascii character.";
+    private static readonly Dictionary<Modes, string> modeDisplayNames = new()
+    {
+        { Modes.Category, "Category/Block" },
+        { Modes.Hex, "Hex Code" },
+    };
 
-        [NodeInput]
-        public InputDropdown<Modes> InputMode { get; } = new InputDropdown<Modes>(modeDisplayNames) { Title = "Mode" };
-        [NodeInput]
-        public InputString InputCategory { get; } = new InputString("IsBasicLatin") { Title = "Unicode Category" };
-        [NodeInput]
-        public InputString InputHexCode { get; } = new InputString("1e22") { Title = "Hex Code" };
-        [NodeInput]
-        public InputCheckbox InputInvert { get; } = new InputCheckbox() { Title = "Invert" };
+    public UnicodeNode()
+    {
+        InputCategory.Enabled = () => InputMode.Value == Modes.Category;
+        InputHexCode.Enabled = () => InputMode.Value == Modes.Hex;
+    }
 
-        public enum Modes
+    protected override NodeResultBuilder GetValue()
+    {
+        return new NodeResultBuilder(ValueString(), this);
+    }
+
+    private string ValueString()
+    {
+        return InputMode.Value switch
         {
-            Category,
-            Hex
-        }
-
-        private static readonly Dictionary<Modes, string> modeDisplayNames = new()
-        {
-            { Modes.Category, "Category/Block" },
-            { Modes.Hex, "Hex Code" },
+            Modes.Category => GetCategoryRegex(InputCategory.Value, InputInvert.Checked),
+            Modes.Hex => GetHexCodeRegex(InputHexCode.Value, InputInvert.Checked),
+            _ => "",
         };
+    }
 
-        public UnicodeNode()
+    private static string GetCategoryRegex(string input, bool invert)
+    {
+        if (invert)
         {
-            InputCategory.Enabled = () => InputMode.Value == Modes.Category;
-            InputHexCode.Enabled = () => InputMode.Value == Modes.Hex;
+            return @"\P{" + input + "}";
         }
-
-        protected override NodeResultBuilder GetValue()
+        else
         {
-            return new NodeResultBuilder(ValueString(), this);
+            return @"\p{" + input + "}";
         }
+    }
 
-        private string ValueString()
-        {
-            return InputMode.Value switch
-            {
-                Modes.Category => GetCategoryRegex(InputCategory.Value, InputInvert.Checked),
-                Modes.Hex => GetHexCodeRegex(InputHexCode.Value, InputInvert.Checked),
-                _ => "",
-            };
-        }
+    private static string GetHexCodeRegex(string input, bool invert)
+    {
+        input = input.Length > 2
+            ? "\\u" + input.PadLeft(4, '0')
+            : "\\x" + input.PadLeft(2, '0');
 
-        private static string GetCategoryRegex(string input, bool invert)
-        {
-            if (invert)
-            {
-                return @"\P{" + input + "}";
-            }
-            else
-            {
-                return @"\p{" + input + "}";
-            }
-        }
-
-        private static string GetHexCodeRegex(string input, bool invert)
-        {
-            input = input.Length > 2
-                ? "\\u" + input.PadLeft(4, '0')
-                : "\\x" + input.PadLeft(2, '0');
-
-            return invert
-                ? "[^" + input + "]"
-                : input;
-        }
+        return invert
+            ? "[^" + input + "]"
+            : input;
     }
 }

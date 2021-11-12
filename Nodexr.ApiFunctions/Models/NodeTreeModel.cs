@@ -1,20 +1,18 @@
-﻿using System;
+﻿namespace Nodexr.ApiFunctions.Models;
+using System;
 
-namespace Nodexr.ApiFunctions.Models
+public class NodeTreeModel
 {
-    public class NodeTreeModel
+    public string? id { get; set; } = Guid.NewGuid().ToString();
+
+    public string Title { get; set; }
+
+    public string? Expression { get; set; }
+
+    public string? Description { get; set; }
+
+    public NodeTreeModel(string title)
     {
-        public string? id { get; set; } = Guid.NewGuid().ToString();
-
-        public string Title { get; set; }
-
-        public string? Expression { get; set; }
-
-        public string? Description { get; set; }
-
-        public NodeTreeModel(string title)
-        {
-            Title = title;
-        }
+        Title = title;
     }
 }

@@ -1,9 +1,7 @@
-﻿using System;
+﻿namespace BlazorNodes.Core;
+using System;
 
-namespace BlazorNodes.Core
+[AttributeUsage(AttributeTargets.Property)]
+public class NodeInputAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class NodeInputAttribute : Attribute
-    {
-    }
 }

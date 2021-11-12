@@ -1,69 +1,67 @@
-﻿using BlazorNodes.Core;
+﻿namespace Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nodexr.Shared.NodeInputs
+public abstract class InputDropdown : NodeInputBase
 {
-    public abstract class InputDropdown : NodeInputBase
-    {
-        public abstract string ValueDisplayName { get; set; }
+    public abstract string ValueDisplayName { get; set; }
 
-        public abstract IEnumerable<string> Options { get; }
+    public abstract IEnumerable<string> Options { get; }
+}
+
+public class InputDropdown<TValue> : InputDropdown
+    where TValue : struct, Enum
+{
+    private readonly Dictionary<TValue, string>? displayNames;
+
+    private TValue value = default;
+
+    public override int Height => 50;
+
+    public TValue Value
+    {
+        get => value;
+        set
+        {
+            this.value = value;
+            OnValueChanged();
+        }
     }
 
-    public class InputDropdown<TValue> : InputDropdown
-        where TValue : struct, Enum
+    public override string ValueDisplayName
     {
-        private readonly Dictionary<TValue, string>? displayNames;
-
-        private TValue value = default;
-
-        public override int Height => 50;
-
-        public TValue Value
+        get
         {
-            get => value;
-            set
-            {
-                this.value = value;
-                OnValueChanged();
-            }
+            return displayNames?.GetValueOrDefault(Value) ?? Value.ToString();
         }
 
-        public override string ValueDisplayName
+        set
         {
-            get
-            {
-                return displayNames?.GetValueOrDefault(Value) ?? Value.ToString();
-            }
-
-            set
-            {
-                if (displayNames != null)
-                    Value = displayNames.FirstOrDefault(x => x.Value == value).Key;
-                else
-                    Value = Enum.Parse<TValue>(value);
-            }
+            if (displayNames != null)
+                Value = displayNames.FirstOrDefault(x => x.Value == value).Key;
+            else
+                Value = Enum.Parse<TValue>(value);
         }
+    }
 
-        public override IEnumerable<string> Options
+    public override IEnumerable<string> Options
+    {
+        get
         {
-            get
-            {
-                if (displayNames != null) return displayNames.Values;
-                else return Enum.GetNames(typeof(TValue));
-            }
+            if (displayNames != null) return displayNames.Values;
+            else return Enum.GetNames(typeof(TValue));
         }
+    }
 
-        public InputDropdown(Dictionary<TValue, string> displayNames)
-        {
-            this.displayNames = displayNames;
-            Value = displayNames.Keys.FirstOrDefault();
-        }
+    public InputDropdown(Dictionary<TValue, string> displayNames)
+    {
+        this.displayNames = displayNames;
+        Value = displayNames.Keys.FirstOrDefault();
+    }
 
-        public InputDropdown()
-        {
-        }
+    public InputDropdown()
+    {
     }
 }

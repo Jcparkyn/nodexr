@@ -1,26 +1,24 @@
-﻿using BlazorNodes.Core;
+﻿namespace Nodexr.Shared.NodeInputs;
+using BlazorNodes.Core;
 
-namespace Nodexr.Shared.NodeInputs
+public class InputCheckboxNullable : NodeInputBase
 {
-    public class InputCheckboxNullable : NodeInputBase
+    private int checkedState;
+
+    public int CheckedState
     {
-        private int checkedState;
-
-        public int CheckedState
+        get => checkedState;
+        set
         {
-            get => checkedState;
-            set
-            {
-                checkedState = value;
-                OnValueChanged();
-            }
+            checkedState = value;
+            OnValueChanged();
         }
+    }
 
-        public override int Height => 19;
+    public override int Height => 19;
 
-        public InputCheckboxNullable(int state = 0)
-        {
-            checkedState = state;
-        }
+    public InputCheckboxNullable(int state = 0)
+    {
+        checkedState = state;
     }
 }

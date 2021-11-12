@@ -1,29 +1,27 @@
-﻿
+﻿namespace Nodexr.Shared.NodeInputs;
+
 using BlazorNodes.Core;
 
-namespace Nodexr.Shared.NodeInputs
+public class InputString : NodeInputBase
 {
-    public class InputString : NodeInputBase
+    private string _value;
+
+    public string Value
     {
-        private string _value;
-
-        public string Value
+        get => _value;
+        set
         {
-            get => _value;
-            set
-            {
-                _value = value;
-                OnValueChanged();
-            }
+            _value = value;
+            OnValueChanged();
         }
-
-        public override int Height => 50;
-
-        public InputString(string contents)
-        {
-            _value = contents;
-        }
-
-        public string GetValue() => Value;
     }
+
+    public override int Height => 50;
+
+    public InputString(string contents)
+    {
+        _value = contents;
+    }
+
+    public string GetValue() => Value;
 }
