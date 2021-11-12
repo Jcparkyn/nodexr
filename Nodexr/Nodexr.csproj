@@ -2,9 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Nullable>enable</Nullable>
     <DocumentationFile>Nodexr.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
@@ -34,40 +32,24 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Net.Http.Json" Version="6.0.0" />
-
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\ClipboardCopy.ts" />
-    <TypeScriptCompile Include="wwwroot\js\NoodleDragHandler.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\js\GeneratedJS\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Nodexr.ApiShared\Nodexr.ApiShared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BlazorNodes\BlazorNodes.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
     <TypeScriptTarget>ES2015</TypeScriptTarget>
     <TypeScriptToolsVersion>4.0.5</TypeScriptToolsVersion>
-    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
     <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptOutDir>wwwroot\js\GeneratedJS</TypeScriptOutDir>
-    <TypeScriptOutFile />
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
