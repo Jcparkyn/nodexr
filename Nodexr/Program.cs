@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using Nodexr.Services;
 using Blazored.Modal;
 using Blazored.Toast;
@@ -24,6 +25,7 @@ namespace Nodexr
             builder.Services.AddScoped<RegexReplaceHandler>();
             builder.Services.AddScoped<NodeTreeBrowserService>();
             builder.Services.AddBlazoredModal();
+            builder.Services.AddFeatureManagement();
 
             await builder.Build().RunAsync().ConfigureAwait(false);
         }

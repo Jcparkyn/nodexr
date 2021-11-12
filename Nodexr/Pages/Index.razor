@@ -1,72 +1,88 @@
 ﻿@page "/"
+@using Microsoft.FeatureManagement
 @using Nodexr.Shared;
 @using Nodexr.NodeTypes;
 @using Nodexr.Components;
 @using Nodexr.Components.NodeTreeBrowser;
 @inject INodeDragService NodeDragService
-@inject INodeHandler  NodeHandler
+@inject INodeHandler NodeHandler
 @inject IJSRuntime JSRuntime
 @inject IModalService ModalService
+@inject IFeatureManager FeatureManager;
 
 <div id="mainpanels">
-    <div style="
+	<div style="
         background-color: hsl(218, 18%, 18%);
         box-shadow: 0px 4px 7px #00000033;
         z-index: 10;
         display: flex;">
-        <OutputDisplay />
-        <div style="margin-left: auto;" class="top-row-link">
-            <RegexOptionsDropdown />
-        </div>
-        <a @onclick="ShowHelpInfo" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
-           class="top-row-link">Help</a>
-        <a href="http://github.com/jcparkyn/nodexr/" target="_blank"
-           class="top-row-link">GitHub</a>
-        <a @onclick="ShowExpressionBrowser" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
-           class="top-row-link">Expression Browser</a>
-        <a @onclick="ShowExpressionPublishWindow" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
-           class="top-row-link">Publish</a>
-    </div>
+		<OutputDisplay />
+		<div style="margin-left: auto;" class="top-row-link">
+			<RegexOptionsDropdown />
+		</div>
+		<a @onclick="ShowHelpInfo" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
+		   class="top-row-link">Help</a>
+		<a href="http://github.com/jcparkyn/nodexr/" target="_blank"
+		   class="top-row-link">GitHub</a>
+		@if (enableExpressionBrowser)
+		{
+			<a @onclick="ShowExpressionBrowser" @onclick:preventDefault @onclick:stopPropagation
+				href=""
+				target="_blank"
+				class="top-row-link">Expression Browser</a>
+			<a @onclick="ShowExpressionPublishWindow" @onclick:preventDefault @onclick:stopPropagation
+				href=""
+				target="_blank"
+				class="top-row-link">Publish</a>
+		}
+	</div>
 
-    <div style="display:flex; flex-direction:row; flex:1; min-height:0;">
-        <NodeList />
-        @*<div style="width:6px; height:100%;"></div>*@
-        <NodeGraph />
-    </div>
+	<div style="display:flex; flex-direction:row; flex:1; min-height:0;">
+		<NodeList />
+		@*<div style="width:6px; height:100%;"></div>*@
+		<NodeGraph />
+	</div>
 </div>
 
 <BottomPanels />
 
-@functions{
+@functions {
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-        {
-            JSRuntime.InvokeAsync<object>(
-            "jsFunctions.blazorHasRendered");
-        }
-    }
+	bool enableExpressionBrowser = false;
 
-    protected override bool ShouldRender() => false;
+	protected override void OnAfterRender(bool firstRender)
+	{
+		if (firstRender)
+		{
+			JSRuntime.InvokeAsync<object>(
+			"jsFunctions.blazorHasRendered");
+		}
+	}
 
-    protected void ShowHelpInfo(MouseEventArgs e)
-    {
-        ModalService.Show<HelpModal>("How To Use");
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		enableExpressionBrowser = await FeatureManager.IsEnabledAsync("ExpressionBrowser");
+	}
 
-    protected void ShowExpressionBrowser()
-    {
-        ModalService.Show<NodeTreeBrowser>("Expression Browser");
-    }
+	protected override bool ShouldRender() => false;
 
-    protected void ShowExpressionPublishWindow()
-    {
-        ModalService.Show<NodeTreePublishView>("Upload your Regex");
-    }
+	protected void ShowHelpInfo(MouseEventArgs e)
+	{
+		ModalService.Show<HelpModal>("How To Use");
+	}
 
-    protected void Refresh()
-    {
-        StateHasChanged();
-    }
+	protected void ShowExpressionBrowser()
+	{
+		ModalService.Show<NodeTreeBrowser>("Expression Browser");
+	}
+
+	protected void ShowExpressionPublishWindow()
+	{
+		ModalService.Show<NodeTreePublishView>("Upload your Regex");
+	}
+
+	protected void Refresh()
+	{
+		StateHasChanged();
+	}
 }
