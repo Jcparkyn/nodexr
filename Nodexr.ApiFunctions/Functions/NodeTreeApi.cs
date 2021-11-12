@@ -94,9 +94,7 @@ namespace Nodexr.ApiFunctions.Functions
         private int? GetQueryInt(HttpRequest req, string queryName)
         {
             string countParam = req.Query[queryName];
-            return int.TryParse(countParam, out int count) ?
-                count :
-                null as int?;
+            return int.TryParse(countParam, out int count) ? count : null;
         }
     }
 }
