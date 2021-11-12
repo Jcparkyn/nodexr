@@ -1,11 +1,11 @@
 ﻿@inject NodeTreeBrowserService browserService
 @implements IDisposable
 
-@if (browserService.SelectedNodeTree != null)
+@if (Model != null)
 {
-	<h4>@(Model?.Title ?? "...")</h4>
-	<code style="font-size:1.5em; line-break: anywhere">@(Model?.Expression ?? "...")</code>
-	<p>@(Model?.Description ?? "No description provided.")</p>
+	<h4>@(Model.Title ?? "...")</h4>
+	<code style="font-size:1.5em; line-break: anywhere">@(Model.Expression ?? "...")</code>
+	<p>@(Model.Description ?? "No description provided.")</p>
 	<button class="float-right btn btn-outline-light" @onclick="LoadSelectedNodeTree">Load</button>
 }
 else
@@ -16,7 +16,7 @@ else
 @code {
 	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
 
-	private NodeTreePreviewDto Model => browserService.SelectedNodeTree;
+	private NodeTreePreviewDto? Model => browserService.SelectedNodeTree;
 
 	protected override void OnInitialized()
 	{
