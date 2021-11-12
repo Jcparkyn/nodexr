@@ -91,7 +91,7 @@ namespace Nodexr.ApiFunctions.Functions
             return new OkObjectResult(trees);
         }
 
-        private int? GetQueryInt(HttpRequest req, string queryName)
+        private static int? GetQueryInt(HttpRequest req, string queryName)
         {
             string countParam = req.Query[queryName];
             return int.TryParse(countParam, out int count) ? count : null;
