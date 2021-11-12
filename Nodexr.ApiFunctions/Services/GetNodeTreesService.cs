@@ -8,8 +8,7 @@ namespace Nodexr.ApiFunctions.Services
 {
     public interface IGetNodeTreesService
     {
-        IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null, Expression<Func<NodeTreeModel, bool>>? filter = null);
-        Task<NodeTreeModel> GetNodeTreeById(string id);
+        IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null);
     }
 
     public class GetNodeTreesService : IGetNodeTreesService
@@ -21,25 +20,16 @@ namespace Nodexr.ApiFunctions.Services
             this.nodeTreeContext = nodeTreeContext;
         }
 
-        public async Task<NodeTreeModel> GetNodeTreeById(string id)
-        {
-            return await nodeTreeContext.NodeTrees.FindAsync(id);
-        }
-
-        public IQueryable<NodeTreeModel> GetAllNodeTrees(
-            string? titleSearch = null,
-            Expression<Func<NodeTreeModel, bool>>? filter = null
-            )
+        public IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null)
         {
             var query = nodeTreeContext.NodeTrees.AsQueryable();
 
-            if (filter != null)
+            if (!string.IsNullOrEmpty(titleSearch))
             {
-                query = query.Where(filter);
-            }
-            if (titleSearch != null)
-            {
-                query = query.Where(tree => tree.Title == titleSearch);
+                query = query.Where(tree =>
+                    // Case-insensitive search (StringComparison doesn't work with Cosmos)
+                    tree.Title.ToLower().Contains(titleSearch.ToLowerInvariant())
+                );
             }
 
             return query;
