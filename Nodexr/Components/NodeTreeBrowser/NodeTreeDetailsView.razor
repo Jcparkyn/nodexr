@@ -14,7 +14,7 @@ else
 }
 
 @code {
-	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = null!;
 
 	private NodeTreePreviewDto? Model => browserService.SelectedNodeTree;
 
@@ -28,7 +28,7 @@ else
 		browserService.SelectedNodeTreeChanged -= OnSelectedNodeTreeChanged;
 	}
 
-	private void OnSelectedNodeTreeChanged(object sender, EventArgs e)
+	private void OnSelectedNodeTreeChanged(object? sender, EventArgs e)
 	{
 		StateHasChanged();
 	}
