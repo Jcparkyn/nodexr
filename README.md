@@ -1,6 +1,11 @@
 # Nodexr
+
+[![Test and Deploy](https://github.com/Jcparkyn/nodexr/actions/workflows/main.yml/badge.svg)](https://github.com/Jcparkyn/nodexr/actions/workflows/main.yml)
+![GitHub](https://img.shields.io/github/license/Jcparkyn/nodexr)
+![GitHub issues](https://img.shields.io/github/issues/Jcparkyn/nodexr)
+
 Nodexr is a node-based Regular Expression editor, created in C# and Blazor.
-__Nodexr is published at [nodexr.net](https://www.nodexr.net).__
+## Try it at [nodexr.net](https://www.nodexr.net)
 
 You can also try it out by starting with one of these example expressions:
 * [Floating point with exponent](https://www.nodexr.net/?parse=%5Cb%5B-%2B%5D%3F%5Cd*%5C.%3F%5Cd%2B%28%5BeE%5D%5B-%2B%5D%3F%5Cd%2B%29%3F%5Cb&search=123.45,%201563,%0A9.76456e12,%201E-9,%200.5e-7&replace=%5B$0,%20$1%5D)
