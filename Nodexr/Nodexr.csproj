@@ -39,7 +39,9 @@
     <ProjectReference Include="..\BlazorNodes\BlazorNodes.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
+  <!--TS config must be set here (rather than in tsconfig.json) to allow
+  separate debug and release configs.-->
+  <PropertyGroup Label="Typescript Config">
     <TypeScriptTarget>ES2015</TypeScriptTarget>
     <TypeScriptToolsVersion>4.0.5</TypeScriptToolsVersion>
     <TypeScriptModuleKind>ES6</TypeScriptModuleKind>
@@ -48,17 +50,13 @@
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptOutDir>wwwroot\js\GeneratedJS</TypeScriptOutDir>
-    <TypeScriptMapRoot />
-    <TypeScriptSourceRoot />
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
-    <TypeScriptSourceMap>true</TypeScriptSourceMap>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Typescript Config (Debug)" Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
   </PropertyGroup>
 
 </Project>
