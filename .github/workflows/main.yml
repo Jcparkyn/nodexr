@@ -21,14 +21,11 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build
-
     - name: Test
-      run: dotnet test
+      run: dotnet test -c Release --no-restore
 
     - name: Publish app
-      run: dotnet publish -c Release
+      run: dotnet publish -c Release --no-restore
 
     - name: Rewrite base href
       uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
@@ -38,7 +35,7 @@ jobs:
 
     - name: GitHub Pages
       if: success()
-      uses: crazy-max/ghaction-github-pages@v1.5.1
+      uses: crazy-max/ghaction-github-pages@v2.5.0
       with:
         target_branch: gh-pages
         build_dir: ${{ env.PUBLISH_DIR }}
