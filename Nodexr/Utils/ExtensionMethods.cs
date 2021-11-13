@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BlazorNodes.Core;
+using Microsoft.JSInterop;
 
 public static class ExtensionMethods
 {
@@ -45,4 +46,16 @@ public static class ExtensionMethods
 
     public static IEnumerable<(int index, T item)> Enumerate<T>(this IEnumerable<T> self) =>
         self?.Select((item, index) => (index, item)) ?? Enumerable.Empty<(int, T)>();
+
+    /// <summary>
+    /// Begins asynchronously loading a JS module from the given path.
+    /// </summary>
+    /// <remarks>
+    /// The module can be used immediately, and calls will automatically
+    /// begin executing once the module is loaded.
+    /// </remarks>
+    public static JSModule LoadJSModule(this IJSRuntime jsRuntime, string path)
+    {
+        return new JSModule(jsRuntime.InvokeAsync<IJSObjectReference>("import", path).AsTask());
+    }
 }

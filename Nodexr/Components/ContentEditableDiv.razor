@@ -1,5 +1,5 @@
 ﻿@inject IJSRuntime JS;
-@implements IDisposable
+@implements IAsyncDisposable
 
 <div @ref="divElement"
      class="@CssClass"></div>
@@ -17,13 +17,13 @@
 
 	ElementReference divElement;
 
-	Task<IJSObjectReference> module = null!;
+	IJSObjectReference module = null!;
 
 	DotNetObjectReference<ContentEditableDiv> thisRef = null!;
 
 	protected override void OnInitialized()
 	{
-		module = JS.InvokeAsync<IJSObjectReference>("import", "./js/GeneratedJS/ContentEditable.js").AsTask();
+		module = JS.LoadJSModule("./js/GeneratedJS/ContentEditable.js");
 		thisRef = DotNetObjectReference.Create(this);
 	}
 
@@ -32,7 +32,7 @@
 	{
 		if (firstRender)
 		{
-			await (await module).InvokeVoidAsync("initContentEditable", divElement, thisRef, Text!);
+			await module.InvokeVoidAsync("initContentEditable", divElement, thisRef, Text!);
 		}
 	}
 
@@ -44,8 +44,9 @@
 		await TextChanged.InvokeAsync(textFromJavascript);
 	}
 
-	void IDisposable.Dispose()
+	public async ValueTask DisposeAsync()
 	{
 		thisRef.Dispose();
+		await module.DisposeAsync();
 	}
 }
