@@ -1,6 +1,6 @@
 name: DeployToGitHubPages
 env:
-  PUBLISH_DIR: Nodexr/bin/Release/net5.0/publish/wwwroot
+  PUBLISH_DIR: Nodexr/bin/Release/net6.0/publish/wwwroot
 
 # Controls when the action will run
 on:
@@ -16,7 +16,16 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.0.x'
+        dotnet-version: '6.0.x'
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build
+
+    - name: Test
+      run: dotnet test
 
     - name: Publish app
       run: dotnet publish -c Release
