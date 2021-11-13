@@ -1,8 +1,8 @@
 # Nodexr
 
 [![Test and Deploy](https://github.com/Jcparkyn/nodexr/actions/workflows/main.yml/badge.svg)](https://github.com/Jcparkyn/nodexr/actions/workflows/main.yml)
-![GitHub](https://img.shields.io/github/license/Jcparkyn/nodexr)
-![GitHub issues](https://img.shields.io/github/issues/Jcparkyn/nodexr)
+[![License](https://img.shields.io/github/license/Jcparkyn/nodexr)](https://github.com/Jcparkyn/nodexr/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/Jcparkyn/nodexr)](https://github.com/Jcparkyn/nodexr/issues)
 
 Nodexr is a node-based Regular Expression editor, created in C# and Blazor.
 ## Try it at [nodexr.net](https://www.nodexr.net)
