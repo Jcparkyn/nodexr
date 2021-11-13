@@ -1,13 +1,9 @@
 ﻿//Handle copying text to the user's clipboard.
 //From https://chrissainty.com/copy-to-clipboard-in-blazor/
 
-(<any>window).clipboardCopy = {
-    copyText: function (text, message) {
-        navigator.clipboard.writeText(text).then(() => {
-            if (!!message) {
-                alert(message);
-            }
-        })
-            .catch(ex => alert(ex));
+export async function copyText(text, message) {
+    await navigator.clipboard.writeText(text);
+    if (message) {
+        alert(message);
     }
-};
+}
