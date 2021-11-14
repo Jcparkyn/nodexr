@@ -6,7 +6,7 @@ using System.Linq;
 
 public interface IGetNodeTreesQuery
 {
-    IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null);
+    IQueryable<NodeTree> GetAllNodeTrees(string? titleSearch = null);
 }
 
 public class GetNodeTreesQuery : IGetNodeTreesQuery
@@ -18,7 +18,7 @@ public class GetNodeTreesQuery : IGetNodeTreesQuery
         this.nodeTreeContext = nodeTreeContext;
     }
 
-    public IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null)
+    public IQueryable<NodeTree> GetAllNodeTrees(string? titleSearch = null)
     {
         var query = nodeTreeContext.NodeTrees.AsQueryable();
 

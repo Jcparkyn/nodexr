@@ -33,7 +33,7 @@ public class NodeTreeApi
 
         string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
         var publishModel = JsonConvert.DeserializeObject<NodeTreePublishDto>(requestBody);
-        var newTree = new NodeTreeModel(publishModel.Title)
+        var newTree = new NodeTree(publishModel.Title)
         {
             Description = publishModel.Description,
             Expression = publishModel.Expression,

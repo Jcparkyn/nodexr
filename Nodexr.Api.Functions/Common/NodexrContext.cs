@@ -8,5 +8,5 @@ public class NodexrContext : DbContext
         : base(options)
     { }
 
-    public DbSet<NodeTreeModel> NodeTrees => Set<NodeTreeModel>();
+    public DbSet<NodeTree> NodeTrees => Set<NodeTree>();
 }

@@ -1,7 +1,7 @@
 ﻿namespace Nodexr.Api.Functions.Models;
 using System;
 
-public class NodeTreeModel
+public class NodeTree
 {
     public string? id { get; set; } = Guid.NewGuid().ToString();
 
@@ -11,7 +11,7 @@ public class NodeTreeModel
 
     public string? Description { get; set; }
 
-    public NodeTreeModel(string title)
+    public NodeTree(string title)
     {
         Title = title;
     }
