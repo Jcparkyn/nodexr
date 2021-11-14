@@ -1,14 +1,14 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Nodexr.ApiFunctions.Models;
-using Nodexr.ApiFunctions.Services;
+using Nodexr.Api.Functions.Models;
+using Nodexr.Api.Functions.Services;
 using System;
 
 
-[assembly: FunctionsStartup(typeof(Nodexr.ApiFunctions.Startup))]
+[assembly: FunctionsStartup(typeof(Nodexr.Api.Functions.Startup))]
 
-namespace Nodexr.ApiFunctions;
+namespace Nodexr.Api.Functions;
 
 internal class Startup : FunctionsStartup
 {

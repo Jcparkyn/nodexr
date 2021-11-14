@@ -3,8 +3,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <Configurations>Debug;Release</Configurations>
-    <AssemblyName>Nodexr.ApiFunctions</AssemblyName>
-    <RootNamespace>Nodexr.ApiFunctions</RootNamespace>
+    <AssemblyName>Nodexr.Api.Functions</AssemblyName>
+    <RootNamespace>Nodexr.Api.Functions</RootNamespace>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>

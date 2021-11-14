@@ -1,5 +1,5 @@
-﻿namespace Nodexr.ApiFunctions.Services;
-using Nodexr.ApiFunctions.Models;
+﻿namespace Nodexr.Api.Functions.Services;
+using Nodexr.Api.Functions.Models;
 using System.Linq;
 
 public interface IGetNodeTreesService

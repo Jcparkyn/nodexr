@@ -103,6 +103,8 @@ csharp_style_inlined_variable_declaration = true:suggestion
 
 csharp_using_directive_placement = inside_namespace:warning
 dotnet_style_namespace_match_folder=true:warning
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = warning
 
 ###############################
 # C# Formatting Rules         #

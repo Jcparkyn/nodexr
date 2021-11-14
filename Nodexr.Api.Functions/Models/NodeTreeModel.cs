@@ -1,4 +1,4 @@
-﻿namespace Nodexr.ApiFunctions.Models;
+﻿namespace Nodexr.Api.Functions.Models;
 using System;
 
 public class NodeTreeModel
