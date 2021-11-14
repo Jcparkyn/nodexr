@@ -21,7 +21,7 @@ internal class Startup : FunctionsStartup
         string databaseName = Environment.GetEnvironmentVariable("databaseName")
             ?? throw new InvalidOperationException("databaseName must be provided in application settings");
 
-        builder.Services.AddDbContext<NodeTreeContext>(
+        builder.Services.AddDbContext<NodexrContext>(
             options => options.UseCosmos(
                 endpoint,
                 key,

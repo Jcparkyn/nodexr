@@ -15,10 +15,10 @@ using Nodexr.Api.Functions.Common;
 
 public class NodeTreeApi
 {
-    private readonly NodeTreeContext dbContext;
+    private readonly NodexrContext dbContext;
     private readonly IGetNodeTreesQuery getNodeTreeService;
 
-    public NodeTreeApi(NodeTreeContext dbContext, IGetNodeTreesQuery getNodeTreeService)
+    public NodeTreeApi(NodexrContext dbContext, IGetNodeTreesQuery getNodeTreeService)
     {
         this.dbContext = dbContext;
         this.getNodeTreeService = getNodeTreeService;

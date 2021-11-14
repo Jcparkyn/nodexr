@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Nodexr.Api.Functions.Models;
 
-public class NodeTreeContext : DbContext
+public class NodexrContext : DbContext
 {
-    public NodeTreeContext(DbContextOptions<NodeTreeContext> options)
+    public NodexrContext(DbContextOptions<NodexrContext> options)
         : base(options)
     { }
 
