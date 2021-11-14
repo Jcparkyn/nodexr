@@ -1,5 +1,6 @@
-﻿namespace Nodexr.Api.Functions.Models;
+﻿namespace Nodexr.Api.Functions.Common;
 using Microsoft.EntityFrameworkCore;
+using Nodexr.Api.Functions.Models;
 
 public class NodeTreeContext : DbContext
 {

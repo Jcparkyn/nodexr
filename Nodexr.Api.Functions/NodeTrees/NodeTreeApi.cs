@@ -1,4 +1,4 @@
-﻿namespace Nodexr.Api.Functions.Functions;
+﻿namespace Nodexr.Api.Functions.NodeTrees;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +9,16 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Nodexr.Api.Functions.Models;
 using System.Linq;
-using Nodexr.Api.Functions.Services;
 using Nodexr.Api.Contracts.NodeTrees;
+using Nodexr.Api.Functions.NodeTrees.Queries;
+using Nodexr.Api.Functions.Common;
 
 public class NodeTreeApi
 {
     private readonly NodeTreeContext dbContext;
-    private readonly IGetNodeTreesService getNodeTreeService;
+    private readonly IGetNodeTreesQuery getNodeTreeService;
 
-    public NodeTreeApi(NodeTreeContext dbContext, IGetNodeTreesService getNodeTreeService)
+    public NodeTreeApi(NodeTreeContext dbContext, IGetNodeTreesQuery getNodeTreeService)
     {
         this.dbContext = dbContext;
         this.getNodeTreeService = getNodeTreeService;

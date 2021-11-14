@@ -1,8 +1,8 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Nodexr.Api.Functions.Models;
-using Nodexr.Api.Functions.Services;
+using Nodexr.Api.Functions.Common;
+using Nodexr.Api.Functions.NodeTrees.Queries;
 using System;
 
 
@@ -27,6 +27,6 @@ internal class Startup : FunctionsStartup
                 key,
                 databaseName: databaseName));
 
-        builder.Services.AddTransient<IGetNodeTreesService, GetNodeTreesService>();
+        builder.Services.AddTransient<IGetNodeTreesQuery, GetNodeTreesQuery>();
     }
 }

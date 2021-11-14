@@ -1,4 +1,4 @@
-﻿namespace Nodexr.Api.Functions.Models;
+﻿namespace Nodexr.Api.Functions.Common;
 using Microsoft.EntityFrameworkCore;
 using Nodexr.Api.Contracts.Pagination;
 using System.Linq;

@@ -1,17 +1,19 @@
-﻿namespace Nodexr.Api.Functions.Services;
+﻿namespace Nodexr.Api.Functions.NodeTrees.Queries;
+
+using Nodexr.Api.Functions.Common;
 using Nodexr.Api.Functions.Models;
 using System.Linq;
 
-public interface IGetNodeTreesService
+public interface IGetNodeTreesQuery
 {
     IQueryable<NodeTreeModel> GetAllNodeTrees(string? titleSearch = null);
 }
 
-public class GetNodeTreesService : IGetNodeTreesService
+public class GetNodeTreesQuery : IGetNodeTreesQuery
 {
     private readonly NodeTreeContext nodeTreeContext;
 
-    public GetNodeTreesService(NodeTreeContext nodeTreeContext)
+    public GetNodeTreesQuery(NodeTreeContext nodeTreeContext)
     {
         this.nodeTreeContext = nodeTreeContext;
     }
