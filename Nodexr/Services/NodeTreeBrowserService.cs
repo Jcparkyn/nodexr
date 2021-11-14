@@ -1,8 +1,8 @@
 ﻿namespace Nodexr.Services;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using Nodexr.ApiShared.NodeTrees;
-using Nodexr.ApiShared.Pagination;
+using Nodexr.Api.Contracts.NodeTrees;
+using Nodexr.Api.Contracts.Pagination;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;

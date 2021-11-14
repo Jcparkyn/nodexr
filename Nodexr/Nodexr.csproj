@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nodexr.ApiShared\Nodexr.ApiShared.csproj" />
+    <ProjectReference Include="..\Nodexr.Api.Contracts\Nodexr.Api.Contracts.csproj" />
     <ProjectReference Include="..\BlazorNodes\BlazorNodes.csproj" />
   </ItemGroup>
 

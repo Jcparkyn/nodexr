@@ -1,4 +1,4 @@
-﻿namespace Nodexr.ApiShared.NodeTrees;
+﻿namespace Nodexr.Api.Contracts.NodeTrees;
 
 public class NodeTreePreviewDto
 {

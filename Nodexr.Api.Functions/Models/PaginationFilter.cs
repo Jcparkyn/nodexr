@@ -1,6 +1,6 @@
 ﻿namespace Nodexr.Api.Functions.Models;
 using Microsoft.EntityFrameworkCore;
-using Nodexr.ApiShared.Pagination;
+using Nodexr.Api.Contracts.Pagination;
 using System.Linq;
 using System.Threading.Tasks;
 

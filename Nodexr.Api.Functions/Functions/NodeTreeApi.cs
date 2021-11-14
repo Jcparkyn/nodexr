@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Nodexr.Api.Functions.Models;
 using System.Linq;
 using Nodexr.Api.Functions.Services;
-using Nodexr.ApiShared.NodeTrees;
+using Nodexr.Api.Contracts.NodeTrees;
 
 public class NodeTreeApi
 {
