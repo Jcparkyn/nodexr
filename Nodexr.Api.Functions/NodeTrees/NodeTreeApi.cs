@@ -12,13 +12,14 @@ using System.Linq;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Functions.NodeTrees.Queries;
 using Nodexr.Api.Functions.Common;
+using System.Threading;
 
 public class NodeTreeApi
 {
-    private readonly NodexrContext dbContext;
+    private readonly INodexrContext dbContext;
     private readonly IGetNodeTreesQuery getNodeTreeService;
 
-    public NodeTreeApi(NodexrContext dbContext, IGetNodeTreesQuery getNodeTreeService)
+    public NodeTreeApi(INodexrContext dbContext, IGetNodeTreesQuery getNodeTreeService)
     {
         this.dbContext = dbContext;
         this.getNodeTreeService = getNodeTreeService;
@@ -27,7 +28,8 @@ public class NodeTreeApi
     [FunctionName("CreateNodeTree")]
     public async Task<IActionResult> CreateNodeTree(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "nodetree")] HttpRequest req,
-        ILogger log)
+        ILogger log,
+        CancellationToken cancellationToken)
     {
         log.LogInformation("Creating new NodeTree");
 
@@ -41,7 +43,7 @@ public class NodeTreeApi
 
         //Add the new tree to the database
         dbContext.NodeTrees.Add(newTree);
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(cancellationToken);
 
         return new OkObjectResult(newTree);
     }

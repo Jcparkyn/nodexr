@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 public class CreateNodeTreeCommandHandler : IRequestHandler<CreateNodeTreeCommand, string>
 {
-    private readonly NodexrContext dbContext;
+    private readonly INodexrContext dbContext;
 
-    public CreateNodeTreeCommandHandler(NodexrContext dbContext)
+    public CreateNodeTreeCommandHandler(INodexrContext dbContext)
     {
         this.dbContext = dbContext;
     }

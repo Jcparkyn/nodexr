@@ -11,9 +11,9 @@ public interface IGetNodeTreesQuery
 
 public class GetNodeTreesQuery : IGetNodeTreesQuery
 {
-    private readonly NodexrContext nodeTreeContext;
+    private readonly INodexrContext nodeTreeContext;
 
-    public GetNodeTreesQuery(NodexrContext nodeTreeContext)
+    public GetNodeTreesQuery(INodexrContext nodeTreeContext)
     {
         this.nodeTreeContext = nodeTreeContext;
     }

@@ -4,7 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Nodexr.Api.Functions.Common;
 using Nodexr.Api.Functions.NodeTrees.Queries;
 using System;
-
+using MediatR;
+using System.Reflection;
 
 [assembly: FunctionsStartup(typeof(Nodexr.Api.Functions.Startup))]
 
@@ -21,11 +22,15 @@ internal class Startup : FunctionsStartup
         string databaseName = Environment.GetEnvironmentVariable("databaseName")
             ?? throw new InvalidOperationException("databaseName must be provided in application settings");
 
+        builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
         builder.Services.AddDbContext<NodexrContext>(
             options => options.UseCosmos(
                 endpoint,
                 key,
                 databaseName: databaseName));
+
+        builder.Services.AddScoped<INodexrContext, NodexrContext>();
 
         builder.Services.AddTransient<IGetNodeTreesQuery, GetNodeTreesQuery>();
     }
