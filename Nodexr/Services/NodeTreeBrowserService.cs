@@ -43,7 +43,7 @@ public class NodeTreeBrowserService
         //TODO: Load search/replace strings
     }
 
-    public async Task PublishNodeTree(NodeTreePublishDto model)
+    public async Task PublishNodeTree(CreateNodeTreeCommand model)
     {
         await httpClient.PostAsJsonAsync(
             $"{apiAddress}/nodetree",

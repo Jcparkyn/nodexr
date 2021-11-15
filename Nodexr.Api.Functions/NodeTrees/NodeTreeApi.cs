@@ -32,7 +32,7 @@ public class NodeTreeApi
         log.LogInformation("Creating new NodeTree");
 
         string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-        var publishModel = JsonConvert.DeserializeObject<NodeTreePublishDto>(requestBody);
+        var publishModel = JsonConvert.DeserializeObject<CreateNodeTreeCommand>(requestBody);
         var newTree = new NodeTree(publishModel.Title)
         {
             Description = publishModel.Description,

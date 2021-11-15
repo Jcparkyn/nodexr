@@ -1,7 +1,9 @@
 ﻿namespace Nodexr.Api.Contracts.NodeTrees;
+
+using MediatR;
 using System.ComponentModel.DataAnnotations;
 
-public class NodeTreePublishDto
+public class CreateNodeTreeCommand : IRequest<string>
 {
     [Required]
     public string Title { get; set; }

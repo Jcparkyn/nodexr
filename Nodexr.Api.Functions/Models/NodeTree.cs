@@ -3,7 +3,7 @@ using System;
 
 public class NodeTree
 {
-    public string? id { get; set; } = Guid.NewGuid().ToString();
+    public string id { get; set; } = Guid.NewGuid().ToString();
 
     public string Title { get; set; }
 
