@@ -6,12 +6,13 @@ using Nodexr.Api.Functions.NodeTrees.Queries;
 using System;
 using MediatR;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 
 [assembly: FunctionsStartup(typeof(Nodexr.Api.Functions.Startup))]
 
 namespace Nodexr.Api.Functions;
 
-internal class Startup : FunctionsStartup
+public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
