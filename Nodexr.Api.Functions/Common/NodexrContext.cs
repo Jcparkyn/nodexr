@@ -17,5 +17,12 @@ public class NodexrContext : DbContext, INodexrContext
         : base(options)
     { }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultContainer("NodeTreeContext");
+        modelBuilder.Entity<NodeTree>();
+    }
+
     public DbSet<NodeTree> NodeTrees => Set<NodeTree>();
 }
