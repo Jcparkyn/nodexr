@@ -26,14 +26,13 @@ public class Testing
         _scopeFactory = services.GetRequiredService<IServiceScopeFactory>();
     }
 
-    public static async Task<TResponse> SendAsync<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default)
-        where TRequest : IRequest<TResponse>
+    public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var handler = scope.ServiceProvider.GetRequiredService<IRequestHandler<TRequest, TResponse>>();
+        var mediator = scope.ServiceProvider.GetRequiredService<ISender>();
 
-        return await handler.Handle(request, cancellationToken);
+        return await mediator.Send(request, cancellationToken);
     }
 
     public static Task ResetState()

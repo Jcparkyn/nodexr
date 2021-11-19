@@ -19,7 +19,7 @@ public class CreateNodeTreeCommandHandlerTests : TestBase
             Title = "Placeholder",
         };
 
-        string? nodeTreeId = await SendAsync<CreateNodeTreeCommand, string>(command);
+        string? nodeTreeId = await SendAsync(command);
 
         var nodeTree = await FindAsync<NodeTree>(nodeTreeId);
 

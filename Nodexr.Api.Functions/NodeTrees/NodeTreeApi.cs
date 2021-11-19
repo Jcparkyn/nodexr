@@ -7,22 +7,27 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Nodexr.Api.Functions.Models;
 using System.Linq;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Functions.NodeTrees.Queries;
 using Nodexr.Api.Functions.Common;
 using System.Threading;
+using MediatR;
 
 public class NodeTreeApi
 {
     private readonly INodexrContext dbContext;
     private readonly IGetNodeTreesQuery getNodeTreeService;
+    private readonly ISender mediator;
 
-    public NodeTreeApi(INodexrContext dbContext, IGetNodeTreesQuery getNodeTreeService)
+    public NodeTreeApi(
+        INodexrContext dbContext,
+        IGetNodeTreesQuery getNodeTreeService,
+        ISender mediator)
     {
         this.dbContext = dbContext;
         this.getNodeTreeService = getNodeTreeService;
+        this.mediator = mediator;
     }
 
     [FunctionName("CreateNodeTree")]
@@ -34,18 +39,11 @@ public class NodeTreeApi
         log.LogInformation("Creating new NodeTree");
 
         string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-        var publishModel = JsonConvert.DeserializeObject<CreateNodeTreeCommand>(requestBody);
-        var newTree = new NodeTree(publishModel.Title)
-        {
-            Description = publishModel.Description,
-            Expression = publishModel.Expression,
-        };
+        var command = JsonConvert.DeserializeObject<CreateNodeTreeCommand>(requestBody);
 
-        //Add the new tree to the database
-        dbContext.NodeTrees.Add(newTree);
-        await dbContext.SaveChangesAsync(cancellationToken);
+        string id = await mediator.Send(command, cancellationToken);
 
-        return new OkObjectResult(newTree);
+        return new OkObjectResult(id);
     }
 
     [FunctionName("GetNodeTreeById")]
