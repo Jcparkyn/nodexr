@@ -18,7 +18,7 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        var config = InitializeConfiguration(builder);
+        var config = InitializeConfiguration();
 
         builder.Services.AddSingleton(config);
 
@@ -44,7 +44,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddTransient<IGetNodeTreesQuery, GetNodeTreesQuery>();
     }
 
-    private IConfiguration InitializeConfiguration(IFunctionsHostBuilder builder)
+    private static IConfiguration InitializeConfiguration()
     {
         string basePath = Directory.GetCurrentDirectory();
         return new ConfigurationBuilder()
