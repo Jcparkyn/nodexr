@@ -7,6 +7,8 @@ using System;
 using MediatR;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using System.IO;
+using Microsoft.Extensions.Options;
 
 [assembly: FunctionsStartup(typeof(Nodexr.Api.Functions.Startup))]
 
@@ -16,23 +18,39 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        string key = Environment.GetEnvironmentVariable("databaseKey")
-            ?? throw new InvalidOperationException("databaseKey must be provided in application settings");
-        string endpoint = Environment.GetEnvironmentVariable("databaseEndpoint")
-            ?? throw new InvalidOperationException("databaseEndpoint must be provided in application settings");
-        string databaseName = Environment.GetEnvironmentVariable("databaseName")
-            ?? throw new InvalidOperationException("databaseName must be provided in application settings");
+        var config = InitializeConfiguration(builder);
+
+        builder.Services.AddSingleton(config);
+
+        builder.Services.AddOptions<NodexrDbConfiguration>()
+            .Configure<IConfiguration>((settings, configuration) =>
+            {
+                configuration.GetSection("Database").Bind(settings);
+            });
 
         builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
-        builder.Services.AddDbContext<NodexrContext>(
-            options => options.UseCosmos(
-                endpoint,
-                key,
-                databaseName: databaseName));
+        builder.Services.AddDbContext<NodexrContext>((services, options) =>
+        {
+            var config = services.GetRequiredService<IOptions<NodexrDbConfiguration>>().Value;
+            options.UseCosmos(
+                config.ConnectionString ?? throw new InvalidOperationException("ConnectionString must be provided in application settings"),
+                config.DatabaseName ?? throw new InvalidOperationException("ConnectionString must be provided in application settings"));
+        });
 
         builder.Services.AddScoped<INodexrContext, NodexrContext>();
 
         builder.Services.AddTransient<IGetNodeTreesQuery, GetNodeTreesQuery>();
+    }
+
+    private IConfiguration InitializeConfiguration(IFunctionsHostBuilder builder)
+    {
+        string basePath = Directory.GetCurrentDirectory();
+        return new ConfigurationBuilder()
+            .SetBasePath(basePath)
+            .AddJsonFile("local.settings.json", optional: true, reloadOnChange: false)
+            .AddUserSecrets<Startup>()
+            .AddEnvironmentVariables()
+            .Build();
     }
 }

@@ -345,8 +345,5 @@ Nodexr/Nodexr.xml
 # Auto-generated JS files from typescript
 Nodexr/wwwroot/js/GeneratedJS/
 
-# Azure Functions local settings file
-local.settings.json
-
 # Azure Functions service dependency profile
 profile.arm.json

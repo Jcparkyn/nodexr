@@ -1,9 +1,11 @@
 ﻿namespace Nodexr.Api.Functions.IntegrationTests;
 using MediatR;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Moq;
 using Nodexr.Api.Functions.Common;
 using NUnit.Framework;
@@ -22,13 +24,6 @@ public class Testing
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
-            .AddEnvironmentVariables();
-
-        _configuration = builder.Build();
-
         var startup = new Startup();
         var host = new HostBuilder()
             .ConfigureWebJobs(startup.Configure)
@@ -36,20 +31,12 @@ public class Testing
 
         var services = host.Services;
 
-        //services.AddSingleton(Mock.Of<IWebHostEnvironment>(w =>
-        //    w.EnvironmentName == "Development" &&
-        //    w.ApplicationName == "CleanArchitecture.WebUI"));
-
-        //services.AddLogging();
-
-        //startup.ConfigureServices(services);
-
         _scopeFactory = services.GetRequiredService<IServiceScopeFactory>();
 
-        _checkpoint = new Checkpoint
-        {
-            TablesToIgnore = new[] { "__EFMigrationsHistory" }
-        };
+        //_checkpoint = new Checkpoint
+        //{
+        //    TablesToIgnore = new[] { "__EFMigrationsHistory" }
+        //};
 
         //EnsureDatabase();
     }
@@ -74,7 +61,7 @@ public class Testing
 
     public static async Task ResetState()
     {
-        await _checkpoint.Reset(_configuration.GetConnectionString("DefaultConnection"));
+        //await _checkpoint.Reset(_configuration.GetConnectionString("DefaultConnection"));
 
         //_currentUserId = null;
     }

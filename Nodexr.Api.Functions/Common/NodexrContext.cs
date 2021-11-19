@@ -26,3 +26,9 @@ public class NodexrContext : DbContext, INodexrContext
 
     public DbSet<NodeTree> NodeTrees => Set<NodeTree>();
 }
+
+public class NodexrDbConfiguration
+{
+    public string? ConnectionString { get; set; }
+    public string? DatabaseName { get; set; }
+}

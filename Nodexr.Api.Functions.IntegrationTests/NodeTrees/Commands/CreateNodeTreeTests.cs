@@ -11,6 +11,6 @@ public class CreateNodeTreeCommandHandlerTests : TestBase
     [Test]
     public async Task ShouldCreateNodeTree()
     {
-        Assert.Fail();
+        Assert.Fail("TODO");
     }
 }

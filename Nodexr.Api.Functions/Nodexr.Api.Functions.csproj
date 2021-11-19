@@ -6,6 +6,7 @@
     <AssemblyName>Nodexr.Api.Functions</AssemblyName>
     <RootNamespace>Nodexr.Api.Functions</RootNamespace>
     <Nullable>enable</Nullable>
+    <UserSecretsId>e3e5ae69-3f99-4640-9167-854c3340cbc7</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
@@ -13,6 +14,7 @@
     <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
   </ItemGroup>
