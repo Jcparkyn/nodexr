@@ -7,15 +7,10 @@ using Nodexr.Api.Functions.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class CreateNodeTreeCommandHandler : IRequestHandler<CreateNodeTreeCommand, string>
+public record class CreateNodeTreeCommandHandler(
+    INodexrContext dbContext
+) : IRequestHandler<CreateNodeTreeCommand, string>
 {
-    private readonly INodexrContext dbContext;
-
-    public CreateNodeTreeCommandHandler(INodexrContext dbContext)
-    {
-        this.dbContext = dbContext;
-    }
-
     public async Task<string> Handle(CreateNodeTreeCommand request, CancellationToken cancellationToken)
     {
         var newTree = new NodeTree(request.Title)
