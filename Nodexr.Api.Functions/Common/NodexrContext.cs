@@ -10,6 +10,9 @@ public interface INodexrContext
     DbSet<NodeTree> NodeTrees { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+
+    ValueTask<TEntity?> FindAsync<TEntity>(object?[]? keyValues, CancellationToken cancellationToken = default)
+        where TEntity : class;
 }
 
 public class NodexrContext : DbContext, INodexrContext

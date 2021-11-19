@@ -9,5 +9,6 @@ public class TestBase
     [SetUp]
     public async Task TestSetUp()
     {
+        await ResetState();
     }
 }
