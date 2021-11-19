@@ -26,7 +26,8 @@ public class Startup : FunctionsStartup
             .Configure<IConfiguration>((settings, configuration) =>
             {
                 configuration.GetSection("Database").Bind(settings);
-            });
+            })
+            .ValidateDataAnnotations();
 
         builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 

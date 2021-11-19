@@ -1,6 +1,7 @@
 ﻿namespace Nodexr.Api.Functions.Common;
 using Microsoft.EntityFrameworkCore;
 using Nodexr.Api.Functions.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,6 +30,8 @@ public class NodexrContext : DbContext, INodexrContext
 
 public class NodexrDbConfiguration
 {
-    public string? ConnectionString { get; set; }
-    public string? DatabaseName { get; set; }
+    [Required]
+    public string ConnectionString { get; set; } = null!;
+    [Required]
+    public string DatabaseName { get; set; } = null!;
 }
