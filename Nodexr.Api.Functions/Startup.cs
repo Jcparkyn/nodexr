@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nodexr.Api.Functions.Common;
-using System;
 using MediatR;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
@@ -30,15 +29,11 @@ public class Startup : FunctionsStartup
 
         builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
-        builder.Services.AddDbContext<NodexrContext>((services, options) =>
+        builder.Services.AddDbContext<INodexrContext, NodexrContext>((services, options) =>
         {
             var config = services.GetRequiredService<IOptions<NodexrDbConfiguration>>().Value;
-            options.UseCosmos(
-                config.ConnectionString ?? throw new InvalidOperationException("ConnectionString must be provided in application settings"),
-                config.DatabaseName ?? throw new InvalidOperationException("ConnectionString must be provided in application settings"));
+            options.UseCosmos(config.ConnectionString, config.DatabaseName);
         });
-
-        builder.Services.AddScoped<INodexrContext, NodexrContext>();
     }
 
     private static IConfiguration InitializeConfiguration()
