@@ -16,9 +16,9 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        var config = InitializeConfiguration();
+        var config = InitializeConfiguration(new ConfigurationBuilder()).Build();
 
-        builder.Services.AddSingleton(config);
+        builder.Services.AddSingleton<IConfiguration>(config);
 
         builder.Services.AddOptions<NodexrDbConfiguration>()
             .Configure<IConfiguration>((settings, configuration) =>
@@ -36,14 +36,13 @@ public class Startup : FunctionsStartup
         });
     }
 
-    private static IConfiguration InitializeConfiguration()
+    protected virtual IConfigurationBuilder InitializeConfiguration(IConfigurationBuilder builder)
     {
         string basePath = Directory.GetCurrentDirectory();
-        return new ConfigurationBuilder()
+        return builder
             .SetBasePath(basePath)
             .AddJsonFile("local.settings.json", optional: true, reloadOnChange: false)
             .AddUserSecrets<Startup>()
-            .AddEnvironmentVariables()
-            .Build();
+            .AddEnvironmentVariables();
     }
 }

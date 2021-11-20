@@ -1,10 +1,12 @@
 ﻿namespace Nodexr.Api.Functions.IntegrationTests;
 
 using MediatR;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nodexr.Api.Functions.Common;
 using NUnit.Framework;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +18,7 @@ public class Testing
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
-        var startup = new Startup();
+        var startup = new TestStartup();
         var host = new HostBuilder()
             .ConfigureWebJobs(startup.Configure)
             .Build();
@@ -65,5 +67,18 @@ public class Testing
     [OneTimeTearDown]
     public void RunAfterAnyTests()
     {
+    }
+
+    private class TestStartup : Startup
+    {
+        protected override IConfigurationBuilder InitializeConfiguration(IConfigurationBuilder builder)
+        {
+            string basePath = Directory.GetCurrentDirectory();
+            return builder
+                .SetBasePath(basePath)
+                .AddJsonFile("test.settings.json", optional: false, reloadOnChange: false)
+                .AddUserSecrets<Testing>()
+                .AddEnvironmentVariables();
+        }
     }
 }
