@@ -13,10 +13,9 @@ public record class CreateNodeTreeCommandHandler(
 {
     public async Task<string> Handle(CreateNodeTreeCommand request, CancellationToken cancellationToken)
     {
-        var newTree = new NodeTree(request.Title)
+        var newTree = new NodeTree(request.Title, request.Expression)
         {
             Description = request.Description,
-            Expression = request.Expression,
         };
 
         await dbContext.NodeTrees.AddAsync(newTree, cancellationToken);

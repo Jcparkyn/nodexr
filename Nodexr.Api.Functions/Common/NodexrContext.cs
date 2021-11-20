@@ -1,5 +1,6 @@
 ﻿namespace Nodexr.Api.Functions.Common;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Nodexr.Api.Functions.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
@@ -9,10 +10,12 @@ public interface INodexrContext
 {
     DbSet<NodeTree> NodeTrees { get; }
 
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     ValueTask<TEntity?> FindAsync<TEntity>(object?[]? keyValues, CancellationToken cancellationToken = default)
         where TEntity : class;
+
+    EntityEntry<TEntity> Add<TEntity>(TEntity entity) where TEntity : class;
 }
 
 public class NodexrContext : DbContext, INodexrContext

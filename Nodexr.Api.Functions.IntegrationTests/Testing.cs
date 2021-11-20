@@ -40,6 +40,18 @@ public class Testing
         return Task.CompletedTask; // TODO
     }
 
+    public static async Task AddAsync<TEntity>(TEntity entity)
+        where TEntity : class
+    {
+        using var scope = _scopeFactory.CreateScope();
+
+        var context = scope.ServiceProvider.GetRequiredService<INodexrContext>();
+
+        context.Add(entity);
+
+        await context.SaveChangesAsync();
+    }
+
     public static async Task<TEntity?> FindAsync<TEntity>(params object[] keyValues)
         where TEntity : class
     {

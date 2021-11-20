@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nodexr.Api.Functions.Common;
-using Nodexr.Api.Functions.NodeTrees.Queries;
 using System;
 using MediatR;
 using System.Reflection;
@@ -40,8 +39,6 @@ public class Startup : FunctionsStartup
         });
 
         builder.Services.AddScoped<INodexrContext, NodexrContext>();
-
-        builder.Services.AddTransient<IGetNodeTreesQuery, GetNodeTreesQuery>();
     }
 
     private static IConfiguration InitializeConfiguration()

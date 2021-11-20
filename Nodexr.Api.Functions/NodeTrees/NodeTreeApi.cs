@@ -7,28 +7,15 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System.Linq;
 using Nodexr.Api.Contracts.NodeTrees;
-using Nodexr.Api.Functions.NodeTrees.Queries;
 using Nodexr.Api.Functions.Common;
 using System.Threading;
 using MediatR;
 
-public class NodeTreeApi
-{
-    private readonly INodexrContext dbContext;
-    private readonly IGetNodeTreesQuery getNodeTreeService;
-    private readonly ISender mediator;
-
-    public NodeTreeApi(
-        INodexrContext dbContext,
-        IGetNodeTreesQuery getNodeTreeService,
-        ISender mediator)
-    {
-        this.dbContext = dbContext;
-        this.getNodeTreeService = getNodeTreeService;
-        this.mediator = mediator;
-    }
+public record NodeTreeApi(
+    INodexrContext dbContext,
+    ISender mediator
+){
 
     [FunctionName("CreateNodeTree")]
     public async Task<IActionResult> CreateNodeTree(
@@ -66,28 +53,23 @@ public class NodeTreeApi
     [FunctionName("GetAllNodeTrees")]
     public async Task<IActionResult> GetAllNodeTrees(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "nodetree")] HttpRequest req,
-        ILogger log)
+        ILogger log,
+        CancellationToken cancellationToken)
     {
         string titleSearch = req.Query["search"];
-        int? limit = GetQueryInt(req, "limit");
         int start = GetQueryInt(req, "start") ?? 0;
+        int? limit = GetQueryInt(req, "limit");
 
         log.LogInformation($"Retrieving all NodeTrees, with start = {start}, limit = {limit}, search = {titleSearch}");
 
-        var paginationFilter = new PaginationFilter(start, limit ?? 50);
+        var query = new GetNodeTreesQuery
+        {
+            SearchString = req.Query["search"],
+            Start = start,
+            Limit = limit,
+        };
 
-        var query = getNodeTreeService.GetAllNodeTrees(
-            titleSearch: titleSearch
-            )
-            .OrderBy(tree => tree.Title)
-            .Select(tree => new NodeTreePreviewDto
-            {
-                Description = tree.Description,
-                Expression = tree.Expression,
-                Title = tree.Title,
-            });
-
-        var trees = await paginationFilter.ApplyTo(query);
+        var trees = await mediator.Send(query, cancellationToken);
 
         return new OkObjectResult(trees);
     }

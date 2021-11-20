@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nodexr.Api.Contracts.Pagination;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 public class PaginationFilter
@@ -17,12 +18,23 @@ public class PaginationFilter
         Limit = limit > maxLimit ? maxLimit : limit;
     }
 
-    public async Task<Paged<T>> ApplyTo<T>(IQueryable<T> collection)
+    public async Task<Paged<T>> ApplyTo<T>(IQueryable<T> collection, CancellationToken cancellationToken)
     {
         return new Paged<T>(
-            await collection.Skip(Start).Take(Limit).ToListAsync(),
-            collection.Count(),
+            await collection.Skip(Start).Take(Limit).ToListAsync(cancellationToken),
+            await collection.CountAsync(cancellationToken), // TODO: Parallelize
             Start,
             Limit);
+    }
+}
+
+public static class PaginationExtensions
+{
+    public static async Task<Paged<T>> WithPagination<T>(
+        this IQueryable<T> query,
+        PaginationFilter pagination,
+        CancellationToken cancellationToken = default)
+    {
+        return await pagination.ApplyTo(query, cancellationToken);
     }
 }
