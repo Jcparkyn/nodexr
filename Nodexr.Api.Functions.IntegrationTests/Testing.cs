@@ -1,6 +1,7 @@
 ﻿namespace Nodexr.Api.Functions.IntegrationTests;
 
 using MediatR;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,19 +38,33 @@ public class Testing
         return await mediator.Send(request, cancellationToken);
     }
 
-    public static Task ResetState()
+    public static async Task ResetState()
     {
-        return Task.CompletedTask; // TODO
+        using var scope = _scopeFactory.CreateScope();
+
+        using var context = scope.ServiceProvider.GetRequiredService<NodexrContext>();
+
+        try
+        {
+            await context.NodeTreeContainer
+                .DeleteContainerAsync();
+        }
+        catch (CosmosException)
+        {
+            // Container and/or database doesn't exist; do nothing.
+        }
+
+        await context.Database.EnsureCreatedAsync();
     }
 
-    public static async Task AddAsync<TEntity>(TEntity entity)
+    public static async Task AddRangeAsync<TEntity>(params TEntity[] entity)
         where TEntity : class
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var context = scope.ServiceProvider.GetRequiredService<INodexrContext>();
+        using var context = scope.ServiceProvider.GetRequiredService<NodexrContext>();
 
-        context.Add(entity);
+        await context.Set<TEntity>().AddRangeAsync(entity);
 
         await context.SaveChangesAsync();
     }
@@ -59,7 +74,7 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var context = scope.ServiceProvider.GetRequiredService<INodexrContext>();
+        using var context = scope.ServiceProvider.GetRequiredService<INodexrContext>();
 
         return await context.FindAsync<TEntity>(keyValues);
     }

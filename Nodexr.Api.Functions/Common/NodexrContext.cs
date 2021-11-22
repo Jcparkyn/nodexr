@@ -1,12 +1,16 @@
 ﻿namespace Nodexr.Api.Functions.Common;
+
+using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Options;
 using Nodexr.Api.Functions.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
-public interface INodexrContext
+public interface INodexrContext : IDisposable, IAsyncDisposable
 {
     DbSet<NodeTree> NodeTrees { get; }
 
@@ -20,18 +24,39 @@ public interface INodexrContext
 
 public class NodexrContext : DbContext, INodexrContext
 {
-    public NodexrContext(DbContextOptions<NodexrContext> options)
+    private readonly NodexrDbConfiguration configuration;
+
+    public NodexrContext(DbContextOptions<NodexrContext> options, IOptions<NodexrDbConfiguration> configuration)
         : base(options)
-    { }
+    {
+        this.configuration = configuration.Value;
+    }
+
+    public DbSet<NodeTree> NodeTrees => Set<NodeTree>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.HasDefaultContainer("NodeTreeContext");
-        modelBuilder.Entity<NodeTree>();
+
+        modelBuilder.Entity<NodeTree>()
+            .HasNoDiscriminator()
+            .ToContainer(nameof(NodeTrees))
+            .HasPartitionKey(x => x.Id)
+            .HasKey(x => x.Id);
+
+        modelBuilder.Entity<NodeTree>()
+            .Property(x => x.Id);
     }
 
-    public DbSet<NodeTree> NodeTrees => Set<NodeTree>();
+    /// <summary>
+    /// Returns a proxy reference to the Cosmos container for <see cref="NodeTrees"/>.
+    /// </summary>
+    /// <remarks>
+    /// Proxy reference doesn't guarantee existence.
+    /// </remarks>
+    public Container NodeTreeContainer => Database
+        .GetCosmosClient()
+        .GetContainer(configuration.DatabaseName, nameof(NodeTrees));
 }
 
 public class NodexrDbConfiguration

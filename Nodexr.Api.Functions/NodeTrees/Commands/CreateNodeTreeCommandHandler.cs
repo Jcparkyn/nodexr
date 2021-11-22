@@ -7,7 +7,7 @@ using Nodexr.Api.Functions.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
-public record class CreateNodeTreeCommandHandler(
+public record CreateNodeTreeCommandHandler(
     INodexrContext dbContext
 ) : IRequestHandler<CreateNodeTreeCommand, string>
 {
@@ -21,6 +21,6 @@ public record class CreateNodeTreeCommandHandler(
         await dbContext.NodeTrees.AddAsync(newTree, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return newTree.id;
+        return newTree.Id;
     }
 }

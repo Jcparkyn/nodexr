@@ -10,9 +10,24 @@ using static Testing;
 public class GetNodeTreesTests : TestBase
 {
     [Test]
-    public async Task ShouldReturnMatchingNodeTrees()
+    public async Task ShouldReturnMatchingNodeTrees(string _)
     {
-        await AddAsync(new NodeTree("Animal", "fox|dog"));
+        var matchingTrees = new[]
+        {
+            new NodeTree("Animal", "a"),
+            new NodeTree("Animals", "a"),
+            new NodeTree("animals", "a"),
+            new NodeTree("two animals", "a"),
+        };
+
+        var nonMatchingTrees = new[]
+        {
+            new NodeTree("Thing", "a"),
+            new NodeTree("Anima", "a"),
+        };
+
+        await AddRangeAsync(matchingTrees);
+        await AddRangeAsync(nonMatchingTrees);
 
         var query = new GetNodeTreesQuery()
         {
@@ -21,6 +36,9 @@ public class GetNodeTreesTests : TestBase
 
         var result = await SendAsync(query);
 
-        result.Contents.Should().HaveCountGreaterThanOrEqualTo(1);
+        result.Contents.Should().BeEquivalentTo(
+            matchingTrees,
+            x => x.IncludingAllDeclaredProperties()
+        );
     }
 }

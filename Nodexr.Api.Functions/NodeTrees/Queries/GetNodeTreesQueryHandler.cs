@@ -9,11 +9,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-public interface IGetNodeTreesQuery
-{
-    IQueryable<NodeTree> GetAllNodeTrees(string? titleSearch = null);
-}
-
 public record GetNodeTreesQueryHandler(
     INodexrContext nodeTreeContext
 ) : IRequestHandler<GetNodeTreesQuery, Paged<NodeTreePreviewDto>>
@@ -25,11 +20,12 @@ public record GetNodeTreesQueryHandler(
             .OrderBy(tree => tree.Title)
             .Select(tree => new NodeTreePreviewDto
             {
+                Id = tree.Id,
                 Description = tree.Description,
                 Expression = tree.Expression,
                 Title = tree.Title,
             })
-            .WithPagination(
+            .ToPagedAsync(
                 new(request.Start ?? 0, request.Limit ?? 10),
                 cancellationToken
             );

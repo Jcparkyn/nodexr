@@ -3,11 +3,11 @@ using System;
 
 public class NodeTree
 {
-    public string id { get; set; } = Guid.NewGuid().ToString();
+    public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string Title { get; set; }
+    public string Title { get; set; } = null!;
 
-    public string Expression { get; set; }
+    public string Expression { get; set; } = null!;
 
     public string? Description { get; set; }
 
@@ -16,4 +16,6 @@ public class NodeTree
         Title = title;
         Expression = expression;
     }
+
+    public NodeTree() { }
 }

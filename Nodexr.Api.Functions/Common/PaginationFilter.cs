@@ -30,7 +30,7 @@ public class PaginationFilter
 
 public static class PaginationExtensions
 {
-    public static async Task<Paged<T>> WithPagination<T>(
+    public static async Task<Paged<T>> ToPagedAsync<T>(
         this IQueryable<T> query,
         PaginationFilter pagination,
         CancellationToken cancellationToken = default)
