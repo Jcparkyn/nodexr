@@ -1,10 +1,11 @@
 ﻿namespace Nodexr.Api.Functions.NodeTrees.Queries;
 
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Contracts.Pagination;
 using Nodexr.Api.Functions.Common;
-using Nodexr.Api.Functions.Models;
+using Nodexr.Api.Functions.NodeTrees;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ public record GetNodeTreesQueryHandler(
     public async Task<Paged<NodeTreePreviewDto>> Handle(GetNodeTreesQuery request, CancellationToken cancellationToken)
     {
         return await nodeTreeContext.NodeTrees
+            .AsNoTracking()
             .WithSearchString(request.SearchString)
             .OrderBy(tree => tree.Title)
             .Select(tree => new NodeTreePreviewDto
@@ -29,21 +31,5 @@ public record GetNodeTreesQueryHandler(
                 new(request.Start ?? 0, request.Limit ?? 10),
                 cancellationToken
             );
-    }
-}
-
-public static class NodeTreeExtensions
-{
-    public static IQueryable<NodeTree> WithSearchString(this IQueryable<NodeTree> query, string? searchString)
-    {
-        if (string.IsNullOrEmpty(searchString))
-        {
-            return query;
-        }
-
-        return query.Where(tree =>
-            // Case-insensitive search (StringComparison doesn't work with Cosmos)
-            tree.Title.ToLower().Contains(searchString.ToLowerInvariant())
-        );
     }
 }
