@@ -1,8 +1,8 @@
 ﻿namespace Nodexr.Api.Functions.IntegrationTests.NodeTrees.Queries;
 
 using FluentAssertions;
-using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Functions.Models;
+using Nodexr.Api.Functions.NodeTrees.Queries;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using static Testing;
@@ -10,7 +10,7 @@ using static Testing;
 public class GetNodeTreesTests : TestBase
 {
     [Test]
-    public async Task ShouldReturnMatchingNodeTrees(string _)
+    public async Task ShouldReturnMatchingNodeTrees()
     {
         var matchingTrees = new[]
         {

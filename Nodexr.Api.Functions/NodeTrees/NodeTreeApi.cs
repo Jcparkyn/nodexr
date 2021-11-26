@@ -11,6 +11,7 @@ using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Functions.Common;
 using System.Threading;
 using MediatR;
+using Nodexr.Api.Functions.NodeTrees.Queries;
 
 public record NodeTreeApi(
     INodexrContext dbContext,
@@ -58,15 +59,14 @@ public record NodeTreeApi(
     {
         string titleSearch = req.Query["search"];
         int start = GetQueryInt(req, "start") ?? 0;
-        int? limit = GetQueryInt(req, "limit");
+        int limit = GetQueryInt(req, "limit") ?? 50;
 
         log.LogInformation($"Retrieving all NodeTrees, with start = {start}, limit = {limit}, search = {titleSearch}");
 
         var query = new GetNodeTreesQuery
         {
             SearchString = req.Query["search"],
-            Start = start,
-            Limit = limit,
+            Pagination = new(start, limit),
         };
 
         var trees = await mediator.Send(query, cancellationToken);

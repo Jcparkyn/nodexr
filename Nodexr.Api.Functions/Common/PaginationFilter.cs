@@ -1,30 +1,27 @@
 ﻿namespace Nodexr.Api.Functions.Common;
 using Microsoft.EntityFrameworkCore;
 using Nodexr.Api.Contracts.Pagination;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 public class PaginationFilter
 {
-    public int Start { get; set; }
-    public int Limit { get; set; }
+    public int Start { get; }
+    public int? Limit { get; }
 
-    private readonly int maxLimit = 100;
-
-    public PaginationFilter(int start, int limit)
+    public PaginationFilter(int start, int? limit)
     {
-        Start = start < 0 ? 0 : start;
-        Limit = limit > maxLimit ? maxLimit : limit;
+        if (start < 0) throw new ArgumentOutOfRangeException(nameof(start));
+        if (limit <= 0) throw new ArgumentOutOfRangeException(nameof(limit));
+        Start = start;
+        Limit = limit;
     }
 
-    public async Task<Paged<T>> ApplyTo<T>(IQueryable<T> collection, CancellationToken cancellationToken)
+    public static PaginationFilter All()
     {
-        return new Paged<T>(
-            await collection.Skip(Start).Take(Limit).ToListAsync(cancellationToken),
-            await collection.CountAsync(cancellationToken), // TODO: Parallelize
-            Start,
-            Limit);
+        return new PaginationFilter(0, null);
     }
 }
 
@@ -35,6 +32,19 @@ public static class PaginationExtensions
         PaginationFilter pagination,
         CancellationToken cancellationToken = default)
     {
-        return await pagination.ApplyTo(query, cancellationToken);
+        var query2 = query;
+        if (pagination.Start > 0)
+        {
+            query2 = query2.Skip(pagination.Start);
+        }
+        if (pagination.Limit is not null)
+        {
+            query2 = query2.Take(pagination.Limit.Value);
+        }
+        return new Paged<T>(
+            await query2.ToListAsync(cancellationToken),
+            await query.CountAsync(cancellationToken),
+            pagination.Start,
+            pagination.Limit);
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace Nodexr.Api.Functions.NodeTrees.Queries;
 
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Contracts.Pagination;
@@ -10,9 +9,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+public record GetNodeTreesQuery : IPagedRequest<NodeTreePreviewDto>
+{
+    public string? SearchString { get; init; }
+    public PaginationFilter Pagination { get; init; } = PaginationFilter.All();
+}
+
 public record GetNodeTreesQueryHandler(
     INodexrContext nodeTreeContext
-) : IRequestHandler<GetNodeTreesQuery, Paged<NodeTreePreviewDto>>
+) : IPagedRequestHandler<GetNodeTreesQuery, NodeTreePreviewDto>
 {
     public async Task<Paged<NodeTreePreviewDto>> Handle(GetNodeTreesQuery request, CancellationToken cancellationToken)
     {
@@ -28,7 +33,7 @@ public record GetNodeTreesQueryHandler(
                 Title = tree.Title,
             })
             .ToPagedAsync(
-                new(request.Start ?? 0, request.Limit ?? 10),
+                request.Pagination,
                 cancellationToken
             );
     }

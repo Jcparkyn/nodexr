@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Paged<T>
 {
-    public Paged(List<T> contents, int totalSize, int start, int limit)
+    public Paged(List<T> contents, int totalSize, int start, int? limit)
     {
         Contents = contents;
         TotalSize = totalSize;
@@ -14,6 +14,6 @@ public class Paged<T>
     public List<T> Contents { get; }
     public int TotalSize { get; set; }
     public int Start { get; set; }
-    public int Limit { get; set; }
+    public int? Limit { get; set; }
 }
 
