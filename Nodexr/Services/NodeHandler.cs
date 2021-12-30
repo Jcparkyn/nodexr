@@ -5,9 +5,9 @@ using Nodexr.RegexParsers;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.WebUtilities;
-using Nodexr.Shared.Nodes;
 using Blazored.Toast.Services;
 using BlazorNodes.Core;
+using Nodexr.Nodes;
 
 public interface INodeHandler
 {

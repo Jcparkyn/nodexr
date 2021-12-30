@@ -1,9 +1,9 @@
 ﻿namespace Nodexr.RegexParsers;
 using System.Collections.Generic;
 using System.Linq;
-using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
 using BlazorNodes.Core;
+using Nodexr.NodeInputs;
+using Nodexr.Nodes;
 
 public class NodeTreeBuilder
 {

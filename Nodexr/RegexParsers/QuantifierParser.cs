@@ -1,10 +1,10 @@
 ﻿namespace Nodexr.RegexParsers;
 using Pidgin;
 using Nodexr.NodeTypes;
-using Nodexr.Shared.Nodes;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
 using static Nodexr.NodeTypes.IQuantifiableNode;
+using Nodexr.Nodes;
 
 public static class QuantifierParser
 {

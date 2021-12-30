@@ -1,7 +1,7 @@
 ﻿namespace Nodexr.NodeTypes;
-using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
 using BlazorNodes.Core;
+using Nodexr.NodeInputs;
+using Nodexr.Nodes;
 
 public class OptionalNode : RegexNodeViewModelBase
 {

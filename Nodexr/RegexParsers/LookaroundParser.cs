@@ -1,8 +1,8 @@
 ﻿namespace Nodexr.RegexParsers;
 using Pidgin;
 using Nodexr.NodeTypes;
-using Nodexr.Shared.Nodes;
 using static Pidgin.Parser;
+using Nodexr.Nodes;
 
 public static class LookaroundParser
 {

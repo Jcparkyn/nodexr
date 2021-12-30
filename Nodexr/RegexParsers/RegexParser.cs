@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
-using Nodexr.Shared.Nodes;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
 using static Nodexr.RegexParsers.ParsersShared;
 using BlazorNodes.Core;
+using Nodexr.Nodes;
 
 public static class RegexParser
 {

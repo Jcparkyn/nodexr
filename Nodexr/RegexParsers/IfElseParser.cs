@@ -1,9 +1,9 @@
 ﻿namespace Nodexr.RegexParsers;
 using Pidgin;
 using Nodexr.NodeTypes;
-using Nodexr.Shared.Nodes;
 using static Pidgin.Parser;
 using static Nodexr.RegexParsers.ParsersShared;
+using Nodexr.Nodes;
 
 public static class IfElseParser
 {

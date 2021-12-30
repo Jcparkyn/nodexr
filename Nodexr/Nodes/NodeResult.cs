@@ -1,4 +1,4 @@
-﻿namespace Nodexr.Shared.Nodes;
+﻿namespace Nodexr.Nodes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,8 +9,7 @@ public class NodeResult : IEnumerable<RegexSegment>
     public ReadOnlyCollection<RegexSegment> Contents { get; }
 
     public string Expression =>
-        string.Concat(
-            Contents.Select(segment => segment.Expression));
+        string.Concat(Contents.Select(segment => segment.Expression));
 
     public NodeResult(IList<RegexSegment> contents)
     {
@@ -40,9 +39,9 @@ public class NodeResultBuilder
     public NodeResultBuilder(string expression, RegexNodeViewModelBase node)
     {
         contents = new List<RegexSegment>
-            {
-                new RegexSegment(expression, node)
-            };
+        {
+            new RegexSegment(expression, node)
+        };
     }
 
     public NodeResultBuilder(NodeResult? contents)

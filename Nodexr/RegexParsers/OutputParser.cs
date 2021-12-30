@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
 using Nodexr.NodeTypes;
-using Nodexr.Shared.Nodes;
+using Nodexr.Nodes;
 
 public static class OutputParser
 {

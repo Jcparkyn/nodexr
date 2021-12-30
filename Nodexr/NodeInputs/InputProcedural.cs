@@ -1,6 +1,6 @@
-﻿namespace Nodexr.Shared.NodeInputs;
+﻿namespace Nodexr.NodeInputs;
 using BlazorNodes.Core;
-using Nodexr.Shared.Nodes;
+using Nodexr.Nodes;
 
 public class InputProcedural : InputPort<NodeResult>
 {

@@ -1,12 +1,8 @@
-﻿@using Nodexr.Shared.NodeInputs;
-@inject INodeDragService NodeDragService
+﻿@inject INodeDragService NodeDragService
 @inject INoodleDragService NoodleDragService
 @inject INodeHandler NodeHandler
 @inject IJSRuntime JSRuntime
 
-@{
-    //Console.WriteLine("Updating Node Graph");
-}
 <div class="viewport nodegraph" onwheel="panzoom.zoom(event)"
      @onmousedown="StartPan" @onmousedown:preventDefault
      ondragover="event.preventDefault()" @ondrop="@OnDrop" @onkeydown="@OnKeyDown" tabindex="-1">
@@ -42,7 +38,7 @@
     {
         return input switch
         {
-            Nodexr.Shared.NodeInputs.InputCheckbox => typeof(InputCheckboxView),
+            NodeInputs.InputCheckbox => typeof(InputCheckboxView),
             InputCheckboxNullable => typeof(InputCheckboxNullableView),
             InputCollection => typeof(InputCollectionView),
             InputDropdown => typeof(InputDropdownView),

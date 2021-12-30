@@ -1,9 +1,9 @@
 ﻿namespace Nodexr.Services;
 using Microsoft.JSInterop;
-using Nodexr.Shared.Nodes;
 using System;
 using Blazored.Toast.Services;
 using BlazorNodes.Core;
+using Nodexr.Nodes;
 
 public interface INoodleDragService
 {

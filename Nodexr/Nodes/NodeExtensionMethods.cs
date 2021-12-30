@@ -1,4 +1,4 @@
-﻿namespace Nodexr.Shared.Nodes;
+﻿namespace Nodexr.Nodes;
 using System.Linq;
 using System.Collections.Generic;
 using BlazorNodes.Core;

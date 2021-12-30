@@ -1,4 +1,4 @@
-﻿namespace Nodexr.Shared.NodeInputs;
+﻿namespace Nodexr.NodeInputs;
 
 using BlazorNodes.Core;
 

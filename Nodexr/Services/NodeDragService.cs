@@ -4,10 +4,10 @@ using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
-using Nodexr.Shared.NodeInputs;
 using System.Collections.Generic;
 using Nodexr.Utils;
 using BlazorNodes.Core;
+using Nodexr.NodeInputs;
 
 public interface INodeDragService
 {

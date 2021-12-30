@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Pidgin;
 using Nodexr.RegexParsers;
 using Nodexr.NodeTypes;
-using Nodexr.Shared.Nodes;
+using Nodexr.Nodes;
 
 internal class RegexParserTests
 {

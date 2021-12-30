@@ -1,6 +1,6 @@
-﻿namespace Nodexr.Shared.Nodes;
+﻿namespace Nodexr.Nodes;
 using BlazorNodes.Core;
-using Nodexr.Shared.NodeInputs;
+using Nodexr.NodeInputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

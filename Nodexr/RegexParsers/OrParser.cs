@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Pidgin;
 using Nodexr.NodeTypes;
-using Nodexr.Shared.Nodes;
 using static Pidgin.Parser;
+using Nodexr.Nodes;
 
 public static class OrParser
 {

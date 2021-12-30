@@ -1,9 +1,9 @@
 ﻿namespace Nodexr.NodeTypes;
 using System.Collections.Generic;
-using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
 using static Nodexr.NodeTypes.IQuantifiableNode;
 using BlazorNodes.Core;
+using Nodexr.NodeInputs;
+using Nodexr.Nodes;
 
 public class WildcardNode : RegexNodeViewModelBase, IQuantifiableNode
 {

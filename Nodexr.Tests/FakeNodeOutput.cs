@@ -1,7 +1,7 @@
 ﻿namespace Nodexr.Tests;
 using System;
-using Nodexr.Shared.Nodes;
 using BlazorNodes.Core;
+using Nodexr.Nodes;
 
 internal class FakeNodeOutput : INodeOutput<NodeResult>
 {

@@ -1,8 +1,8 @@
 ﻿namespace Nodexr.NodeTypes;
-using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
 using Nodexr.Utils;
 using BlazorNodes.Core;
+using Nodexr.NodeInputs;
+using Nodexr.Nodes;
 
 public class ListNode : RegexNodeViewModelBase
 {

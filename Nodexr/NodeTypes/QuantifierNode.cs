@@ -1,11 +1,11 @@
 ﻿namespace Nodexr.NodeTypes;
 using System;
 using System.Collections.Generic;
-using Nodexr.Shared.Nodes;
-using Nodexr.Shared.NodeInputs;
 using static Nodexr.NodeTypes.IQuantifiableNode;
 using Nodexr.Utils;
 using BlazorNodes.Core;
+using Nodexr.NodeInputs;
+using Nodexr.Nodes;
 
 public class QuantifierNode : RegexNodeViewModelBase, IQuantifiableNode
 {

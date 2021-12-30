@@ -1,6 +1,6 @@
 ﻿namespace Nodexr.NodeTypes;
 using System.Collections.Generic;
-using Nodexr.Shared.NodeInputs;
+using Nodexr.NodeInputs;
 
 public interface IQuantifiableNode
 {
