@@ -1,6 +1,4 @@
 ﻿namespace Nodexr.Api.Functions.NodeTrees;
-using System.IO;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -9,9 +7,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Functions.Common;
-using System.Threading;
-using MediatR;
 using Nodexr.Api.Functions.NodeTrees.Queries;
+using MediatR;
 
 public record NodeTreeApi(
     INodexrContext dbContext,

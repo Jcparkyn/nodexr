@@ -1,9 +1,7 @@
 ﻿namespace Nodexr.NodeTypes;
-using System.Collections.Generic;
 using static Nodexr.NodeTypes.IQuantifiableNode;
 using BlazorNodes.Core;
 using Nodexr.NodeInputs;
-using Nodexr.Nodes;
 
 public class WhitespaceNode : RegexNodeViewModelBase, IQuantifiableNode
 {

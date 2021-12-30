@@ -5,7 +5,6 @@ using Nodexr.Api.Functions.Common;
 using MediatR;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
-using System.IO;
 using Microsoft.Extensions.Options;
 
 [assembly: FunctionsStartup(typeof(Nodexr.Api.Functions.Startup))]

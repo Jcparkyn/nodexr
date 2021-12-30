@@ -7,9 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Nodexr.Api.Functions.Common;
 using NUnit.Framework;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
 [SetUpFixture]
 public class Testing

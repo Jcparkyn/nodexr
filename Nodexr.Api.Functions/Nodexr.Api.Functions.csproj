@@ -7,6 +7,7 @@
     <RootNamespace>Nodexr.Api.Functions</RootNamespace>
     <Nullable>enable</Nullable>
     <UserSecretsId>e3e5ae69-3f99-4640-9167-854c3340cbc7</UserSecretsId>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />

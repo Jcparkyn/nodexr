@@ -1,8 +1,6 @@
 ﻿namespace Nodexr.NodeTypes;
-using System.Collections.Generic;
 using BlazorNodes.Core;
 using Nodexr.NodeInputs;
-using Nodexr.Nodes;
 
 public class UnicodeNode : RegexNodeViewModelBase
 {

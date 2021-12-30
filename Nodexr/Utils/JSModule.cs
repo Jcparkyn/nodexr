@@ -1,9 +1,6 @@
 ﻿namespace Nodexr.Utils;
 
 using Microsoft.JSInterop;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 public sealed class JSModule : IJSObjectReference
 {

@@ -1,7 +1,6 @@
 ﻿namespace Nodexr.NodeTypes;
 using BlazorNodes.Core;
 using Nodexr.NodeInputs;
-using Nodexr.Nodes;
 
 public class CommentNode : RegexNodeViewModelBase
 {

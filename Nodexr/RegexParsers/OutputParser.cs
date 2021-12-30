@@ -1,9 +1,6 @@
 ﻿namespace Nodexr.RegexParsers;
-using System.Collections.Generic;
-using System.Linq;
 using Pidgin;
 using Nodexr.NodeTypes;
-using Nodexr.Nodes;
 
 public static class OutputParser
 {

@@ -1,5 +1,4 @@
 ﻿namespace BlazorNodes.Core;
-using System;
 
 public readonly struct Vector2
 {

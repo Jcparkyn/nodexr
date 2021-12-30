@@ -4,8 +4,6 @@ using MediatR;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Functions.Common;
 using Nodexr.Api.Functions.Models;
-using System.Threading;
-using System.Threading.Tasks;
 
 public record CreateNodeTreeCommandHandler(
     INodexrContext dbContext

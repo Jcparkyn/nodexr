@@ -3,12 +3,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Contracts.Pagination;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class NodeTreeBrowserService
 {

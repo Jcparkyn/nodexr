@@ -5,9 +5,6 @@ using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Contracts.Pagination;
 using Nodexr.Api.Functions.Common;
 using Nodexr.Api.Functions.NodeTrees;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 public record GetNodeTreesQuery : IPagedRequest<NodeTreePreviewDto>
 {

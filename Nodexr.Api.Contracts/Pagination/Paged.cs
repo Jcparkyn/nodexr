@@ -1,5 +1,4 @@
 ﻿namespace Nodexr.Api.Contracts.Pagination;
-using System.Collections.Generic;
 
 public class Paged<T>
 {

@@ -7,6 +7,8 @@
     <IsPackable>false</IsPackable>
 
     <UserSecretsId>6cefc86d-da15-45fd-98c6-35110cd382b8</UserSecretsId>
+
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>

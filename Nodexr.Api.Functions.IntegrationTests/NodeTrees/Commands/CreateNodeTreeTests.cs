@@ -4,7 +4,6 @@ using FluentAssertions;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Functions.Models;
 using NUnit.Framework;
-using System.Threading.Tasks;
 using static Testing;
 
 public class CreateNodeTreeCommandHandlerTests : TestBase

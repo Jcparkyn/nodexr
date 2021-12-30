@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Options;
 using Nodexr.Api.Functions.Models;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Threading;
-using System.Threading.Tasks;
 
 public interface INodexrContext : IDisposable, IAsyncDisposable
 {

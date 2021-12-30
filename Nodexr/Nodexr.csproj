@@ -53,6 +53,7 @@
     <TypeScriptOutDir>wwwroot\js\GeneratedJS</TypeScriptOutDir>
     <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Label="Typescript Config (Debug)" Condition="'$(Configuration)' == 'Debug'">

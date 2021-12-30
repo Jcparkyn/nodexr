@@ -1,12 +1,9 @@
 ﻿namespace Nodexr.RegexParsers;
-using System.Collections.Generic;
-using System.Linq;
 using Pidgin;
 using Nodexr.NodeTypes;
 using static Pidgin.Parser;
 using static Pidgin.Parser<char>;
 using static Nodexr.RegexParsers.ParsersShared;
-using Nodexr.Nodes;
 
 public static class TextParser
 {

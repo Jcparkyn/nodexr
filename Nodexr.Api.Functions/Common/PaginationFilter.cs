@@ -1,10 +1,6 @@
 ﻿namespace Nodexr.Api.Functions.Common;
 using Microsoft.EntityFrameworkCore;
 using Nodexr.Api.Contracts.Pagination;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class PaginationFilter
 {

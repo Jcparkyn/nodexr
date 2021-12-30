@@ -1,9 +1,6 @@
 ﻿namespace Nodexr.NodeInputs;
 using BlazorNodes.Core;
 using Nodexr.Nodes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 public class InputCollection : NodeInputBase
 {

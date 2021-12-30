@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Components;
 using Nodexr.NodeTypes;
 using Nodexr.RegexParsers;
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.WebUtilities;
 using Blazored.Toast.Services;
 using BlazorNodes.Core;

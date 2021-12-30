@@ -1,8 +1,6 @@
 ﻿//Algorithm based on answers in https://stackoverflow.com/questions/33512037/a-regular-expression-generator-for-number-ranges
 
 namespace Nodexr.Utils;
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 public class IntegerRangeGenerator
