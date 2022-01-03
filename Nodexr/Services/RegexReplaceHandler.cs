@@ -8,11 +8,11 @@ public class RegexReplaceHandler
     private readonly INodeHandler nodeHandler;
     private RegexOptions options = RegexOptions.None;
     private string searchText = DefaultSearchText;
-    public const string DefaultReplacementRegex = "animal";
+    public const string DefaultReplacementRegex = "'$1'";
 
     public string ReplacementRegex { get; set; } = DefaultReplacementRegex;
 
-    public const string DefaultSearchText = "The quick brown fox jumped over the lazy dog.";
+    public const string DefaultSearchText = "Some people, when confronted with a problem, think \"I know, I'll use regular expressions.\" Now they have two problems.";
 
     public string SearchText
     {

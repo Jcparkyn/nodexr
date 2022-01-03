@@ -169,19 +169,34 @@ public class NodeHandler : INodeHandler
     private static NodeTree CreateDefaultNodeTree()
     {
         var tree = new NodeTree();
-        var defaultOutput = new OutputNode() { Pos = new Vector2(1100, 300) };
-        var defaultTextNodeFox = new TextNode() { Pos = new Vector2(300, 200) };
-        var defaultTextNodeDog = new TextNode() { Pos = new Vector2(300, 450) };
-        defaultTextNodeFox.Input.Value = "fox";
-        defaultTextNodeDog.Input.Value = "dog";
-        var defaultOrNode = new OrNode(new[] { defaultTextNodeFox, defaultTextNodeDog })
+        var quoteNode1 = new TextNode() { Pos = new(200, 300) };
+        quoteNode1.Input.Value = "\"";
+        var charSetNode = new CharSetNode() { Pos = new(200, 450) };
+        charSetNode.InputCount.Value = IQuantifiableNode.Reps.ZeroOrMore;
+        charSetNode.InputCharacters.Value = "\"";
+        charSetNode.InputDoInvert.Checked = true;
+        var groupNode = new GroupNode()
         {
-            Pos = new Vector2(700, 300)
+            Pos = new(500, 300),
+            PreviousNode = quoteNode1,
         };
-        defaultOutput.PreviousNode = defaultOrNode;
-        tree.AddNode(defaultTextNodeFox);
-        tree.AddNode(defaultTextNodeDog);
-        tree.AddNode(defaultOrNode);
+        groupNode.Input.ConnectedNode = charSetNode;
+        var quoteNode2 = new TextNode()
+        {
+            Pos = new(800, 300),
+            PreviousNode = groupNode,
+        };
+        quoteNode2.Input.Value = "\"";
+        var defaultOutput = new OutputNode()
+        {
+            Pos = new(1100, 300),
+            PreviousNode = quoteNode2,
+        };
+
+        tree.AddNode(quoteNode1);
+        tree.AddNode(quoteNode2);
+        tree.AddNode(groupNode);
+        tree.AddNode(charSetNode);
         tree.AddNode(defaultOutput);
         return tree;
     }
