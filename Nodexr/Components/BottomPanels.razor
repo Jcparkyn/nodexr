@@ -4,25 +4,23 @@
 
 <div class="bottom-panels" id="bottompanels">
     <div class="viewport search-text panel" id="viewport-searchtext">
-        <div class="viewport-title-bar">
-            <h1>Search Text</h1>
-        </div>
-        <div class="search-text-container textarea textbox">
+        <h5>Search Text</h5>
+        <div class="search-text-container textbox">
             <SearchTextHighlight Text="@RegexReplaceHandler.SearchText" Matches="@RegexReplaceHandler.GetAllMatches()"/>
             <textarea @bind-value="@RegexReplaceHandler.SearchText" @bind-value:event="oninput" class="search-textarea" />
         </div>
     </div>
     <div class="viewport replace-field panel" id="viewport-replacetext">
-        <div class="viewport-title-bar">
-            <h1>Replacement Regex</h1>
-        </div>
-        <textarea class="textarea textbox" @bind-value="@RegexReplaceHandler.ReplacementRegex" @bind-value:event="oninput"/>
-    </div>
-    <div class="viewport replace-result panel" id="viewport-replaceresult">
-        <div class="viewport-title-bar">
-            <h1>Replace Result</h1>
-        </div>
-        <p>@RegexReplaceHandler.GetReplaceResult()</p>
+		<div style="display:flex; flex-direction:row; gap:10px; align-items: baseline;">
+			<h5 style="margin-bottom:0">Replace with:</h5>
+			<input
+				type="text"
+				@bind-value="@RegexReplaceHandler.ReplacementRegex"
+				@bind-value:event="oninput"
+				style="flex:1"
+				class="textbox"/>
+		</div>
+		<p>@RegexReplaceHandler.GetReplaceResult()</p>
     </div>
 </div>
 

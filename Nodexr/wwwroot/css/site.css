@@ -79,14 +79,6 @@ app {
         border-bottom: 1px solid #d6d5d5;
     }
 
-.bottom-panels {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    width: 100%;
-    font-family: Consolas, monospace;
-}
-
 .blazored-modal {
     background-color:var(--col-bg-2) !important;
     border:none !important;
@@ -117,15 +109,6 @@ app {
     background-color: var(--col-bg-2);
     /*margin-bottom: 15px;*/
 }
-    .viewport h1 {
-        font-size: 1.5rem;
-        /*padding: 5px;*/
-    }
-
-    .viewport .viewport-title-bar{
-        /*background-color: rgba(0,0,0,0.2);*/
-        height: 2.4rem;
-    }
 
     .viewport.nodegraph {
         /*resize: vertical;*/
@@ -259,17 +242,15 @@ input {
     border: none;
 }
 
-.textarea {
-    /*background-color: var(--col-field);*/
+.textbox {
     color: var(--col-text-medium);
     width: 100%;
     resize: none;
     flex: 1;
-}
-
-.textbox {
     background-color: hsla(0, 0%, 0%, 0.09);
-    border: 2px solid #00000052;
+    border: 3px solid #00000052;
+    font-size: 1.1rem;
+    line-height: 1.3;
 }
 
 .output-regex-container {
@@ -341,7 +322,6 @@ input {
     border: none;
     padding: 0;
     width: 100%;
-/*    height: 100%;*/
 }
 
 .output-edit-prompt {
@@ -382,8 +362,6 @@ input {
 
 .search-text-highlight, .search-textarea {
     padding: 3px;
-    /*letter-spacing: 1px;*/
-    line-height: 26px;
     width: 100%;
     background-color: transparent;
     resize: none;
@@ -402,20 +380,18 @@ input {
     resize: none;
     border: none;
     white-space: pre-wrap;
-    /*overflow: auto;*/
 }
 
 .search-text-highlight {
     word-wrap: break-word;
     color: transparent;
-    font-size: 0;
+    font-size: inherit;
     line-height: inherit;
 }
 
     .search-text-highlight span, .search-text-highlight mark {
         white-space: pre-wrap;
-        font-size: 1rem;
-        line-height: 26px;
+        font-size: inherit;
     }
 
 .search-text-container {
@@ -430,7 +406,6 @@ input {
 
 .search-text-backdrop {
     position: absolute;
-    /*overflow: auto;*/
     pointer-events: none;
 }
 
