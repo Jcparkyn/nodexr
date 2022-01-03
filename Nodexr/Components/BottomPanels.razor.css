@@ -15,3 +15,11 @@
     overflow: auto;
     position: relative;
 }
+
+.replace-output {
+    font-size: 1.1rem;
+    margin: 0;
+    white-space: pre-wrap;
+    color: var(--col-text-medium);
+    font-family: Consolas, monospace;
+}
