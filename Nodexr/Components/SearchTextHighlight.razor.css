@@ -1,0 +1,34 @@
+﻿.search-text-highlight, .search-textarea {
+    width: 100%;
+    background-color: transparent;
+    resize: none;
+    margin: 0;
+    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
+.search-textarea {
+    display: block;
+    position: absolute;
+    height: 100%;
+    color: var(--col-text-medium);
+    border: none;
+    white-space: pre-wrap;
+    pointer-events: all;
+    padding: 3px;
+}
+
+.search-text-highlight {
+    color: transparent;
+    font-size: inherit;
+    line-height: inherit;
+    position: absolute;
+    pointer-events: none;
+}
+
+    .search-text-highlight span, .search-text-highlight mark {
+        white-space: pre-wrap;
+        font-size: inherit;
+    }

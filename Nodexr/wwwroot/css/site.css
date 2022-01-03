@@ -346,53 +346,6 @@ input {
         background-color: #ff402d;
     }
 
-.search-text-highlight, .search-textarea {
-    width: 100%;
-    background-color: transparent;
-    resize: none;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    margin: 0;
-    overflow: hidden;
-    word-break: break-all;
-}
-
-.search-textarea {
-    display: block;
-    position: absolute;
-    height: 100%;
-    color: var(--col-text-medium);
-    resize: none;
-    border: none;
-    white-space: pre-wrap;
-    pointer-events: all;
-    padding: 3px;
-}
-
-.search-text-highlight {
-    word-wrap: break-word;
-    color: transparent;
-    font-size: inherit;
-    line-height: inherit;
-    position: absolute;
-    pointer-events: none;
-}
-
-    .search-text-highlight span, .search-text-highlight mark {
-        white-space: pre-wrap;
-        font-size: inherit;
-    }
-
-.search-text-container {
-    display: block;
-    flex: 1;
-    margin: 0;
-    -webkit-text-size-adjust: none;
-    width: 100%;
-    overflow: auto;
-    position: relative;
-}
-
 .top-row-link {
     margin: 9px;
     color: #056fe1;

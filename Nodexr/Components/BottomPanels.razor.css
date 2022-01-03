@@ -5,3 +5,13 @@
     width: 100%;
     font-family: Consolas, monospace;
 }
+
+.search-text-container {
+    display: block;
+    flex: 1;
+    margin: 0;
+    -webkit-text-size-adjust: none;
+    width: 100%;
+    overflow: auto;
+    position: relative;
+}
