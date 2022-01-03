@@ -5,8 +5,8 @@
     margin: 0;
     overflow: hidden;
     word-wrap: break-word;
-    overflow-wrap: break-word;
-    word-break: break-all;
+    overflow-wrap: normal;
+    word-break: break-word;
 }
 
 .search-textarea {
