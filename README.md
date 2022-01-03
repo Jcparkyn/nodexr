@@ -13,9 +13,13 @@ You can also try it out by starting with one of these example expressions:
 * [Email address (advanced)](https://www.nodexr.net/?parse=%5Cb%28%3F%28%22%29%22.%2B%3F%28%3F%3C!%5C%5C%29%22@%7C%28%5B0-9a-z%5D%28%28%3F%3A%5C.%28%3F!%5C.%29%29%7C%5B-!%23%5C$%25%26%27%5C*%5C%2B%2F%3D%5C%3F%5C%5E%60%5C%7B%5C%7D%5C%7C~%5Cw%5D%29*%29%28%3F%3C%3D%5B0-9a-z%5D%29@%29%28%3F%28%5C%5B%29%5C%5B%28%3F%3A%5Cd%7B1,3%7D%5C.%29%7B3%7D%5Cd%7B1,3%7D%5C%5D%7C%28%3F%3A%5B0-9a-z%5D%5B-%5Cw%5D*%5B0-9a-z%5D*%5C.%29%2B%5Ba-z0-9%5D%5B%5C-a-z0-9%5D%7B0,22%7D%5Ba-z0-9%5D%29%5Cb&search=not-an-email@email.com%0Afake.person%2B666@nodexr.net&replace=$1)
 * [URL](https://www.nodexr.net/?parse=%5Cb%28https%3F%3A%5C%2F%5C%2F%29%3F%28www%5C.%29%3F%5B-a-zA-Z0-9@%3A%25._%5C%2B~%23%3D%5D%7B2,256%7D%5C.%5Ba-z%5D%7B2,6%7D%5Cb%28%5B-a-zA-Z0-9@%3A%25_%5C%2B.~%23%3F%26%2F%2F%3D%5D*%29%5Cb&search=https%3A%2F%2Fwww.nodexr.net%0Anodexr.net%0Awww.github.com%2FJcparkyn%2Fnodexr&replace=%5BLink%5D%28$0%29)
 
-This screenshot shows a Regular Expression used to match floating point numbers, with or without an exponent:
+This screenshot shows a regular expression used to match floating point numbers, with or without an exponent:
 
-![Screenshot](https://github.com/Jcparkyn/nodexr/blob/dev/Nodexr/images/Screenshot_floatingPoint_2.png?raw=true)
+![Screenshot](https://github.com/Jcparkyn/nodexr/blob/master/Nodexr/images/Screenshot_floatingPoint_2.png?raw=true)
+
+Or, one to match an IPv4 address containing 4 integers from 0 to 255:
+
+![Screenshot](https://github.com/Jcparkyn/nodexr/blob/master/Nodexr/images/Screenshot_IPv4.png?raw=true)
 
 ## Features
 * Uses the full .NET Regex engine for search and replace (unlike most online Regex tools).
