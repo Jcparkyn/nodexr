@@ -347,7 +347,6 @@ input {
     }
 
 .search-text-highlight, .search-textarea {
-    padding: 3px;
     width: 100%;
     background-color: transparent;
     resize: none;
@@ -366,6 +365,8 @@ input {
     resize: none;
     border: none;
     white-space: pre-wrap;
+    pointer-events: all;
+    padding: 3px;
 }
 
 .search-text-highlight {
@@ -373,6 +374,8 @@ input {
     color: transparent;
     font-size: inherit;
     line-height: inherit;
+    position: absolute;
+    pointer-events: none;
 }
 
     .search-text-highlight span, .search-text-highlight mark {
@@ -388,11 +391,6 @@ input {
     width: 100%;
     overflow: auto;
     position: relative;
-}
-
-.search-text-backdrop {
-    position: absolute;
-    pointer-events: none;
 }
 
 .top-row-link {

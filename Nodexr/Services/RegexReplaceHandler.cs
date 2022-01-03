@@ -7,14 +7,22 @@ public class RegexReplaceHandler
 {
     private readonly INodeHandler nodeHandler;
     private RegexOptions options = RegexOptions.None;
-
+    private string searchText = DefaultSearchText;
     public const string DefaultReplacementRegex = "animal";
 
     public string ReplacementRegex { get; set; } = DefaultReplacementRegex;
 
     public const string DefaultSearchText = "The quick brown fox jumped over the lazy dog.";
 
-    public string SearchText { get; set; } = DefaultSearchText;
+    public string SearchText
+    {
+        get => searchText;
+        set
+        {
+            searchText = value;
+            SearchTextChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
 
     public RegexOptions Options
     {
@@ -27,6 +35,7 @@ public class RegexReplaceHandler
     }
 
     public event EventHandler? RegexOptionsChanged;
+    public event EventHandler? SearchTextChanged;
 
     public RegexReplaceHandler(INodeHandler NodeHandler, NavigationManager navManager)
     {

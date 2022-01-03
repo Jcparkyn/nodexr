@@ -8,7 +8,7 @@ window["jsFunctions"] = {
             sizes: [50, 50],
             gutterSize: 7,
             snapOffset: 0,
-            minSize: [250, 250, 250],
+            minSize: [250, 250],
         })
         Split(['#mainpanels', '#bottompanels'], {
             sizes: [85, 15],

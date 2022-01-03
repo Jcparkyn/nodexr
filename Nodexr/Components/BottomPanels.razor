@@ -1,13 +1,11 @@
-﻿
-@inject  RegexReplaceHandler RegexReplaceHandler
-@inject  INodeHandler NodeHandler
+﻿@inject RegexReplaceHandler RegexReplaceHandler
+@inject INodeHandler NodeHandler
 
 <div class="bottom-panels" id="bottompanels">
     <div class="viewport search-text panel" id="viewport-searchtext">
         <h5>Search Text</h5>
         <div class="search-text-container textbox">
-            <SearchTextHighlight Text="@RegexReplaceHandler.SearchText" Matches="@RegexReplaceHandler.GetAllMatches()"/>
-            <textarea @bind-value="@RegexReplaceHandler.SearchText" @bind-value:event="oninput" class="search-textarea" />
+			<SearchTextHighlight />
         </div>
     </div>
     <div class="viewport panel" id="viewport-replacetext" style="overflow-y: auto;">
@@ -29,5 +27,6 @@
     {
         NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
         RegexReplaceHandler.RegexOptionsChanged += (sender, e) => StateHasChanged();
+		RegexReplaceHandler.SearchTextChanged += (sender, e) => StateHasChanged();
     }
 }
