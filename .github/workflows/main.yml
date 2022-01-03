@@ -22,10 +22,10 @@ jobs:
       run: dotnet restore
 
     - name: Test
-      run: dotnet test -c Release --no-restore
+      run: dotnet test Nodexr.Tests -c Release --no-restore
 
     - name: Publish app
-      run: dotnet publish -c Release --no-restore
+      run: dotnet publish Nodexr -c Release --no-restore
 
     - name: Rewrite base href
       uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
