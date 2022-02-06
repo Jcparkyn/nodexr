@@ -38,7 +38,9 @@ Or, one to match an IPv4 address containing 4 integers from 0 to 255:
 Drag-and-drop nodes from the left panel to insert them into the main window. The final result/output of your nodes must be connected to the _Output_ node and is displayed at the top left.
 
 The main concept is that the "nesting" behaviour of regex is expressed by connecting one node to the input of another, but items in sequence are connected using the *Previous* input at the top left of each node. Expressions can alternatively be connected in sequence (concatenated) using the *Concatenate* node.
-The output expression will be empty unless one or more nodes are connected to the _Output_ node.
+The output expression will be empty unless a node is connected to the _Output_ node.
+
+Nodes can be deleted by selecting them with left-click and then pressing <kbd>Backspace</kbd> or <kbd>Delete</kbd>. You can also select multiple nodes at a time by holding <kbd>Shift</kbd> or <kbd>Ctrl</kbd> while clicking a node.
 
 ## Nodes
 Information about each node can be found by clicking the **(i)** button next to its title.
@@ -46,7 +48,7 @@ Information about each node can be found by clicking the **(i)** button next to 
 To use any Regex functionality that cannot be implemented with the provided nodes, create a *Text* node with 'escape' disabled to input parts of the expression manually.
 
 ## Replacement
-Use the bottom 3 panels to test a string for searching and/or replacement. Any valid .NET Regex replacement string can be used here, including named and/or numbered group references. The bottom right panel shows the result after replacement.
+Use the panels at the bottom of the screen to test a string for searching and/or replacement. Any valid .NET Regex replacement string can be used here, including named and/or numbered group references. The bottom right panel shows the result after replacement.
 
 ## Contributing
 Any contributions are welcome, but ideally start by creating an [issue](https://github.com/Jcparkyn/nodexr/issues).

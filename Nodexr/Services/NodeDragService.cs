@@ -11,7 +11,6 @@ public interface INodeDragService
     void OnDrop(MouseEventArgs e);
     Task OnStartCreateNodeDrag(INodeViewModel nodeToDrag, DragEventArgs e);
     void CancelDrag();
-    bool IsDrag(MouseEventArgs e);
 }
 
 public class NodeDragService : INodeDragService
@@ -23,7 +22,7 @@ public class NodeDragService : INodeDragService
     private List<InputProcedural>? nodeToDragOutputs;
 
     private Vector2 cursorStartPos;
-    private Vector2 nodeStartPos;
+    private Vector2 lastCursorPos;
 
     private bool isDraggingNewNode = false;
 
@@ -43,28 +42,22 @@ public class NodeDragService : INodeDragService
     {
         this.nodeToDrag = nodeToDrag;
 
+        var selectedNodes = nodeHandler.Tree.GetSelectedNodes().ToList();
         nodeToDragOutputs = nodeHandler.Tree.Nodes
             .SelectMany(node => node.GetAllInputs()
                 .OfType<InputProcedural>()
-                .Where(input => input.ConnectedNode == nodeToDrag))
+                .Where(input => selectedNodes.Contains(input.ConnectedNode as INodeOutput)))
             .ToList();
 
-        cursorStartPos = e.GetClientPos();
-        nodeStartPos = nodeToDrag.Pos;
-    }
-
-    public bool IsDrag(MouseEventArgs e)
-    {
-        const int dragThreshold = 4; //Length in px to consider a drag (instead of a click)
-        var mouseOffset = e.GetClientPos() - cursorStartPos;
-        return mouseOffset.GetLength() > dragThreshold;
+        cursorStartPos = lastCursorPos = e.GetClientPos();
     }
 
     public async Task OnStartCreateNodeDrag(INodeViewModel nodeToDrag, DragEventArgs e)
     {
+        nodeToDragOutputs = null;
         this.nodeToDrag = nodeToDrag;
         isDraggingNewNode = true;
-        cursorStartPos = e.GetClientPos();
+        cursorStartPos = lastCursorPos = e.GetClientPos();
         float[] scaledPos = await jsRuntime.InvokeAsync<float[]>("panzoom.clientToGraphPos", e.ClientX, e.ClientY)
             .ConfigureAwait(false);
         int x = (int)scaledPos[0];
@@ -79,10 +72,18 @@ public class NodeDragService : INodeDragService
         if (nodeToDrag is null)
             return;
 
-        var dragOffset = (new Vector2(posX, posY) - cursorStartPos) / ZoomHandler.Zoom;
-        nodeToDrag.Pos = nodeStartPos + dragOffset;
-        nodeToDrag.OnLayoutChanged(this, EventArgs.Empty);
-        foreach (var input in nodeToDrag.GetAllInputs().OfType<InputProcedural>())
+        var newCursorPos = new Vector2(posX, posY);
+        var dragOffset = (newCursorPos - lastCursorPos) / ZoomHandler.Zoom;
+        lastCursorPos = new Vector2(posX, posY);
+
+        var nodesToMove = nodeHandler.Tree.GetSelectedNodes();
+        foreach (var node in nodesToMove)
+        {
+            node.Pos += dragOffset;
+            node.OnLayoutChanged(this, EventArgs.Empty);
+        }
+        var inputsToUpdate = nodesToMove.SelectMany(n => n.GetAllInputs().OfType<InputProcedural>());
+        foreach (var input in inputsToUpdate)
         {
             input.Refresh();
         }

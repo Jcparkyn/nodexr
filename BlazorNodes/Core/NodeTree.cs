@@ -15,24 +15,25 @@ public class NodeTree
     {
         DeleteOutputNoodles(nodeToRemove);
         nodes.Remove(nodeToRemove);
-        foreach (var input in nodeToRemove.GetAllInputs()
-            .OfType<IInputPort>()
-            .Where(input => input.Connected))
+        foreach (var input in nodeToRemove.GetAllInputs())
         {
-            input.TrySetConnectedNode(null);
+            if (input is IInputPort { Connected: true } port)
+            {
+                port.TrySetConnectedNode(null);
+            }
         }
     }
 
-    public void SelectNode(INodeViewModel node, bool unselectOthers = true)
+    public void SelectNode(INodeViewModel node, bool isMultiSelect = false)
     {
-        if (node.Selected) return;
+        if (node.Selected && !isMultiSelect) return;
 
-        if (unselectOthers)
+        if (!isMultiSelect)
         {
             DeselectAllNodes();
         }
 
-        node.Selected = true;
+        node.Selected = !node.Selected;
     }
 
     public void DeselectAllNodes()

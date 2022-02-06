@@ -11,8 +11,7 @@
      style="transform: @CssTransform; --col-node-accent:@Data.CssColor;"
      ondragleave="tempNoodle.setInvalid()"
      ondragover="event.preventDefault(); tempNoodle.setValid();"
-     @onmousedown="StartDrag" @onmousedown:stopPropagation
-     @onclick="Select"
+     @onmousedown="OnMouseDown" @onmousedown:stopPropagation
      @onfocusin="Deselect"
      @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.PrimaryInput))">
 
@@ -60,28 +59,34 @@
 </div>
 
 @code {
-    [Parameter] public INodeViewModel Data { get; set; } = null!;
+	[Parameter] public INodeViewModel Data { get; set; } = null!;
 
-    string CssClass => Data.Selected ? "node-selected" : "";
-    string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
+	string CssClass => Data.Selected ? "node-selected" : "";
+	string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
 
-    protected override void OnInitialized()
-    {
-        Data.OutputChanged += Refresh;
-        Data.LayoutChanged += Refresh;
-        Data.SelectionChanged += Refresh;
-    }
+	protected override void OnInitialized()
+	{
+		Data.OutputChanged += Refresh;
+		Data.LayoutChanged += Refresh;
+		Data.SelectionChanged += Refresh;
+	}
 
-    void ToggleCollapsed()
-    {
-        Data.IsCollapsed = !Data.IsCollapsed;
-        Data.OnLayoutChanged(this, EventArgs.Empty);
-    }
+	void ToggleCollapsed()
+	{
+		Data.IsCollapsed = !Data.IsCollapsed;
+		Data.OnLayoutChanged(this, EventArgs.Empty);
+	}
 
-    async Task StartDrag(MouseEventArgs e)
-    {
-        NodeDragService.OnStartNodeDrag(Data, e);
-        await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
+	async Task OnMouseDown(MouseEventArgs e)
+	{
+		var isMultiSelect = e.ShiftKey || e.CtrlKey;
+		NodeHandler.Tree.SelectNode(Data, isMultiSelect);
+
+		if (!isMultiSelect)
+		{
+			NodeDragService.OnStartNodeDrag(Data, e);
+			await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
+		}
     }
 
     void ShowModal()
@@ -94,14 +99,6 @@
     void Refresh(object? sender, EventArgs e)
     {
         StateHasChanged();
-    }
-
-    void Select(MouseEventArgs e)
-    {
-        if (!NodeDragService.IsDrag(e))
-        {
-            NodeHandler.Tree.SelectNode(Data);
-        }
     }
 
     void Deselect()
