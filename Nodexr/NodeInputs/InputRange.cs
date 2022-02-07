@@ -1,8 +1,21 @@
 ﻿namespace Nodexr.NodeInputs;
 using BlazorNodes.Core;
 
-public class InputRange : NodeInputBase
+public readonly record struct IntRange(int? Min, int? Max);
+
+public class InputRange : NodeInputBase<IntRange>
 {
+    // TODO replace Min/Max
+    public override IntRange Value
+    {
+        get => new(Min, Max);
+        set
+        {
+            Min = value.Min;
+            Max = value.Max;
+        }
+    }
+
     private int? min;
 
     public int? Min

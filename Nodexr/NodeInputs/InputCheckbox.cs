@@ -1,10 +1,12 @@
 ﻿namespace Nodexr.NodeInputs;
 using BlazorNodes.Core;
 
-public class InputCheckbox : NodeInputBase
+public class InputCheckbox : NodeInputBase<bool>
 {
-    private bool _checked;
+    // TODO replace Checked
+    public override bool Value { get => Checked; set => Checked = value; }
 
+    private bool _checked;
     public bool Checked
     {
         get => _checked;

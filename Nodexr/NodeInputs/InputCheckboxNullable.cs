@@ -1,10 +1,12 @@
 ﻿namespace Nodexr.NodeInputs;
 using BlazorNodes.Core;
 
-public class InputCheckboxNullable : NodeInputBase
+public class InputCheckboxNullable : NodeInputBase<int>
 {
-    private int checkedState;
+    // TODO replace CheckedState
+    public override int Value { get => CheckedState; set => CheckedState = value; }
 
+    private int checkedState;
     public int CheckedState
     {
         get => checkedState;

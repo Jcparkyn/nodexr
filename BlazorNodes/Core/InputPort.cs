@@ -71,6 +71,12 @@ public class InputPort<TValue> : NodeInputBase, IInputPort
     {
         NoodleChanged?.Invoke(this, EventArgs.Empty);
     }
+
+    public override bool TrySetValue(object? value)
+    {
+        // TODO Refactor or implement
+        throw new NotImplementedException();
+    }
 }
 
 public interface INoodleData

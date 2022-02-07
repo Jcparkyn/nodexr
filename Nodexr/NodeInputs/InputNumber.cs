@@ -1,11 +1,11 @@
 ﻿namespace Nodexr.NodeInputs;
 using BlazorNodes.Core;
 
-public class InputNumber : NodeInputBase
+public class InputNumber : NodeInputBase<int?>
 {
     private int? _value;
 
-    public int? Value
+    public override int? Value
     {
         get => _value;
         set

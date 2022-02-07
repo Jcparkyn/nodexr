@@ -2,9 +2,19 @@
 using BlazorNodes.Core;
 using Nodexr.Nodes;
 
-public class InputCollection : NodeInputBase
+public class InputCollection : NodeInputBase<IReadOnlyCollection<INodeViewModel>>
 {
-    private readonly List<InputProcedural> inputs;
+    // TODO replace Inputs and refactor
+    public override IReadOnlyCollection<INodeViewModel> Value
+    {
+        get => inputs.Select(i => i.ConnectedNode).OfType<INodeViewModel>().ToList();
+        set => inputs = new(value.Select(node => new InputProcedural()
+        {
+            ConnectedNode = node as INodeOutput<NodeResult>,
+        }));
+    }
+
+    private List<InputProcedural> inputs;
     public IReadOnlyCollection<InputProcedural> Inputs => inputs;
 
     public InputCollection(string title, int numInputs = 0)

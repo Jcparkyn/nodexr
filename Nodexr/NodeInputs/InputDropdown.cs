@@ -8,7 +8,7 @@ public abstract class InputDropdown : NodeInputBase
     public abstract IEnumerable<string> Options { get; }
 }
 
-public class InputDropdown<TValue> : InputDropdown
+public class InputDropdown<TValue> : InputDropdown, INodeInput<TValue>
     where TValue : struct, Enum
 {
     private readonly Dictionary<TValue, string>? displayNames;
@@ -58,7 +58,15 @@ public class InputDropdown<TValue> : InputDropdown
         Value = displayNames.Keys.FirstOrDefault();
     }
 
-    public InputDropdown()
+    public InputDropdown() {}
+
+    public override bool TrySetValue(object? value)
     {
+        if (value is TValue saveValue)
+        {
+            Value = saveValue;
+            return true;
+        }
+        return false;
     }
 }

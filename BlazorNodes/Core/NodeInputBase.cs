@@ -8,11 +8,12 @@ public interface INodeInput
     string? Description { get; set; }
     Vector2 Pos { get; set; }
     int Height { get; }
+    bool TrySetValue(object? value);
 }
 
 public interface INodeInput<TValue>
 {
-    public TValue Value { get; }
+    public TValue Value { get; set;  }
 }
 
 public abstract class NodeInputBase : INodeInput
@@ -41,9 +42,22 @@ public abstract class NodeInputBase : INodeInput
     {
         OnValueChanged(this, EventArgs.Empty);
     }
+
+    public abstract bool TrySetValue(object? value);
 }
 
 public abstract class NodeInputBase<TValue> : NodeInputBase, INodeInput<TValue>
 {
-    public abstract TValue Value { get; }
+    public abstract TValue Value { get; set; }
+
+    public override bool TrySetValue(object? value)
+    {
+        if (value is TValue safeValue)
+        {
+            Value = safeValue;
+            return true;
+        }
+        return false;
+    }
+
 }

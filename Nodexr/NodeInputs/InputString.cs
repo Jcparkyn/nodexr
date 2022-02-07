@@ -2,11 +2,11 @@
 
 using BlazorNodes.Core;
 
-public class InputString : NodeInputBase
+public class InputString : NodeInputBase<string>
 {
     private string _value;
 
-    public string Value
+    public override string Value
     {
         get => _value;
         set
