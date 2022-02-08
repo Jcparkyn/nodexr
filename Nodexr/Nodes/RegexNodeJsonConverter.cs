@@ -38,7 +38,7 @@ public class RegexNodeJsonConverter : JsonConverter<INodeViewModel>
             return (INodeViewModel)referenceResolver.ResolveReference(props.Ref);
         }
 
-        var newNodeType = Type.GetType(props.NodeType);
+        var newNodeType = Type.GetType(props.NodeType ?? throw new JsonException());
         if (newNodeType?.IsAssignableTo(typeof(INodeViewModel)) != true)
             return null;
         if (Activator.CreateInstance(newNodeType) is not INodeViewModel node)
@@ -53,7 +53,7 @@ public class RegexNodeJsonConverter : JsonConverter<INodeViewModel>
             foreach (var (inputName, serializedInput) in props.Inputs)
             {
                 var targetInput = nodeType.GetProperty(inputName)?.GetValue(node)
-                    ?? throw new Exception($"Input {inputName} doesn't exist");
+                    ?? throw new JsonException($"Input {inputName} doesn't exist");
 
                 if (targetInput is IInputPort inputPort)
                 {
@@ -70,7 +70,7 @@ public class RegexNodeJsonConverter : JsonConverter<INodeViewModel>
             }
         }
 
-        referenceResolver.AddReference(props.Id ?? throw new Exception(), node);
+        referenceResolver.AddReference(props.Id ?? throw new JsonException(), node);
 
         return node;
     }
@@ -90,23 +90,24 @@ public class RegexNodeJsonConverter : JsonConverter<INodeViewModel>
         {
             writer.WriteString("$id", nodeId);
             writer.WriteString("nodeType", value.GetType().AssemblyQualifiedName);
-
             writer.WriteNumber("positionX", value.Pos.x);
             writer.WriteNumber("positionY", value.Pos.y);
             writer.WriteBoolean("isCollapsed", value.IsCollapsed);
-            WriteNodeInputs(writer, value, options);
+            WriteNodeInputs(writer, "inputs", value, options);
         }
 
         writer.WriteEndObject();
     }
 
-    private static void WriteNodeInputs(Utf8JsonWriter writer, INodeViewModel value, JsonSerializerOptions options)
+    private static void WriteNodeInputs(Utf8JsonWriter writer, string propertyName, INodeViewModel node, JsonSerializerOptions options)
     {
-        writer.WriteStartObject("inputs");
+        writer.WriteStartObject(propertyName);
 
-        foreach (var input in value.NodeInputs.Append(value.PrimaryInput))
+        var properties = node.GetType().GetProperties();
+
+        foreach (var input in node.NodeInputs.Append(node.PrimaryInput))
         {
-            string inputId = GetFieldNameForInput(value, input);
+            string inputId = properties.First(prop => ReferenceEquals(prop.GetValue(node), input)).Name;
             if (input is IInputPort port)
             {
                 writer.WritePropertyName(inputId);
@@ -125,13 +126,5 @@ public class RegexNodeJsonConverter : JsonConverter<INodeViewModel>
             }
         }
         writer.WriteEndObject();
-    }
-
-    // TODO: Optimise
-    private static string GetFieldNameForInput(INodeViewModel node, INodeInput input)
-    {
-        var properties = node.GetType().GetProperties();
-
-        return properties.First(field => ReferenceEquals(field.GetValue(node), input)).Name;
     }
 }
