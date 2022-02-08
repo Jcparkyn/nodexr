@@ -3,6 +3,7 @@
 using BlazorNodes.Core;
 using Nodexr.Nodes;
 using Nodexr.NodeTypes;
+using Nodexr.Serialization;
 using NUnit.Framework;
 using System.Text.Json;
 
@@ -35,17 +36,15 @@ public class TreeSerializationTests
     {
         var tree = RegexParsers.RegexParser.Parse(expression).Value;
 
-        var refHandler = new CachePreservingReferenceHandler();
         var options = new JsonSerializerOptions()
         {
-            ReferenceHandler = refHandler,
+            ReferenceHandler = new CachePreservingReferenceHandler(),
             WriteIndented = true,
             Converters = { new RegexNodeJsonConverter() },
         };
 
         string serialized = JsonSerializer.Serialize(tree.Nodes, options);
 
-        refHandler.Reset();
 
         var options2 = new JsonSerializerOptions()
         {
@@ -57,7 +56,7 @@ public class TreeSerializationTests
         var deserialized = JsonSerializer.Deserialize<List<INodeViewModel>>(serialized, options2);
 
         Assert.AreEqual(expression, GetOutputNode(deserialized).CachedOutput.Expression);
-        refHandler.Reset();
+
         Console.WriteLine(serialized);
     }
 

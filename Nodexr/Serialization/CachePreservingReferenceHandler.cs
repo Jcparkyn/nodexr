@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 /// A copy of <see cref="ReferenceHandler.Preserve"/> that allows for object references
 /// to be reused across multiple calls to Serialize.
 /// </summary>
-internal class CachePreservingReferenceHandler : ReferenceHandler
+public class CachePreservingReferenceHandler : ReferenceHandler
 {
     public CachePreservingReferenceHandler() => _rootedResolver = new PreserveReferenceResolver();
     private readonly ReferenceResolver _rootedResolver;
