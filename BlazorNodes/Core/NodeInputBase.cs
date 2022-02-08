@@ -13,7 +13,7 @@ public interface INodeInput
 
 public interface INodeInput<TValue>
 {
-    public TValue Value { get; set;  }
+    public TValue Value { get; set; }
 }
 
 public abstract class NodeInputBase : INodeInput

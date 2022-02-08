@@ -58,7 +58,7 @@ public class InputDropdown<TValue> : InputDropdown, INodeInput<TValue>
         Value = displayNames.Keys.FirstOrDefault();
     }
 
-    public InputDropdown() {}
+    public InputDropdown() { }
 
     public override bool TrySetValue(object? value)
     {

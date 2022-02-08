@@ -13,8 +13,8 @@ using MediatR;
 public record NodeTreeApi(
     INodexrContext dbContext,
     ISender mediator
-){
-
+)
+{
     [FunctionName("CreateNodeTree")]
     public async Task<IActionResult> CreateNodeTree(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "nodetree")] HttpRequest req,
