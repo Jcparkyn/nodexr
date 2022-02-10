@@ -36,7 +36,7 @@ jobs:
       run: dotnet restore
 
     - name: Test
-      if: ${{ !skipTests }}
+      if: ${{ !github.event.inputs.skipTests }}
       run: dotnet test Nodexr.Tests -c Release --no-restore
 
     - name: Publish app
