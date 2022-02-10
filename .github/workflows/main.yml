@@ -4,14 +4,28 @@ env:
 
 # Controls when the action will run
 on:
-  push:
-    branches: [ master ]
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Checkout ref (optional).
+        required: false
+        default: ''
+        type: string
+      skipTests:
+        description: Skip tests
+        required: false
+        default: "false"
+        type: boolean
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.inputs.ref }}
 
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
@@ -22,6 +36,7 @@ jobs:
       run: dotnet restore
 
     - name: Test
+      if: ${{ !skipTests }}
       run: dotnet test Nodexr.Tests -c Release --no-restore
 
     - name: Publish app

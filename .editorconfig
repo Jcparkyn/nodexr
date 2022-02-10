@@ -8,6 +8,11 @@ root = true
 [*]
 indent_style = space
 
+# YAML files
+[*.yml]
+indent_size = 2
+tab_width = 2
+
 # JSON files
 [*.json]
 indent_size = 2
