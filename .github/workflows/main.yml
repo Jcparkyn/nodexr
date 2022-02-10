@@ -16,7 +16,7 @@ on:
       skipTests:
         description: Skip tests
         required: false
-        default: "false"
+        default: 'false'
         type: boolean
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
       run: dotnet restore
 
     - name: Test
-      if: ${{ !github.event.inputs.skipTests }}
+      if: ${{ github.event.inputs.skipTests != 'true' }}
       run: dotnet test Nodexr.Tests -c Release --no-restore
 
     - name: Publish app
