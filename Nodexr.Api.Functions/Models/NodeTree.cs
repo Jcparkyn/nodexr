@@ -5,9 +5,11 @@ public class NodeTree
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
-    public string Title { get; set; } = null!;
+    public bool Searchable { get; set; } = false;
 
-    public string Expression { get; set; } = null!;
+    public string? Title { get; set; }
+
+    public string? Expression { get; set; }
 
     public string? Description { get; set; }
 

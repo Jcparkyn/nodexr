@@ -13,7 +13,7 @@ public static class NodeTreeExtensions
 
         return query.Where(tree =>
             // Case-insensitive search (StringComparison doesn't work with Cosmos)
-            tree.Title.ToLower().Contains(searchString.ToLowerInvariant())
+            tree.Title!.ToLower().Contains(searchString.ToLowerInvariant())
         );
     }
 }
