@@ -12,75 +12,15 @@
     <div class="output-regex">@if (isEditing)
     {<OutputEditor StartExpression="@NodeHandler.CachedOutput.Expression"
                    OnSubmitted="@OnEditSubmitted"
-                   OnCanceled="OnEditCancelled"/>}
+                   OnCanceled="@OnEditCancelled"/>}
     else
     {
         @foreach (var segment in @NodeHandler.CachedOutput.Contents)
-        {<OutputDisplaySegment Segment="segment"/>@*This must not be surrounded by whitespace*@}
+        {<OutputDisplaySegment Segment="@segment"/>@*This must not be surrounded by whitespace*@}
     }
     </div>
 
-    <button class="output-regex-button" @onclick="OnEditButtonClick" title="Edit"><i class="fas fa-pencil-alt"></i></button>
-    <button class="output-regex-button" @onclick="CopyTextToClipboard" title="Copy to clipboard"><i class="far fa-clipboard"></i></button>
-    <button class="output-regex-button" @onclick="OnCreateLinkButtonClick" title="Create shareable link"><i class="fas fa-link"></i></button>
+    <button class="output-regex-button" @onclick="@OnEditButtonClick" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+    <button class="output-regex-button" @onclick="@CopyTextToClipboard" title="Copy to clipboard"><i class="far fa-clipboard"></i></button>
+    <button class="output-regex-button" @onclick="@OnCreateLinkButtonClick" title="Create shareable link"><i class="fas fa-link"></i></button>
 </div>
-
-
-@code {
-
-	bool isEditing = false;
-
-	JSModule clipboardModule = null!;
-
-	protected override void OnInitialized()
-	{
-		NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
-		clipboardModule = JSRuntime.LoadJSModule("./js/GeneratedJS/ClipboardCopy.js");
-	}
-
-	private void OnEditButtonClick()
-	{
-		isEditing = !isEditing;
-	}
-
-	private void OnEditSubmitted(string newExpression)
-	{
-		isEditing = false;
-		NodeHandler.TryCreateTreeFromRegex(newExpression.Trim('\n', '\r'));
-	}
-
-	private void OnEditCancelled()
-	{
-		isEditing = false;
-		StateHasChanged();
-	}
-
-	private async Task OnCreateLinkButtonClick()
-	{
-		var urlParams = new Dictionary<string, string>
-            {
-                { "parse", NodeHandler.CachedOutput.Expression }
-            };
-
-		if (RegexReplaceHandler.SearchText != RegexReplaceHandler.DefaultSearchText)
-		{
-			urlParams.Add("search", RegexReplaceHandler.SearchText);
-		}
-
-		if (RegexReplaceHandler.ReplacementRegex != RegexReplaceHandler.DefaultReplacementRegex)
-		{
-			urlParams.Add("replace", RegexReplaceHandler.ReplacementRegex);
-		}
-
-		string url = QueryHelpers.AddQueryString(NavManager.BaseUri, urlParams);
-		await clipboardModule.InvokeVoidAsync("copyText", url, "");
-        ToastService.ShowInfo("", "Link copied to clipboard");
-    }
-
-    private async Task CopyTextToClipboard()
-    {
-        string regex = NodeHandler.CachedOutput.Expression;
-		await clipboardModule.InvokeVoidAsync("copyText", regex, "");
-        ToastService.ShowInfo(regex, "Copied to clipboard");
-    }
-}
