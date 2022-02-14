@@ -8,9 +8,10 @@
     user-select: none;
 }
 
-    .node-selected {
-        box-shadow: 0 0 0px 2px #ffffffa3;
-    }
+.node-selected {
+    box-shadow: 0 0 0px 2px #ffffffa3;
+    transition: box-shadow 0.15s ease-out;
+}
 
     .node .node-title {
         background-color: var(--col-node-default);
@@ -22,7 +23,7 @@
         .node .node-title.collapsed {
             border-radius: 8px
         }
-        
+
         .node .node-title b {
             color: hsl(0,0%,15%);
             font-weight: 500;
@@ -147,7 +148,7 @@
         height: 17px;
         background-color: var(--col-node-accent);
         border-radius: 50%;
-        
+
         box-sizing: border-box;
         border: 2px solid var(--col-bg-2);
     }
