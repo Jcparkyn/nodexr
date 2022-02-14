@@ -50,7 +50,7 @@ public class NodexrContext : DbContext, INodexrContext
             .Property(x => x.Nodes)
             .HasConversion(
                 v => JsonSerializer.Serialize(v, null as JsonSerializerOptions),
-                v => JsonSerializer.Deserialize<List<JsonObject>>(v, null as JsonSerializerOptions)
+                v => JsonSerializer.Deserialize<JsonObject>(v, null as JsonSerializerOptions)
             );
     }
 

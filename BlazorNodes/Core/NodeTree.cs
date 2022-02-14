@@ -6,6 +6,13 @@ public class NodeTree
 
     public IEnumerable<INodeViewModel> Nodes => nodes.AsReadOnly();
 
+    public NodeTree() { }
+
+    public NodeTree(IEnumerable<INodeViewModel> nodes)
+    {
+        this.nodes = nodes.ToList();
+    }
+
     public void AddNode(INodeViewModel node)
     {
         nodes.Add(node);

@@ -15,7 +15,7 @@ public class NodeTree
 
     public string? Description { get; set; }
 
-    public List<JsonObject>? Nodes { get; set; }
+    public JsonObject? Nodes { get; set; }
 
     public NodeTree(string title, string expression)
     {

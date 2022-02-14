@@ -1,4 +1,5 @@
 ﻿@page "/"
+@page "/shared/{NodeTreeId?}"
 @using Microsoft.FeatureManagement
 @using Nodexr.Components.NodeTreeBrowser;
 @inject INodeDragService NodeDragService
@@ -36,14 +37,16 @@
 
 	<div style="display:flex; flex-direction:row; flex:1; min-height:0;">
 		<NodeList />
-		@*<div style="width:6px; height:100%;"></div>*@
-		<NodeGraph />
+		<NodeGraph NodeTreeId="@NodeTreeId" />
 	</div>
 </div>
 
 <BottomPanels />
 
 @code {
+
+	[Parameter]
+	public string? NodeTreeId { get; set; }
 
 	bool enableExpressionBrowser = false;
 

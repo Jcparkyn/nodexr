@@ -15,7 +15,7 @@ public interface INodeHandler
     event EventHandler OnRequireNoodleRefresh;
     event EventHandler OnRequireNodeGraphRefresh;
 
-    NodeTree Tree { get; }
+    NodeTree Tree { get; set; }
 
     void DeleteSelectedNodes();
     void ForceRefreshNodeGraph();
@@ -34,12 +34,14 @@ public class NodeHandler : INodeHandler
     public NodeTree Tree
     {
         get => tree!;
-        private set
+        set
         {
             // TODO refactor this. The current implementation breaks if the Output node is replaced.
             if (tree != null) GetOutputNode(tree).OutputChanged -= OnOutputChanged;
             GetOutputNode(value).OutputChanged += OnOutputChanged;
             tree = value;
+            ForceRefreshNodeGraph();
+            OnOutputChanged(this, EventArgs.Empty);
         }
     }
 

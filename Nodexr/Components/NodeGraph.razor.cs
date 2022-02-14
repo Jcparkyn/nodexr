@@ -7,12 +7,32 @@ using Microsoft.JSInterop;
 using Nodexr.Utils;
 using Nodexr.NodeInputs;
 using BlazorNodes.Core;
+using Microsoft.AspNetCore.Components;
+using Nodexr.Serialization;
+using Nodexr.Services;
+using System.Net.Http.Json;
+using Nodexr.Api.Contracts.NodeTrees;
+using System.Text.Json;
 
 public partial class NodeGraph
 {
+    [Inject] protected INodeDragService NodeDragService { get; set; } = null!;
+    [Inject] protected INoodleDragService NoodleDragService { get; set; } = null!;
+    [Inject] protected INodeHandler NodeHandler { get; set; } = null!;
+    [Inject] protected IJSRuntime JSRuntime { get; set; } = null!;
+    [Inject] protected IConfiguration Config { get; set; } = null!;
+    [Inject] protected HttpClient Http { get; set; } = null!;
+
+    [Parameter]
+    public string? NodeTreeId { get; set; }
+
     private bool shouldRender = false;
     protected override bool ShouldRender() => shouldRender;
+
     private Vector2 clickStartPos; //Used to check whether an onclick event was actually a drag
+
+    private bool isLoadingNodeTree = false;
+
     private static Type InputViewModelProvider(INodeInput input)
     {
         return input switch
@@ -29,10 +49,31 @@ public partial class NodeGraph
         };
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        //NodeHandler.OnNodeCountChanged += StateHasChanged;
         NodeHandler.OnRequireNodeGraphRefresh += (sender, e) => Refresh();
+        if (!string.IsNullOrEmpty(NodeTreeId))
+        {
+            await LoadNodeTreeFromServer();
+        }
+    }
+
+    private async Task LoadNodeTreeFromServer()
+    {
+        isLoadingNodeTree = true;
+        var nodeTree = await Http.GetFromJsonAsync<NodeTreePreviewDto>($"{Config["apiAddress"]}/nodetree/{NodeTreeId}");
+
+        var jsonOptions = new JsonSerializerOptions()
+        {
+            ReferenceHandler = new CachePreservingReferenceHandler(),
+            WriteIndented = true,
+            Converters = { new RegexNodeJsonConverter() },
+        };
+
+        var nodes = nodeTree?.Nodes.Deserialize<List<INodeViewModel>>(jsonOptions);
+        NodeHandler.Tree = new NodeTree(nodes);
+        isLoadingNodeTree = false;
+        Refresh();
     }
 
     private async Task StartPan(MouseEventArgs e)

@@ -10,7 +10,7 @@ public class NodeTreePreviewDto
 
     public string? Expression { get; set; } = null!;
 
-    public List<JsonObject>? Nodes { get; set; }
+    public JsonObject? Nodes { get; set; }
 
     public string? Description { get; set; }
 }

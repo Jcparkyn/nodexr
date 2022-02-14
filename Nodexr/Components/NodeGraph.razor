@@ -1,8 +1,4 @@
-﻿@inject INodeDragService NodeDragService
-@inject INoodleDragService NoodleDragService
-@inject INodeHandler NodeHandler
-@inject IJSRuntime JSRuntime
-
+﻿
 <div class="viewport nodegraph" onwheel="panzoom.zoom(event)"
      @onmousedown="@StartPan" @onmousedown:preventDefault
      ondragover="event.preventDefault()" @ondrop="@OnDrop" @onkeydown="@OnKeyDown" tabindex="-1">
@@ -12,16 +8,23 @@
             Value="@((Func<INodeInput, Type>)InputViewModelProvider)"
             Name="InputViewModelProvider"
             IsFixed="true">
-            @foreach (var node in NodeHandler.Tree.Nodes)
-            {
-                <NodeView @key="node" Data="node" />
-            }
+			@if (isLoadingNodeTree)
+			{
+				<h3>Loading...</h3>
+			}
+			else
+			{
+				@foreach (var node in NodeHandler.Tree.Nodes)
+				{
+					<NodeView @key="node" Data="node" />
+				}
+				<svg style="overflow:visible; position:absolute;">
+					<NoodleSvg Noodle="NoodleDragService.TempNoodle" DomId="tempNoodle" />
+				</svg>
+				<svg style="overflow:visible; position:absolute;">
+					<NoodleCollection Nodes="@NodeHandler.Tree.Nodes" />
+				</svg>
+			}
         </CascadingValue>
-        <svg style="overflow:visible; position:absolute;">
-            <NoodleSvg Noodle="NoodleDragService.TempNoodle" DomId="tempNoodle" />
-        </svg>
-        <svg style="overflow:visible; position:absolute;">
-            <NoodleCollection Nodes="@NodeHandler.Tree.Nodes" />
-        </svg>
     </div>
 </div>
