@@ -4,11 +4,12 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Functions.Common;
 using Nodexr.Api.Functions.NodeTrees.Queries;
 using MediatR;
+using Nodexr.Api.Functions.Models;
+using System.Text.Json;
 
 public record NodeTreeApi(
     INodexrContext dbContext,
@@ -23,17 +24,48 @@ public record NodeTreeApi(
     {
         log.LogInformation("Creating new NodeTree");
 
-        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-        var command = JsonConvert.DeserializeObject<CreateNodeTreeCommand>(requestBody);
+        var command = JsonSerializer.Deserialize<CreateNodeTreeCommand>(req.Body);
+        if (command is null) return new BadRequestResult();
 
         string id = await mediator.Send(command, cancellationToken);
 
         return new OkObjectResult(id);
     }
 
+    [FunctionName("CreateAnonymousNodeTree")]
+    public async Task<IActionResult> CreateAnonymousNodeTree(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "nodetree/anon")] HttpRequest req,
+        ILogger log,
+        CancellationToken cancellationToken)
+    {
+        log.LogInformation("Creating new NodeTree");
+
+        try
+        {
+            var command = JsonSerializer.Deserialize<CreateAnonymousNodeTreeCommand>(req.Body);
+
+            if (command is null) return new BadRequestResult();
+
+            var newTree = new NodeTree()
+            {
+                Searchable = false,
+                Nodes = command.Nodes,
+            };
+
+            dbContext.NodeTrees.Add(newTree);
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            return new OkObjectResult(newTree.Id);
+        }
+        catch (JsonException)
+        {
+            return new BadRequestResult();
+        }
+    }
+
     [FunctionName("GetNodeTreeById")]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "req is required by Azure Functions")]
-    public async Task<IActionResult> GetNodeTreeById(
+    public async Task<ActionResult<NodeTreePreviewDto>> GetNodeTreeById(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "nodetree/{id}")] HttpRequest req,
         ILogger log,
         string id)
@@ -45,7 +77,14 @@ public record NodeTreeApi(
         if (tree is null)
             return new NotFoundResult();
 
-        return new OkObjectResult(tree);
+        return CustomResult.Json(new NodeTreePreviewDto
+        {
+            Id = tree.Id,
+            Description = tree.Description,
+            Expression = tree.Expression,
+            Nodes = tree.Nodes,
+            Title = tree.Title,
+        });
     }
 
     [FunctionName("GetAllNodeTrees")]
@@ -68,7 +107,7 @@ public record NodeTreeApi(
 
         var trees = await mediator.Send(query, cancellationToken);
 
-        return new OkObjectResult(trees);
+        return CustomResult.Json(trees);
     }
 
     private static int? GetQueryInt(HttpRequest req, string queryName)

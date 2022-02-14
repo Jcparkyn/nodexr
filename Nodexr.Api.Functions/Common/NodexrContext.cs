@@ -4,8 +4,10 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 using Nodexr.Api.Functions.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Nodes;
 
 public interface INodexrContext : IDisposable, IAsyncDisposable
 {
@@ -43,6 +45,13 @@ public class NodexrContext : DbContext, INodexrContext
 
         modelBuilder.Entity<NodeTree>()
             .Property(x => x.Id);
+
+        modelBuilder.Entity<NodeTree>()
+            .Property(x => x.Nodes)
+            .HasConversion(
+                v => JsonSerializer.Serialize(v, null as JsonSerializerOptions),
+                v => JsonSerializer.Deserialize<List<JsonObject>>(v, null as JsonSerializerOptions)
+            );
     }
 
     /// <summary>

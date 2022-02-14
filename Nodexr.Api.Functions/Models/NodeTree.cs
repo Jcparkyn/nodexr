@@ -1,5 +1,7 @@
 ﻿namespace Nodexr.Api.Functions.Models;
+
 using System;
+using System.Text.Json.Nodes;
 
 public class NodeTree
 {
@@ -12,6 +14,8 @@ public class NodeTree
     public string? Expression { get; set; }
 
     public string? Description { get; set; }
+
+    public List<JsonObject>? Nodes { get; set; }
 
     public NodeTree(string title, string expression)
     {
