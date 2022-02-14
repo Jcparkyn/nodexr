@@ -1,14 +1,21 @@
 ﻿namespace Nodexr.Services;
+
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Contracts.Pagination;
+using Nodexr.Serialization;
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Web;
 
 public class NodeTreeBrowserService
 {
     private readonly HttpClient httpClient;
     private readonly INodeHandler nodeHandler;
+    private readonly NavigationManager navManager;
     private readonly string apiAddress;
     private NodeTreePreviewDto? selectedNodeTree;
 
@@ -23,10 +30,15 @@ public class NodeTreeBrowserService
         }
     }
 
-    public NodeTreeBrowserService(HttpClient httpClient, INodeHandler nodeHandler, IConfiguration config)
+    public NodeTreeBrowserService(
+        HttpClient httpClient,
+        NavigationManager navManager,
+        INodeHandler nodeHandler,
+        IConfiguration config)
     {
         this.httpClient = httpClient;
         this.nodeHandler = nodeHandler;
+        this.navManager = navManager;
         apiAddress = config["apiAddress"];
     }
 
@@ -44,6 +56,31 @@ public class NodeTreeBrowserService
             $"{apiAddress}/nodetree",
             model
             ).ConfigureAwait(false);
+    }
+
+    public async Task<string?> PublishAnonymousNodeTree()
+    {
+        var jsonOptions = new JsonSerializerOptions()
+        {
+            ReferenceHandler = new CachePreservingReferenceHandler(),
+            Converters = { new RegexNodeJsonConverter() },
+        };
+
+        var nodes = JsonObject.Create(
+            JsonSerializer.SerializeToElement(nodeHandler.Tree.Nodes, jsonOptions)
+        )!;
+        var command = new CreateAnonymousNodeTreeCommand(nodes);
+
+        var response = await httpClient.PostAsJsonAsync($"{apiAddress}/nodetree/anon", command);
+        if (!response.IsSuccessStatusCode)
+        {
+            return null;
+        }
+        else
+        {
+            var nodeTreeId = await response.Content.ReadAsStringAsync();
+            return navManager.ToAbsoluteUri($"shared/{HttpUtility.UrlEncode(nodeTreeId)}").AbsoluteUri;
+        }
     }
 
     public async Task<Paged<NodeTreePreviewDto>> GetAllNodeTrees(CancellationToken cancellationToken, string? search = null, int start = 0, int limit = 50)

@@ -13,6 +13,7 @@ using Nodexr.Services;
 using System.Net.Http.Json;
 using Nodexr.Api.Contracts.NodeTrees;
 using System.Text.Json;
+using Blazored.Toast.Services;
 
 public partial class NodeGraph
 {
@@ -22,6 +23,7 @@ public partial class NodeGraph
     [Inject] protected IJSRuntime JSRuntime { get; set; } = null!;
     [Inject] protected IConfiguration Config { get; set; } = null!;
     [Inject] protected HttpClient Http { get; set; } = null!;
+    [Inject] protected IToastService ToastService { get; set; } = null!;
 
     [Parameter]
     public string? NodeTreeId { get; set; }
@@ -54,26 +56,37 @@ public partial class NodeGraph
         NodeHandler.OnRequireNodeGraphRefresh += (sender, e) => Refresh();
         if (!string.IsNullOrEmpty(NodeTreeId))
         {
-            await LoadNodeTreeFromServer();
+            isLoadingNodeTree = true;
+            try
+            {
+                await LoadNodeTreeFromServer();
+            }
+            catch (Exception)
+            {
+                ToastService.ShowError("Something went wrong while loading the requested expression, so the default expression has been loaded instead.");
+            }
+            finally
+            {
+                isLoadingNodeTree = false;
+                Refresh();
+            }
         }
     }
 
     private async Task LoadNodeTreeFromServer()
     {
-        isLoadingNodeTree = true;
         var nodeTree = await Http.GetFromJsonAsync<NodeTreePreviewDto>($"{Config["apiAddress"]}/nodetree/{NodeTreeId}");
 
         var jsonOptions = new JsonSerializerOptions()
         {
             ReferenceHandler = new CachePreservingReferenceHandler(),
-            WriteIndented = true,
             Converters = { new RegexNodeJsonConverter() },
         };
 
-        var nodes = nodeTree?.Nodes.Deserialize<List<INodeViewModel>>(jsonOptions);
+        var nodes = nodeTree?.Nodes.Deserialize<List<INodeViewModel>>(jsonOptions)
+            ?? throw new JsonException();
+
         NodeHandler.Tree = new NodeTree(nodes);
-        isLoadingNodeTree = false;
-        Refresh();
     }
 
     private async Task StartPan(MouseEventArgs e)

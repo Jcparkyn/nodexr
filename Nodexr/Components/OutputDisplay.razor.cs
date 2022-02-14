@@ -4,9 +4,21 @@ using Microsoft.JSInterop;
 using Nodexr.Utils;
 using Nodexr.Services;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Components;
+using Blazored.Toast.Services;
+using Microsoft.FeatureManagement;
+using Microsoft.AspNetCore.Components.Web;
 
 public partial class OutputDisplay
 {
+    [Inject] private INodeHandler NodeHandler { get; set; } = null!;
+    [Inject] private IJSRuntime JSRuntime { get; set; } = null!;
+    [Inject] private NavigationManager NavManager { get; set; } = null!;
+    [Inject] private IToastService ToastService { get; set; } = null!;
+    [Inject] private RegexReplaceHandler RegexReplaceHandler { get; set; } = null!;
+    [Inject] private IFeatureManager FeatureManager { get; set; } = null!;
+    [Inject] private NodeTreeBrowserService BrowserService { get; set; } = null!;
+
     private bool isEditing = false;
     private JSModule clipboardModule = null!;
 
@@ -33,11 +45,29 @@ public partial class OutputDisplay
         StateHasChanged();
     }
 
-    private async Task OnCreateLinkButtonClick()
+    private async Task OnCreateLinkButtonClick(MouseEventArgs eventArgs)
+    {
+        var useServerLink = eventArgs.ShiftKey && await FeatureManager.IsEnabledAsync("ServerLinks");
+        var url = useServerLink
+            ? await BrowserService.PublishAnonymousNodeTree()
+            : GetBasicLink();
+
+        if (url is null)
+        {
+            ToastService.ShowError("", "Something went wrong creating the link, please try again");
+        }
+        else
+        {
+            await clipboardModule.InvokeVoidAsync("copyText", url, "");
+            ToastService.ShowInfo(url, "Link copied to clipboard");
+        }
+    }
+
+    private string GetBasicLink()
     {
         var urlParams = new Dictionary<string, string>
         {
-            {"parse", NodeHandler.CachedOutput.Expression}
+            { "parse", NodeHandler.CachedOutput.Expression }
         };
         if (RegexReplaceHandler.SearchText != RegexReplaceHandler.DefaultSearchText)
         {
@@ -49,9 +79,7 @@ public partial class OutputDisplay
             urlParams.Add("replace", RegexReplaceHandler.ReplacementRegex);
         }
 
-        string url = QueryHelpers.AddQueryString(NavManager.BaseUri, urlParams);
-        await clipboardModule.InvokeVoidAsync("copyText", url, "");
-        ToastService.ShowInfo("", "Link copied to clipboard");
+        return QueryHelpers.AddQueryString(NavManager.BaseUri, urlParams);
     }
 
     private async Task CopyTextToClipboard()

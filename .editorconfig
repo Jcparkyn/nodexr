@@ -151,3 +151,6 @@ dotnet_diagnostic.IDE0005.severity = warning
 # RCS1096: Convert 'HasFlag' call to bitwise operation
 dotnet_diagnostic.RCS1096.severity = silent
 dotnet_diagnostic.RCS1096i.severity = silent
+
+# RCS1090: Add call to 'ConfigureAwait'
+dotnet_diagnostic.RCS1090.severity = silent
