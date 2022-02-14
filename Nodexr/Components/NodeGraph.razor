@@ -4,16 +4,15 @@
 @inject IJSRuntime JSRuntime
 
 <div class="viewport nodegraph" onwheel="panzoom.zoom(event)"
-     @onmousedown="StartPan" @onmousedown:preventDefault
+     @onmousedown="@StartPan" @onmousedown:preventDefault
      ondragover="event.preventDefault()" @ondrop="@OnDrop" @onkeydown="@OnKeyDown" tabindex="-1">
     <div style="width:100%; height:100%; position:absolute;" @onclick="@OnClick"></div>
     <div id="nodegraph" style="position:relative; transform-origin:0% 0%; width:0px; height:0px;">
         <CascadingValue
-            Value="(Func<INodeInput, Type>)InputViewModelProvider"
+            Value="@((Func<INodeInput, Type>)InputViewModelProvider)"
             Name="InputViewModelProvider"
             IsFixed="true">
-            @*TODO: refactor to remove cast*@
-            @foreach (var node in NodeHandler.Tree.Nodes.OfType<RegexNodeViewModelBase>())
+            @foreach (var node in NodeHandler.Tree.Nodes)
             {
                 <NodeView @key="node" Data="node" />
             }
@@ -26,80 +25,3 @@
         </svg>
     </div>
 </div>
-
-@code {
-
-    private bool shouldRender = false;
-    protected override bool ShouldRender() => shouldRender;
-
-    private Vector2 clickStartPos; //Used to check whether an onclick event was actually a drag
-
-    private Type InputViewModelProvider(INodeInput input)
-    {
-        return input switch
-        {
-            NodeInputs.InputCheckbox => typeof(InputCheckboxView),
-            InputCheckboxNullable => typeof(InputCheckboxNullableView),
-            InputCollection => typeof(InputCollectionView),
-            InputDropdown => typeof(InputDropdownView),
-            InputNumber => typeof(InputNumberView),
-            InputProcedural => typeof(InputProceduralView),
-            InputRange => typeof(InputRangeView),
-            InputString => typeof(InputStringView),
-            _ => throw new ArgumentOutOfRangeException($"No view class defined for type {input.GetType()}")
-        };
-    }
-
-    protected override void OnInitialized()
-    {
-        //NodeHandler.OnNodeCountChanged += StateHasChanged;
-        NodeHandler.OnRequireNodeGraphRefresh += (sender, e) => Refresh();
-    }
-
-    async Task StartPan(MouseEventArgs e)
-    {
-        clickStartPos = e.GetClientPos();
-        await JSRuntime.InvokeVoidAsync("panzoom.startPan");
-    }
-
-    void Refresh()
-    {
-        shouldRender = true;
-        StateHasChanged();
-        shouldRender = false;
-    }
-
-    void OnDrop(DragEventArgs e)
-    {
-        NodeDragService.OnDrop(e);
-        Refresh();
-    }
-
-    void OnKeyDown(KeyboardEventArgs e)
-    {
-        if (e.Key == "Delete" || e.Key == "Backspace")
-        {
-            NodeHandler.DeleteSelectedNodes();
-        }
-        else if (e.Key == "Escape")
-        {
-            DeselectNode();
-        }
-    }
-
-    void OnClick(MouseEventArgs e)
-    {
-        const int dragThreshold = 4; //Length in px to consider a drag (instead of a click)
-        var mouseOffset = e.GetClientPos() - clickStartPos;
-
-        if (mouseOffset.GetLength() <= dragThreshold)
-        {
-            DeselectNode();
-        }
-    }
-
-    void DeselectNode()
-    {
-        NodeHandler.Tree.DeselectAllNodes();
-    }
-}
