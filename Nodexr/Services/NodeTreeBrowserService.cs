@@ -16,6 +16,7 @@ public class NodeTreeBrowserService
     private readonly HttpClient httpClient;
     private readonly INodeHandler nodeHandler;
     private readonly NavigationManager navManager;
+    private readonly RegexReplaceHandler regexReplaceHandler;
     private readonly string apiAddress;
     private NodeTreePreviewDto? selectedNodeTree;
 
@@ -33,12 +34,14 @@ public class NodeTreeBrowserService
     public NodeTreeBrowserService(
         HttpClient httpClient,
         NavigationManager navManager,
+        RegexReplaceHandler regexReplaceHandler,
         INodeHandler nodeHandler,
         IConfiguration config)
     {
         this.httpClient = httpClient;
         this.nodeHandler = nodeHandler;
         this.navManager = navManager;
+        this.regexReplaceHandler = regexReplaceHandler;
         apiAddress = config["apiAddress"];
     }
 
@@ -69,8 +72,12 @@ public class NodeTreeBrowserService
         var nodes = JsonObject.Create(
             JsonSerializer.SerializeToElement(nodeHandler.Tree.Nodes, jsonOptions)
         )!;
-        var command = new CreateAnonymousNodeTreeCommand(nodes);
-
+        var command = new CreateAnonymousNodeTreeCommand(nodes)
+        {
+            ReplacementRegex = regexReplaceHandler.ReplacementRegex,
+            SearchText = regexReplaceHandler.SearchText,
+        };
+        // TODO: error handling
         var response = await httpClient.PostAsJsonAsync($"{apiAddress}/nodetree/anon", command);
         if (!response.IsSuccessStatusCode)
         {

@@ -17,6 +17,10 @@ public class NodeTree
 
     public JsonObject? Nodes { get; set; }
 
+    public string? SearchText { get; set; }
+
+    public string? ReplacementRegex { get; set; }
+
     public NodeTree(string title, string expression)
     {
         Title = title;

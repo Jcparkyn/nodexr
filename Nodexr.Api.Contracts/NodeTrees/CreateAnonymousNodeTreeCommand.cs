@@ -6,4 +6,9 @@ using System.Text.Json.Serialization;
 
 public record CreateAnonymousNodeTreeCommand(
     [property: JsonPropertyName("nodes")] JsonObject Nodes
-) : IRequest<string>;
+) : IRequest<string>
+{
+    public string? SearchText { get; set; }
+
+    public string? ReplacementRegex { get; set; }
+}

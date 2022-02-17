@@ -42,7 +42,12 @@ public record NodeTreeApi(
 
         try
         {
-            var command = JsonSerializer.Deserialize<CreateAnonymousNodeTreeCommand>(req.Body);
+            var jsonOptions = new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            };
+
+            var command = JsonSerializer.Deserialize<CreateAnonymousNodeTreeCommand>(req.Body, jsonOptions);
 
             if (command is null) return new BadRequestResult();
 
@@ -50,6 +55,8 @@ public record NodeTreeApi(
             {
                 Searchable = false,
                 Nodes = command.Nodes,
+                SearchText = command.SearchText,
+                ReplacementRegex = command.ReplacementRegex,
             };
 
             dbContext.NodeTrees.Add(newTree);
@@ -84,6 +91,8 @@ public record NodeTreeApi(
             Expression = tree.Expression,
             Nodes = tree.Nodes,
             Title = tree.Title,
+            SearchText = tree.SearchText,
+            ReplacementRegex = tree.ReplacementRegex,
         });
     }
 

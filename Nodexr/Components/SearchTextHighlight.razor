@@ -57,5 +57,6 @@
 	{
 		NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
 		RegexReplaceHandler.RegexOptionsChanged += (sender, e) => StateHasChanged();
+		RegexReplaceHandler.SearchTextChanged += (sender, e) => StateHasChanged();
 	}
 }

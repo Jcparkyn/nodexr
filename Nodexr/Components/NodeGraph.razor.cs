@@ -24,6 +24,7 @@ public partial class NodeGraph
     [Inject] protected IConfiguration Config { get; set; } = null!;
     [Inject] protected HttpClient Http { get; set; } = null!;
     [Inject] protected IToastService ToastService { get; set; } = null!;
+    [Inject] protected RegexReplaceHandler ReplaceHandler { get; set; } = null!;
 
     [Parameter]
     public string? NodeTreeId { get; set; }
@@ -87,6 +88,16 @@ public partial class NodeGraph
             ?? throw new JsonException();
 
         NodeHandler.Tree = new NodeTree(nodes);
+
+        if (!string.IsNullOrEmpty(nodeTree.ReplacementRegex))
+        {
+            ReplaceHandler.ReplacementRegex = nodeTree.ReplacementRegex;
+        }
+
+        if (!string.IsNullOrEmpty(nodeTree.SearchText))
+        {
+            ReplaceHandler.SearchText = nodeTree.SearchText;
+        }
     }
 
     private async Task StartPan(MouseEventArgs e)

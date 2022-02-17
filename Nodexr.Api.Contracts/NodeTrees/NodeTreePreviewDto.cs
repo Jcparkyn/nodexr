@@ -13,4 +13,8 @@ public class NodeTreePreviewDto
     public JsonObject? Nodes { get; set; }
 
     public string? Description { get; set; }
+
+    public string? SearchText { get; init; }
+
+    public string? ReplacementRegex { get; init; }
 }
