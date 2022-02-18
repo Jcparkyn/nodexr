@@ -15,5 +15,16 @@
 
     <button class="output-regex-button" @onclick="@OnEditButtonClick" title="Edit"><i class="fas fa-pencil-alt"></i></button>
     <button class="output-regex-button" @onclick="@CopyTextToClipboard" title="Copy to clipboard"><i class="far fa-clipboard"></i></button>
-    <button class="output-regex-button" @onclick="@OnCreateLinkButtonClick" title="Create shareable link"><i class="fas fa-link"></i></button>
+    <button class="output-regex-button" @onclick="@OnCreateLinkButtonClick" title="Create shareable link">
+		@if (createLinkMutation.IsLoading)
+		{
+			<div class="spinner-border spinner-border-sm" role="status">
+				<span class="sr-only">Loading...</span>
+			</div>
+		}
+		else
+		{
+			<i class="fas fa-link"></i>
+		}
+	</button>
 </div>

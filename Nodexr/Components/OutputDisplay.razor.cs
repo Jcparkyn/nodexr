@@ -21,11 +21,17 @@ public partial class OutputDisplay
 
     private bool isEditing = false;
     private JSModule clipboardModule = null!;
+    private Mutation<int, string?> createLinkMutation = null!;
 
     protected override void OnInitialized()
     {
         NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
         clipboardModule = JSRuntime.LoadJSModule("./js/GeneratedJS/ClipboardCopy.js");
+        createLinkMutation = new Mutation<int, string?>(
+            StateHasChanged,
+            _ => BrowserService.PublishAnonymousNodeTree(),
+            onError: _ => ToastService.ShowError("Something went wrong while contacting the server, please try again.")
+        );
     }
 
     private void OnEditButtonClick()
@@ -49,7 +55,7 @@ public partial class OutputDisplay
     {
         var useServerLink = eventArgs.ShiftKey && await FeatureManager.IsEnabledAsync("ServerLinks");
         var url = useServerLink
-            ? await BrowserService.PublishAnonymousNodeTree()
+            ? await createLinkMutation.Trigger(0)
             : GetBasicLink();
 
         if (url is null)

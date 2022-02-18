@@ -1,0 +1,44 @@
+﻿
+.output-regex-container {
+    display: inline-flex;
+    margin: 5px;
+}
+
+    .output-regex-container > *:first-child {
+        border-radius: 5px 0 0 5px;
+    }
+
+    .output-regex-container > *:last-child {
+        border-radius: 0 5px 5px 0;
+    }
+
+.output-regex {
+    border: none;
+    background-color: var(--col-field);
+    color: var(--col-text-medium);
+    min-width: 250px;
+    padding: 2px 5px;
+    height: auto;
+    word-break: break-all;
+    line-height: 1.2;
+}
+
+.output-regex-container > .output-regex:focus-within {
+    box-shadow: inset 0 0 4px 1px #0078f5;
+}
+
+.output-regex-button {
+    width: 42px;
+    min-width: unset;
+    background-color: hsl(223, 13%, 44%);
+    font-size: 22px;
+    border-radius: 0;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .output-regex-button:hover {
+        background-color: hsl(222, 14%, 22%);
+    }
