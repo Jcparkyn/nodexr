@@ -38,8 +38,11 @@ public class InputCollection : NodeInputBase<IReadOnlyCollection<INodeViewModel>
 
     public void AddItem(INodeOutput<NodeResult>? node = null)
     {
-        var newInput = new InputProcedural() { Title = Title };
-        newInput.ConnectedNode = node;
+        var newInput = new InputProcedural
+        {
+            Title = Title,
+            ConnectedNode = node,
+        };
         newInput.ValueChanged += OnValueChanged;
         inputs.Add(newInput);
         OnInputPositionsChanged();
