@@ -1,8 +1,7 @@
 ﻿@implements IDisposable
 
 <path id="@DomId" class="noodle" d="@PathInstructions"
-        style="@(Noodle.Connected ? "" : "display:none;") @CssStrokeStyle"/>
-
+      style="@(Noodle.Connected ? "" : "display:none;") @CssStrokeStyle" />
 
 @code {
 
@@ -12,14 +11,15 @@
 
     public bool Valid { get; set; } = true;
     //public string CssClass => Valid ? normalClass : invalidClass;
-    protected string PathInstructions {
+    protected string PathInstructions
+    {
         get
         {
             var startX = (long)Noodle.StartPos.x;
             var startY = (long)Noodle.StartPos.y + 0.01d;
             var endX = (long)Noodle.EndPos.x;
             var endY = (long)Noodle.EndPos.y;
-            double ctrlLength = 5 + 0.4*Math.Abs(endX-startX) + Math.Min(0.2*Math.Abs(endY-startY), 40);
+            double ctrlLength = 5 + 0.4 * Math.Abs(endX - startX) + Math.Min(0.2 * Math.Abs(endY - startY), 40);
             return FormattableString.Invariant(
                 $"M {startX} {startY} C {startX + ctrlLength} {startY} {endX - ctrlLength} {endY} {endX} {endY}");
         }

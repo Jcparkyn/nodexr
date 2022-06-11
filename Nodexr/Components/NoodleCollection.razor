@@ -14,7 +14,7 @@
     @foreach (var input in inputsWithNoodles)
     {
         gradientPairs.Add((input, node));
-        <NoodleSvg @key="input" Noodle="@input" Gradient="@GradientName(input, node)"/>
+        <NoodleSvg @key="input" Noodle="@input" Gradient="@GradientName(input, node)" />
     }
 }
 

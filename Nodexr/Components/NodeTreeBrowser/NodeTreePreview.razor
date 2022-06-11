@@ -5,14 +5,15 @@
         <div><code class="text-break" style="line-break: anywhere;">@Model.Expression</code></div>
     </div>
     <button class="btn btn-outline-light btn-sm"
-        @onclick="() => OnSelected?.Invoke(Model)"
-        ><i class="fas fa-arrow-right"></i></button>
+            @onclick="() => OnSelected?.Invoke(Model)">
+        <i class="fas fa-arrow-right"></i>
+    </button>
 </li>
 
 
 @code {
-	[EditorRequired]
-	[Parameter]
-	public NodeTreePreviewDto Model { get; set; } = null!;
-	[Parameter] public Action<NodeTreePreviewDto>? OnSelected { get; set; }
+    [EditorRequired]
+    [Parameter]
+    public NodeTreePreviewDto Model { get; set; } = null!;
+    [Parameter] public Action<NodeTreePreviewDto>? OnSelected { get; set; }
 }

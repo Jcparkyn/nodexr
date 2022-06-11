@@ -1,7 +1,6 @@
 ﻿@using Microsoft.JSInterop;
 @inject INoodleDragService NoodleDragService;
-@inject IJSRuntime  JSRuntime;
-
+@inject IJSRuntime JSRuntime;
 
 <div draggable="true" class="node-output-dot-parent"
      ondragstart="tempNoodle.clearDragImage(event)"
@@ -10,7 +9,9 @@
     <div class="node-output-dot">
         <span class="outputtooltip">
             Output:<br />
-            @{string output = Data.OutputTooltip;}
+            @{
+                string output = Data.OutputTooltip;
+            }
             <nobr>@(String.IsNullOrEmpty(output) ? "None" : output)</nobr>
         </span>
     </div>

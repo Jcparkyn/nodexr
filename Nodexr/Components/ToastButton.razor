@@ -17,6 +17,6 @@
         OnClick?.Invoke();
     }
 
-    public static RenderFragment GetRenderFragment(Action onClick, string buttonText, string? info = null)
-        => @<ToastButton OnClick="@onClick" ButtonText="@buttonText" Info="@info"/>;
+    public static RenderFragment GetRenderFragment(Action onClick, string buttonText, string? info = null) =>
+        @<ToastButton OnClick="@onClick" ButtonText="@buttonText" Info="@info" />;
 }

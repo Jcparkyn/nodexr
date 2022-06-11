@@ -2,29 +2,34 @@
 <h3 style="margin:7px; display:inline-block; font-size:23px;">Output:</h3>
 
 <div class="output-regex-container">
-    <div class="output-regex">@if (isEditing)
-    {<OutputEditor StartExpression="@NodeHandler.CachedOutput.Expression"
-                   OnSubmitted="@OnEditSubmitted"
-                   OnCanceled="@OnEditCancelled"/>}
-    else
-    {
-        @foreach (var segment in @NodeHandler.CachedOutput.Contents)
-        {<OutputDisplaySegment Segment="@segment"/>@*This must not be surrounded by whitespace*@}
-    }
+    <div class="output-regex">
+        @if (isEditing)
+        {
+            <OutputEditor StartExpression="@NodeHandler.CachedOutput.Expression"
+                       OnSubmitted="@OnEditSubmitted"
+                       OnCanceled="@OnEditCancelled" />
+        }
+        else
+        {
+            @foreach (var segment in @NodeHandler.CachedOutput.Contents)
+            {
+                <OutputDisplaySegment Segment="@segment" />
+                @*This must not be surrounded by whitespace*@}
+        }
     </div>
 
     <button class="output-regex-button" @onclick="@OnEditButtonClick" title="Edit"><i class="fas fa-pencil-alt"></i></button>
     <button class="output-regex-button" @onclick="@CopyTextToClipboard" title="Copy to clipboard"><i class="far fa-clipboard"></i></button>
     <button class="output-regex-button" @onclick="@OnCreateLinkButtonClick" title="Create shareable link">
-		@if (createLinkMutation.IsLoading)
-		{
-			<div class="spinner-border spinner-border-sm" role="status">
-				<span class="sr-only">Loading...</span>
-			</div>
-		}
-		else
-		{
-			<i class="fas fa-link"></i>
-		}
-	</button>
+        @if (createLinkMutation.IsLoading)
+        {
+            <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        }
+        else
+        {
+            <i class="fas fa-link"></i>
+        }
+    </button>
 </div>

@@ -2,7 +2,7 @@
 <div @onkeypress="OnKeyPress"
      @onkeyup="OnKeyUp">
     <ContentEditableDiv @bind-Text="expression"
-                        CssClass="output-regex-text"/>
+                        CssClass="output-regex-text" />
     <div class="output-edit-prompt">
         Input your own regular expression here to convert it to a node tree.<br />
         <button @onclick="Submit" class="btn btn-outline-success">
@@ -18,7 +18,8 @@
 
     string? expression;
 
-    [Parameter] public string StartExpression
+    [Parameter]
+    public string StartExpression
     {
         set => expression = value;
     }
@@ -28,7 +29,7 @@
 
     protected async Task OnKeyPress(KeyboardEventArgs e)
     {
-        if(e.Key == "Enter" && !e.ShiftKey)
+        if (e.Key == "Enter" && !e.ShiftKey)
         {
             await Submit();
         }

@@ -19,9 +19,9 @@
 </div>
 
 @code {
-	private CreateNodeTreeCommand model = new();
+    private CreateNodeTreeCommand model = new();
 
-	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = null!;
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = null!;
 
     private async Task HandleValidSubmit()
     {

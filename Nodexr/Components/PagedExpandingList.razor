@@ -25,33 +25,33 @@
 }
 
 @code {
-	private bool isLoading = true;
+    private bool isLoading = true;
 
-	//Stores all the items to be rendered.
-	private List<TItem> items = new();
+    //Stores all the items to be rendered.
+    private List<TItem> items = new();
 
-	//The total number of items that can be returned by the ItemsProvider.
-	private int totalItemCount;
+    //The total number of items that can be returned by the ItemsProvider.
+    private int totalItemCount;
 
-	//Used to determine the value for the 'Load Next Items' button.
-	private int NumItemsInNextLoad =>
-		Math.Min(totalItemCount - items.Count, ChunkSize);
+    //Used to determine the value for the 'Load Next Items' button.
+    private int NumItemsInNextLoad =>
+        Math.Min(totalItemCount - items.Count, ChunkSize);
 
-	private bool isLastChunk => items.Count + ChunkSize >= totalItemCount;
+    private bool isLastChunk => items.Count + ChunkSize >= totalItemCount;
 
-	/// <summary>
-	/// Gets or sets the function providing items to the list.
-	/// </summary>
-	[EditorRequired]
-	[Parameter]
-	public ItemsProviderDelegate<TItem> ItemsProvider { get; set; } = null!;
+    /// <summary>
+    /// Gets or sets the function providing items to the list.
+    /// </summary>
+    [EditorRequired]
+    [Parameter]
+    public ItemsProviderDelegate<TItem> ItemsProvider { get; set; } = null!;
 
-	/// <summary>
-	/// Template for rendering list items.
-	/// </summary>
-	[EditorRequired]
-	[Parameter]
-	public RenderFragment<TItem> ItemContent { get; set; } = null!;
+    /// <summary>
+    /// Template for rendering list items.
+    /// </summary>
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment<TItem> ItemContent { get; set; } = null!;
 
     /// <summary>
     /// The number of items to add to the list each time the 'Load Next' button is pressed, and the default number of items to show.

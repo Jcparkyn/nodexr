@@ -7,9 +7,9 @@
     [Parameter] public INodeInput Data { get; set; } = null!;
 
     private Dictionary<string, object> Params => new()
-    {
-        ["Input"] = Data,
-    };
+        {
+            ["Input"] = Data,
+        };
 
     [CascadingParameter(Name = "InputViewModelProvider")]
     Func<INodeInput, Type> InputViewModelProvider { get; set; } = null!;

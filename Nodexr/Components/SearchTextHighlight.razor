@@ -4,59 +4,59 @@
 @inject INodeHandler NodeHandler
 
 <div class="search-text-highlight">
-	<textarea @bind-value="@RegexReplaceHandler.SearchText" @bind-value:event="oninput" class="search-textarea" />
-	<div style="padding:3px">
-		@foreach ((string text, bool isMatch) str in GetSubstrings())
-		{
-			if (str.isMatch)
-			{
-				<mark>@str.text</mark>
-			}
-			else
-			{
-				<span>@str.text</span>
-			}
-		}
-	</div>
+    <textarea @bind-value="@RegexReplaceHandler.SearchText" @bind-value:event="oninput" class="search-textarea" />
+    <div style="padding:3px">
+        @foreach ((string text, bool isMatch) str in GetSubstrings())
+        {
+            if (str.isMatch)
+            {
+                <mark>@str.text</mark>
+            }
+            else
+            {
+                <span>@str.text</span>
+            }
+        }
+    </div>
 </div>
 
 @code {
-	private List<(string text, bool isMatch)> GetSubstrings()
-	{
-		//substrings are returned as a List instead of IEnumerable to allow for Error catching in MoveNext().
-		var matchesSafe = new List<(string, bool)>();
-		var matches = RegexReplaceHandler.GetAllMatches();
-		if (matches is null)
-		{
-			return matchesSafe;
-		}
-		try
-		{
-			int previousMatchEnd = 0;
-			var text = RegexReplaceHandler.SearchText;
-			//Matches are ordered by index to support the RightToLeft Regex option
-			foreach (Match match in matches.OrderBy(match => match.Index))
-			{
-				//Add the text preceding the match
-				matchesSafe.Add((text.Substring(previousMatchEnd, match.Index - previousMatchEnd), false));
-				//Add the matched text
-				matchesSafe.Add((match.Value, match.Success));
-				previousMatchEnd = match.Index + match.Length;
-			}
-			//Add the remaining text
-			matchesSafe.Add((text.Substring(previousMatchEnd), false));
-		}
-		catch (RegexMatchTimeoutException ex)
-		{
-			Console.WriteLine("Regex match timed out. " + ex.Message);
-		}
-		return matchesSafe;
-	}
+    private List<(string text, bool isMatch)> GetSubstrings()
+    {
+        //substrings are returned as a List instead of IEnumerable to allow for Error catching in MoveNext().
+        var matchesSafe = new List<(string, bool)>();
+        var matches = RegexReplaceHandler.GetAllMatches();
+        if (matches is null)
+        {
+            return matchesSafe;
+        }
+        try
+        {
+            int previousMatchEnd = 0;
+            var text = RegexReplaceHandler.SearchText;
+            //Matches are ordered by index to support the RightToLeft Regex option
+            foreach (Match match in matches.OrderBy(match => match.Index))
+            {
+                //Add the text preceding the match
+                matchesSafe.Add((text.Substring(previousMatchEnd, match.Index - previousMatchEnd), false));
+                //Add the matched text
+                matchesSafe.Add((match.Value, match.Success));
+                previousMatchEnd = match.Index + match.Length;
+            }
+            //Add the remaining text
+            matchesSafe.Add((text.Substring(previousMatchEnd), false));
+        }
+        catch (RegexMatchTimeoutException ex)
+        {
+            Console.WriteLine("Regex match timed out. " + ex.Message);
+        }
+        return matchesSafe;
+    }
 
-	protected override void OnInitialized()
-	{
-		NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
-		RegexReplaceHandler.RegexOptionsChanged += (sender, e) => StateHasChanged();
-		RegexReplaceHandler.SearchTextChanged += (sender, e) => StateHasChanged();
-	}
+    protected override void OnInitialized()
+    {
+        NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
+        RegexReplaceHandler.RegexOptionsChanged += (sender, e) => StateHasChanged();
+        RegexReplaceHandler.SearchTextChanged += (sender, e) => StateHasChanged();
+    }
 }

@@ -9,80 +9,88 @@
 @inject IFeatureManager FeatureManager;
 
 <div id="mainpanels">
-	<div style="
+    <div style="
         background-color: hsl(218, 18%, 18%);
         box-shadow: 0px 4px 7px #00000033;
         z-index: 10;
         display: flex;">
-		<OutputDisplay />
-		<div style="margin-left: auto;" class="top-row-link">
-			<RegexOptionsDropdown />
-		</div>
-		<a @onclick="ShowHelpInfo" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
-		   class="top-row-link">Help</a>
-		<a href="http://github.com/jcparkyn/nodexr/" target="_blank"
-		   class="top-row-link">GitHub</a>
-		@if (enableExpressionBrowser)
-		{
-			<a @onclick="ShowExpressionBrowser" @onclick:preventDefault @onclick:stopPropagation
-				href=""
-				target="_blank"
-				class="top-row-link">Expression Browser</a>
-			<a @onclick="ShowExpressionPublishWindow" @onclick:preventDefault @onclick:stopPropagation
-				href=""
-				target="_blank"
-				class="top-row-link">Publish</a>
-		}
-	</div>
+        <OutputDisplay />
+        <div style="margin-left: auto;" class="top-row-link">
+            <RegexOptionsDropdown />
+        </div>
+        <a @onclick="ShowHelpInfo" href="" @onclick:preventDefault @onclick:stopPropagation target="_blank"
+           class="top-row-link">Help</a>
+        <a href="http://github.com/jcparkyn/nodexr/" target="_blank"
+           class="top-row-link">GitHub</a>
+        @if (enableExpressionBrowser)
+        {
+            <a
+                @onclick="ShowExpressionBrowser" @onclick:preventDefault @onclick:stopPropagation
+                href=""
+                target="_blank"
+                class="top-row-link"
+            >
+                Expression Browser
+            </a>
+            <a
+                @onclick="ShowExpressionPublishWindow" @onclick:preventDefault @onclick:stopPropagation
+                href=""
+                target="_blank"
+                class="top-row-link"
+            >
+                Publish
+            </a>
+        }
+    </div>
 
-	<div style="display:flex; flex-direction:row; flex:1; min-height:0;">
-		<NodeList />
-		<NodeGraph NodeTreeId="@NodeTreeId" />
-	</div>
+    <div style="display:flex; flex-direction:row; flex:1; min-height:0;">
+        <NodeList />
+        <NodeGraph NodeTreeId="@NodeTreeId" />
+    </div>
 </div>
 
 <BottomPanels />
 
 @code {
 
-	[Parameter]
-	public string? NodeTreeId { get; set; }
+    [Parameter]
+    public string? NodeTreeId { get; set; }
 
-	bool enableExpressionBrowser = false;
+    bool enableExpressionBrowser = false;
 
-	protected override void OnAfterRender(bool firstRender)
-	{
-		if (firstRender)
-		{
-			JSRuntime.InvokeAsync<object>(
-			"jsFunctions.blazorHasRendered");
-		}
-	}
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            JSRuntime.InvokeAsync<object>(
+                "jsFunctions.blazorHasRendered");
+        }
+    }
 
-	protected override async Task OnInitializedAsync()
-	{
-		enableExpressionBrowser = await FeatureManager.IsEnabledAsync("ExpressionBrowser");
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        enableExpressionBrowser = await FeatureManager.IsEnabledAsync("ExpressionBrowser");
+    }
 
-	protected override bool ShouldRender() => false;
+    protected override bool ShouldRender() => false;
 
-	protected void ShowHelpInfo(MouseEventArgs e)
-	{
-		ModalService.Show<HelpModal>("How To Use");
-	}
+    protected void ShowHelpInfo(MouseEventArgs e)
+    {
+        ModalService.Show<HelpModal>("How To Use");
+    }
 
-	protected void ShowExpressionBrowser()
-	{
-		ModalService.Show<NodeTreeBrowser>("Expression Browser");
-	}
+    protected void ShowExpressionBrowser()
+    {
+        ModalService.Show<NodeTreeBrowser>("Expression Browser");
+    }
 
-	protected void ShowExpressionPublishWindow()
-	{
-		ModalService.Show<NodeTreePublishView>("Upload your Regex");
-	}
+    protected void ShowExpressionPublishWindow()
+    {
+        ModalService.Show<NodeTreePublishView>("Upload your Regex");
+    }
 
-	protected void Refresh()
-	{
-		StateHasChanged();
-	}
+    protected void Refresh()
+    {
+        StateHasChanged();
+    }
 }

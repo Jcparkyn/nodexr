@@ -17,7 +17,7 @@
                 var _option = option; //copy to make loop reference work
                 <div class="options-dropdown-item">
                     <label class="options-dropdown-label">
-                        <input type="checkbox" @bind="option.Enabled" @bind:event="oninput" @onchange="HandleChange"/> @_option.Name
+                        <input type="checkbox" @bind="option.Enabled" @bind:event="oninput" @onchange="HandleChange" /> @_option.Name
                     </label>
                 </div>
             }
@@ -33,7 +33,7 @@
     void HandleChange()
     {
         var tempOptions = RegexOptions.None; //Store a temp variable to reduce the number of updates to RegexReplaceHandler.Options
-        foreach(var option in options)
+        foreach (var option in options)
         {
             if (option.Enabled)
             {

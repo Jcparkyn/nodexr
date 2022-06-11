@@ -5,20 +5,20 @@
     <div class="viewport search-text panel" id="viewport-searchtext">
         <h5>Search Text</h5>
         <div class="search-text-container textbox">
-			<SearchTextHighlight />
+            <SearchTextHighlight />
         </div>
     </div>
     <div class="viewport panel" id="viewport-replacetext" style="overflow-y: auto;">
-		<div style="display:flex; flex-direction:row; gap:10px; align-items: baseline;">
-			<h5 style="margin-bottom:0">Replace with:</h5>
-			<input
-				type="text"
-				@bind-value="@RegexReplaceHandler.ReplacementRegex"
-				@bind-value:event="oninput"
-				style="flex:1"
-				class="textbox"/>
-		</div>
-		<pre class="replace-output">@RegexReplaceHandler.GetReplaceResult()</pre>
+        <div style="display:flex; flex-direction:row; gap:10px; align-items: baseline;">
+            <h5 style="margin-bottom:0">Replace with:</h5>
+            <input
+                type="text"
+                @bind-value="@RegexReplaceHandler.ReplacementRegex"
+                @bind-value:event="oninput"
+                style="flex:1"
+                class="textbox"/>
+        </div>
+        <pre class="replace-output">@RegexReplaceHandler.GetReplaceResult()</pre>
     </div>
 </div>
 
@@ -27,6 +27,6 @@
     {
         NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
         RegexReplaceHandler.RegexOptionsChanged += (sender, e) => StateHasChanged();
-		RegexReplaceHandler.SearchTextChanged += (sender, e) => StateHasChanged();
+        RegexReplaceHandler.SearchTextChanged += (sender, e) => StateHasChanged();
     }
 }

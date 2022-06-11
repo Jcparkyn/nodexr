@@ -6,47 +6,47 @@
 
 @code {
 
-	[Parameter]
-	public string? Text { get; set; }
+    [Parameter]
+    public string? Text { get; set; }
 
-	[Parameter]
-	public string? CssClass { get; set; }
+    [Parameter]
+    public string? CssClass { get; set; }
 
-	[Parameter]
-	public EventCallback<string> TextChanged { get; set; }
+    [Parameter]
+    public EventCallback<string> TextChanged { get; set; }
 
-	ElementReference divElement;
+    ElementReference divElement;
 
-	IJSObjectReference module = null!;
+    IJSObjectReference module = null!;
 
-	DotNetObjectReference<ContentEditableDiv> thisRef = null!;
+    DotNetObjectReference<ContentEditableDiv> thisRef = null!;
 
-	protected override void OnInitialized()
-	{
-		module = JS.LoadJSModule("./js/GeneratedJS/ContentEditable.js");
-		thisRef = DotNetObjectReference.Create(this);
-	}
+    protected override void OnInitialized()
+    {
+        module = JS.LoadJSModule("./js/GeneratedJS/ContentEditable.js");
+        thisRef = DotNetObjectReference.Create(this);
+    }
 
-	//send initial text (if any) to javascript to place in the div
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender)
-		{
-			await module.InvokeVoidAsync("initContentEditable", divElement, thisRef, Text!);
-		}
-	}
+    //send initial text (if any) to javascript to place in the div
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await module.InvokeVoidAsync("initContentEditable", divElement, thisRef, Text!);
+        }
+    }
 
-	//receive input text from javascript and invoke callback to parent component
-	[JSInvokable]
-	public async Task GetUpdatedTextFromJavascript(string textFromJavascript)
-	{
-		Text = textFromJavascript;
-		await TextChanged.InvokeAsync(textFromJavascript);
-	}
+    //receive input text from javascript and invoke callback to parent component
+    [JSInvokable]
+    public async Task GetUpdatedTextFromJavascript(string textFromJavascript)
+    {
+        Text = textFromJavascript;
+        await TextChanged.InvokeAsync(textFromJavascript);
+    }
 
-	public async ValueTask DisposeAsync()
-	{
-		thisRef.Dispose();
-		await module.DisposeAsync();
-	}
+    public async ValueTask DisposeAsync()
+    {
+        thisRef.Dispose();
+        await module.DisposeAsync();
+    }
 }
