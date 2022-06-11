@@ -11,6 +11,7 @@ public interface INodeDragService
     void OnDrop(MouseEventArgs e);
     Task OnStartCreateNodeDrag(INodeViewModel nodeToDrag, DragEventArgs e);
     void CancelDrag();
+    void DragNode(double posX, double posY);
 }
 
 public class NodeDragService : INodeDragService
@@ -30,12 +31,6 @@ public class NodeDragService : INodeDragService
     {
         this.nodeHandler = nodeHandler;
         this.jsRuntime = jsRuntime;
-        // TODO: refactor to avoid synchronous JS interop
-        ((IJSInProcessRuntime)jsRuntime).InvokeVoid(
-            "addDotNetSingletonService",
-            "DotNetNodeDragService",
-            DotNetObjectReference.Create(this)
-        );
     }
 
     public void OnStartNodeDrag(INodeViewModel nodeToDrag, MouseEventArgs e)
@@ -66,7 +61,6 @@ public class NodeDragService : INodeDragService
         this.nodeToDrag.Pos = new Vector2(x - 75, y - 15);
     }
 
-    [JSInvokable]
     public void DragNode(double posX, double posY)
     {
         if (nodeToDrag is null)

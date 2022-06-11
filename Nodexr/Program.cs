@@ -22,6 +22,7 @@ public static class Program
         builder.Services.AddScoped<INodeHandler, NodeHandler>();
         builder.Services.AddScoped<RegexReplaceHandler>();
         builder.Services.AddScoped<NodeTreeBrowserService>();
+        builder.Services.AddScoped<DragModule>();
         builder.Services.AddBlazoredModal();
         builder.Services.AddFeatureManagement();
 

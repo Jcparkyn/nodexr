@@ -2,7 +2,7 @@
 @inject INodeHandler NodeHandler
 @inject IModalService Modal
 @inject INoodleDragService NoodleDragService
-@inject IJSRuntime JSRuntime
+@inject DragModule DragModule
 
 @implements IDisposable
 
@@ -63,11 +63,14 @@
     string CssClass => Data.Selected ? "node-selected" : "";
     string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
 
+    private DotNetObjectReference<NodeView>? thisRef;
+
     protected override void OnInitialized()
     {
         Data.OutputChanged += Refresh;
         Data.LayoutChanged += Refresh;
         Data.SelectionChanged += Refresh;
+        thisRef = DotNetObjectReference.Create(this);
     }
 
     void ToggleCollapsed()
@@ -84,8 +87,14 @@
         if (!isMultiSelect)
         {
             NodeDragService.OnStartNodeDrag(Data, e);
-            await JSRuntime.InvokeVoidAsync("NodeDragHandler.startNodeDrag");
+            await DragModule.StartDrag(thisRef!, nameof(OnDrag));
         }
+    }
+
+    [JSInvokable]
+    public void OnDrag(int clientX, int clientY)
+    {
+        NodeDragService.DragNode(clientX, clientY);
     }
 
     void ShowModal()
@@ -110,5 +119,6 @@
         Data.OutputChanged -= Refresh;
         Data.LayoutChanged -= Refresh;
         Data.SelectionChanged -= Refresh;
+        thisRef?.Dispose();
     }
 }
