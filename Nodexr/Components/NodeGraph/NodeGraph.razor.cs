@@ -1,4 +1,4 @@
-﻿namespace Nodexr.Components;
+﻿namespace Nodexr.Components.NodeGraph;
 
 using System;
 using System.Threading.Tasks;
