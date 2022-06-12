@@ -7,6 +7,7 @@ public interface INodeOutput
     string CssName { get; }
     string CssColor { get; }
     event EventHandler OutputChanged;
+    event Action OutputPosChanged;
 }
 
 public interface INodeOutput<TOutput> : INodeOutput
@@ -46,7 +47,8 @@ public abstract class NodeViewModelBase : INodeViewModel
         set
         {
             pos = value;
-            CalculateInputsPos();
+            OutputPosChanged?.Invoke();
+            OnLayoutChanged(this, EventArgs.Empty);
         }
     }
 
@@ -72,6 +74,7 @@ public abstract class NodeViewModelBase : INodeViewModel
 
     public event EventHandler? LayoutChanged;
     public event EventHandler? SelectionChanged;
+    public event Action? OutputPosChanged;
     public abstract event EventHandler OutputChanged;
 
     public void OnLayoutChanged(object? sender, EventArgs e)

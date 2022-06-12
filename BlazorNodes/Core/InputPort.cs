@@ -25,9 +25,17 @@ public class InputPort<TValue> : NodeInputBase, IInputPort
         set
         {
             if (connectedNode != null)
+            {
                 connectedNode.OutputChanged -= OnValueChanged;
+                connectedNode.OutputPosChanged -= Refresh;
+            }
+
             if (value != null)
+            {
                 value.OutputChanged += OnValueChanged;
+                value.OutputPosChanged += Refresh;
+            }
+
             connectedNode = value;
             OnValueChanged();
         }

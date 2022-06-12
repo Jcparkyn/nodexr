@@ -1,5 +1,4 @@
-﻿@inject INodeDragService NodeDragService
-@inject INodeHandler NodeHandler
+﻿@inject INodeHandler NodeHandler
 @inject IModalService Modal
 @inject INoodleDragService NoodleDragService
 @inject DragModule DragModule
@@ -64,6 +63,7 @@
     string CssTransform => FormattableString.Invariant($"translate({(long)Data.Pos.x}px, {(long)Data.Pos.y}px)");
 
     private DotNetObjectReference<NodeView>? thisRef;
+    private Vector2 lastCursorPos;
 
     protected override void OnInitialized()
     {
@@ -86,7 +86,7 @@
 
         if (!isMultiSelect)
         {
-            NodeDragService.OnStartNodeDrag(Data, e);
+            lastCursorPos = e.GetClientPos();
             await DragModule.StartDrag(thisRef!, nameof(OnDrag));
         }
     }
@@ -94,7 +94,20 @@
     [JSInvokable]
     public void OnDrag(int clientX, int clientY)
     {
-        NodeDragService.DragNode(clientX, clientY);
+        DragSelectedNodes(clientX, clientY);
+    }
+
+    void DragSelectedNodes(double posX, double posY)
+    {
+        var newCursorPos = new Vector2(posX, posY);
+        var dragOffset = (newCursorPos - lastCursorPos) / ZoomHandler.Zoom;
+        lastCursorPos = new Vector2(posX, posY);
+
+        var nodesToMove = NodeHandler.Tree.GetSelectedNodes();
+        foreach (var node in nodesToMove)
+        {
+            node.Pos += dragOffset;
+        }
     }
 
     void ShowModal()
