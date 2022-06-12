@@ -1,6 +1,8 @@
 ﻿//Algorithm based on answers in https://stackoverflow.com/questions/33512037/a-regular-expression-generator-for-number-ranges
 
 namespace Nodexr.Utils;
+
+using System.Globalization;
 using System.Text;
 
 public class IntegerRangeGenerator
@@ -53,8 +55,8 @@ public class IntegerRangeGenerator
         List<string> list = new List<string>();
         for (int i = 0; i < pairs.Count; i++)
         {
-            string start = pairs[i].min.ToString();
-            string end = pairs[i].max.ToString();
+            string start = pairs[i].min.ToString(CultureInfo.InvariantCulture);
+            string end = pairs[i].max.ToString(CultureInfo.InvariantCulture);
 
             StringBuilder result = new StringBuilder();
 
@@ -149,7 +151,7 @@ public class IntegerRangeGenerator
          * This is equivalent of multiplying low value by 10, and multiplying high value by 10
          * and adding 9 to it.
          */
-        foreach (Pair pair in pairsMiddle)
+        foreach (var pair in pairsMiddle)
         {
             pairs.Add(new Pair(
                 (pair.min * 10) + 0,

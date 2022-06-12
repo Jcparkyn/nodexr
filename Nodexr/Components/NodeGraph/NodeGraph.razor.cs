@@ -29,12 +29,12 @@ public partial class NodeGraph
     [Parameter]
     public string? NodeTreeId { get; set; }
 
-    private bool shouldRender = false;
+    private bool shouldRender;
     protected override bool ShouldRender() => shouldRender;
 
     private Vector2 clickStartPos; //Used to check whether an onclick event was actually a drag
 
-    private bool isLoadingNodeTree = false;
+    private bool isLoadingNodeTree;
 
     private static Type InputViewModelProvider(INodeInput input)
     {

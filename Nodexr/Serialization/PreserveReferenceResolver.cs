@@ -1,5 +1,6 @@
 ﻿namespace Nodexr.Serialization;
 
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -38,7 +39,7 @@ internal sealed class PreserveReferenceResolver : ReferenceResolver
         else
         {
             _referenceCount++;
-            referenceId = _referenceCount.ToString();
+            referenceId = _referenceCount.ToString(CultureInfo.InvariantCulture);
             _objectToReferenceIdMap.Add(value, referenceId);
             alreadyExists = false;
         }

@@ -19,7 +19,7 @@ public partial class OutputDisplay
     [Inject] private IFeatureManager FeatureManager { get; set; } = null!;
     [Inject] private NodeTreeBrowserService BrowserService { get; set; } = null!;
 
-    private bool isEditing = false;
+    private bool isEditing;
     private JSModule clipboardModule = null!;
     private Mutation<int, string?> createLinkMutation = null!;
 

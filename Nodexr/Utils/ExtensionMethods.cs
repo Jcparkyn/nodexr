@@ -13,7 +13,7 @@ public static class ExtensionMethods
 
     public static bool IsSingleRegexChar(this string input)
     {
-        return input.Length <= 1 || (input.Length == 2 && input.StartsWith("\\"));
+        return input.Length <= 1 || (input.Length == 2 && input.StartsWith("\\", StringComparison.InvariantCulture));
     }
 
     public static string EscapeCharacters(this string input, IEnumerable<char> chars)

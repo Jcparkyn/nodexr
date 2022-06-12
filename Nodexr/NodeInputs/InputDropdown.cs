@@ -13,7 +13,7 @@ public class InputDropdown<TValue> : InputDropdown, INodeInput<TValue>
 {
     private readonly Dictionary<TValue, string>? displayNames;
 
-    private TValue value = default;
+    private TValue value;
 
     public override int Height => 50;
 

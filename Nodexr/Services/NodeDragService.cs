@@ -25,7 +25,7 @@ public class NodeDragService : INodeDragService
     private Vector2 cursorStartPos;
     private Vector2 lastCursorPos;
 
-    private bool isDraggingNewNode = false;
+    private bool isDraggingNewNode;
 
     public NodeDragService(INodeHandler nodeHandler, IJSRuntime jsRuntime)
     {

@@ -43,12 +43,12 @@ public class InputRange : NodeInputBase<IntRange>
         }
     }
 
-    public int? MinValue { get; set; } = null;
+    public int? MinValue { get; set; }
 
     /// <summary>
     /// Automatically clear the 'Max' field if the user set the value below MinValue.
     /// </summary>
-    public bool AutoClearMax { get; set; } = false;
+    public bool AutoClearMax { get; set; }
 
     public override int Height => 50;
 

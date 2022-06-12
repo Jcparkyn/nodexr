@@ -31,7 +31,7 @@ public class RegexNodeJsonConverter : JsonConverter<INodeViewModel>
         var props = JsonSerializer.Deserialize<SerializedNode>(ref reader, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
-        }) ?? throw new Exception();
+        }) ?? throw new JsonException("Node should not be null");
 
         if (!string.IsNullOrEmpty(props.Ref))
         {

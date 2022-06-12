@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Nodexr.Api.Contracts.NodeTrees;
 using Nodexr.Api.Contracts.Pagination;
 using Nodexr.Serialization;
+using System.Globalization;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -94,8 +95,8 @@ public class NodeTreeBrowserService
     {
         var queryParams = new Dictionary<string, string>
             {
-                { "start", start.ToString() },
-                { "limit", limit.ToString() },
+                { "start", start.ToString(CultureInfo.InvariantCulture) },
+                { "limit", limit.ToString(CultureInfo.InvariantCulture) },
             };
 
         if (!string.IsNullOrEmpty(search))
@@ -103,9 +104,9 @@ public class NodeTreeBrowserService
 
         string uri = QueryHelpers.AddQueryString($"{apiAddress}/nodetree", queryParams);
 
-        return await httpClient.GetFromJsonAsync<Paged<NodeTreePreviewDto>>(
+        return (await httpClient.GetFromJsonAsync<Paged<NodeTreePreviewDto>>(
                 uri,
                 cancellationToken
-                ).ConfigureAwait(false) ?? throw new Exception("API response could not be parsed");
+                ).ConfigureAwait(false))!;
     }
 }
