@@ -21,14 +21,14 @@ public class NodeTreeBrowserService
     private readonly string apiAddress;
     private NodeTreePreviewDto? selectedNodeTree;
 
-    public event EventHandler? SelectedNodeTreeChanged;
+    public event Action? SelectedNodeTreeChanged;
     public NodeTreePreviewDto? SelectedNodeTree
     {
         get => selectedNodeTree;
         set
         {
             selectedNodeTree = value;
-            SelectedNodeTreeChanged?.Invoke(this, EventArgs.Empty);
+            SelectedNodeTreeChanged?.Invoke();
         }
     }
 

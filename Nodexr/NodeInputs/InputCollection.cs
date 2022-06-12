@@ -28,13 +28,13 @@ public class InputCollection : NodeInputBase<IReadOnlyCollection<INodeViewModel>
         }
     }
 
-    public event EventHandler? InputPositionsChanged;
+    public event Action? InputPositionsChanged;
 
     public override int Height => inputs.Select(input => input.Height).Sum() + 28;
 
     private void OnInputPositionsChanged()
     {
-        InputPositionsChanged?.Invoke(this, EventArgs.Empty);
+        InputPositionsChanged?.Invoke();
     }
 
     public void AddItem(INodeOutput<NodeResult>? node = null)

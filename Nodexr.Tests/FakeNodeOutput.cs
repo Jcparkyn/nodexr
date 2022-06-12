@@ -8,7 +8,7 @@ internal class FakeNodeOutput : INodeOutput<NodeResult>
     private readonly string output;
 
 #pragma warning disable CS0067 // TODO: use this in a test
-    public event EventHandler OutputChanged;
+    public event Action OutputChanged;
     public event Action OutputPosChanged;
 #pragma warning restore CS0067
 

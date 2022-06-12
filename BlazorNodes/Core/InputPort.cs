@@ -49,7 +49,7 @@ public class InputPort<TValue> : NodeInputBase, IInputPort
 
     public override int Height => 32;
 
-    public event EventHandler? NoodleChanged;
+    public event Action? NoodleChanged;
 
     public TValue? Value => ConnectedNode?.CachedOutput;
 
@@ -77,7 +77,7 @@ public class InputPort<TValue> : NodeInputBase, IInputPort
     /// </summary>
     public void Refresh()
     {
-        NoodleChanged?.Invoke(this, EventArgs.Empty);
+        NoodleChanged?.Invoke();
     }
 
     public override bool TrySetValue(object? value)
@@ -94,5 +94,5 @@ public interface INoodleData
     bool Connected { get; }
     void Refresh();
 
-    event EventHandler NoodleChanged;
+    event Action NoodleChanged;
 }

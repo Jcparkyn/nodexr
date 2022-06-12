@@ -32,16 +32,11 @@
 
     protected override void OnInitialized()
     {
-        Noodle.NoodleChanged += Refresh;
-    }
-
-    public void Refresh(object? sender, EventArgs e)
-    {
-        StateHasChanged();
+        Noodle.NoodleChanged += StateHasChanged;
     }
 
     public void Dispose()
     {
-        Noodle.NoodleChanged -= Refresh;
+        Noodle.NoodleChanged -= StateHasChanged;
     }
 }

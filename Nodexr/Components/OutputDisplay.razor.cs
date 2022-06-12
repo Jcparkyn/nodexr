@@ -25,7 +25,7 @@ public partial class OutputDisplay
 
     protected override void OnInitialized()
     {
-        NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
+        NodeHandler.OutputChanged += StateHasChanged;
         clipboardModule = JSRuntime.LoadJSModule("./js/GeneratedJS/ClipboardCopy.js");
         createLinkMutation = new Mutation<int, string?>(
             StateHasChanged,

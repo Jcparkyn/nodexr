@@ -54,7 +54,7 @@ public partial class NodeGraph
 
     protected override async Task OnInitializedAsync()
     {
-        NodeHandler.OnRequireNodeGraphRefresh += (sender, e) => Refresh();
+        NodeHandler.OnRequireNodeGraphRefresh += Refresh;
         if (!string.IsNullOrEmpty(NodeTreeId))
         {
             isLoadingNodeTree = true;

@@ -76,7 +76,7 @@
     void ToggleCollapsed()
     {
         Data.IsCollapsed = !Data.IsCollapsed;
-        Data.OnLayoutChanged(this, EventArgs.Empty);
+        Data.OnLayoutChanged();
     }
 
     async Task OnMouseDown(MouseEventArgs e)
@@ -117,10 +117,7 @@
         Modal.Show<NodeInfo>(Data.Title, modalParameters);
     }
 
-    void Refresh(object? sender, EventArgs e)
-    {
-        StateHasChanged();
-    }
+    void Refresh() => StateHasChanged();
 
     void Deselect()
     {

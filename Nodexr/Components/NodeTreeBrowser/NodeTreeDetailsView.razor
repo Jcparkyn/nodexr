@@ -28,7 +28,7 @@ else
         browserService.SelectedNodeTreeChanged -= OnSelectedNodeTreeChanged;
     }
 
-    private void OnSelectedNodeTreeChanged(object? sender, EventArgs e)
+    private void OnSelectedNodeTreeChanged()
     {
         StateHasChanged();
     }

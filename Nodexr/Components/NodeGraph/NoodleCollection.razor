@@ -40,7 +40,7 @@
 
     protected override void OnInitialized()
     {
-        NodeHandler.OnRequireNoodleRefresh += (sender, e) => Refresh();
+        NodeHandler.OnRequireNoodleRefresh += Refresh;
     }
 
     void Refresh()

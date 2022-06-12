@@ -82,11 +82,11 @@ public class NoodleDragService : INoodleDragService
         public Vector2 EndPos { get; set; }
         public bool Connected { get; set; }
 
-        public event EventHandler? NoodleChanged;
+        public event Action? NoodleChanged;
 
         public void Refresh()
         {
-            NoodleChanged?.Invoke(this, EventArgs.Empty);
+            NoodleChanged?.Invoke();
         }
     }
 }

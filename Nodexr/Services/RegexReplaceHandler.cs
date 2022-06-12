@@ -20,7 +20,7 @@ public class RegexReplaceHandler
         set
         {
             searchText = value;
-            SearchTextChanged?.Invoke(this, EventArgs.Empty);
+            SearchTextChanged?.Invoke();
         }
     }
 
@@ -30,12 +30,12 @@ public class RegexReplaceHandler
         set
         {
             options = value;
-            RegexOptionsChanged?.Invoke(this, EventArgs.Empty);
+            RegexOptionsChanged?.Invoke();
         }
     }
 
-    public event EventHandler? RegexOptionsChanged;
-    public event EventHandler? SearchTextChanged;
+    public event Action? RegexOptionsChanged;
+    public event Action? SearchTextChanged;
 
     public RegexReplaceHandler(INodeHandler NodeHandler, NavigationManager navManager)
     {

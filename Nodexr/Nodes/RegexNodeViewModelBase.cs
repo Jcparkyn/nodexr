@@ -19,14 +19,14 @@ public abstract class RegexNodeViewModelBase : NodeViewModelBase<NodeResult>
 
     public override Vector2 OutputPos => Pos + new Vector2(154, 13);
 
-    public override event EventHandler? OutputChanged;
+    public override event Action? OutputChanged;
 
-    protected virtual void OnOutputChanged(EventArgs e) => OutputChanged?.Invoke(this, e);
+    protected virtual void OnOutputChanged() => OutputChanged?.Invoke();
 
-    protected void OnInputsChanged(object? sender, EventArgs e)
+    protected void OnInputsChanged()
     {
         cachedOutput = GetOutput();
-        OnOutputChanged(EventArgs.Empty);
+        OnOutputChanged();
     }
 
     protected RegexNodeViewModelBase()
@@ -42,7 +42,7 @@ public abstract class RegexNodeViewModelBase : NodeViewModelBase<NodeResult>
             }
         }
 
-        OnInputsChanged(this, EventArgs.Empty);
+        OnInputsChanged();
     }
 
     /// <inheritdoc/>

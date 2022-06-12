@@ -55,8 +55,8 @@
 
     protected override void OnInitialized()
     {
-        NodeHandler.OutputChanged += (sender, e) => StateHasChanged();
-        RegexReplaceHandler.RegexOptionsChanged += (sender, e) => StateHasChanged();
-        RegexReplaceHandler.SearchTextChanged += (sender, e) => StateHasChanged();
+        NodeHandler.OutputChanged += StateHasChanged;
+        RegexReplaceHandler.RegexOptionsChanged += StateHasChanged;
+        RegexReplaceHandler.SearchTextChanged += StateHasChanged;
     }
 }

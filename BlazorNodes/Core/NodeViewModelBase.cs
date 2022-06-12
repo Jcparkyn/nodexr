@@ -6,7 +6,7 @@ public interface INodeOutput
     Vector2 OutputPos { get; }
     string CssName { get; }
     string CssColor { get; }
-    event EventHandler OutputChanged;
+    event Action OutputChanged;
     event Action OutputPosChanged;
 }
 
@@ -30,11 +30,11 @@ public interface INodeViewModel : INodeOutput
 
     void CalculateInputsPos();
 
-    void OnLayoutChanged(object? sender, EventArgs e);
+    void OnLayoutChanged();
     IEnumerable<INodeInput> GetAllInputs();
 
-    event EventHandler LayoutChanged;
-    event EventHandler SelectionChanged;
+    event Action LayoutChanged;
+    event Action SelectionChanged;
 }
 
 public abstract class NodeViewModelBase : INodeViewModel
@@ -48,7 +48,7 @@ public abstract class NodeViewModelBase : INodeViewModel
         {
             pos = value;
             OutputPosChanged?.Invoke();
-            OnLayoutChanged(this, EventArgs.Empty);
+            OnLayoutChanged();
         }
     }
 
@@ -64,7 +64,7 @@ public abstract class NodeViewModelBase : INodeViewModel
         {
             if (value == selected) return;
             selected = value;
-            SelectionChanged?.Invoke(this, EventArgs.Empty);
+            SelectionChanged?.Invoke();
         }
     }
     public abstract string Title { get; }
@@ -72,17 +72,17 @@ public abstract class NodeViewModelBase : INodeViewModel
 
     public abstract Vector2 OutputPos { get; }
 
-    public event EventHandler? LayoutChanged;
-    public event EventHandler? SelectionChanged;
+    public event Action? LayoutChanged;
+    public event Action? SelectionChanged;
     public event Action? OutputPosChanged;
-    public abstract event EventHandler OutputChanged;
+    public abstract event Action OutputChanged;
 
-    public void OnLayoutChanged(object? sender, EventArgs e)
+    public void OnLayoutChanged()
     {
         CalculateInputsPos();
         foreach (var input in GetAllInputs().OfType<IInputPort>())
             input.Refresh();
-        LayoutChanged?.Invoke(this, e);
+        LayoutChanged?.Invoke();
     }
 
     protected NodeViewModelBase()

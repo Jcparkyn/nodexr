@@ -3,7 +3,7 @@
 public interface INodeInput
 {
     string? Title { get; set; }
-    event EventHandler ValueChanged;
+    event Action ValueChanged;
     Func<bool> Enabled { get; }
     string? Description { get; set; }
     Vector2 Pos { get; set; }
@@ -25,7 +25,7 @@ public abstract class NodeInputBase : INodeInput
     /// </summary>
     public string? Description { get; set; }
 
-    public event EventHandler? ValueChanged;
+    public event Action? ValueChanged;
 
     public Vector2 Pos { get; set; }
 
@@ -33,14 +33,9 @@ public abstract class NodeInputBase : INodeInput
 
     public virtual int Height { get; } = 32;
 
-    protected virtual void OnValueChanged(object? sender, EventArgs e)
-    {
-        ValueChanged?.Invoke(this, e);
-    }
-
     protected virtual void OnValueChanged()
     {
-        OnValueChanged(this, EventArgs.Empty);
+        ValueChanged?.Invoke();
     }
 
     public abstract bool TrySetValue(object? value);

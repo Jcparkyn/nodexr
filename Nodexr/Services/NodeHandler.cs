@@ -11,9 +11,9 @@ public interface INodeHandler
 {
     NodeResult CachedOutput { get; }
 
-    event EventHandler OutputChanged;
-    event EventHandler OnRequireNoodleRefresh;
-    event EventHandler OnRequireNodeGraphRefresh;
+    event Action OutputChanged;
+    event Action OnRequireNoodleRefresh;
+    event Action OnRequireNodeGraphRefresh;
 
     NodeTree Tree { get; set; }
 
@@ -41,7 +41,7 @@ public class NodeHandler : INodeHandler
             GetOutputNode(value).OutputChanged += OnOutputChanged;
             tree = value;
             ForceRefreshNodeGraph();
-            OnOutputChanged(this, EventArgs.Empty);
+            OnOutputChanged();
         }
     }
 
@@ -50,17 +50,17 @@ public class NodeHandler : INodeHandler
     /// <summary>
     /// Called when the output of the node graph has changed.
     /// </summary>
-    public event EventHandler? OutputChanged;
+    public event Action? OutputChanged;
 
     /// <summary>
     /// Called when the state of the noodles has changed, but the noodles have not been re-rendered automatically.
     /// </summary>
-    public event EventHandler? OnRequireNoodleRefresh;
+    public event Action? OnRequireNoodleRefresh;
 
     /// <summary>
     /// Called when the state of the node graph has changed, but the node graph has not been re-rendered automatically.
     /// </summary>
-    public event EventHandler? OnRequireNodeGraphRefresh;
+    public event Action? OnRequireNodeGraphRefresh;
 
     private readonly IToastService toastService;
 
@@ -97,7 +97,7 @@ public class NodeHandler : INodeHandler
             treePrevious = tree;
             Tree = parseResult.Value;
             ForceRefreshNodeGraph();
-            OnOutputChanged(this, EventArgs.Empty);
+            OnOutputChanged();
 
             if (CachedOutput.Expression == regex)
             {
@@ -125,17 +125,17 @@ public class NodeHandler : INodeHandler
     {
         Tree = treePrevious ?? throw new InvalidOperationException("No previous tree to revert to");
         ForceRefreshNodeGraph();
-        OnOutputChanged(this, EventArgs.Empty);
+        OnOutputChanged();
     }
 
     public void ForceRefreshNodeGraph()
     {
-        OnRequireNodeGraphRefresh?.Invoke(this, EventArgs.Empty);
+        OnRequireNodeGraphRefresh?.Invoke();
     }
 
     public void ForceRefreshNoodles()
     {
-        OnRequireNoodleRefresh?.Invoke(this, EventArgs.Empty);
+        OnRequireNoodleRefresh?.Invoke();
     }
 
     public void DeleteSelectedNodes()
@@ -154,7 +154,7 @@ public class NodeHandler : INodeHandler
                 Tree.DeleteNode(node);
             }
         }
-        OutputChanged?.Invoke(this, EventArgs.Empty);
+        OutputChanged?.Invoke();
         ForceRefreshNodeGraph();
     }
 
@@ -163,10 +163,7 @@ public class NodeHandler : INodeHandler
         return tree.Nodes.OfType<OutputNode>().Single();
     }
 
-    private void OnOutputChanged(object? sender, EventArgs e)
-    {
-        OutputChanged?.Invoke(this, e);
-    }
+    private void OnOutputChanged() => OutputChanged?.Invoke();
 
     private static NodeTree CreateDefaultNodeTree()
     {
