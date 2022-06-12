@@ -7,22 +7,7 @@ using System.Text;
 
 public class IntegerRangeGenerator
 {
-    private readonly struct Pair
-    {
-        public readonly int min;
-        public readonly int max;
-
-        public Pair(int min, int max)
-        {
-            this.min = min;
-            this.max = max;
-        }
-
-        public Pair Flipped()
-        {
-            return new Pair(max, min);
-        }
-    }
+    private readonly record struct Pair(int min, int max);
 
     public List<string> GenerateRegexRange(int start, int end)
     {
