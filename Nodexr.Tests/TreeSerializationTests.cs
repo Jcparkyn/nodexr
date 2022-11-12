@@ -24,7 +24,6 @@ public class TreeSerializationTests
         };
 
         var serialized = JsonSerializer.Serialize(tree, options);
-        Console.WriteLine(serialized);
         Assert.That(serialized, Is.Not.Null);
     }
 
@@ -56,8 +55,6 @@ public class TreeSerializationTests
         var deserialized = JsonSerializer.Deserialize<List<INodeViewModel>>(serialized, options2);
 
         Assert.AreEqual(expression, GetOutputNode(deserialized).CachedOutput.Expression);
-
-        Console.WriteLine(serialized);
     }
 
     private static OutputNode GetOutputNode(IEnumerable<INodeViewModel> nodes)
