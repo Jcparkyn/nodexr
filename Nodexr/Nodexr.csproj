@@ -7,6 +7,7 @@
     <NoWarn>1701;1702;1591</NoWarn>
     <PublishTrimmed>true</PublishTrimmed>
     <AnalysisMode>recommended</AnalysisMode>
+    <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
   </PropertyGroup>
 
   <ItemGroup>
