@@ -52,16 +52,13 @@ public class RegexReplaceHandler
         }
     }
 
-    public MatchCollection? GetAllMatches()
+    public List<Match>? GetAllMatches()
     {
         try
         {
-            return Regex.Matches("" + SearchText, nodeHandler.CachedOutput.Expression, Options, TimeSpan.FromSeconds(0.5));
-        }
-        catch (RegexMatchTimeoutException ex)
-        {
-            Console.WriteLine(ex.Message);
-            return null;
+            // Convert to list so that errors thrown while enumerating are caught here.
+            return Regex.Matches(SearchText ?? "", nodeHandler.CachedOutput.Expression, Options, TimeSpan.FromSeconds(0.5))
+                .ToList();
         }
         catch (Exception ex)
         {

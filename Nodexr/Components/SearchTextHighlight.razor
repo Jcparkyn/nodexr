@@ -23,33 +23,27 @@
 @code {
     private List<(string text, bool isMatch)> GetSubstrings()
     {
-        //substrings are returned as a List instead of IEnumerable to allow for Error catching in MoveNext().
-        var matchesSafe = new List<(string, bool)>();
+        var text = RegexReplaceHandler.SearchText;
         var matches = RegexReplaceHandler.GetAllMatches();
         if (matches is null)
         {
-            return matchesSafe;
+            return new() { (text, false) };
         }
-        try
+        var matchesSafe = new List<(string, bool)>();
+
+        int previousMatchEnd = 0;
+        //Matches are ordered by index to support the RightToLeft Regex option
+        foreach (Match match in matches.OrderBy(match => match.Index))
         {
-            int previousMatchEnd = 0;
-            var text = RegexReplaceHandler.SearchText;
-            //Matches are ordered by index to support the RightToLeft Regex option
-            foreach (Match match in matches.OrderBy(match => match.Index))
-            {
-                //Add the text preceding the match
-                matchesSafe.Add((text.Substring(previousMatchEnd, match.Index - previousMatchEnd), false));
-                //Add the matched text
-                matchesSafe.Add((match.Value, match.Success));
-                previousMatchEnd = match.Index + match.Length;
-            }
-            //Add the remaining text
-            matchesSafe.Add((text.Substring(previousMatchEnd), false));
+            //Add the text preceding the match
+            matchesSafe.Add((text.Substring(previousMatchEnd, match.Index - previousMatchEnd), false));
+            //Add the matched text
+            matchesSafe.Add((match.Value, match.Success));
+            previousMatchEnd = match.Index + match.Length;
         }
-        catch (RegexMatchTimeoutException ex)
-        {
-            Console.WriteLine("Regex match timed out. " + ex.Message);
-        }
+        //Add the remaining text
+        matchesSafe.Add((text.Substring(previousMatchEnd), false));
+
         return matchesSafe;
     }
 
