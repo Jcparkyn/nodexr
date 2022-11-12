@@ -1,6 +1,6 @@
 name: Test and Deploy
 env:
-  PUBLISH_DIR: Nodexr/bin/Release/net6.0/publish/wwwroot
+  PUBLISH_DIR: Nodexr/bin/Release/net7.0/publish/wwwroot
 
 # Controls when the action will run
 on:
@@ -16,7 +16,7 @@ on:
       skipTests:
         description: Skip tests
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: '7.0.x'
 
     - name: Install dependencies
       run: dotnet restore
@@ -49,7 +49,7 @@ jobs:
         base_href: /
 
     - name: GitHub Pages
-      if: success()
+      if: success() && !env.ACT # Skip if testing with act
       uses: crazy-max/ghaction-github-pages@v2.5.0
       with:
         target_branch: gh-pages
