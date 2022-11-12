@@ -1,7 +1,7 @@
 ﻿
 <div @onkeypress="OnKeyPress"
      @onkeyup="OnKeyUp">
-    <ContentEditableDiv @bind-Text="expression"
+    <ContentEditableDiv @bind-Text="StartExpression"
                         CssClass="output-regex-text" />
     <div class="output-edit-prompt">
         Input your own regular expression here to convert it to a node tree.<br />
@@ -16,13 +16,8 @@
 
 @code {
 
-    string? expression;
-
-    [Parameter]
-    public string StartExpression
-    {
-        set => expression = value;
-    }
+    [Parameter, EditorRequired]
+    public required string StartExpression { get; set; }
 
     [Parameter] public EventCallback<string> OnSubmitted { get; set; }
     [Parameter] public EventCallback OnCanceled { get; set; }
@@ -45,7 +40,7 @@
 
     protected async Task Submit()
     {
-        await OnSubmitted.InvokeAsync(expression);
+        await OnSubmitted.InvokeAsync(StartExpression);
     }
 
     protected async Task Cancel()

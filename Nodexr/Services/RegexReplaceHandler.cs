@@ -44,11 +44,11 @@ public class RegexReplaceHandler
         var uriParams = QueryHelpers.ParseQuery(navManager.ToAbsoluteUri(navManager.Uri).Query);
         if (uriParams.TryGetValue("search", out var searchString))
         {
-            SearchText = searchString[0];
+            SearchText = searchString[0] ?? "";
         }
         if (uriParams.TryGetValue("replace", out var replaceString))
         {
-            ReplacementRegex = replaceString[0];
+            ReplacementRegex = replaceString[0] ?? "";
         }
     }
 

@@ -43,7 +43,7 @@ public class NodeTreeBrowserService
         this.nodeHandler = nodeHandler;
         this.navManager = navManager;
         this.regexReplaceHandler = regexReplaceHandler;
-        apiAddress = config["apiAddress"];
+        apiAddress = config["apiAddress"] ?? throw new Exception("apiAddress was not provided in config");
     }
 
     public void LoadSelectedNodeTree()

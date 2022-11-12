@@ -9,6 +9,7 @@
 @code {
     private RegexSegment? segment { get; set; }
     [Parameter]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Blazor", "BL0007:Component parameter should be auto-property")]
     public RegexSegment Segment
     {
         get => segment ?? throw new InvalidOperationException("Segment is null");
