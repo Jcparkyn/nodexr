@@ -10,6 +10,7 @@
      ondragleave="tempNoodle.setInvalid()"
      ondragover="event.preventDefault(); tempNoodle.setValid();"
      @onmousedown="OnMouseDown" @onmousedown:stopPropagation
+     @oncontextmenu="OnRightClick" @oncontextmenu:preventDefault="true"
      @onfocusin="Deselect"
      @ondrop="@(() => NoodleDragService.OnDropNoodle(Data.PrimaryInput))">
 
@@ -89,6 +90,11 @@
             lastCursorPos = e.GetClientPos();
             await DragModule.StartDrag(thisRef!, nameof(OnDrag));
         }
+    }
+
+    public void OnRightClick(MouseEventArgs e)
+    {
+        //ToDo
     }
 
     [JSInvokable]

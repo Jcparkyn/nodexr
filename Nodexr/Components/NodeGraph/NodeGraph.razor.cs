@@ -141,6 +141,17 @@ public partial class NodeGraph
         }
     }
 
+    private void OnRightClick(MouseEventArgs e)
+    {
+        const int dragThreshold = 4; //Length in px to consider a drag (instead of a click)
+        var mouseOffset = e.GetClientPos() - clickStartPos;
+        if (mouseOffset.GetLength() <= dragThreshold)
+        {
+            //ToDo
+            //DeselectNode();
+        }
+    }
+
     private void DeselectNode()
     {
         NodeHandler.Tree.DeselectAllNodes();
