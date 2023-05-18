@@ -141,15 +141,11 @@ public partial class NodeGraph
         }
     }
 
+#pragma warning disable CA1822 // Mark members as static
     private void OnRightClick(MouseEventArgs e)
+#pragma warning restore CA1822 // Mark members as static
     {
-        const int dragThreshold = 4; //Length in px to consider a drag (instead of a click)
-        var mouseOffset = e.GetClientPos() - clickStartPos;
-        if (mouseOffset.GetLength() <= dragThreshold)
-        {
-            //ToDo
-            //DeselectNode();
-        }
+       //ToDo
     }
 
     private void DeselectNode()
