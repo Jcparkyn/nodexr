@@ -103,8 +103,29 @@
     <script src="js/GeneratedJS/NoodleDragHandler.js" type="text/javascript"></script>
     <script src="js/GeneratedJS/ZoomHandler.js" type="text/javascript"></script>
     <script src="js/GeneratedJS/WindowSplits.js" type="text/javascript"></script>
-    <script src="js/Decompression/decode.js" type="text/javascript"></script>
-    <script src="js/Decompression/BrotliDecompress.js" type="text/javascript"></script>
+    <script type="module">
+        import { BrotliDecode } from './js/Decompression/decode.min.js';
+        Blazor.start({
+            loadBootResource: function (type, name, defaultUri, integrity) {
+                if (type !== 'dotnetjs' && location.hostname !== 'localhost' && type !== 'configuration') {
+                    return (async function () {
+                        const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
+                        if (!response.ok) {
+                            throw new Error(response.statusText);
+                        }
+                        const originalResponseBuffer = await response.arrayBuffer();
+                        const originalResponseArray = new Int8Array(originalResponseBuffer);
+                        const decompressedResponseArray = BrotliDecode(originalResponseArray);
+                        const contentType = type ===
+                            'dotnetwasm' ? 'application/wasm' : 'application/octet-stream';
+                        return new Response(decompressedResponseArray,
+                            { headers: { 'content-type': contentType } });
+                    })();
+                }
+            }
+        });
+    </script>
+
     <script data-goatcounter="https://nodexr.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
 </body>
