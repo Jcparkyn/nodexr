@@ -12,8 +12,6 @@ public class IntegerNode : RegexNodeViewModelBase
         "\n\nWarning: this node is marked as 'Experimental' because it will not be preserved " +
         "after using the 'Create Link' or 'Edit' buttons.";
 
-    private readonly IntegerRangeGenerator rangeGenerator = new();
-
     [NodeInput]
     public InputDropdown<LimitType> InputLimitBy { get; } = new InputDropdown<LimitType>()
     {
@@ -133,7 +131,7 @@ public class IntegerNode : RegexNodeViewModelBase
 
     private string GetIntegerRangeRegex(int min, int max)
     {
-        var ranges = rangeGenerator.GenerateRegexRange(min, max);
+        var ranges = IntegerRangeGenerator.GenerateRegexRange(min, max);
         if (InputPreferLongest.Checked)
         {
             ranges.Reverse();

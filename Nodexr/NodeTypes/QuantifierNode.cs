@@ -118,7 +118,7 @@ public class QuantifierNode : RegexNodeViewModelBase, IQuantifiableNode
     /// </summary>
     internal static bool RequiresGroupToQuantify(RegexNodeViewModelBase val)
     {
-        if (val is null) throw new ArgumentNullException(nameof(val));
+        ArgumentNullException.ThrowIfNull(val);
 
         //Any chain of 2 or more nodes will always need to be wrapped in a group to quantify properly.
         if (val.PreviousNode is not null)

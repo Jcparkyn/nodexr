@@ -21,6 +21,12 @@ public class NodeTreeBrowserService
     private readonly string apiAddress;
     private NodeTreePreviewDto? selectedNodeTree;
 
+    private static readonly JsonSerializerOptions jsonSerializerOptions = new()
+    {
+        ReferenceHandler = new CachePreservingReferenceHandler(),
+        Converters = { new RegexNodeJsonConverter() },
+    };
+
     public event Action? SelectedNodeTreeChanged;
     public NodeTreePreviewDto? SelectedNodeTree
     {
@@ -43,7 +49,7 @@ public class NodeTreeBrowserService
         this.nodeHandler = nodeHandler;
         this.navManager = navManager;
         this.regexReplaceHandler = regexReplaceHandler;
-        apiAddress = config["apiAddress"] ?? throw new Exception("apiAddress was not provided in config");
+        apiAddress = config["apiAddress"] ?? throw new InvalidOperationException("apiAddress was not provided in config");
     }
 
     public void LoadSelectedNodeTree()
@@ -64,14 +70,8 @@ public class NodeTreeBrowserService
 
     public async Task<string?> PublishAnonymousNodeTree()
     {
-        var jsonOptions = new JsonSerializerOptions()
-        {
-            ReferenceHandler = new CachePreservingReferenceHandler(),
-            Converters = { new RegexNodeJsonConverter() },
-        };
-
         var nodes = JsonObject.Create(
-            JsonSerializer.SerializeToElement(nodeHandler.Tree.Nodes, jsonOptions)
+            JsonSerializer.SerializeToElement(nodeHandler.Tree.Nodes, jsonSerializerOptions)
         )!;
         var command = new CreateAnonymousNodeTreeCommand(nodes)
         {
@@ -93,7 +93,7 @@ public class NodeTreeBrowserService
 
     public async Task<Paged<NodeTreePreviewDto>> GetAllNodeTrees(CancellationToken cancellationToken, string? search = null, int start = 0, int limit = 50)
     {
-        var queryParams = new Dictionary<string, string>
+        var queryParams = new Dictionary<string, string?>
             {
                 { "start", start.ToString(CultureInfo.InvariantCulture) },
                 { "limit", limit.ToString(CultureInfo.InvariantCulture) },

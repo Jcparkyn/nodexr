@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 
 public class RegexNodeJsonConverter : JsonConverter<INodeViewModel>
 {
-    private class SerializedNode
+    private sealed class SerializedNode
     {
         [JsonPropertyName("$ref")]
         public string? Ref { get; set; }
@@ -21,17 +21,18 @@ public class RegexNodeJsonConverter : JsonConverter<INodeViewModel>
         public JsonObject? Inputs { get; set; }
     }
 
-    //private static readonly Dictionary<string, Type> allowedNodeTypes = typeof(INodeViewModel).Assembly.;
+    private static readonly JsonSerializerOptions jsonSerializerOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+    };
 
     public override INodeViewModel? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var referenceResolver = options.ReferenceHandler?.CreateResolver()
             ?? throw new InvalidOperationException("A ReferenceHandler must be provided to deserialize this object");
 
-        var props = JsonSerializer.Deserialize<SerializedNode>(ref reader, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-        }) ?? throw new JsonException("Node should not be null");
+        var props = JsonSerializer.Deserialize<SerializedNode>(ref reader, jsonSerializerOptions)
+            ?? throw new JsonException("Node should not be null");
 
         if (!string.IsNullOrEmpty(props.Ref))
         {

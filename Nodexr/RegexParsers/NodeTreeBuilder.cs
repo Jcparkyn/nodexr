@@ -7,7 +7,7 @@ public class NodeTreeBuilder
 {
     private readonly NodeTree tree;
     private readonly RegexNodeViewModelBase endNode;
-    private readonly List<int> columnHeights = new();
+    private readonly List<int> columnHeights = [];
     private const int SpacingX = 250;
     private const int SpacingY = 20;
     private static readonly Vector2 outputPos = new(1000, 300);

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <DocumentationFile>Nodexr.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
@@ -21,28 +21,28 @@
     <PackageReference Include="Blazored.Modal" Version="7.1.0" />
     <PackageReference Include="Blazored.Toast" Version="3.2.2" />
 
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Microsoft.FeatureManagement" Version="2.5.1" />
-    <PackageReference Include="Pidgin" Version="3.2.0" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.8.4">
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="8.0.0" />
+    <PackageReference Include="Microsoft.FeatureManagement" Version="3.1.0" />
+    <PackageReference Include="Pidgin" Version="3.2.2" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Analyzers" Version="4.1.2">
+    <PackageReference Include="Roslynator.Analyzers" Version="4.6.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="4.1.2">
+    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="4.6.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.1.2">
+    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="4.6.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -31,22 +31,19 @@ public class NodeResultBuilder
 
     public NodeResultBuilder()
     {
-        contents = new List<RegexSegment>();
+        contents = [];
     }
 
     public NodeResultBuilder(string expression, RegexNodeViewModelBase node)
     {
-        contents = new List<RegexSegment>
-        {
-            new RegexSegment(expression, node)
-        };
+        contents = [new(expression, node)];
     }
 
     public NodeResultBuilder(NodeResult? contents)
     {
         if (contents is null)
         {
-            this.contents = new List<RegexSegment>();
+            this.contents = [];
         }
         else
         {
@@ -108,14 +105,4 @@ public class NodeResultBuilder
     }
 }
 
-public class RegexSegment
-{
-    public string Expression { get; }
-    public RegexNodeViewModelBase Node { get; }
-
-    public RegexSegment(string expression, RegexNodeViewModelBase node)
-    {
-        Expression = expression;
-        Node = node;
-    }
-}
+public record RegexSegment(string Expression, RegexNodeViewModelBase Node);

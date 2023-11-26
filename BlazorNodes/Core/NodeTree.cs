@@ -2,7 +2,7 @@
 
 public class NodeTree
 {
-    private readonly List<INodeViewModel> nodes = new();
+    private readonly List<INodeViewModel> nodes = [];
 
     public IEnumerable<INodeViewModel> Nodes => nodes.AsReadOnly();
 

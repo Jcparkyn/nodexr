@@ -11,19 +11,10 @@ public interface INodeDragService
     void CancelDrag();
 }
 
-public class NodeDragService : INodeDragService
+public class NodeDragService(INodeHandler nodeHandler, IJSRuntime jsRuntime) : INodeDragService
 {
-    private readonly INodeHandler nodeHandler;
-    private readonly IJSRuntime jsRuntime;
-
     private INodeViewModel? nodeToDrag;
     private Vector2 cursorStartPos;
-
-    public NodeDragService(INodeHandler nodeHandler, IJSRuntime jsRuntime)
-    {
-        this.nodeHandler = nodeHandler;
-        this.jsRuntime = jsRuntime;
-    }
 
     public async Task OnStartCreateNodeDrag(INodeViewModel nodeToDrag, DragEventArgs e)
     {

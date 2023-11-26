@@ -5,11 +5,11 @@ namespace Nodexr.Utils;
 using System.Globalization;
 using System.Text;
 
-public class IntegerRangeGenerator
+public static class IntegerRangeGenerator
 {
     private readonly record struct Pair(int min, int max);
 
-    public List<string> GenerateRegexRange(int start, int end)
+    public static List<string> GenerateRegexRange(int start, int end)
     {
         if (start < 0)
             throw new ArgumentOutOfRangeException(nameof(start), "Must be non-negative");
@@ -23,7 +23,7 @@ public class IntegerRangeGenerator
         return GenerateRegexRanges(start, end);
     }
 
-    private List<string> GenerateRegexRanges(int start, int end)
+    private static List<string> GenerateRegexRanges(int start, int end)
     {
         var pairs = GetRegexPairsRecursion(start, end);
         return FormatPairsToRegEx(pairs);
@@ -37,7 +37,7 @@ public class IntegerRangeGenerator
      */
     private static List<string> FormatPairsToRegEx(List<Pair> pairs)
     {
-        List<string> list = new List<string>();
+        var list = new List<string>();
         for (int i = 0; i < pairs.Count; i++)
         {
             string start = pairs[i].min.ToString(CultureInfo.InvariantCulture);
@@ -74,7 +74,7 @@ public class IntegerRangeGenerator
      * etc., represents a range for which a single regular expression
      * is generated.
      */
-    private List<Pair> GetRegexPairsRecursion(int start, int end)
+    private static List<Pair> GetRegexPairsRecursion(int start, int end)
     {
         var pairs = new List<Pair>();
 

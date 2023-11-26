@@ -36,6 +36,12 @@ public partial class NodeGraph
 
     private bool isLoadingNodeTree;
 
+    private static readonly JsonSerializerOptions jsonSerializerOptions = new()
+    {
+        ReferenceHandler = new CachePreservingReferenceHandler(),
+        Converters = { new RegexNodeJsonConverter() },
+    };
+
     private static Type InputViewModelProvider(INodeInput input)
     {
         return input switch
@@ -78,11 +84,7 @@ public partial class NodeGraph
     {
         var nodeTree = await Http.GetFromJsonAsync<NodeTreePreviewDto>($"{Config["apiAddress"]}/nodetree/{NodeTreeId}");
 
-        var jsonOptions = new JsonSerializerOptions()
-        {
-            ReferenceHandler = new CachePreservingReferenceHandler(),
-            Converters = { new RegexNodeJsonConverter() },
-        };
+        var jsonOptions = jsonSerializerOptions;
 
         var nodes = nodeTree?.Nodes.Deserialize<List<INodeViewModel>>(jsonOptions)
             ?? throw new JsonException();

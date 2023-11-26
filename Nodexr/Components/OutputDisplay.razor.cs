@@ -71,7 +71,7 @@ public partial class OutputDisplay
 
     private string GetBasicLink()
     {
-        var urlParams = new Dictionary<string, string>
+        var urlParams = new Dictionary<string, string?>
         {
             { "parse", NodeHandler.CachedOutput.Expression }
         };

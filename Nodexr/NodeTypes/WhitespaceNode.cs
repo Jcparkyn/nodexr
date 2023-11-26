@@ -82,7 +82,7 @@ public class WhitespaceNode : RegexNodeViewModelBase, IQuantifiableNode
             return invert ? "\\S" : "\\s";
         }
 
-        List<string> charsToAllow = new List<string>();
+        List<string> charsToAllow = [];
 
         if (InputSpace.Checked) charsToAllow.Add(" ");
         if (InputTab.Checked) charsToAllow.Add("\\t");

@@ -13,19 +13,10 @@ public interface INoodleDragService
     void OnStartNoodleDrag(INodeOutput nodeToDrag, Vector2 noodleEndPos);
 }
 
-public class NoodleDragService : INoodleDragService
+public class NoodleDragService(IToastService toastService, IJSRuntime jsRuntime) : INoodleDragService
 {
     private INodeOutput? nodeToDrag;
     public NoodleDataCustom TempNoodle { get; } = new NoodleDataCustom() { Connected = false };
-
-    private readonly IToastService toastService;
-    private readonly IJSRuntime jsRuntime;
-
-    public NoodleDragService(IToastService toastService, IJSRuntime jsRuntime)
-    {
-        this.toastService = toastService;
-        this.jsRuntime = jsRuntime;
-    }
 
     public void OnStartNoodleDrag(INodeOutput nodeToDrag)
     {

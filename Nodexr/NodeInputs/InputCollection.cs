@@ -2,6 +2,7 @@
 using BlazorNodes.Core;
 using Nodexr.Nodes;
 
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix", Justification = "<Pending>")]
 public class InputCollection : NodeInputBase<IReadOnlyCollection<INodeViewModel>>
 {
     // TODO replace Inputs and refactor
