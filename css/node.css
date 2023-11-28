@@ -1,0 +1,215 @@
+﻿.node {
+    position: absolute;
+    width: 155px;
+    z-index: 1;
+    border-radius: 8px;
+    box-shadow: 3px 4px 0px 0px rgba(0, 0, 0, 0.16);
+    background-color: var(--col-node-0);
+    user-select: none;
+}
+
+.node-selected {
+    box-shadow: 0 0 0px 2px #ffffffa3;
+    transition: box-shadow 0.15s ease-out;
+}
+
+    .node .node-title {
+        background-color: var(--col-node-default);
+        padding: 2px 4px 0px 4px;
+        border-radius: 8px 8px 0px 0px;
+        color: var(--col-text-invert);
+        cursor: pointer;
+    }
+        .node .node-title.collapsed {
+            border-radius: 8px
+        }
+
+        .node .node-title b {
+            color: hsl(0,0%,15%);
+            font-weight: 500;
+        }
+
+        .node .collapse-button {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            padding: 0 4px 0 7px;
+            color: inherit;
+            transform-origin: 61% 54%; /*for scaling on hover*/
+            transition: transform 0.2s;
+        }
+
+        .node .collapse-button:hover {
+            transform: scale(1.2);
+        }
+
+    .node .icon-button {
+        position: relative;
+        background: none;
+        border: none;
+        color: inherit;
+        font-size: 0.9rem;
+        padding: 1px 0 0 0;
+        outline: 0 !important;
+    }
+
+    .node .node-content {
+        padding: 0px 4px 4px 4px;
+    }
+
+    .node .node-input-filled {
+        width: 100%;
+        background-color: var(--col-field);
+        padding: 1px 4px;
+        margin-top: 5px;
+        border-radius: 6px;
+        position: relative;
+        height: 27px;
+    }
+
+        .node .node-input-filled.procedural {
+            padding-left: 10px;
+        }
+
+
+    .node .input-checkbox {
+        position: relative;
+        font-size: 0.9rem;
+        margin-top: 1px;
+        margin-left: 2px;
+        margin-bottom: -3px;
+    }
+
+    .node .input-checkbox input, .node .input-checkbox button {
+        vertical-align: middle;
+        margin: 0 3px 1px 0;
+    }
+
+    .node .input-checkbox label {
+        margin-bottom: 0;
+    }
+
+    .input-field {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.00);
+        border: none;
+        color: azure;
+        padding-top: 0px;
+    }
+
+        .node .input-field select {
+            border: none;
+        }
+
+        .node .input-field option {
+            background-color: var(--col-field);
+            border: none;
+        }
+
+    .node .node-input-heading {
+        margin: 1px 0px -5px 2px;
+        font-size: 15px;
+        font-style: italic;
+        color: var(--col-text-subtle);
+    }
+
+    .node .node-drag-region {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        top: 0px;
+        left: -6px;
+        padding: 0px 6px 0px 6px;
+        box-sizing: content-box;
+    }
+
+    .node .node-input-dot {
+        width: 17px;
+        height: 17px;
+        background-color: var(--col-noodle);
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        left: -12px;
+        z-index: 1;
+        box-sizing: border-box;
+        border: 2px solid var(--col-bg-2);
+    }
+
+    .node .input-dot-previous {
+        left: -9px;
+        background-color: var(--col-node-accent);
+    }
+
+    .node .node-output-dot {
+        width: 17px;
+        height: 17px;
+        background-color: var(--col-node-accent);
+        border-radius: 50%;
+
+        box-sizing: border-box;
+        border: 2px solid var(--col-bg-2);
+    }
+
+    .node .node-output-dot-parent {
+        position: absolute;
+        top: 2px;
+        right: -12px;
+        padding: 3px;
+        z-index: 1;
+        cursor: copy;
+    }
+
+        .node .node-output-dot-parent:hover .node-output-dot {
+            border: 2px solid white;
+        }
+        .node .node-input-dot:hover {
+            border: 2px solid white;
+        }
+
+        /* Tooltip text */
+        .node .outputtooltip {
+            visibility: hidden;
+            position: absolute;
+            width: initial;
+            font-family: Consolas;
+            font-size: large;
+            bottom: 90%;
+            background-color: black;
+            color: #fff;
+            text-align: left;
+            margin-bottom: 10px;
+            padding: 0 5px;
+            border-radius: 6px;
+            opacity: 0.5;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .node-input-dot:hover .outputtooltip,
+        .node-output-dot:hover .outputtooltip {
+            visibility: visible;
+        }
+
+    .node .info-button {
+        float: right;
+        margin: 1px 7px 0 0;
+        color: var(--col-node-0);
+        cursor: help;
+    }
+
+.node-preview {
+    position: relative;
+    margin: 3px 0;
+    width: 100%;
+    cursor: grab;
+    opacity: 0.9;
+}
+
+    .node-preview .node-title {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 7px;
+    }
